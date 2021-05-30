@@ -18,8 +18,9 @@ end
 
 function wep_binder:update(delta) 
 	local obj = self.object
-	if not weapon_uses_magazine(obj) then
+	if IsAmmo(obj) or not weapon_uses_magazine(obj) then
 		-- print_dbg("Spawned weapon does not use mags")
+		self.first_update = false
 		return 
 	end -- only run for supported weapons
 	
