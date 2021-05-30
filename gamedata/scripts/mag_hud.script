@@ -11,7 +11,7 @@ is_carried_mag				= magazine_binder.is_carried_mag
 
 function print_dbg( text , ...)
 	if true then
-		printf( "RAX: "..text , ...)
+		--printf( "RAX: "..text , ...)
 	end
 end
 

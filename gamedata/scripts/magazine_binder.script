@@ -75,14 +75,20 @@ end
 local function type_correction(val)
     if not val then return end
 --    print_dbg(type(val))
-    local id, section, obj, se_obj = nil
+    local id, section, obj, se_obj 
     if type(val) == "string" then
         section = val
     elseif type(val) == "number" then
         id = val
         obj = level.object_by_id(id)
         se_obj = alife_object(id)
-        section = se_obj:section()
+        if obj  then
+			section = obj:section()
+		elseif se_obj then
+			section = se_obj:section()
+		else
+			print_dbg("WTF is:%s any way?", id)
+		end
     elseif type(val.id) == "number" then
         id = val.id
         se_obj = val
@@ -205,7 +211,7 @@ function get_loadout_slots(val, force_outfit)
 	if not val then return 0,0,0 end
 	id, section, obj, se_obj = type_correction(val)
 
-	local s,m,l = 0
+	local s,m,l = 0,0,0
 	if look_up_table:section_exist(section) then
 		s = look_up_table:r_value(section, "mag_limit_small", 2)
 		m = look_up_table:r_value(section, "mag_limit_medium", 2)
@@ -254,7 +260,7 @@ function weapon_uses_magazine(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
 	id = obj and id or nil --utils_item.get_ammo will not work if given an id of an offline object. nil id if no gameobject exists
-	
+	print_dbg("WUM sec:%s", section)
 	return look_up_table:r_value(parent_section(section), utils_item.get_ammo(section, id)[1]) -- base_type is in the ltx based on the first entry in the weapons ammo list.
 end
 
@@ -424,7 +430,13 @@ function actor_item_to_slot()
 	end
 end
 
-
+    tempf = ini_file_ex.r_value
+    
+    function ini_file_ex:r_value(s,k,typ,def)
+        printf("RAX: section:%s key:%s typ:%s def:%s", tostring(s), tostring(k), tostring(typ), tostring(def))
+        return tempf(self,s,k,typ,def)
+    end
+  
 
 function on_game_start()
 	RegisterScriptCallback("save_state",save_state)
