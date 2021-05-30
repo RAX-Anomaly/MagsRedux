@@ -1,0 +1,503 @@
+----------------------------------------------------------------
+-- Refactored magazines by Arti and Raven. Most of this code is cribbed from wuut_mags original, but cleaned up significantly.
+----------------------------------------------------------------
+
+--Function alises
+gc						 	= game.translate_string
+get_mag_data 				= magazine_binder.get_data
+set_mag_data 				= magazine_binder.set_data
+is_supported_weapon 		= magazine_binder.is_supported_weapon
+get_magazine_caliber 		= magazine_binder.get_magazine_caliber
+is_compatible 				= magazine_binder.is_compatible
+isMagazine					= magazine_binder.is_magazine
+is_magazine					= magazine_binder.is_magazine
+is_carried_mag				= magazine_binder.is_carried_mag
+toggle_carried_mag			= magazine_binder.toggle_carried_mag
+get_carried_mags			= magazine_binder.get_carried_mags
+room_in_pouch				= magazine_binder.room_in_pouch
+weapon_uses_magazine		= magazine_binder.weapon_uses_magazine
+
+
+-- global flag to interrupt reloads (set on key press and stuff)
+local interrupt_reload = false
+local jammed_guns = {}
+local load_timeout = {}
+
+------------------------
+-- SECTION debug info --
+------------------------
+
+function dump_data(data)
+    local s = ""
+	for k,v in pairs(data.loaded) do
+		s = s .. v
+	end
+	print_dbg("Mag size: %s. Rounds loaded: %s. Section: %s. Rounds: %s", data.size, #data.loaded, data.section, s)
+end
+
+
+function print_dbg( text , ...)
+	if true then
+		printf( "RAX: | %s |  "..text ,time_global(), ...)
+	end
+end
+
+
+--------------------------------------
+-- SECTION mag un/loading functions --
+--------------------------------------
+local ammo_maps = {} --cacheing. this function will get called a lot in combat.  ammo_maps gets niled in load_weapon should be enough protect against id recycling and weapon rechamper upgrades
+function get_ammo_map(id)
+	if not ammo_maps[id] then
+		ammo_maps[id] = invert_table(utils_item.get_ammo(nil, id))
+	end
+	print_dbg("ammo_maps[id][1]:%s ammo_maps[id]:%s", ammo_maps[id] and ammo_maps[id][1],  ammo_maps[id])
+	return ammo_maps[id]
+end
+
+function on_item_drag_dropped(item, weapon, from_slot, to_slot)
+
+	print_dbg("on_item_drag_dropped " .. item:section() .. " on " .. weapon:section() .. " to_slot " .. to_slot)
+
+	-- Check capability
+	if not (from_slot == EDDListType.iActorBag and (to_slot == EDDListType.iActorBag or to_slot == EDDListType.iActorSlot ) ) then
+        return
+    end
+	if(item:id() == weapon:id()) then
+		return
+	end
+	-- bullet to mag
+	if(IsAmmo(item) and is_magazine(weapon)) then
+		-- check compatibility, then fire (heh) the loading loop
+		local ammos = invert_table(get_magazine_caliber(weapon))
+		local ammo_sec = item:section()
+		print_dbg("Checking compat for ammo sec %s", ammos[ammo_sec])
+		if ammos[ammo_sec] ~= nil then
+			-- start loading loop
+		    local capacity = SYS_GetParam(2, weapon:section(), "max_mag_size")  or 20
+			print_dbg("start loading loop")
+			interrupt_reload = false
+			load_magazine(weapon, item, ammos[ammo_sec], capacity, 0)
+		end
+	end
+	-- mag to weapon
+	if is_magazine(item) and IsWeapon(weapon) and is_compatible(weapon, item) then
+		-- init loading of weapon
+		if get_mag_data(weapon:id()) ~= nil then
+			print_dbg("Weapon already has magazine, ejecting first")
+			eject_magazine(weapon)
+		end
+		print_dbg("Begin loading mag %s into weapon %s", item:section(), weapon:section())
+		if to_slot == EDDListType.iActorBag then
+			load_weapon(weapon, item)
+		else
+			local pre_table = count_ammo(weapon)
+			weapon:switch_state(7)
+			CreateTimeEvent(0, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
+		end
+
+	end
+end
+
+function load_weapon(weapon, magazine)
+	if is_magazine(magazine) and IsWeapon(weapon) and is_compatible(weapon, magazine) then
+		local wep_id = weapon:id()
+		local mag_id = magazine:id()
+		ammo_maps[wep_id] = nil -- nil this here to protect against weapon caliber changes or id recycling.
+		
+		-- check for empty mag and initialize
+		local mag_data = get_mag_data(mag_id)
+		if mag_data ~= nil then
+			set_mag_data(wep_id, mag_data)
+			set_mag_data(mag_id, nil)
+			alife_release_id(mag_id)
+			prep_weapon(weapon, false)
+		end
+	end
+end
+
+function delay_load_weapon(weapon, magazine, pre_table)
+	local tg = time_global()
+	-- extra timer stuff so we don't let the time event linger
+	local id = weapon:id()
+	if not load_timeout[id] then
+		load_timeout[id] = tg
+	end
+	if tg > load_timeout[id] + 10000 then
+		load_timeout[id] = nil
+		return true
+	end
+
+	if weapon:get_state() == 0 then
+		weapon:unload_magazine()
+		load_weapon(weapon, magazine)
+		refund_ammo(weapon, pre_table)
+		load_timeout[id] = nil
+		return true
+	end
+	return false
+end
+
+-- When weapon is reloaded in any way, it will subtract a box from player inventory. We don't want this to happen - loading should only happen from magazines. Record the prior amount of ammo before reload and refund it afterwards.
+function count_ammo(weapon)
+	local ammo_table = {}
+	local ammo_types = utils_item.get_ammo(weapon:section(), weapon:id())
+	for i=1,#ammo_types do
+		ammo_table[ammo_types[i]] = 0
+	end
+
+	db.actor:inventory_for_each(function (item)
+		local item_section = item:section()
+		if ammo_table[item_section] then
+			ammo_table[item_section] = ammo_table[item_section] + item:ammo_get_count()
+		end 
+	end)
+	return ammo_table
+end
+-- Refund ammo.
+function refund_ammo(weapon, pre_ammo_table)
+	local post_ammo_table = count_ammo(weapon)
+	for ammo_type, count in pairs(pre_ammo_table) do
+		local to_refund = count - post_ammo_table[ammo_type]
+		if to_refund > 0 then						
+			create_ammo(ammo_type, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, to_refund)
+		end
+	end
+end
+
+function check_eject_magazine(weapon)
+	if get_mag_data(weapon:id()) then
+		return gc("st_mag_eject_magazine")
+	end
+end
+function eject_magazine(weapon)
+	local id = weapon:id()
+	local mag_data = get_mag_data(id)
+	if mag_data then
+		se_mag = alife_create_item(mag_data.section, db.actor)
+		local copy = {}
+		copy_table(copy, mag_data)
+		weapon:unload_magazine()
+		set_mag_data(se_mag.id, copy)
+		if #copy.loaded > 0 then
+			toggle_carried_mag(se_mag.id)
+		end
+		set_mag_data(id, nil)
+		dump_data(copy)
+	end
+end
+
+-- locate appropriate mag in vest
+function find_magazine(weapon, ammo_type)
+	if not ammo_type then
+		ammo_type = utils_item.get_ammo(nil, weapon:id())[weapon:get_ammo_type()+1]
+	end
+	local carried_mags = {}
+	get_carried_mags(carried_mags)
+	local largest_id = nil
+	local largest_of_type = nil
+	for k,v in pairs(carried_mags) do
+		print_dbg("checking id %s, type is %s, %s %s rounds loaded", k, v.section, #v.loaded, stack.peek(v.loaded))
+		if is_compatible(weapon, v.section)  then
+			if largest_id == nil or #v.loaded > #carried_mags[largest_id].loaded then 
+				print_dbg("largest so far is %s", k)
+				largest_id = k
+			end
+			if stack.peek(v.loaded) == ammo_type and (largest_of_type == nil or #v.loaded > #carried_mags[largest_of_type].loaded) then 
+				print_dbg("largest of type so far is %s", k)
+				largest_of_type = k
+			end
+ 
+		end
+	end
+	if largest_of_type then
+		return level.object_by_id(largest_of_type)	
+	elseif largest_id then
+		return level.object_by_id(largest_id)
+	else return nil end
+end
+
+--count of magazines by ammo type of first round in vest
+function count_magazines(weapon)
+	local carried_mags = {}
+	local mag_inv = {}
+	
+	get_carried_mags(carried_mags)
+	for k,v in pairs(carried_mags) do
+		if is_compatible(weapon, v.section) and #v.loaded >0 then
+			local first_round_sec = stack.peek(v.loaded) 
+			mag_inv[first_round_sec] = (mag_inv[first_round_sec] or 0) + 1
+		end
+	end
+	return mag_inv
+end
+
+function actor_on_weapon_reload(actor, weapon, ammo_total)
+	
+	local weapon = db.actor:active_item()
+	
+	-- cancel reload only if we have a valid mag
+	if not weapon or not weapon_uses_magazine(weapon) or is_grenade_mode() then return end
+
+	if jammed_guns[weapon:id()] then
+		jammed_guns[weapon:id()] = nil
+		local hud_section = SYS_GetParam(0, weapon:section(), "hud")
+		if SYS_GetParam(0, hud_section, "anm_reload_misfire") == nil then
+			-- actually do the weapon replace logic here
+			unjam_weapon(weapon)
+		end
+		return
+	end
+	-- find appropriate magazine
+	local mag = find_magazine(weapon)
+		-- do the reload
+	if mag then
+		eject_magazine(weapon)
+		local pre_table = count_ammo(weapon)
+		weapon:switch_state(7)
+		CreateTimeEvent(0, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table)
+	else
+		return
+	end
+	
+end
+
+function is_grenade_mode()
+	local weapon = db.actor:item_in_slot(db.actor:active_slot())
+	if(weapon) then
+		return weapon:get_state() == 10
+	end
+	return false
+end
+
+function unjam_weapon(weapon)
+	local id = weapon:id()
+	local data = {}
+	copy_table(data, get_mag_data(id))
+	actor_effects.use_weapon(0)
+	local ammo_loaded = weapon:get_ammo_in_magazine()
+	local old_weapon = alife_object(weapon:id())
+	local new_weapon = alife_clone_weapon(old_weapon)
+	jammed_guns[id] = nil
+	print_dbg("New weapon should have %s ammo", #data.loaded)
+	-- prep_weapon(new_weapon_obj, false)
+	CreateTimeEvent(0, "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon, data)
+end
+
+function unjam_weapon_timer(weapon_obj, data)
+	utils_obj.play_sound("handgun_unjam")
+	local weapon = level.object_by_id(weapon_obj.id)
+	set_mag_data(weapon_obj.id, nil)
+	set_mag_data(weapon_obj.id, data)
+	prep_weapon(weapon, false)
+	actor_effects.use_weapon(1)
+	return true
+end
+-----------------------------------------
+-- SECTION rounds un/loading functions --
+-----------------------------------------
+-- iterate inventory and return the next box for this ammo type. return nil if nothing found
+function find_next_box(ammo_section, id)
+	local item_to_get = nil
+	function grab_inv_items(npc, item)
+		if IsAmmo(item) then 
+			print_dbg("checking ammo: " .. item:section())
+			if ammo_section == item:section() and item:id() ~= id then
+				item_to_get = item
+				print_dbg("gottem")
+			end
+		end
+	end
+	db.actor:iterate_inventory(grab_inv_items)
+	return item_to_get
+end
+
+local delay = 0.4
+-- position is ammo type as number
+function load_magazine(magazine, ammo_box, position, capacity, flip)
+	print_dbg("Try load magazine, interrupt_reload state: %s", interrupt_reload)
+	if interrupt_reload or ammo_box == nil then 
+		print_dbg("ending load prematurely. is ammo box nil? %s", ammo_box == nil)
+		-- interrupt_reload = false
+	ui_inventory.GUI:UpdateItems()
+		return true
+	end
+	
+	local id = magazine:id()
+	local mag_data = get_mag_data(id)
+	if (#mag_data.loaded >= capacity) then
+		print_dbg("ending load with full magazine")
+		ui_inventory.GUI:UpdateItems()
+		return true
+	end
+	local num_bullets = ammo_box:ammo_get_count()
+	local ammo_section = ammo_box:section()
+	flip = math.fmod(flip + 1, 3)
+	if num_bullets == 1 then
+		print_dbg("Searching for next box")
+		new_ammo_box = find_next_box(ammo_section, ammo_box:id())
+		alife_release_id(ammo_box:id())
+		ammo_box = new_ammo_box
+	else
+		ammo_box:ammo_set_count(num_bullets - 1)
+	end
+	stack.push(mag_data.loaded, ammo_section)
+	set_mag_data(id, mag_data)
+	print_dbg("Loaded 1 round of type %s. There are %s rounds loaded total", position, #mag_data.loaded)
+	xr_sound.set_sound_play(AC_ID,"reload_shell")
+	ui_inventory.GUI:UpdateItems()
+	CreateTimeEvent(0,"load_mag"..flip, delay, load_magazine, magazine, ammo_box, position, capacity, flip)
+	return true
+end
+
+function unload_magazine(magazine, flip)
+	print_dbg("Start unload magazine")
+	local id = magazine:id()
+	local mag_data = get_mag_data(id)
+	if not mag_data or #mag_data.loaded == 0 or interrupt_reload then
+		print_dbg("ending unload prematurely.")
+		-- interrupt_reload = false
+		ui_inventory.GUI:UpdateItems()
+		return true
+	end
+
+	local round = stack.pop(mag_data.loaded)
+	flip = math.fmod(flip + 1, 3)
+	set_mag_data(id, mag_data)
+	if round ~= nil then
+		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
+		create_ammo(round, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, 1)
+		CreateTimeEvent(0,"unload_mag"..flip, delay, unload_magazine, magazine, flip)
+	end
+	ui_inventory.GUI:UpdateItems()
+	return true
+end
+
+function on_key_press(key)
+	if not interrupt_reload then
+		print_dbg("Interrupting reload")
+		interrupt_reload = true
+	end
+end
+
+function unload_ammo(obj)
+	if is_magazine(obj) then
+		local id = obj:id()
+		local mag_data = get_mag_data(id)
+		if mag_data and #mag_data.loaded > 0 then
+			return gc("st_mag_unload_ammo")
+		end
+	end
+end
+
+function func_unload_ammo(obj)
+	if is_magazine(obj) then
+		local id = obj:id()
+		local mag_data = get_mag_data(id)
+		if mag_data and #mag_data.loaded > 0 then
+			interrupt_reload = false
+			CreateTimeEvent(0,"unload_mag " .. id, 0, unload_magazine, obj, 0)
+		end
+	end
+end
+
+function loadout_precondition(obj)
+	if is_magazine(obj) then
+		local id = obj:id()
+		if is_carried_mag(id) then
+			return game.translate_string("st_mag_loadout_remove")
+		elseif room_in_pouch(id)then
+			return game.translate_string("st_mag_loadout_add")
+		end
+	end
+end
+		
+function loadout_func(obj)
+	if is_magazine(obj) then
+		local id = obj:id()
+		toggle_carried_mag(id)
+		mag_hud.HUD:Update(true)
+	end
+end
+
+-----------------------------------------
+-- SECTION weapon logic -----------------
+-----------------------------------------
+
+-- function actor_on_weapon_before_fired(flags)
+-- 	local weapon = db.actor:item_in_slot(db.actor:active_slot())
+-- 	local id = weapon:id()
+-- 	local mag_data = get_mag_data(id)
+-- 	print_dbg("before fire - check weapon")
+-- 	if mag_data then
+-- 		print_dbg("before fire - loaded: %s, ammo in weapon: %s", #mag_data.loaded, weapon:get_ammo_in_magazine())
+-- 		if #mag_data.loaded > 0 and weapon:get_ammo_in_magazine() == 0 then
+-- 			print_dbg("do prepare waepon")
+-- 			prep_weapon(weapon, true)
+-- 		end
+-- 	end
+-- end
+
+function actor_on_weapon_fired(obj, weapon, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
+	print_dbg("fired ammo %s",  ammo_type)
+	if is_grenade_mode() then  
+		return
+	end
+	-- printf("Do prepare weapon")
+	prep_weapon(weapon, true)
+end
+
+function weapon_jammed(weapon)
+	-- print_dbg("try magic unjam")
+	-- local ammo_type = weapon:get_ammo_type()
+	-- local amt = weapon:get_ammo_in_magazine()
+	-- weapon:unload_magazine(false)
+	-- weapon:set_ammo_elapsed(amt)
+	-- weapon:set_ammo_type(ammo_type)
+	print_dbg("Logging jammed weapon %s", weapon:id())
+	jammed_guns[weapon:id()] = true
+end
+
+-- Load next round into the weapon. 
+-- feed_next removes top round and feeds one after. otherwise feeds current
+function prep_weapon(weapon, feed_next)
+	local id = weapon:id()
+	local mag_data = get_mag_data(id)
+	local ammo_map = get_ammo_map(id) --cacheing function should keep this from being too laggy, got to look out for the potatos
+	-- print_dbg("Begin prep weapon")
+	if mag_data then
+		local count = #mag_data.loaded
+		if feed_next then
+			stack.pop(mag_data.loaded)
+		end
+		local round = stack.peek(mag_data.loaded)
+		if round ~= nil and ammo_map[round] then
+			weapon:set_ammo_type(ammo_map[round]-1)
+			weapon:unload_magazine()
+			weapon:set_ammo_elapsed(count)
+			print_dbg("chambering round of type %s, there are %s rounds loaded, ammo in mag is %s", round, count, weapon:get_ammo_in_magazine())
+			set_mag_data(id, mag_data) 
+		else
+			print_dbg("mag empty")
+		end
+	end
+end
+
+function on_game_start()
+	RegisterScriptCallback("on_key_press", on_key_press)
+	RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
+	-- RegisterScriptCallback("actor_on_weapon_before_fire", actor_on_weapon_before_fired)
+	RegisterScriptCallback("actor_on_weapon_reload", actor_on_weapon_reload)
+	RegisterScriptCallback("actor_on_weapon_jammed", weapon_jammed)
+	RegisterScriptCallback("ActorMenu_on_item_drag_drop", on_item_drag_dropped)
+	-- RegisterScriptCallback("server_entity_on_unregister", server_entity_on_unregister)
+
+	--RegisterScriptCallback("ActorMenu_on_item_focus_receive", on_item_focus)
+	--RegisterScriptCallback("actor_on_hud_animation_end", animation_end)
+	--RegisterScriptCallback("npc_on_death_callback", wuut_npc_on_death_callback)
+	--RegisterScriptCallback("ActorMenu_on_trade_started",wuut_OnTrdWndOpened)
+	--RegisterScriptCallback("actor_item_to_ruck", UpdateMagazineUI)
+	--RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
+	-- AddUniqueCall(main_loop)
+	
+end 

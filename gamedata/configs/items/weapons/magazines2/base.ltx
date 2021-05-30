@@ -1,0 +1,49 @@
+[tch_mag_base]:identity_immunities
+;from tch_part and tch_part_cond because of import order issues
+;probably don't need all of this, but i'm covering my bases.
+GroupControlSection                                    = spawn_group 
+discovery_dependency                                   = 
+$spawn                                                 = "food and drugs\harmonica_a"
+cform                                                  = skeleton 
+class                                                  = II_ATTCH 
+attach_angle_offset		                               = -0.287979, 1.560923, 1.544060
+attach_position_offset	                               = 0.096910, -0.013594, 0.107925
+attach_bone_name		                               = bip01_r_hand
+auto_attach				                               = false
+use_condition                            		       = true 
+allow_repair                             		       = false
+
+cond_part										       = true ;-- for ui_item.script
+
+
+visual				                                   = dynamics\part\prt_o_retardant_3.ogf
+description			                                   = st_mag_base_descr
+inv_name			                                   = st_mag_base
+inv_name_short		                                   = st_mag_base
+inv_grid_width                           = 1
+inv_grid_height                          = 1
+inv_grid_x                     					       = 22
+inv_grid_y               				               = 1
+inv_weight			                                   = 0.1
+cost                                                   = 110
+repair_type				                               = 
+snd_on_take								 		   	   = outfit
+tier                                                   = 3
+is_mag = true
+
+
+max_mag_size										   = 0
+can_stack 								 = false
+dont_stack								 = true
+
+kind                                     = w_ammo
+icons_texture							 = ui\ui_icon_wuut_magazines
+
+use1_functor         								   = magazines.unload_ammo
+use1_action_functor  								   = magazines.func_unload_ammo
+
+use6_functor                                       = magazines.loadout_precondition
+use6_action_functor                                = magazines.loadout_func
+use7_functor                                       = magazines.retool_mag_precondition
+use7_action_functor                                = magazines.retool_mag_functor
+script_binding                                         = magazine_binder.bind
