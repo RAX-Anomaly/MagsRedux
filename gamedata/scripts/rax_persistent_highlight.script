@@ -1,0 +1,126 @@
+--[[
+Persitant Highlights for anomaly inventory. Used by SortingPlus and other mods by RavenAscendant.
+24FEB2021
+This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+Author: RavenAscendant
+--]]
+
+
+
+
+
+function pr(txt, ...)
+	--  printf("RAXPH: "..txt, ...)
+  end
+  
+  
+  
+  
+  local persistent_highlights = {}
+  local bags = {"actor_bag","actor_equ","actor_trade_bag"}
+  
+  local clr_list = {
+	  ["def"]         = GetARGB(255, 255, 255, 255),
+	  ["red"]         = GetARGB(255, 255, 50, 50),
+	  ["green"]       = GetARGB(255, 100, 255, 150),
+	  ["blue"]        = GetARGB(255, 100, 150, 255),
+	  ["black"]       = GetARGB(255, 0, 0, 0),
+	  ["gold"]        = GetARGB(255, 212, 175,  55),
+	  ["fav"]       	= GetARGB(255,176, 238, 26),
+	  
+	  ["drag"]        = GetARGB(150, 255, 255, 255),
+	  ["hide"]        = GetARGB(70, 255, 255, 255),
+	  ["shadow"]      = GetARGB(200, 20, 20, 20),
+	  ["hide_shadow"] = GetARGB(70, 20, 20, 20),
+	  
+	  ["p1"]          = GetARGB(255, 170, 170, 170),
+	  ["n1"]          = GetARGB(255, 200, 50, 50),
+	  ["p2"]          = GetARGB(255, 51, 255, 102),
+	  ["n2"]          = GetARGB(255, 204, 0, 51),
+	  
+	  ["info_def"]    = GetARGB(200, 255, 255, 255),
+	  ["info_p"]      = GetARGB(255, 56, 209, 115),
+	  ["info_n"]      = GetARGB(255, 238, 28, 36),
+	  ["info_p_txt"]  = GetARGB(200, 100, 255, 100),
+	  ["info_n_txt"]  = GetARGB(200, 255, 100, 100),
+  }
+  
+  local clr_list_hl = {
+	  ["def"]         = GetARGB(25, 255, 255, 255),
+	  ["green"]       = GetARGB(30, 100, 255, 150),
+	  ["blue"]        = GetARGB(40, 100, 200, 255),
+	  ["gold"]        = GetARGB(50, 212, 175,  55),
+	  ["fav"]        = GetARGB(50,176, 238, 26),
+	  
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  function register(name, functor ) --functor should return an ARGB for the highlight color. recomend low alpha values. name is mostly for aplhabetical priority. will not conflict. there is no unregister, just retun nil if you don't want to use. 
+	  
+	  if not name  then return end -- need all three params and field really needs to be a string
+	  
+	  if not persistent_highlights[name] then
+		  persistent_highlights[name] = {}
+	  end
+	  
+	  table.insert(persistent_highlights[name], functor)
+  end
+  
+  
+  function utils_ui.UICellItem:GetPersistantHighlight()
+	  local clr = nil
+	  for key,name in pairs(persistent_highlights) do
+		  for _, functor in pairs(name) do
+			  clr = functor and functor(self ) or clr
+			  pr(key..":"..tostring(clr)..":"..tostring(self.section))
+		  end
+	  end
+	  return clr
+  end
+	  
+	  
+  function utils_ui.UICellItem:Highlight(state, clr_id, main_clr)
+	  if state and (not self:IsShown()) and (not self.manual) then
+		  return
+	  end
+	  
+	  
+	  persistant_highlight = self:GetPersistantHighlight() -- get the persistant hightlight if it exists.
+	  clr_id = (not state) and persistant_highlight or clr_id    -- if state is false use the persistant color if it exists. other wise use what is passed
+	  
+	  main_clr = main_clr or (not state) and self.container.ID == "actor_equ" -- if state is true use main_clr  if state is false use true if this is an equipment slot. 
+	  pr(clr_id or "none")
+	  color = main_clr and clr_list["def"] or clr_list_hl["def"] -- set up defaults
+	  if type(clr_id) == "string" then												-- allows use of string keys to color table or color objects
+		  color = main_clr and clr_list[clr_id] or clr_list_hl[clr_id] or color
+	  elseif type(clr_id) == "number" then
+		  color = main_clr and change_alpha(clr_id,255) or clr_id or color	-- if main_clr set the alpha to max for reasons.
+		  
+	  end
+  
+	  self.hl:Show(persistant_highlight or state) -- show if we have a persistant highlight or state is true, else hide.
+	  self.hl:SetTextureColor(color)
+  end
+  
+  
+  
+  
+  
+  clr_cache = {}
+  function change_alpha(clr,a)
+	  if not clr and a ~= nil then return end
+	  if not clr_cache[clr.."_"..a] then 
+		  b = bit.band(clr , 255)
+		  g = bit.band(bit.rshift(clr , 8) , 255)
+		  r = bit.band(bit.rshift(clr , 16) , 255)
+		  clr_cache[clr.."_"..a] = GetARGB(a,r,g,b)
+	  end
+	  return clr_cache[clr.."_"..a] 
+  end

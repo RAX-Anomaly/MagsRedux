@@ -1,0 +1,74 @@
+
+print_dbg                   = magazines.print_dbg
+set_data 					= magazine_binder.set_data
+get_data 					= magazine_binder.get_data
+weapon_uses_magazine		= magazine_binder.weapon_uses_magazine
+weapon_default_magazine		= magazine_binder.weapon_default_magazine
+
+-- class
+function bind(obj)
+    obj:bind_object(wep_binder(obj))
+end
+
+class "wep_binder" (object_binder)
+
+function wep_binder:__init(obj) super(obj)
+   self.first_update = true
+end
+
+function wep_binder:update(delta) 
+	local obj = self.object
+	if not weapon_uses_magazine(obj) then
+		-- print_dbg("Spawned weapon does not use mags")
+		return 
+	end -- only run for supported weapons
+	
+	local id = obj:id()
+	local mag_data = get_data(id)
+	if not mag_data and self.first_update then
+		self.first_update = false
+		local default_mag = weapon_default_magazine(obj:section())
+		mag_data = {}
+		mag_data.section = default_mag
+		mag_data.size = SYS_GetParam(0, default_mag, "mag_size")
+		mag_data.loaded = {}
+		local ammo_type = obj:get_ammo_type()
+		local ammo_loaded = obj:get_ammo_in_magazine()
+		print_dbg("Weapon %s uses mags, assigning default mag %s with %s rounds, type is %s", obj:section(), default_mag, ammo_loaded, ammo_type)
+		local ammo_map = utils_item.get_ammo(nil, id)
+		if ammo_loaded > 1 then
+			for i=1,ammo_loaded do
+				print_dbg("Loading in round of type %s",ammo_map[ammo_type+1])
+				stack.push(mag_data.loaded, ammo_map[ammo_type+1])
+			end
+		end
+		set_data(id, mag_data)
+	end
+
+
+end
+
+function wep_binder:reload(section)
+    object_binder.reload(self, section)
+end
+
+function wep_binder:reinit()
+    object_binder.reinit(self)
+end
+
+function wep_binder:net_spawn(se_abstract)
+    if not(object_binder.net_spawn(self, se_abstract)) then
+        return false
+    end
+    return true
+end
+
+function wep_binder:net_destroy()
+	object_binder.net_destroy(self)
+end
+
+function wep_binder:save(stpk)
+end
+
+function wep_binder:load(stpk)
+end

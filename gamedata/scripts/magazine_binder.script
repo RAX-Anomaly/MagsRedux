@@ -1,0 +1,438 @@
+
+local temp_find_similar = utils_ui.UICellContainer.FindSimilar
+
+
+function utils_ui.UICellContainer:FindSimilar(obj, sec)
+	--print_dbg(sec..":"..tostring(SYS_GetParam(1,sec,"dont_stack")))
+	if is_magazine(sec) then
+	--	print_dbg(sec..":magazine!")
+		return false
+	end
+	--x = temp_find_similar(self, obj, sec)
+	--print_dbg(x and "true" or "false")
+	return temp_find_similar(self, obj, sec)
+end
+
+
+
+-- each datum consists of the following:
+-- .size = size of the slot S, M, L(this is not super important)
+-- .loaded = this is a stack of rounds loaded in the magazine, each round is int, depending on what kind of round it is
+-- .section = for magazines in weapons, this tracks the type of magazine that is loaded
+local mags_storage = {}
+-- this storage is for vested mags in specific
+local carried_mags = {}
+
+local loadout_slots = {
+						small = 2,
+						medium = 0,
+						large = 0,
+						}
+
+
+
+function print_dbg( text , ...)
+	if true then
+		printf( "RAX: | %s |  "..text ,time_global(), ...)
+	end
+end
+
+local look_up_table = ini_file_ex("magazines\\lookups.ltx")
+
+-------------------------------
+-- SECTION acess functions --
+-------------------------------
+function get_carried_mags(tbl)
+	--return carried_mags			--efficency v acess control hud won't call this very often so went with acess control
+	
+	copy_table(tbl, carried_mags )
+end
+
+function get_data(id)
+	return mags_storage[id] or nil
+end
+
+function set_data(id, data)
+	mags_storage[id] = data
+	if carried_mags[id] then
+		carried_mags[id] = data
+	end
+end
+
+function get_mag_property(id,key)
+	--print_dbg("wtf:".. tostring((mags_storage[id] and mags_storage[id][key] or "no dice")))
+	return mags_storage[id] and mags_storage[id][key]
+end
+
+-------------------------------
+-- SECTION utility functions --
+-------------------------------
+
+local function parent_section(sec)
+	return SYS_GetParam(0, sec, "parent_section", sec) or sec
+end
+
+local function type_correction(val)
+    if not val then return end
+--    print_dbg(type(val))
+    local id, section, obj, se_obj = nil
+    if type(val) == "string" then
+        section = val
+    elseif type(val) == "number" then
+        id = val
+        obj = level.object_by_id(id)
+        se_obj = alife_object(id)
+        section = se_obj:section()
+    elseif type(val.id) == "number" then
+        id = val.id
+        se_obj = val
+        obj = level.object_by_id(id)
+        section = val:section()
+    elseif type(val.id) == "function" then
+        id = val:id()
+        obj = val
+        se_obj = alife_object(id)
+        section = val:section()
+    end
+    return id, section, obj, se_obj
+end
+
+function is_carried_mag(id)
+	-- print_dbg("iscm:"..id)
+	
+	if carried_mags[id] then
+		--print_dbg("iscm:".. carried_mags[id].section or "nosec")
+	end
+	return carried_mags[id] and true or false
+end
+
+function toggle_carried_mag(id)
+--	print_dbg("tcm1")
+	if carried_mags[id] then
+		carried_mags[id] = nil
+			--print_dbg("tcm2")
+
+	elseif room_in_pouch(id) then
+		carried_mags[id] = mags_storage[id]
+			--print_dbg("tcm3"..tostring(carried_mags[id] and carried_mags[id].section))
+	end
+end
+
+function update_loadout_slots()
+	local outfit = db.actor:item_in_slot(7)
+	local small,medium,large =  0,0,0
+	if outfit then
+		small,medium,large = get_loadout_slots(outfit)
+		
+		--print_dbg("Outfit:%s||S:%s|M:%s|L:%s",outfit:section(), small,medium,large)
+	else
+		small,medium,large = get_loadout_slots("o_none")
+		
+		--print_dbg("Outfit:%s||S:%s|M:%s|L:%s","o_none", small,medium,large)
+	end
+	
+	local s,m,l =  0,0,0
+	local backpack = db.actor:item_in_slot(13)
+	s,m,l = get_loadout_slots(backpack)
+	
+	--print_dbg("backpack:%s||S:%s|M:%s|L:%s",backpack and backpack:section(), s,m,l)
+	
+	small = small + s
+	medium = medium + m
+	large = large + l 
+	
+	--print_dbg("Outfit+backpack||S:%s|M:%s|L:%s", small,medium,large)
+	
+	local ss,mm,ll = 0,0,0
+	db.actor:iterate_belt( function(owner, obj)
+		s,m,l = get_loadout_slots(obj)
+		
+		--print_dbg("belt:%s||S:%s|M:%s|L:%s",obj and obj:section(), s,m,l)
+		
+		ss = ss + s
+		mm = mm + m
+		ll = ll + l
+	end)
+	
+	--print_dbg("Belt total||S:%s|M:%s|L:%s", ss,mm,ll)
+	
+	small = small + ss
+	medium = medium + mm
+	large = large + ll 
+	
+	--print_dbg("total slots||S:%s|M:%s|L:%s", small,medium,large)
+	
+	loadout_slots.small = small 
+	loadout_slots.medium = medium 
+	loadout_slots.large = large 
+end
+
+function validate_loadout()
+	update_loadout_slots()
+	local found = {small =0 ,medium = 0,large = 0}
+	for id, mag in pairs(carried_mags) do
+		if mag.size then
+			found[mag.size] = found[mag.size] + 1
+			if found[mag.size] > loadout_slots[mag.size] then
+				--print_dbg("Clearing mag:%s", mag.section )
+				carried_mags[id] = nil
+			end
+		end
+	end
+end
+
+function room_in_pouch(id)
+	local s = mags_storage[id].size
+	if loadout_slots[s] == 0 then return false end
+	local found = 0
+	for id, mag in pairs(carried_mags) do
+		if mag.size == s then
+			found = found + 1
+		end
+	end 
+	return found < loadout_slots[s]
+end 		
+
+-- these functions work equally well given an object id, item section, gameobject or server object.
+function is_supported_weapon(val)
+	if not val then return end
+	id, section, obj, se_obj = type_correction(val)
+	
+	return look_up_table:section_exist(parent_section(section))
+end
+
+function get_loadout_slots(val, force_outfit)
+	if not val then return 0,0,0 end
+	id, section, obj, se_obj = type_correction(val)
+
+	local s,m,l = 0
+	if look_up_table:section_exist(section) then
+		s = look_up_table:r_value(section, "mag_limit_small", 2)
+		m = look_up_table:r_value(section, "mag_limit_medium", 2)
+		l = look_up_table:r_value(section, "mag_limit_large", 2)
+	elseif IsOutfit(obj) or force_outfit then
+		local kind = SYS_GetParam(0, section, "kind")
+		if look_up_table:section_exist(kind) then
+			s = look_up_table:r_value(kind, "mag_limit_small", 2)
+			m = look_up_table:r_value(kind, "mag_limit_medium", 2)
+			l = look_up_table:r_value(kind, "mag_limit_large", 2)
+		else
+			s = look_up_table:r_value("o_none", "mag_limit_small", 2)
+			m = look_up_table:r_value("o_none", "mag_limit_medium", 2)
+			l = look_up_table:r_value("o_none", "mag_limit_large", 2)
+		end
+	end
+	return s, m, l
+end
+
+function is_magazine(val)
+
+	if not val then 
+		return false 
+	end
+	
+	id, section, obj, se_obj = type_correction(val)
+
+	return SYS_GetParam(1, section, "is_mag")
+
+end
+
+function get_magazine_base_type(val)
+
+	if not val then return end
+	id, section, obj, se_obj = type_correction(val)
+
+	return SYS_GetParam(0, section, "base_type")  or nil
+end
+
+function get_magazine_caliber(val)
+	return str_explode(look_up_table:r_value(get_magazine_base_type(val), "caliber"), ",")
+end
+
+-- check if this weapon takes a magazine, and return the base type. nil if it does not
+function weapon_uses_magazine(val)
+	if not val then return end
+	id, section, obj, se_obj = type_correction(val)
+	id = obj and id or nil --utils_item.get_ammo will not work if given an id of an offline object. nil id if no gameobject exists
+	
+	return look_up_table:r_value(parent_section(section), utils_item.get_ammo(section, id)[1]) -- base_type is in the ltx based on the first entry in the weapons ammo list.
+end
+
+function weapon_default_magazine(val)
+	if not val then return end
+	id, section, obj, se_obj = type_correction(val)
+	
+	return look_up_table:r_value(parent_section(section), "default_mag")
+end 
+-- check if mag is compatible w. weapon
+function is_compatible(weapon, magazine) --both called functions do type correction, added argument order corection
+	if not is_magazine(magazine) then
+		local t = magazine
+		magazine = weapon
+		weapon = t
+	end
+    local weapon_base = weapon_uses_magazine(weapon)
+    local magazine_base = get_magazine_base_type(magazine)
+    return weapon_base == magazine_base
+end
+
+function get_mag_info(magazine)
+	local sec = magazine:section()
+	local result = {
+		-- ["compatibleWeapons"] = str_explode(system_ini():r_string_ex(mag:section(), "magazine_group"),","),
+		["mag_size"] = SYS_GetParam(2, sec, "max_mag_size"),
+		["ammo"] = {},
+		["total_ammo"] = 0,
+		["ammo_type"] = get_magazine_caliber(sec)
+	}
+	local mag_data = get_data(magazine:id())
+	if mag_data and #mag_data.loaded > 1 then
+		result.total_ammo = #mag_data.loaded
+		for i=1, #mag_data.loaded do
+			result.ammo[mag_data.loaded[i]] = (result.ammo[mag_data.loaded[i]] or 0) + 1
+		end
+	end
+	return result
+end
+
+
+
+
+-- class
+function bind(obj)
+     print_dbg("bound object "..obj:section())
+    obj:bind_object(magazine_binder(obj))
+end
+
+class "magazine_binder" (object_binder)
+
+function magazine_binder:__init(obj) super(obj)
+	self.first_update = nil
+end
+
+-- update the weight and condition based on capacity
+function magazine_binder:update(delta)
+	object_binder.update(self, delta)
+	local obj = self.object
+	local id = obj:id()
+	local sec = obj:section()
+	if not self.first_update then
+		self.first_update = true
+	end
+    local mag_data = mags_storage[id]
+    if not mag_data then
+        mag_data = {}
+        mag_data.loaded = {}
+        mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
+        mag_data.section = sec
+        mags_storage[id] = mag_data
+    end
+    
+	local mag_weight = SYS_GetParam(2, sec, "inv_weight")
+    local capacity = SYS_GetParam(2, sec, "max_mag_size")
+    -- for simplicity we take the weight of each bullet to be the same
+    local cond = 0
+    if mag_data then
+		local ammoType = get_magazine_caliber(sec)[1]
+		local box_size = SYS_GetParam(2, ammoType, "box_size")
+		local box_weight = SYS_GetParam(2, ammoType, "inv_weight")
+		local cartridge_weight = box_weight / box_size
+        cond = #mag_data.loaded / capacity
+        mag_weight = mag_weight + (#mag_data.loaded * cartridge_weight)
+    end
+	mags_storage[id] = mag_data
+    obj:set_weight(mag_weight)
+    obj:set_condition(cond)
+end
+
+function magazine_binder:reload(section)
+    object_binder.reload(self, section)
+end
+
+function magazine_binder:reinit()
+    object_binder.reinit(self)
+end
+
+function magazine_binder:net_spawn(se_abstract)
+    if not(object_binder.net_spawn(self, se_abstract)) then
+        return false
+    end
+    return true
+end
+
+function magazine_binder:net_destroy()
+	object_binder.net_destroy(self)
+end
+
+function magazine_binder:save(stpk)
+end
+
+function magazine_binder:load(stpk)
+end
+-- end class
+
+
+-------------------------------
+-- SECTION inventory highlight --
+-------------------------------
+
+-- this gets called _ALOT_ so putting it here where table can be read
+
+local bags = {actor_bag = true,actor_trade_bag= true} --player inv in normal/looting and in the merchant UI.
+ready_color = GetARGB(50, 255, 255, 255) -- bit brighter than the default highlight color.
+function check_ready(cell)
+        if bags[cell.container.ID] then
+			return carried_mags[cell.ID] and ready_color --cell.ID and cell.sec are the object id and section
+		end
+end
+
+rax_persistent_highlight.register("ready_mag", check_ready) --used like a callback register
+
+
+
+
+
+-------------------------------
+-- SECTION  callbacks --
+-------------------------------
+local function save_state(mdata) 
+	mdata.mags_storage = mags_storage
+	mdata.carried_mags = carried_mags
+end
+
+local function load_state(mdata) 
+	mags_storage = mdata.mags_storage or {}
+	carried_mags = mdata.carried_mags or {}
+end
+
+local function se_item_on_unregister(se_obj, typ)
+	local id = se_obj.id
+	mags_storage[id] = nil
+	carried_mags[id] = nil
+end
+
+local past_first_update = false
+function actor_on_first_update()
+	past_first_update = true
+end
+
+
+
+function actor_item_to_slot()
+	if past_first_update then
+		validate_loadout()
+	end
+end
+
+
+
+function on_game_start()
+	RegisterScriptCallback("save_state",save_state)
+	RegisterScriptCallback("load_state",load_state)
+	RegisterScriptCallback("actor_item_to_slot",actor_item_to_slot)
+	RegisterScriptCallback("actor_item_to_ruck",actor_item_to_slot)
+	RegisterScriptCallback("actor_item_to_belt",actor_item_to_slot)
+	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
+	RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
+end
+
