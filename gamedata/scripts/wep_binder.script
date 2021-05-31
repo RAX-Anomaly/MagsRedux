@@ -2,9 +2,8 @@
 print_dbg                   = magazines.print_dbg
 set_data 					= magazine_binder.set_data
 get_data 					= magazine_binder.get_data
-weapon_uses_magazine		= magazine_binder.weapon_uses_magazine
-is_supported_weapon			= magazine_binder.is_supported_weapon
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
+is_supported_weapon			= magazine_binder.is_supported_weapon
 
 -- class
 function bind(obj)
@@ -19,7 +18,7 @@ end
 
 function wep_binder:update(delta) 
 	local obj = self.object
-	if IsAmmo(obj) or not is_supported_weapon(obj) then
+	if  not is_supported_weapon(obj) then
 		-- print_dbg("Spawned weapon does not use mags")
 		self.first_update = false
 		return 

@@ -423,6 +423,7 @@ function loadout_func(obj)
 	if is_magazine(obj) then
 		local id = obj:id()
 		toggle_carried_mag(id)
+		ui_inventory.GUI:On_Sort(1,false)
 		mag_hud.HUD:Update(true)
 	end
 end
