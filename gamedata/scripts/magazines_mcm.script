@@ -1,0 +1,23 @@
+-- If you don't use MCM, change your defaults from here.
+local defaults = {
+    ["tradermags"] = 4,
+    ["deathammo"] = 1.0,
+    ["deathgoodammo"] = 1.0,
+    ["debug"] = false
+}
+
+function get_config(key)
+    if ui_mcm then return ui_mcm.get("magazines/"..key) else return defaults[key] end
+end
+
+function on_mcm_load()
+    op = { id= "magazines",sh=true ,gr={
+            { id= "title",type= "slide",link= "ui_options_slider_player",text="ui_mcm_lootboxes_title",size= {512,50},spacing= 20 },
+            {id = "stashchance", type = "track", val = 2, min=5,max=80,step=5, def = 40},
+            {id = "deathchance", type = "track", val = 2, min=5,max=60,step=5, def = 20},
+            {id = "animation", type = "check", val = 1, def=true},
+            {id = "debug", type = "check", val = 1, def=false},
+        }
+    }
+    return op
+end

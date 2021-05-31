@@ -6,75 +6,182 @@ get_data 					= magazine_binder.get_data
 set_data 					= magazine_binder.set_data
 is_supported_weapon 		= magazine_binder.is_supported_weapon
 get_magazine_caliber 		= magazine_binder.get_magazine_caliber
-is_compatible 				= magazine_binder.is_compatible
 is_magazine					= magazine_binder.is_magazine
-is_carried_mag				= magazine_binder.is_carried_mag
-toggle_carried_mag			= magazine_binder.toggle_carried_mag
-room_in_pouch				= magazine_binder.room_in_pouch
-eject						= magazines.eject_magazine
-get_mag_info				= magazine_binder.get_mag_info
+weapon_default_magazine		= magazine_binder.weapon_default_magazine
+print_dbg                   = magazines.print_dbg
 
-ini_loadouts = ini_file("items\\settings\\npc_mag_loadouts.ltx")
+local ini_loadouts = ini_file("items\\settings\\npc_mag_loadouts.ltx")
 
 local mag_timer_global = nil
-local tm = m_data.trade_manager
+local tm = {}
+local tm_custom = {} -- for initially talking to trader
 -- trader management
 
-function IsTrader(npc)
-	local st = db.storage[npc:id()]
-	if st.is_trader == nil then
-		local trader = false
-		if npc:character_community() == "trader" or npc:clsid() == clsid.script_trader or npc:clsid() == clsid.trader then
-			trader = true
-		end
-		if string.find(npc:section(),"trader") then
-			trader = true
-		end
-		local cini = db.storage[npc:id()].ini
-		local logic = db.storage[npc:id()].section_logic
-		if not logic and not trader then
-			return false
-		end
-		if cini and logic and cini:section_exist(logic) and cini:line_exist(logic,"trade") then
-			trader = true
-		end
-		st.is_trader = trader
+local function t2c(t)
+	if not t then return nil end
+	local ct = game.CTime()
+	ct:set(t.Y,t.M,t.D,t.h,t.m,t.s,t.ms)
+	return ct
+end
+
+local function c2t(ct)
+	if not ct then return nil end
+	-- printf('%s, %s',ct,type(ct))
+	local Y, M, D, h, m, s, ms = 0, 0, 0, 0, 0, 0, 0
+	Y, M, D, h, m, s, ms = ct:get(Y, M, D, h, m, s, ms)
+	return { Y=Y, M=M, D=D, h=h, m=m, s=s, ms=ms }
+end
+
+-- function IsTrader(npc)
+-- 	local st = db.storage[npc:id()]
+-- 	if st.is_trader == nil then
+-- 		local trader = false
+-- 		if npc:character_community() == "trader" or npc:clsid() == clsid.script_trader or npc:clsid() == clsid.trader then
+-- 			trader = true
+-- 		end
+-- 		if string.find(npc:section(),"trader") then
+-- 			trader = true
+-- 		end
+-- 		local cini = db.storage[npc:id()].ini
+-- 		local logic = db.storage[npc:id()].section_logic
+-- 		if not logic and not trader then
+-- 			return false
+-- 		end
+-- 		if cini and logic and cini:section_exist(logic) and cini:line_exist(logic,"trade") then
+-- 			trader = true
+-- 		end
+-- 		st.is_trader = trader
+-- 	end
+-- 	return st.is_trader == true
+-- end
+
+TraderUpdate = trade_manager.update
+function trade_manager.update(npc, force_refresh)
+    TraderUpdate(npc, force_refresh)
+    local id = npc:id()
+    local restock_time = game_difficulties.get_eco_factor("restock") or 24
+	if tm_custom[id] and (tm_custom[id] and game.get_game_time():diffSec(t2c(tm_custom[id])) < (restock_time * 3600))  then
+		-- print_dbg("Not time to resupply yet!")
+        return
 	end
-	return st.is_trader == true
+    print_dbg("Resupplying custom items")
+	tm_custom[id] = c2t(game.get_game_time())
+    CreateTimeEvent(0, "stock_mags"..id, 0.1, stock_mags, npc)
 end
 
-local function get_mag_prop(rank, prop)
-    rank = rank or "novice"
-    return ini_loadouts.r_float_ex(rank.."_mag_loadout", prop)
-end
-
--- called on each created magazine, autofill with the appropriate crap
-function random_pop_mag(mag_id, mag_sec, ammo_table, stalker_rank)
-    local amount = math.random(get_mag_prop(stalker_rank, "mag_fill_max"))
-    local mag_data = get_data(mag_id)
-    local to_fill = math.floor((amount/100) * SYS_GetParam(2, mag_sec, "max_mag_size"))
-
-end
-
--- death management
-CreateReleaseItem = death_manager.create_release_item
-function death_manager.create_release_item(npc)
-    function itr_inv(npc, item)
-		if IsWeapon(nil,item:clsid()) and is_supported_weapon(item) then
-            local mags_to_spawn = math.random(get_mag_prop(npc:rank(), "max_mags"))
-            local mag_sec = weapon_default_magazine(item:section())
-            local ammo_table = get_magazine_caliber(mag_sec)
-            for i=1,mags_to_spawn do
-                local new_mag = alife_create_item(mag_sec, npc)
-                random_pop_mag(new_mag.id, mag_sec, ammo_table, npc:rank())
+function stock_mags(npc)
+    local id = npc:id()
+    local to_spawn = {}
+    local function itr_inv(temp, item)
+        local sec = item:section()
+        if is_magazine(item) then
+            to_spawn[sec] = to_spawn[sec] == nil and 0 or to_spawn[sec] - 1
+        end
+        if not IsAmmo(item) and IsWeapon(item) and is_supported_weapon(item) then
+            local default_mag = weapon_default_magazine(item)
+            if to_spawn[default_mag] then
+                to_spawn[default_mag] = to_spawn[default_mag] + 1
+            else
+                to_spawn[default_mag] = 3
             end
         end
     end
-    npc:iterate_inventory(itr_inv)
+    npc:iterate_inventory(itr_inv, npc)
+    
+    for k,v in pairs(to_spawn) do
+        if v < 1 then v = 0 end
+        print_dbg("Trader - spawning %s of %s", v, k)
+        for i=1,v do
+            alife_create_item(k, npc)
+        end
+    end
+end
+
+
+-- death management
+local function get_mag_prop(rank, prop)
+    rank = rank or "novice"
+    return ini_loadouts:r_float_ex(rank.."_mag_loadout", prop)
+end
+
+function create_mag_data(id, sec)
+    local mag_data = {}
+    mag_data.loaded = {}
+    mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
+    mag_data.section = sec
+    set_data(id, mag_data)
+    return mag_data
+end
+
+-- called on each created magazine, autofill with the appropriate crap
+function random_pop_mag(mag_id, mag_sec, ammo_table, rank)
+    local amount = math.random(get_mag_prop(rank, "mag_fill_max"))
+    local mag_data = get_data(mag_id) or create_mag_data(mag_id, mag_sec)
+    local to_fill = math.floor((amount/100) * SYS_GetParam(2, mag_sec, "max_mag_size"))
+	-- also pick the appropriate ammo
+	local good_chance = get_mag_prop(rank, "mag_good_chance")
+	local ammo_to_pick = 3*math.floor(math.random(#ammo_table - 1) / 3) + 1 + (math.random(100) < good_chance and 0 or 1)
+    print_dbg("Filling mag %s to %s with %s", mag_sec, to_fill, ammo_table[ammo_to_pick])
+	for i=1,to_fill do
+		stack.push(mag_data.loaded, ammo_table[ammo_to_pick])
+	end
+	set_data(mag_id, mag_data)
+    return true
+end
+
+function npc_on_death(npc, who)
+    local rank = ranks.get_obj_rank_name(npc)
+    print_dbg("Start create release, npc rank is %s", rank)
+    local found_primary = false
+    local found_secondary = false
+    function itr_inv(temp, item)
+        local sec = item:section()
+		if IsWeapon(nil,item:clsid()) and not npc:marked_dropped(item) and is_supported_weapon(item) then
+            -- reduce ammo in loaded weapon
+            local mag_data = get_data(item:id())
+            for i=1, math.random(#mag_data.loaded - 5) do
+                stack.pop(mag_data.loaded)
+            end
+            set_data(item:id(), mag_data)
+
+            -- spawn mags for one primary, one secondary
+            local is_sidearm = false
+            if IsPistol(item) then
+                is_sidearm = true
+            end
+            if (found_primary and not is_sidearm) or (found_secondary and is_sidearm) then return end
+            local mags_to_spawn = math.random(get_mag_prop(rank, "max_mags"))
+            local mag_sec = weapon_default_magazine(sec)
+            local ammo_table = get_magazine_caliber(mag_sec)
+            print_dbg("Spawning %s of %s", mags_to_spawn, mag_sec)
+            local new_mag = alife_create_item(mag_sec, npc)
+            random_pop_mag(new_mag.id, mag_sec, ammo_table, rank)
+            for i=1,mags_to_spawn do
+                -- todo roll for upgraded mag
+                local new_mag = alife_create_item(mag_sec, npc)
+                random_pop_mag(new_mag.id, mag_sec, ammo_table, rank)
+            end
+            if is_sidearm then
+                found_secondary = true
+            else
+                found_primary = true
+            end
+        end
+    end
+    npc:iterate_inventory(itr_inv, npc)
+end
+
+function load_state(m_data)
+	tm = m_data.trade_manager or {}
+    tm_custom = m_data.tm_custom or {}
+end
+
+function save_state(m_data)
+    m_data.tm_custom = tm_custom
 end
 
 function on_game_start()
-
-	RegisterScriptCallback("ActorMenu_on_trade_started",on_trade_opened)
-	RegisterScriptCallback("ActorMenu_on_trade_closed",on_trade_closed)
+    RegisterScriptCallback("load_state",load_state)
+    RegisterScriptCallback("save_state",save_state)
+	RegisterScriptCallback("npc_on_death_callback", npc_on_death)
 end
