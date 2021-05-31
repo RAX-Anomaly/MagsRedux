@@ -38,7 +38,7 @@ function print_dbg( text , ...)
 end
 
 local look_up_table = ini_file_ex("magazines\\lookups.ltx")
-
+local weapons_lookup = ini_file_ex("magazines\\weapons\\importer.ltx")
 -------------------------------
 -- SECTION acess functions --
 -------------------------------
@@ -204,7 +204,7 @@ function is_supported_weapon(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
 	
-	return look_up_table:section_exist(parent_section(section))
+	return weapons_lookup:section_exist(parent_section(section))
 end
 
 function get_loadout_slots(val, force_outfit)
@@ -255,13 +255,13 @@ function get_magazine_caliber(val)
 	return str_explode(look_up_table:r_value(get_magazine_base_type(val), "caliber"), ",")
 end
 
--- check if this weapon takes a magazine, and return the base type. nil if it does not
-function weapon_uses_magazine(val)
+-- check if this weapon takes a magazine, and return the base type. false if it does not
+function get_weapon_base_type(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
 	id = obj and id or nil --utils_item.get_ammo will not work if given an id of an offline object. nil id if no gameobject exists
 	
-	return look_up_table:r_value(parent_section(section), utils_item.get_ammo(section, id)[1]) -- base_type is in the ltx based on the first entry in the weapons ammo list.
+	return is_supported_weapon(section) and look_up_table:r_value(parent_section(section), utils_item.get_ammo(section, id)[1]) -- base_type is in the ltx based on the first entry in the weapons ammo list.
 end
 
 function weapon_default_magazine(val)
@@ -277,7 +277,7 @@ function is_compatible(weapon, magazine) --both called functions do type correct
 		magazine = weapon
 		weapon = t
 	end
-    local weapon_base = weapon_uses_magazine(weapon)
+    local weapon_base = get_weapon_base_type(weapon)
     local magazine_base = get_magazine_base_type(magazine)
     return weapon_base == magazine_base
 end
@@ -429,14 +429,14 @@ function actor_item_to_slot()
 		validate_loadout()
 	end
 end
-
+--[[
     tempf = ini_file_ex.r_value
     
     function ini_file_ex:r_value(s,k,typ,def)
         printf("RAX: section:%s key:%s typ:%s def:%s", tostring(s), tostring(k), tostring(typ), tostring(def))
         return tempf(self,s,k,typ,def)
     end
-  
+  --]]
 
 function on_game_start()
 	RegisterScriptCallback("save_state",save_state)

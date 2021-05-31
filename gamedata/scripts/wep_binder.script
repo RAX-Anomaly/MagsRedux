@@ -2,8 +2,8 @@
 print_dbg                   = magazines.print_dbg
 set_data 					= magazine_binder.set_data
 get_data 					= magazine_binder.get_data
-weapon_uses_magazine		= magazine_binder.weapon_uses_magazine
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
+is_supported_weapon			= magazine_binder.is_supported_weapon
 
 -- class
 function bind(obj)
