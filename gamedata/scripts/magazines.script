@@ -55,6 +55,11 @@ function get_ammo_map(id)
 	return ammo_maps[id]
 end
 
+local function se_item_on_unregister(se_obj, typ)
+	local id = se_obj.id
+	ammo_maps[id] = nil
+end
+
 function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 
 	print_dbg("on_item_drag_dropped " .. item:section() .. " on " .. weapon:section() .. " to_slot " .. to_slot)
@@ -312,7 +317,7 @@ function find_next_box(ammo_section, id)
 	return item_to_get
 end
 
-local delay = 0.4
+local default_delay = 0.4
 -- position is ammo type as number
 function load_magazine(magazine, ammo_box, position, capacity, flip)
 	print_dbg("Try load magazine, interrupt_reload state: %s", interrupt_reload)
@@ -324,6 +329,7 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	end
 	
 	local id = magazine:id()
+	local sec = magazine:section()
 	local mag_data = get_mag_data(id)
 	if (#mag_data.loaded >= capacity) then
 		print_dbg("ending load with full magazine")
@@ -344,6 +350,7 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	stack.push(mag_data.loaded, ammo_section)
 	set_mag_data(id, mag_data)
 	print_dbg("Loaded 1 round of type %s. There are %s rounds loaded total", position, #mag_data.loaded)
+	local delay = SYS_GetParam(2, sec, "load_delay") or default_delay
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
 	ui_inventory.GUI:UpdateItems()
 	CreateTimeEvent(0,"load_mag"..flip, delay, load_magazine, magazine, ammo_box, position, capacity, flip)
@@ -367,7 +374,7 @@ function unload_magazine(magazine, flip)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
 		create_ammo(round, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, 1)
-		CreateTimeEvent(0,"unload_mag"..flip, delay, unload_magazine, magazine, flip)
+		CreateTimeEvent(0,"unload_mag"..flip, default_delay, unload_magazine, magazine, flip)
 	end
 	ui_inventory.GUI:UpdateItems()
 	return true
@@ -440,7 +447,6 @@ end
 -- end
 
 function actor_on_weapon_fired(obj, weapon, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
-	print_dbg("fired ammo %s",  ammo_type)
 	if is_grenade_mode() then  
 		return
 	end
@@ -449,12 +455,6 @@ function actor_on_weapon_fired(obj, weapon, ammo_elapsed, grenade_elapsed, ammo_
 end
 
 function weapon_jammed(weapon)
-	-- print_dbg("try magic unjam")
-	-- local ammo_type = weapon:get_ammo_type()
-	-- local amt = weapon:get_ammo_in_magazine()
-	-- weapon:unload_magazine(false)
-	-- weapon:set_ammo_elapsed(amt)
-	-- weapon:set_ammo_type(ammo_type)
 	print_dbg("Logging jammed weapon %s", weapon:id())
 	jammed_guns[weapon:id()] = true
 end
@@ -465,7 +465,6 @@ function prep_weapon(weapon, feed_next)
 	local id = weapon:id()
 	local mag_data = get_mag_data(id)
 	local ammo_map = get_ammo_map(id) --cacheing function should keep this from being too laggy, got to look out for the potatos
-	-- print_dbg("Begin prep weapon")
 	if mag_data then
 		local count = #mag_data.loaded
 		if feed_next then
@@ -484,21 +483,17 @@ function prep_weapon(weapon, feed_next)
 	end
 end
 
+local function se_item_on_unregister(se_obj, typ)
+	local id = se_obj.id
+	ammo_maps[id] = nil
+end
+
 function on_game_start()
 	RegisterScriptCallback("on_key_press", on_key_press)
 	RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
-	-- RegisterScriptCallback("actor_on_weapon_before_fire", actor_on_weapon_before_fired)
 	RegisterScriptCallback("actor_on_weapon_reload", actor_on_weapon_reload)
 	RegisterScriptCallback("actor_on_weapon_jammed", weapon_jammed)
 	RegisterScriptCallback("ActorMenu_on_item_drag_drop", on_item_drag_dropped)
-	-- RegisterScriptCallback("server_entity_on_unregister", server_entity_on_unregister)
+	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
 
-	--RegisterScriptCallback("ActorMenu_on_item_focus_receive", on_item_focus)
-	--RegisterScriptCallback("actor_on_hud_animation_end", animation_end)
-	--RegisterScriptCallback("npc_on_death_callback", wuut_npc_on_death_callback)
-	--RegisterScriptCallback("ActorMenu_on_trade_started",wuut_OnTrdWndOpened)
-	--RegisterScriptCallback("actor_item_to_ruck", UpdateMagazineUI)
-	--RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
-	-- AddUniqueCall(main_loop)
-	
 end 

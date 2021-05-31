@@ -316,6 +316,8 @@ function magazine_binder:__init(obj) super(obj)
 	self.first_update = nil
 end
 
+-- global flag used to cap condition at 100 for trade
+local freeze = false
 -- update the weight and condition based on capacity
 function magazine_binder:update(delta)
 	object_binder.update(self, delta)
@@ -333,7 +335,10 @@ function magazine_binder:update(delta)
         mag_data.section = sec
         mags_storage[id] = mag_data
     end
-    
+    if freeze then 
+		obj:set_condition(0.999)
+		return 
+	end
 	local mag_weight = SYS_GetParam(2, sec, "inv_weight")
     local capacity = SYS_GetParam(2, sec, "max_mag_size")
     -- for simplicity we take the weight of each bullet to be the same
@@ -429,14 +434,15 @@ function actor_item_to_slot()
 		validate_loadout()
 	end
 end
---[[
-    tempf = ini_file_ex.r_value
-    
-    function ini_file_ex:r_value(s,k,typ,def)
-        printf("RAX: section:%s key:%s typ:%s def:%s", tostring(s), tostring(k), tostring(typ), tostring(def))
-        return tempf(self,s,k,typ,def)
-    end
-  --]]
+
+function on_trade_opened()
+	freeze = true
+end
+
+function on_trade_closed()
+	freeze = false
+end
+
 
 function on_game_start()
 	RegisterScriptCallback("save_state",save_state)
@@ -446,5 +452,7 @@ function on_game_start()
 	RegisterScriptCallback("actor_item_to_belt",actor_item_to_slot)
 	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
 	RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
+	RegisterScriptCallback("ActorMenu_on_trade_started",on_trade_opened)
+	RegisterScriptCallback("ActorMenu_on_trade_closed",on_trade_closed)
 end
 

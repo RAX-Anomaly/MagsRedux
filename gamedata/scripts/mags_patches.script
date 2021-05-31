@@ -34,13 +34,13 @@ end
 function ui_inventory.UIInventory:Cond_Quest(obj, bag)
 	obj = self:CheckItem(obj,"Cond_NotQuest")
 	
-	return (SYS_GetParam(1,obj:section(),"quest_item") == true) or carried_mags()[obj:id()] and true or false --lets give it a pure bool
+	return (SYS_GetParam(1,obj:section(),"quest_item") == true) or is_carried_mag(obj:id()) and true or false --lets give it a pure bool
 end
 
 function ui_inventory.UIInventory:Cond_NotQuest(obj, bag)
 	obj = self:CheckItem(obj,"Cond_NotQuest")
 	
-	return (SYS_GetParam(1,obj:section(),"quest_item") ~= true) or carried_mags()[obj:id()] and true or false
+	return (SYS_GetParam(1,obj:section(),"quest_item") ~= true) or is_carried_mag(obj:id()) and true or false
 end
 
 -- still in need to updating to new functions
@@ -151,7 +151,7 @@ function ui_item.build_desc_footer(obj, sec, str)
 			
 			for section, count in pairs(magInfo.ammo) do
 				ammoTitle = ui_item.get_sec_name(section)
-				_str = _str ..'  ' .. clr_g .. count .. '\\t' .. clr_2 .. ammoTitle .. " \\n"
+				_str = _str ..'  ' .. clr_g .. count .. '   ' .. clr_2 .. ammoTitle .. " \\n"
 			end			
 		end
 	end
