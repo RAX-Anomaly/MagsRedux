@@ -281,6 +281,7 @@ function unjam_weapon(weapon)
 	copy_table(data, get_mag_data(id))
 	actor_effects.use_weapon(0)
 	local ammo_loaded = weapon:get_ammo_in_magazine()
+	-- local fire_queue = 0 -- this shit complicated do later
 	local old_weapon = alife_object(weapon:id())
 	local new_weapon = alife_clone_weapon(old_weapon)
 	jammed_guns[id] = nil
