@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<string id="st_mag_abakan_5.45x39">
+		<text>Standard AN94 Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_abakan_5.45x39_descr">
+		<text>
+		Standard AN94 Magazine calibre 5.45x39.
+		</text>
+	</string>
+
+	<string id="st_mag_ace21_5.56x45">
+		<text>Standard Galil ACE-21 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_ace21_5.56x45_descr">
+		<text>
+		Standard Galil ACE-21 Magazine calibre 5.56x45.
+		</text>
+	</string>
+
+	<string id="st_mag_aek_5.45x39">
+		<text>Standard AEK-971 Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_aek_5.45x39_descr">
+		<text>
+		Standard AEK-971 Magazine calibre 5.45x39.
+		</text>
+	</string>
+
+	<string id="st_mag_aek_7.62x39">
+		<text>Modified AEK-971 Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_aek_7.62x39_descr">
+		<text>
+		Modified AEK-971 Magazine calibre 7.62x39.
+		</text>
+	</string>
+
+	<string id="st_mag_ak_7.62x39">
+		<text>Standard AK47 Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_ak_7.62x39_descr">
+		<text>
+		Standard AK47 Magazine calibre 7.62x39.
+		</text>
+	</string>
+
+	<string id="st_mag_ak101_5.56x45">
+		<text>Modified AK101 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_ak101_5.56x45_descr">
+		<text>
+		Modified AK101 Magazine calibre 5.56x45.
+		</text>
+	</string>
+
+	<string id="st_mag_ak102_5.56x45">
+		<text>Standard AK102 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_ak102_5.56x45_descr">
+		<text>
+		Standard AK102 Magazine calibre 5.56x45.
+		</text>
+	</string>
+
+	<string id="st_mag_ak102_5.45x39">
+		<text>Modified AK102 Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_ak102_5.45x39_descr">
+		<text>
+		Modified AK102 Magazine calibre 5.45x39.
+		</text>
+	</string>
+
+	<string id="st_mag_ak103_7.62x39">
+		<text>Standard AK103 Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_ak103_7.62x39_descr">
+		<text>
+		Standard AK103 Magazine calibre 7.62x39.
+		</text>
+	</string>
+
+	<string id="st_mag_ak104_7.62x39">
+		<text>Standard AK104 Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_ak104_7.62x39_descr">
+		<text>
+		Standard AK104 Magazine calibre 7.62x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_ak105_5.45x39">
+		<text>Standard AK105 Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_ak105_5.45x39_descr">
+		<text>
+		Standard AK105 Magazine calibre 5.45x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_ak12_5.45x39">
+		<text>Standard AK12 Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_ak12_5.45x39_descr">
+		<text>
+		Standard AK12 Magazine calibre 5.45x39.
+		</text>
+	</string>
+
+	<string id="st_mag_ak12_5.56x45">
+		<text>Modified AK12 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_ak12_5.56x45_descr">
+		<text>
+		Modified AK12 Magazine calibre 5.56x45.
+		</text>
+	</string>
+
+	<string id="st_mag_ak74_5.45x39">
+		<text>Standard AK74 Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_ak74_5.45x39_descr">
+		<text>
+		Standard AK74 Magazine calibre 5.45x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_ak74_5.56x45">
+		<text>Modified AK74 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_ak74_5.56x45_descr">
+		<text>
+		Modified AK74 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_ak74m_5.45x39">
+		<text>Standard AK74M Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_ak74m_5.45x39_descr">
+		<text>
+		Standard AK74M Magazine calibre 5.45x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_ak74m_5.56x45">
+		<text>Modified AK74M Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_ak74m_5.56x45_descr">
+		<text>
+		Modified AK74M Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_ak74u_5.45x39">
+		<text>Standard AK74U Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_ak74u_5.45x39_descr">
+		<text>
+		Standard AK74U Magazine calibre 5.45x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_akm_7.62x39">
+		<text>Standard AKM Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_akm_7.62x39_descr">
+		<text>
+		Standard AKM Magazine calibre 7.62x39.
+		</text>
+	</string>
+
+	<string id="st_mag_akms_7.62x39">
+		<text>Standard AKMS Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_akms_7.62x39_descr">
+		<text>
+		Standard AKMS Magazine calibre 7.62x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_aks_5.45x39">
+		<text>Standard AKS Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_aks_5.45x39_descr">
+		<text>
+		Standard AKS Magazine calibre 5.45x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_aks_5.56x45">
+		<text>Modified AKS Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_aks_5.56x45_descr">
+		<text>
+		Modified AKS Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_aks_7.62x39">
+		<text>Standard AKS Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_aks_7.62x39_descr">
+		<text>
+		Standard AKS Magazine calibre 7.62x39.
+		</text>
+	</string>
+	
+	
+	<string id="st_mag_aks74_5.45x39">
+		<text>Standard AKS74 Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_aks74_5.45x39_descr">
+		<text>
+		Standard AKS74 Magazine calibre 5.45x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_aks74_5.56x45">
+		<text>Modified AKS74 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_aks74_5.56x45_descr">
+		<text>
+		Modified AKS74 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	
+	
+	<string id="st_mag_ash12_12.7x55">
+		<text>Standard ASh12 Magazine calibre 12.7x55</text>
+	</string>
+	<string id="st_mag_ash12_12.7x55_descr">
+		<text>
+		Standard ASh12 Magazine calibre 12.7x55.
+		</text>
+	</string>
+	
+	<string id="st_mag_aug_5.56x45">
+		<text>Standard AUG Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_aug_5.56x45_descr">
+		<text>
+		Standard AUG Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_fal_7.62x51">
+		<text>Standard FAL Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_fal_7.62x51_descr">
+		<text>
+		Standard FAL Magazine calibre 7.62x51.
+		</text>
+	</string>
+	
+	<string id="st_mag_famas3_5.56x45">
+		<text>Standard FAMAS 3 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_famas3_5.56x45_descr">
+		<text>
+		Standard FAMAS 3 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_fnc_5.56x45">
+		<text>Standard FN FNC Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_fnc_5.56x45_descr">
+		<text>
+		Standard FN FNC Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_g3_7.62x51">
+		<text>Standard G3 Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_g3_7.62x51_descr">
+		<text>
+		Standard G3 Magazine calibre 7.62x51.
+		</text>
+	</string>
+	
+	<string id="st_mag_g36_5.56x45">
+		<text>Standard G36 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_g36_5.56x45_descr">
+		<text>
+		Standard G36 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_g36k_5.56x45">
+		<text>Standard G36k Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_g36k_5.56x45_descr">
+		<text>
+		Standard G36k Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_g3sg1_7.62x51">
+		<text>Standard G3SG1 Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_g3sg1_7.62x51_descr">
+		<text>
+		Standard G3SG1 Magazine calibre 7.62x51.
+		</text>
+	</string>
+	
+	<string id="st_mag_g43_7.92x33">
+		<text>Standard G43 Magazine calibre 7.62x57</text>
+	</string>
+	<string id="st_mag_g43_7.92x33_descr">
+		<text>
+		Standard G43 Magazine calibre 7.62x57.
+		</text>
+	</string>
+	
+	<string id="st_mag_galil_7.62x51">
+		<text>Standard Galil Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_galil_7.62x51_descr">
+		<text>
+		Standard Galil Magazine calibre 7.62x51.
+		</text>
+	</string>
+	
+	<string id="st_mag_galil_7.62x39">
+		<text>Modified Galil Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_galil_7.62x39_descr">
+		<text>
+		Modified Galil Magazine calibre 7.62x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_groza_9x39_pab9">
+		<text>20round 9x39 Groza Magazine</text>
+	</string>
+	<string id="st_mag_groza_9x39_pab9">
+		<text>
+			20-round magazine of 9x39 that comes standard with the OTs-14 Groza assault rifle. Design is similar to the AK-style magazines.
+		</text>
+	</string>
+	
+	<string id="st_mag_hk416_5.56x45">
+		<text>Standard HK416 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_hk416_5.56x45_descr">
+		<text>
+		Standard HK416 Magazine calibre 5.56x45.
+		</text>
+	</string>
+
+	<string id="st_mag_hk417_7.62x51">
+		<text>Standard HK417 Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_hk417_7.62x51_descr">
+		<text>
+		Standard HK417 Magazine calibre 7.62x51.
+		</text>
+	</string>
+
+	<string id="st_mag_l85_5.56x45">
+		<text>Standard L85 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_l85_5.56x45_descr">
+		<text>
+		Standard L85 Magazine calibre 5.56x45.
+		</text>
+	</string>
+
+	<string id="st_mag_l85_5.45x39">
+		<text>Modified L85 Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_l85_5.45x39_descr">
+		<text>
+		Modified L85 Magazine calibre 5.45x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_l85a2_5.56x45">
+		<text>Standard L85A2 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_l85a2_5.56x45_descr">
+		<text>
+		Standard L85A2 Magazine calibre 5.56x45.
+		</text>
+	</string>
+
+	<string id="st_mag_l85a2_5.45x39">
+		<text>Modified L85A2 Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_l85a2_5.45x39_descr">
+		<text>
+		Modified L85A2 Magazine calibre 5.45x39.
+		</text>
+	</string>
+
+	<string id="st_mag_lr300_5.56x45">
+		<text>Standard LR 300 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_lr300_5.56x45_descr">
+		<text>
+		Standard LR 300 Magazine calibre 5.56x45.
+		</text>
+	</string>
+
+	<string id="st_mag_m16_5.56x45">
+		<text>Standard M16 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_m16_5.56x45_descr">
+		<text>
+		Standard M16 Magazine calibre 5.56x45.
+		</text>
+	</string>
+
+	<string id="st_mag_m16a2_5.56x45">
+		<text>Standard M16A2 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_m16a2_5.56x45_descr">
+		<text>
+		Standard M16A2 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_m249_5.56x45">
+		<text>Standard M249 Box calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_m249_5.56x45_descr">
+		<text>
+		Standard M249 Box calibre 5.56x45.
+		</text>
+	</string>
+
+	<string id="st_mag_m4_5.56x45">
+		<text>Standard M4 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_m4_5.56x45_descr">
+		<text>
+		Standard M4 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_m4_5.56x45">
+		<text>Standard M4 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_m4_5.56x45_descr">
+		<text>
+		Standard M4 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_m4a1_5.56x45">
+		<text>Standard M4A1 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_m4a1_5.56x45_descr">
+		<text>
+		Standard M4A1 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_mk14_7.62x51">
+		<text>Standard Mk14 Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_mk14_7.62x51_descr">
+		<text>
+		Standard Mk14 Magazine calibre 7.62x51.
+		</text>
+	</string>
+	
+	<string id="st_mag_p90_5.7x28_ss190">
+		<text>Standard P90 Magazine calibre 5.7x28</text>
+	</string>
+	<string id="st_mag_p90_5.7x28_ss190_descr">
+		<text>
+		Standard P90 Magazine calibre 5.7x28.
+		</text>
+	</string>
+	
+	<string id="st_mag_pkm_pkm">
+		<text>Standard PKM Box calibre 7.62x54</text>
+	</string>
+	<string id="st_mag_pkm_pkm_descr">
+		<text>
+		Standard PKM Box calibre 7.62x54.
+		</text>
+	</string>
+	
+	<string id="st_mag_pkp_pkm">
+		<text>Standard PKP Box calibre 7.62x54</text>
+	</string>
+	<string id="st_mag_pkp_pkm_descr">
+		<text>
+		Standard PKP Box calibre 7.62x54.
+		</text>
+	</string>
+	
+	<string id="st_mag_ppsh41_7.62x25_p">
+		<text>Standard PPSh41 Drum calibre 7.62x25</text>
+	</string>
+	<string id="st_mag_ppsh41_7.62x25_p_descr">
+		<text>
+		Standard PPSh41 Drum calibre 7.62x25.
+		</text>
+	</string>
+	
+	<string id="st_mag_rpd_7.62x39">
+		<text>Standard RPD Drum calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_rpd_7.62x39_descr">
+		<text>
+		Standard RPD Drum calibre 7.62x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_rpk74_7.62x39">
+		<text>Standard RPK74 Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_rpk74_7.62x39_descr">
+		<text>
+		Standard RPK74 Magazine calibre 7.62x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_rpk74_5.45x39">
+		<text>Modified RPK74 Magazine calibre 5.45x39</text>
+	</string>
+	<string id="st_mag_rpk74_5.45x39_descr">
+		<text>
+		Modified RPK74 Magazine calibre 5.45x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_rpk74_5.56x45">
+		<text>Modified RPK74 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_rpk74_5.56x45_descr">
+		<text>
+		Modified RPK74 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_sig550_5.56x45">
+		<text>Standard SG550 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_sig550_5.56x45_descr">
+		<text>
+		Standard SG550 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_sig552_5.56x45">
+		<text>Standard SG552 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_sig552_5.56x45_descr">
+		<text>
+		Standard SG552 Magazine calibre 5.56x45.
+		</text>
+	</string>
+	
+	<string id="st_mag_type63_7.62x39">
+		<text>Standard Type 63 Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_type63_7.62x39_descr">
+		<text>
+		Standard Type 63 Magazine calibre 7.62x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_type63_7.62x54">
+		<text>Modified Type 73 Magazine calibre 7.62x54</text>
+	</string>
+	<string id="st_mag_type63_7.62x54_descr">
+		<text>
+		Modified Type 63 Magazine calibre 7.62x54.
+		</text>
+	</string>
+	
+	<string id="st_mag_val_9x39_pab9">
+		<text>20-round 9x39 AS VAL Magazine</text>
+	</string>
+	<string id="st_mag_val_9x39_pab9_descr">
+		<text>
+			Standard 20-round AS VAL magazine, also compatible with SR-3M and VSS rifles. Designation "6L25". 
+		</text>
+	</string>
+
+	<string id="st_mag_vihr_9x39_pab9">
+		<text>30-round 9x39 SR-3M Magazine</text>
+	</string>
+	<string id="st_mag_vihr_9x39_pab9_descr">
+		<text>
+		30-round 9x39 magazine that comes standard with the SR-3M "Vihr" rifle. Also compatible with the VSS and AS VAL rifles. Designation "SR3M 130"
+		</text>
+	</string>
+	
+	<string id="st_mag_vintorez_9x39_pab9">
+		<text>10-round 9x39 VSS Magazine</text>
+	</string>
+	<string id="st_mag_vintorez_9x39_pab9_descr">
+		<text>
+		Standard 10-round VSS Magazine, also compatible with the AS VAL and SR3M rifles. Designation "6L24".
+		</text>
+	</string>
+	
+	<string id="st_mag_vsk94_9x39_pab9">
+		<text>Standard 9x39 Box Magazine</text>
+	</string>
+	<string id="st_mag_vsk94_9x39_pab9_descr">
+		<text>
+			20-round box magazine used in the 9A-91 and VSK-94 rifles.
+		</text>
+	</string>
+	
+	<string id="st_mag_xm8_5.56x45">
+		<text>Standard XM8 Magazine calibre 5.56x45</text>
+	</string>
+	<string id="st_mag_xm8_5.56x45_descr">
+		<text>
+		Standard XM8 Magazine calibre 5.56x45.
+		</text>
+	</string>
+
+<!--
+Sniper rifles
+-->
+	
+	<string id="st_mag_l96a1_7.62x51">
+		<text>Standard L96A1 Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_l96a1_7.62x51_descr">
+		<text>
+		Standard L96A1 Magazine calibre 7.62x51.
+		</text>
+	</string>
+	
+	<string id="st_mag_l96a1_pkm">
+		<text>Modified L96A1 Magazine calibre 7.62x54</text>
+	</string>
+	<string id="st_mag_l96a1_pkm_descr">
+		<text>
+		Modified L96A1 Magazine calibre 7.62x54.
+		</text>
+	</string>
+	
+	<string id="st_mag_l96a1m_magnum_300">
+		<text>Standard L96 AWSM Magazine calibre .338 Lapua Magnum</text>
+	</string>
+	<string id="st_mag_l96a1m_magnum_300_descr">
+		<text>
+		Standard L96 AWSM Magazine calibre .338 Lapua Magnum.
+		</text>
+	</string>
+	
+	<string id="st_mag_m24_magnum_300">
+		<text>Standard L96 AWSM Magazine calibre .338 Lapua Magnum</text>
+	</string>
+	<string id="st_mag_m24_magnum_300_descr">
+		<text>
+		Standard L96 AWSM Magazine calibre .338 Lapua Magnum.
+		</text>
+	</string>
+	
+	<string id="st_mag_m82_12.7x55">
+		<text>Standard M82 Magazine calibre 12.7x55</text>
+	</string>
+	<string id="st_mag_m82_12.7x55_descr">
+		<text>
+		Standard M82 Magazine calibre 12.7x99.
+		</text>
+	</string>
+	
+	<string id="st_mag_m98b_magnum_300">
+		<text>Standard M98B Magazine calibre .338 Lapua Magnum</text>
+	</string>
+	<string id="st_mag_m98b_magnum_300_descr">
+		<text>
+		Standard M98B Magazine calibre .338 Lapua Magnum.
+		</text>
+	</string>
+	
+	<string id="st_mag_remington700_7.62x51">
+		<text>Standard Remington 700 Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_remington700_7.62x51_descr">
+		<text>
+		Standard Remington 700 Magazine calibre 7.62x51.
+		</text>
+	</string>
+	
+	<string id="st_mag_scar_7.62x51">
+		<text>Standard Mk 17 Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_scar_7.62x51_descr">
+		<text>
+		Standard Mk 17 Magazine calibre 7.62x51.
+		</text>
+	</string>
+	
+<!--
+SIG 550 Sniper
+-->
+
+	<string id="st_mag_sr25_7.62x51">
+		<text>Standard SR25 Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_sr25_7.62x51_descr">
+		<text>
+		Standard SR25 Magazine calibre 7.62x51.
+		</text>
+	</string>
+	
+	<string id="st_mag_sv98_7.62x54">
+		<text>Standard SV98 Magazine calibre 7.62x54</text>
+	</string>
+	<string id="st_mag_sv98_7.62x54_descr">
+		<text>
+		Standard SV98 Magazine calibre 7.62x54.
+		</text>
+	</string>
+	
+	<string id="st_mag_svd_7.62x54">
+		<text>Standard SVD Magazine calibre 7.62x54</text>
+	</string>
+	<string id="st_mag_svd_7.62x54_descr">
+		<text>
+		Standard SVD Magazine calibre 7.62x54.
+		</text>
+	</string>
+	
+	<string id="st_mag_svt40_7.62x54">
+		<text>Standard SVT40 Magazine calibre 7.62x54</text>
+	</string>
+	<string id="st_mag_svt40_7.62x54_descr">
+		<text>
+		Standard SVT40 Magazine calibre 7.62x54.
+		</text>
+	</string>
+	
+	<string id="st_mag_svt40_pkm">
+		<text>Modified SVT40 Magazine calibre 7.62x54 (PKM)</text>
+	</string>
+	<string id="st_mag_svt40_pkm_descr">
+		<text>
+		Modified SVT40 Magazine calibre 7.62x54 (PKM).
+		</text>
+	</string>
+	
+	<string id="st_mag_svt40_7.62x39">
+		<text>Modified SVT40 Magazine calibre 7.62x39</text>
+	</string>
+	<string id="st_mag_svt40_7.62x39_descr">
+		<text>
+		Modified SVT40 Magazine calibre 7.62x39.
+		</text>
+	</string>
+	
+	<string id="st_mag_svu_7.62x54">
+		<text>Standard SVU Magazine calibre 7.62x54</text>
+	</string>
+	<string id="st_mag_svu_7.62x54_descr">
+		<text>
+		Standard SVU Magazine calibre 7.62x54.
+		</text>
+	</string>
+	
+	<string id="st_mag_trg_magnum_300">
+		<text>Standard Sako TRG-42 Magazine calibre .338 Lapua Magnum</text>
+	</string>
+	<string id="st_mag_trg_magnum_300_descr">
+		<text>
+		Standard Sako TRG-42 Magazine calibre .338 Lapua Magnum.
+		</text>
+	</string>
+	
+	<string id="st_mag_vssk_12.7x55">
+		<text>Standard VSSK Magazine calibre 12.7x55</text>
+	</string>
+	<string id="st_mag_vssk_12.7x55_descr">
+		<text>
+		Standard VSSK Magazine calibre 12.7x55.
+		</text>
+	</string>
+	
+	<string id="st_mag_wa2000_7.62x51">
+		<text>Standard Walther WA 2000 Magazine calibre 7.62x51</text>
+	</string>
+	<string id="st_mag_wa2000_7.62x51_descr">
+		<text>
+		Standard Walther WA 2000 Magazine calibre 7.62x51.
+		</text>
+	</string>
+	
+	<string id="st_mag_saiga12s_12x70">
+		<text>Standard  Saiga 12s Magazine calibre 12x70</text>
+	</string>
+	<string id="st_mag_saiga12s_12x70_descr">
+		<text>
+		Standard Saiga 12s Magazine calibre 12x70.
+		</text>
+	</string>
+	
+	<string id="st_mag_usas12_12x70">
+		<text>Standard  USAS Drum calibre 12x70</text>
+	</string>
+	<string id="st_mag_usas12_12x70_descr">
+		<text>
+		Standard USAS Drum calibre 12x70.
+		</text>
+	</string>
+
+	<string id="st_mag_vepr_12x70">
+		<text>Standard  Vepr Magazine calibre 12x70</text>
+	</string>
+	<string id="st_mag_vepr_12x70_descr">
+		<text>
+		Standard Vepr Magazine calibre 12x70.
+		</text>
+	</string>
+
+</string_table>
