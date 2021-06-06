@@ -30,9 +30,7 @@ MAGAZINES
 		<text>Magazine base</text>
 	</string>
 	<string id="st_mag_base_descr">
-		<text>
-		Magazine base.
-		</text>
+		<text>	Magazine base.</text>
 	</string>
 	
 	<string id="st_mag_loaded">

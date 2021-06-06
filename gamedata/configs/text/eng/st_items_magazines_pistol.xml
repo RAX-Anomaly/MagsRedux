@@ -83,7 +83,7 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_cz52_7.62x25_p_descr">
 		<text>
-		Standard 8-round CZ-52 magazine.
+		Standard 8-round CZ-52 magazine. The historic Russian round has its admirers still.
 		</text>
 	</string>
 
@@ -191,7 +191,7 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_hpsa_9x19_fmj_descr">
 		<text>
-		Standard Browning Hi-Power Magazine holding 13 rounds. The Hi-Power is a reliable sidearm favored by many stalkers.
+		Standard Browning Hi-Power Magazine holding 13 rounds. The Hi-Power is a reliable and affordable sidearm favored by many stalkers.
 		</text>
 	</string>
 
@@ -266,6 +266,15 @@ Pistols and MP's
 		Modified MP5SD Magazine calibre 9x18.
 		</text>
 	</string> -->
+	
+	<string id="st_mag_ppsh41_7.62x25_p">
+		<text>Standard PPSh41 Drum calibre 7.62x25</text>
+	</string>
+	<string id="st_mag_ppsh41_7.62x25_p_descr">
+		<text>
+		Standard PPSh41 Drum calibre 7.62x25.
+		</text>
+	</string>
 
 	<string id="st_mag_mp7_9x19_fmj">
 		<text>Modified 9x19 MP7 Magazine</text>
@@ -290,7 +299,7 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_oc33_9x18_fmj_descr">
 		<text>
-		Standard OTs-33 Pernach Magazine holding 27 rounds. The Pernach succeeded the APS as an automatic machine pistol, being superior in almost every way.
+		Standard OTs-33 Pernach Magazine holding 27 rounds. The Pernach succeeded the APS as an automatic machine pistol, being superior in almost every way except for style.
 		</text>
 	</string>
 
@@ -303,6 +312,14 @@ Pistols and MP's
 		</text>
 	</string>
 
+	<string id="st_mag_p90_5.7x28_ss190">
+		<text>Standard 5.7x28 P90 Magazine</text>
+	</string>
+	<string id="st_mag_p90_5.7x28_ss190_descr">
+		<text>
+			Standard 50-round helical magazine used in the P90. So futuristic!
+		</text>
+	</string>
 	<!-- <string id="st_mag_pb_9x18_fmj">
 		<text>Standard PB Magazine calibre 9x18</text>
 	</string>
