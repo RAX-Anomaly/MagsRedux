@@ -42,23 +42,6 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_bizon_9x18_fmj">
-		<text>Standard 9x18 PP-19 Magazine </text>
-	</string>
-	<string id="st_mag_bizon_9x18_fmj_descr">
-		<text>
-		Standard 64-round helical magazine for the PP-19 Bizon submachine gun. The high capacity is offset by its inherent unreliability in feeding rounds.
-		</text>
-	</string>
-
-	<string id="st_mag_bizon_9x19_fmj">
-		<text>Modified 9x19 PP-19 Magazine</text>
-	</string>
-	<string id="st_mag_bizon_9x19_fmj_descr">
-		<text>
-		Modified PP-19 magazine made to accept the 9x19 Parabellum round. Clearly the work of a wizard, considering the complexity of the Bizon's helical magazine.
-		</text>
-	</string>
 
 	<string id="st_mag_colt1911_11.43x23_fmj">
 		<text>Standard .45 ACP Colt 1911 Magazine </text>
@@ -222,51 +205,6 @@ Pistols and MP's
 		</text>
 	</string>
 	
-	<string id="st_mag_mp5_9x19_fmj">
-		<text>Standard 9x19 MP5 Magazine</text>
-	</string>
-	<string id="st_mag_mp5_9x19_fmj_descr">
-		<text>
-            30-round magazine for the popular and ubiquitous MP5. The MP5 is a favorite of stalkers from all walks of life, providing sufficient firepower to fend off dogs and bandits alike.
-		</text>
-	</string>
-
-	<string id="st_mag_mp5_9x18_fmj">
-		<text>Modified 9x18 MP5 Magazine</text>
-	</string>
-	<string id="st_mag_mp5_9x18_fmj_descr">
-		<text>
-            MP5 magazine modified to take 9x18 Makarov rounds. Conversions to 9x18 are fairly common for the MP5, given its popularity and familiarity to many of the Zone's technicians.
-		</text>
-	</string>
-
-	<string id="st_mag_mp5_11.43x23_fmj">
-		<text>.45 ACP "Frasier" MP5 Magazine</text>
-	</string>
-	<string id="st_mag_mp5_11.43x23_fmj_descr">
-		<text>
-            Custom-built magazine for the MP5 "Frasier". Holds 30 rounds of .45 ACP ammunition.
-		</text>
-	</string>
-<!-- 
-	<string id="st_mag_mp5sd_9x19_fmj">
-		<text>Standard MP5SD Magazine calibre 9x19</text>
-	</string>
-	<string id="st_mag_mp5sd_9x19_fmj_descr">
-		<text>
-		Standard MP5SD Magazine calibre 9x19.
-		</text>
-	</string>
-
-	<string id="st_mag_mp5sd_9x18_fmj">
-		<text>Modified MP5SD Magazine calibre 9x18</text>
-	</string>
-	<string id="st_mag_mp5sd_9x18_fmj_descr">
-		<text>
-		Modified MP5SD Magazine calibre 9x18.
-		</text>
-	</string> -->
-	
 	<string id="st_mag_ppsh41_7.62x25_p">
 		<text>Standard PPSh41 Drum calibre 7.62x25</text>
 	</string>
@@ -281,7 +219,7 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_mp7_9x19_fmj_descr">
 		<text>
-            40-round extended MP7 magazine modified to accept 9x19 Parabellum rounds. Due to the uncommmon nature of 4.6x30 rounds, some thrifty technicians were able to retrofit the MP7 to fire more common 9mm pistol rounds.
+            40-round extended MP7 magazine modified to accept 9x19 Parabellum rounds. Due to the somewhat rare nature of 4.6x30 rounds, some thrifty technicians were able to retrofit the MP7 to fire more common 9mm pistol rounds.
 		</text>
 	</string>
 
@@ -312,22 +250,6 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_p90_5.7x28_ss190">
-		<text>Standard 5.7x28 P90 Magazine</text>
-	</string>
-	<string id="st_mag_p90_5.7x28_ss190_descr">
-		<text>
-			Standard 50-round helical magazine used in the P90. So futuristic!
-		</text>
-	</string>
-	<!-- <string id="st_mag_pb_9x18_fmj">
-		<text>Standard PB Magazine calibre 9x18</text>
-	</string>
-	<string id="st_mag_pb_9x18_fmj_descr">
-		<text>
-		Standard PB Magazine calibre 9x18.
-		</text>
-	</string> -->
 
 	<string id="st_mag_pm_9x18_fmj">
 		<text>Standard 9x18 PM Magazine</text>
@@ -388,7 +310,7 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_sig220_11.43x23_fmj_descr">
 		<text>
-			7-round .45 ACP magazine for the SIG P220 handgun. 
+			7-round .45 ACP magazine for the SIG P220 handgun. The P220 is popular with bodyguards and security officers, and does a decent job in the Zone.
 		</text>
 	</string>
 
@@ -428,6 +350,45 @@ Pistols and MP's
 		</text>
 	</string>
 
+
+	<string id="st_mag_walther_9x19_fmj">
+		<text>Standard 9x19 Walther P99 Magazine</text>
+	</string>
+	<string id="st_mag_walther_9x19_fmj_descr">
+		<text>
+		16-round standard issue Walther P99 Magazine for 9x19 Parabellum.
+		</text>
+	</string>
+
+	<!-- begin smgs -->
+
+	<string id="st_mag_bizon_9x18_fmj">
+		<text>Standard 9x18 PP-19 Magazine </text>
+	</string>
+	<string id="st_mag_bizon_9x18_fmj_descr">
+		<text>
+		Standard 64-round helical magazine for the PP-19 Bizon submachine gun. The high capacity is offset by its inherent unreliability in feeding rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_bizon_9x19_fmj">
+		<text>Modified 9x19 PP-19 Magazine</text>
+	</string>
+	<string id="st_mag_bizon_9x19_fmj_descr">
+		<text>
+		Modified PP-19 magazine made to accept the 9x19 Parabellum round. Clearly the work of a wizard, considering the complexity of the Bizon's helical magazine.
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x18_fmj">
+		<text>Standard 9x18 Kiparis Magazine</text>
+	</string>
+	<string id="st_mag_kiparis_9x18_fmj_descr">
+		<text>
+		Standard 30-round Kiparis Magazine. The Kiparis is a cheap submachine gun that has its admirers amongst bandit and renegade clans.
+		</text>
+	</string>
+
 	<string id="st_mag_vityaz_9x19_fmj">
 		<text>Standard 9x19 Vityaz-SN Magazine</text>
 	</string>
@@ -463,25 +424,41 @@ Pistols and MP's
 			20-round Vz.61 magazine modified slightly to feed 9x18 Makarov rounds.
 		</text>
 	</string>
-
-	<string id="st_mag_walther_9x19_fmj">
-		<text>Standard 9x19 Walther P99 Magazine</text>
+	
+	<string id="st_mag_p90_5.7x28_ss190">
+		<text>Standard 5.7x28 P90 Magazine</text>
 	</string>
-	<string id="st_mag_walther_9x19_fmj_descr">
+	<string id="st_mag_p90_5.7x28_ss190_descr">
 		<text>
-		16-round standard issue Walther P99 Magazine for 9x19 Parabellum.
+			Standard 50-round helical magazine used in the P90. So futuristic!
+		</text>
+	</string>
+	
+	<string id="st_mag_mp5_9x19_fmj">
+		<text>Standard 9x19 MP5 Magazine</text>
+	</string>
+	<string id="st_mag_mp5_9x19_fmj_descr">
+		<text>
+            30-round magazine for the popular and ubiquitous MP5. The MP5 is a favorite of stalkers from all walks of life, providing sufficient firepower to fend off dogs and bandits alike.
 		</text>
 	</string>
 
-
-	<string id="st_mag_kiparis_9x18_fmj">
-		<text>Standard 9x18 Kiparis Magazine</text>
+	<string id="st_mag_mp5_9x18_fmj">
+		<text>Modified 9x18 MP5 Magazine</text>
 	</string>
-	<string id="st_mag_kiparis_9x18_fmj_descr">
+	<string id="st_mag_mp5_9x18_fmj_descr">
 		<text>
-		Standard 30-round Kiparis Magazine. The Kiparis is a cheap submachine gun that has its admirers amongst bandit and renegade clans.
+            MP5 magazine modified to take 9x18 Makarov rounds. Conversions to 9x18 are fairly common for the MP5, given its popularity and familiarity to many of the Zone's technicians.
 		</text>
 	</string>
 
+	<string id="st_mag_mp5_11.43x23_fmj">
+		<text>.45 ACP "Frasier" MP5 Magazine</text>
+	</string>
+	<string id="st_mag_mp5_11.43x23_fmj_descr">
+		<text>
+            Custom-built magazine for the MP5 "Frasier". Holds 30 rounds of .45 ACP ammunition.
+		</text>
+	</string>
 
 </string_table>

@@ -15,7 +15,6 @@ is_carried_mag				= magazine_binder.is_carried_mag
 toggle_carried_mag			= magazine_binder.toggle_carried_mag
 get_carried_mags			= magazine_binder.get_carried_mags
 room_in_pouch				= magazine_binder.room_in_pouch
-weapon_uses_magazine		= magazine_binder.weapon_uses_magazine
 
 
 -- global flag to interrupt reloads (set on key press and stuff)
@@ -242,7 +241,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	local weapon = db.actor:active_item()
 	
 	-- cancel reload only if we have a valid mag
-	if not weapon or not weapon_uses_magazine(weapon) or is_grenade_mode() then return end
+	if not weapon or not is_supported_weapon(weapon) or is_grenade_mode() then return end
 
 	if jammed_guns[weapon:id()] then
 		jammed_guns[weapon:id()] = nil
@@ -256,15 +255,23 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	-- find appropriate magazine
 	local mag = find_magazine(weapon)
 		-- do the reload
-	if mag then
-		eject_magazine(weapon)
-		local pre_table = count_ammo(weapon)
-		weapon:switch_state(7)
-		CreateTimeEvent(0, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table)
-	else
-		return
+	if not mag then 
+		print_dbg("No ready mags found, not reloading")
+		CreateTimeEvent(0, "cancel_reload"..weapon:id(), 0, cancel_reload, weapon)
+		return 
 	end
 	
+	eject_magazine(weapon)
+	local pre_table = count_ammo(weapon)
+	weapon:switch_state(7)
+	CreateTimeEvent(0, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table)
+
+	
+end
+
+function cancel_reload(weapon)
+	weapon:switch_state(2)
+	return true
 end
 
 function is_grenade_mode()

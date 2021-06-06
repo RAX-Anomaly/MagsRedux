@@ -5,7 +5,7 @@ ex:
 TraderAuto = trader_autoinject.update
 function trader_autoinject.update(npc)
     TraderAuto(npc)
-    add_custom_crap(npc)
+    add_custom_crap(npc) -- you define this function ok
 end
 
 Some functions provided below for convenience.
