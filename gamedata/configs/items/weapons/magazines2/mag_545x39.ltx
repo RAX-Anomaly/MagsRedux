@@ -26,18 +26,19 @@ mag_size											   = medium
 base_type											   = ak_5.45x39
 retool_group										   = ak_default
 
-[mag_ak_5.45x39_extended]:mag_ak_5.45x39_default
+[mag_ak_5.45x39_extended]:mag_ak_5.45x39_default ;quadstack casket
 description			                                   = st_mag_ak74_5.45x39_extended_descr
 inv_name			                                   = st_mag_ak74_5.45x39_extended
 inv_name_short		                                   = st_mag_ak74_5.45x39_extended
 inv_grid_x                     					       = 1
 inv_grid_y               				               = 22
 max_mag_size										   = 60
+load_delay                                             = 0.45
 mag_size											   = medium
 
 retool_group										   = false
 
-[mag_ak74m_5.45x39]:tch_mag_base ; black mag for 74M
+[mag_ak_5.45x39_modern]:tch_mag_base ; black mag for 74M
 description			                                   = st_mag_ak74m_5.45x39_descr
 inv_name			                                   = st_mag_ak74m_5.45x39
 inv_name_short		                                   = st_mag_ak74m_5.45x39
@@ -48,6 +49,18 @@ mag_size											   = medium
 
 base_type											   = ak_5.45x39
 retool_group										   = ak_default ; should turn into black 101 mag
+
+[mag_ak_5.45x39_fast]:tch_mag_base ; pmag for 74M
+description			                                   = st_mag_ak74_fast_5.45x39_fast_descr
+inv_name			                                   = st_mag_ak74_fast_5.45x39
+inv_name_short		                                   = st_mag_ak74_fast_5.45x39
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 22
+max_mag_size										   = 30
+mag_size											   = medium
+
+base_type											   = ak_5.45x39
+retool_group										   = ak_default
 
 [mag_rpk74_5.45x39]:tch_mag_base ; 45rnd rpk74
 description			                                   = st_mag_rpk74_5.45x39_descr
@@ -61,24 +74,10 @@ mag_size											   = medium
 base_type											   = ak_5.45x39
 retool_group										   = ak_default
 
-
-[mag_ak_5.45x39_fast]:tch_mag_base ; pmag for 74M
-description			                                   = st_mag_ak74_5.45x39_fast_descr
-inv_name			                                   = st_mag_ak74_5.45x39_fast
-inv_name_short		                                   = st_mag_ak74_5.45x39_fast
-inv_grid_x                     					       = 1
-inv_grid_y               				               = 22
-max_mag_size										   = 30
-mag_size											   = medium
-
-base_type											   = ak_5.45x39
-retool_group										   = ak_default
-
-
-[mag_ar_5.45x39_alt]:tch_mag_base ;
-description			                                   = st_mag_stanag_mangled_descr
-inv_name			                                   = st_mag_stanag_mangled
-inv_name_short		                                   = st_mag_stanag_mangled
+[mag_nato_5.45x39_alt]:tch_mag_base ;
+description			                                   = st_mag_nato_5.45x39_descr
+inv_name			                                   = st_mag_nato_5.45x39
+inv_name_short		                                   = st_mag_nato_5.45x39
 inv_grid_x                     					       = 6
 inv_grid_y               				               = 17
 max_mag_size										   = 30

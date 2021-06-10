@@ -64,6 +64,24 @@ function get_mag_property(id,key)
 	return mags_storage[id] and mags_storage[id][key]
 end
 
+function get_total_carried()
+	local carried = {
+		["small"] = 0,
+		["medium"] = 0,
+		["large"] = 0
+	}
+	for id, mag in pairs(carried_mags) do
+		carried[mag.size] = carried[mag.size] + 1
+	end
+	return carried
+end
+
+function get_loadout_size()
+	local copy = {}
+	copy_table(copy, loadout_slots)
+	return copy
+end
+
 -------------------------------
 -- SECTION utility functions --
 -------------------------------
@@ -197,7 +215,7 @@ function room_in_pouch(id)
 		end
 	end 
 	return found < loadout_slots[s]
-end 		
+end
 
 -- these functions work equally well given an object id, item section, gameobject or server object.
 function is_supported_weapon(val)
@@ -232,15 +250,9 @@ function get_loadout_slots(val, force_outfit)
 end
 
 function is_magazine(val)
-
-	if not val then 
-		return false 
-	end
-	
+	if not val then return false end
 	id, section, obj, se_obj = type_correction(val)
-
 	return SYS_GetParam(1, section, "is_mag")
-
 end
 
 function get_magazine_base_type(val)

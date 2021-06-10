@@ -14,17 +14,7 @@
 
 
 
-[mag_ak_5.56x45_default]:tch_mag_base
-description			                                   = st_mag_ak101_5.56x45_descr
-inv_name			                                   = st_mag_ak101_5.56x45
-inv_name_short		                                   = st_mag_ak101_5.56x45
-inv_grid_x                     					       = 5
-inv_grid_y               				               = 10
-max_mag_size										   = 30
-mag_size											   = medium
-
-base_type											   = ak_5.56x45
-retool_group										   = ak_default
+									   = ak_default
 
 
 [mag_nato_5.56x45_default]:tch_mag_base
@@ -39,6 +29,50 @@ mag_size											   = medium
 base_type											   = nato_5.56x45
 retool_group										   = l85_default
 
+[mag_nato_5.56x45_fast]:mag_nato_5.56x45_default
+description			                                   = st_mag_nato_5.56x45_fast_descr
+inv_name			                                   = st_mag_nato_5.56x45_fast
+inv_name_short		                                   = st_mag_nato_5.56x45_fast
+load_delay = 0.3
+
+[mag_nato_5.56x45_extended]:mag_nato_5.56x45_default
+description			                                   = st_mag_nato_5.56x45_extended_descr
+inv_name			                                   = st_mag_nato_5.56x45_extended
+inv_name_short		                                   = st_mag_nato_5.56x45_extended
+
+max_mag_size										   = 40
+
+[mag_nato_5.56x45_casket]:mag_nato_5.56x45_default
+description			                                   = st_mag_nato_5.56x45_casket_descr
+inv_name			                                   = st_mag_nato_5.56x45_casket
+inv_name_short		                                   = st_mag_nato_5.56x45_casket
+
+max_mag_size										   = 60
+load_delay = 0.5
+
+
+[mag_ak_5.56x45_default]:tch_mag_base
+description			                                   = st_mag_ak101_5.56x45_descr
+inv_name			                                   = st_mag_ak101_5.56x45
+inv_name_short		                                   = st_mag_ak101_5.56x45
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
+
+base_type											   = ak_5.56x45
+retool_group	
+
+[mag_wpn_ace21_5.56x45_default]:tch_mag_base
+description			                                   = st_mag_ace21_5.56x45_descr
+inv_name			                                   = st_mag_ace21_5.56x45
+inv_name_short		                                   = st_mag_ace21_5.56x45
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 10
+max_mag_size										   = 35
+mag_size											   = medium
+
+base_type											   = ace_5.56x45
 
 [mag_aug_5.56x45_default]:tch_mag_base
 description			                                   = st_mag_aug_5.56x45_descr
@@ -50,7 +84,7 @@ max_mag_size										   = 30
 mag_size											   = medium
 
 base_type											   = aug_5.56x45
-
+load_delay = 0.35
 
 [mag_g36_5.56x45_default]:tch_mag_base
 description			                                   = st_mag_g36_5.56x45_descr
@@ -62,6 +96,7 @@ max_mag_size										   = 30
 mag_size											   = medium
 
 base_type											   = g36_5.56x45
+load_delay = 0.35
 
 [mag_m249_5.56x45_default]:tch_mag_base
 description			                                   = st_mag_m249_5.56x45_descr
@@ -74,6 +109,7 @@ max_mag_size										   = 100
 mag_size											   = large
 
 base_type											   = m249_5.56x45
+load_delay = 0.1
 
 [mag_sig_5.56x45_default]:tch_mag_base
 description			                                   = st_mag_sig550_5.56x45_descr
@@ -85,6 +121,13 @@ max_mag_size										   = 30
 mag_size											   = medium
 
 base_type											   = sig_5.56x45
+load_delay = 0.3
 
 
+[mag_sig_5.56x45_sniper]:mag_sig_5.56x45_default
 
+description			                                   = st_mag_sig550_sniper_5.56x45_descr
+inv_name			                                   = st_mag_sig550_sniper_5.56x45
+inv_name_short		                                   = st_mag_sig550_sniper_5.56x45
+
+max_mag_size                                           = 20

@@ -26,11 +26,23 @@ COMMON
 MAGAZINES
 -->
 
+	<string id="st_dot">
+		<text>•</text>
+	</string>
+	<string id="st_mag_small">
+		<text>Small magazines:</text>
+	</string>
+	<string id="st_mag_medium">
+		<text>Medium magazines:</text>
+	</string>
+	<string id="st_mag_large">
+		<text>Large magazines:</text>
+	</string>
 	<string id="st_mag_base">
 		<text>Magazine base</text>
 	</string>
 	<string id="st_mag_base_descr">
-		<text>	Magazine base.</text>
+		<text>Magazine base.</text>
 	</string>
 	
 	<string id="st_mag_loaded">

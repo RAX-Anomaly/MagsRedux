@@ -14,7 +14,7 @@
 
 
 
-[mag_ak_7.62x39_default]:tch_mag_base
+[mag_ak_7.62x39_default]:tch_mag_base ;steel akm
 description			                                   = st_mag_ak_7.62x39_descr
 inv_name			                                   = st_mag_ak_7.62x39
 inv_name_short		                                   = st_mag_ak_7.62x39
@@ -24,9 +24,32 @@ max_mag_size										   = 30
 mag_size											   = medium
 
 base_type											   = ak_7.62x39
-retool_group										   = ak_default
+retool_group										   = akm_default
 
+[mag_ak_7.62x39_modern]:tch_mag_base ;black ak103
+description			                                   = st_mag_ak103_7.62x39_descr
+inv_name			                                   = st_mag_ak103_7.62x39
+inv_name_short		                                   = st_mag_ak103_7.62x39
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
 
+base_type											   = ak_7.62x39
+retool_group										   = akm_default
+
+[mag_ak_7.62x39_fast]:mag_ak_7.62x39_modern
+
+load_delay                                             = 0.3
+retool_group                                           = none
+
+[mag_rpk_7.62x39_default]:mag_ak_7.62x39_modern
+description			                                   = st_mag_rpk_7.62x39_descr
+inv_name			                                   = st_mag_rpk_7.62x39
+inv_name_short		                                   = st_mag_rpk_7.62x39
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 20
+max_mag_size                                           = 45
 
 [mag_rpd_7.62x39_default]:tch_mag_base ;
 description			                                   = st_mag_rpd_7.62x39_descr
@@ -37,9 +60,9 @@ inv_grid_y               				               = 20
 inv_grid_width                           			   = 2
 max_mag_size										   = 100
 mag_size											   = large
+load_delay                                             = 0.1
 
 base_type											   = rpd_7.62x39
-
 
 [mag_t63_7.62x39_default]:tch_mag_base
 description			                                   = st_mag_type63_7.62x39_descr
@@ -50,7 +73,7 @@ inv_grid_y               				               = 20
 max_mag_size										   = 20
 mag_size											   = medium
 
-base_type											   = t63_7.62x39
+base_type											   = ak_7.62x39
 retool_group										   = t63_default
 
 [mag_svt_7.62x39_alt]:tch_mag_base
@@ -64,7 +87,3 @@ mag_size											   = medium
 
 base_type											   = svt_7.62x39
 retool_group										   = svt_default
-
-
-
-
