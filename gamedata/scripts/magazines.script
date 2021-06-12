@@ -50,7 +50,7 @@ function get_ammo_map(id)
 	if not ammo_maps[id] then
 		ammo_maps[id] = invert_table(utils_item.get_ammo(nil, id))
 	end
-	print_dbg("ammo_maps[id][1]:%s ammo_maps[id]:%s", ammo_maps[id] and ammo_maps[id][1],  ammo_maps[id])
+	-- print_dbg("ammo_maps[id][1]:%s ammo_maps[id]:%s", ammo_maps[id] and ammo_maps[id][1],  ammo_maps[id])
 	return ammo_maps[id]
 end
 

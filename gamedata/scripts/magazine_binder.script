@@ -287,7 +287,7 @@ function weapon_improved_magazine(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
 	
-	return look_up_table:r_value(parent_section(section), "imporved_mag")
+	return look_up_table:r_value(parent_section(section), "improved_mag")
     
 end
 -- check if mag is compatible w. weapon
