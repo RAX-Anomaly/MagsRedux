@@ -35,8 +35,10 @@ function wep_binder:update(delta)
 		mag_data.loaded = {}
 		local ammo_type = obj:get_ammo_type()
 		local ammo_loaded = obj:get_ammo_in_magazine()
+		local mag_cap = SYS_GetParam(0, default_mag, "max_mag_size")
 		print_dbg("Weapon %s uses mags, assigning default mag %s with %s rounds, type is %s", obj:section(), default_mag, ammo_loaded, ammo_type)
 		local ammo_map = utils_item.get_ammo(nil, id)
+		if mag_cap < ammo_loaded then ammo_loaded = mag_cap end
 		if ammo_loaded > 1 then
 			for i=1,ammo_loaded do
 				print_dbg("Loading in round of type %s",ammo_map[ammo_type+1])
