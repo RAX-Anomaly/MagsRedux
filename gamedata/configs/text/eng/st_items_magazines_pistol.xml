@@ -323,14 +323,6 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_ump45_11.43x23_fmj">
-		<text>Standard .45 ACP UMP Magazine</text>
-	</string>
-	<string id="st_mag_ump45_11.43x23_fmj_descr">
-		<text>
-			Standard 25-round UMP magazine chambered in .45 ACP. The UMP is an uncommon but highly sought after weapon in the Zone due to its excellent handling and high stopping power.
-		</text>
-	</string>
 
 	<string id="st_mag_usp_11.43x23_fmj">
 		<text>Standard .45 ACP USP Magazine</text>
@@ -457,8 +449,17 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_mp5_11.43x23_fmj_descr">
 		<text>
-            Custom-built magazine for the MP5 "Frasier". Holds 30 rounds of .45 ACP ammunition.
+            Custom-built magazine for the MP5 "Frasier". Holds 30 rounds of .45 ACP ammunition. Rumored to be a commission for an unknown eccentric Dutyer.
 		</text>
 	</string>
 
+	<string id="st_mag_ump45_11.43x23_fmj">
+		<text>Standard .45 ACP UMP Magazine</text>
+	</string>
+	<string id="st_mag_ump45_11.43x23_fmj_descr">
+		<text>
+			Standard 25-round UMP magazine chambered in .45 ACP. The UMP is an uncommon but highly sought after weapon in the Zone due to its excellent handling and high stopping power.
+		</text>
+	</string>
+	
 </string_table>
