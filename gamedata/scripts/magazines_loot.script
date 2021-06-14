@@ -117,7 +117,7 @@ function npc_on_death(npc, who)
             local mags_to_spawn = math.random(get_mag_prop(rank, "max_mags"))
             local mag_sec = weapon_default_magazine(sec)
             local improved_mag_sec = weapon_improved_magazine(sec)
-            local mag_good_chance = 101 -- get_mag_prop(rank, "mag_good_chance")
+            local mag_good_chance = get_mag_prop(rank, "mag_good_chance")
             local ammo_table = get_magazine_caliber(mag_sec)
             print_dbg("Spawning %s mags for %s", mags_to_spawn, sec)
             for i=1,mags_to_spawn do
