@@ -174,6 +174,17 @@ function check_eject_magazine(weapon)
 		return gc("st_mag_eject_magazine")
 	end
 end
+
+function weapon_in_slot(weapon)
+	local carried_weapons = {}
+	for i=1, 3 do
+		if db.actor:item_in_slot(i) then
+			carried_weapons[db.actor:item_in_slot(i):id()] = true
+		end
+	end
+	return carried_weapons[weapon:id()]
+end
+
 function eject_magazine(weapon)
 	local id = weapon:id()
 	local mag_data = get_mag_data(id)
@@ -183,7 +194,7 @@ function eject_magazine(weapon)
 		copy_table(copy, mag_data)
 		weapon:unload_magazine()
 		set_mag_data(se_mag.id, copy)
-		if #copy.loaded > 0 then
+		if #copy.loaded > 0 and weapon_in_slot(weapon) then
 			toggle_carried_mag(se_mag.id)
 		end
 		set_mag_data(id, nil)

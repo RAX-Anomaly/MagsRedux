@@ -11,12 +11,15 @@ AK
 
 30-round AK-47, ribbed steel (https://escapefromtarkov.fandom.com/wiki/Izhmash_AK_magazine_(issued_%E2%80%9855_or_later)_30-round_for_7.62x39_AK_and_compatibles)
 30-round AK-103, black polymer (https://escapefromtarkov.fandom.com/wiki/30-round_7.62x39_magazine_for_AK-103_and_compatible_weapons)
+30-round AK-103 PMAG
 45-round RPK, ribbed steel (https://escapefromtarkov.fandom.com/wiki/Molot_6P2.Sb-11_7.62x39_magazine_for_AK_and_compatibles,_40-round_capacity)
 30-round AK-103 tacticool, black polymer (https://escapefromtarkov.fandom.com/wiki/Palm_US_AK30_7.62x39_magazine_for_AK_and_compatibles,_30-round_capacity)
 
 AR/STANAG
 30-round steel STANAG (https://escapefromtarkov.fandom.com/wiki/HK_Steel_Maritime_5.56x45_STANAG_30-round_magazine)
+40-round polymer extended
 30-round polymer PMAG STANAG (https://escapefromtarkov.fandom.com/wiki/PMAG_GEN_M3_30_5.56x45_STANAG_30-round_magazine)
+60-round casket
 AUG A1 proprietary magazine
 SIG SG550 series proprietary magazine, 30 and 20 round
 G36 proprietary magazine
@@ -39,6 +42,12 @@ PP-2000 magazine
 Kiparis magazine
 UMP magazine
 Vityaz magazine
+
+12 gauge
+Saiga magazine
+Saiga magazine (extended 12rnd)
+Vepr magazine
+Vepr magazine compact (5rnd)
 
 2x2
 100-round RPD drum
