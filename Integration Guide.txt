@@ -1,0 +1,46 @@
+So you want to add new magazines? Well, here's how to do it:
+
+
+There are three things we need for magazine compatibility:
+- basetype (under gamedata\configs\magazines\basetypes). This determines the 'types' of weapons/magazines that exist. NATO STANAG standard is one such type - STANAG magazines will fit into M4s, for example, so both sections for the STANAG magazine and M4 weapon will have that entry.
+- magazine section (under gamedata\configs\items\weapons\magazines2). This defines the actual 'magazine' itself. Compatibility is determined by base_type which maps to a basetype defined above.
+- weapon definition (gamedata\configs\magazines\weapons). This is used to define what magazine the weapon is connected to.
+
+Here is an annotated working example:
+
+base type:
+
+[ak_5.45x39]
+caliber = ammo_5.45x39_fmj, ammo_5.45x39_fmj_bad, ammo_5.45x39_fmj_verybad, ammo_5.45x39_ep, ammo_5.45x39_ep_bad, ammo_5.45x39_ep_verybad, ammo_5.45x39_ap, ammo_5.45x39_ap_bad, ammo_5.45x39_ap_verybad
+
+This defines a basetype for 5.45 AK rifles and what ammo it is compatible with, in this case 9x39.
+
+magazine section:
+
+[mag_ak_5.45x39_default]:tch_mag_base
+description			                                   = st_mag_ak74_5.45x39_descr
+inv_name			                                   = st_mag_ak74_5.45x39
+inv_name_short		                                   = st_mag_ak74_5.45x39
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 22
+max_mag_size										   = 30
+mag_size											   = medium
+
+base_type											   = ak_5.45x39
+
+Magazines are items, so we need the usual description and stuff. The big thing is base_type which maps to the above ak_5.45x39 basetype.
+
+weapon section:
+[wpn_ak74]
+default_mag = mag_ak_5.45x39_default
+improved_mag = mag_rpk_5.45x39_default
+;base_type
+ammo_5.45x39_fmj = ak_5.45x39
+;base_type after rechamber upgrade
+ammo_5.56x45_fmj = ak_5.56x45
+
+Default mag is the magazine that the weapon will spawn with - in this case, the above 5.45 AK magazine with 30 rounds.
+Improved mag is a better mag that spawns with a chance on dead stalkers.
+The base type requires the first round in the weapon's ammo section and maps to the base type above. We can define multiple base types depending on ammo used to support caliber conversions.
+
+If you are creating for new weapons, please create brand new files. Do not edit existing ones.

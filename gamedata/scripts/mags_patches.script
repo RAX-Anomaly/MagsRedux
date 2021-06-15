@@ -12,6 +12,10 @@ toggle_carried_mag			= magazine_binder.toggle_carried_mag
 room_in_pouch				= magazine_binder.room_in_pouch
 eject						= magazines.eject_magazine
 get_mag_info				= magazine_binder.get_mag_info
+get_total_carried			= magazine_binder.get_total_carried
+get_loadout_size			= magazine_binder.get_loadout_size
+weapon_default_magazine		= magazine_binder.weapon_default_magazine
+
 function print_dbg( text , ...)
 	if true then
 		printf( "RAX: "..text , ...)
@@ -120,6 +124,8 @@ original_build_desc_header = ui_item.build_desc_header
 function ui_item.build_desc_header(obj, sec, str)
 	local _str = ""
 	local _str2 = original_build_desc_header(obj, sec, str)
+
+
 	if obj and magazines and IsWeapon(obj) and not IsAmmo(obj) and is_supported_weapon(obj) then
 		local mag_data = get_data(obj:id())
 		if mag_data then
@@ -129,6 +135,24 @@ function ui_item.build_desc_header(obj, sec, str)
 		end
 	end
 	_str = _str .. _str2
+	
+	if obj and magazines and IsOutfit(obj) then
+		local current_id = db.actor:item_in_slot(7) and db.actor:item_in_slot(7):id() or 0
+		if obj:id() == current_id then
+			local total_slots = get_loadout_size()
+			local carried = get_total_carried()
+			for k,v in pairs(carried) do
+				local total = total_slots[k]
+				if total > 0 then
+					local color_ratio = 100 * tonumber(v)/tonumber(total)
+					print_dbg("Color ratio is %s", color_ratio)
+					_str = _str .. clr_p .. gc("st_dot")  .. " ".. clr_1 .. gc("st_mag_"..k) .. " " .. utils_xml.get_color_con(color_ratio) .. v .. "/" .. total .. "\\n"
+				end
+			end
+			_str = _str .. '\\n'
+		end
+	end
+
 	return _str
 end
 
@@ -142,7 +166,7 @@ function ui_item.build_desc_footer(obj, sec, str)
 		local weaponTitle
 		local ammoCountTitle = gc('st_mag_ammo_loaded_count')
 
-		_str = _str .. " \\n \\n" .. ammoCountTitle .. ": " .. clr_g .. magInfo.total_ammo  .. clr_2 .. " / " .. clr_g .. magInfo.mag_size .. " \\n"
+		_str = _str .. " \\n \\n" .. ammoCountTitle .. " " .. clr_g .. magInfo.total_ammo  .. clr_2 .. " / " .. clr_g .. magInfo.mag_size .. " \\n"
 
 		if magInfo.total_ammo > 0 then
 			_str = _str .. " \\n"
@@ -267,6 +291,69 @@ function item_weapon.detach_scope(weapon)
 	end
 end
 
+NewGameEquipment = itms_manager.new_game_equippment
+function itms_manager.new_game_equippment()
+	NewGameEquipment()
+	local function itr_inv(npc, item)
+		if is_supported_weapon(item) then
+			local default_mag = weapon_default_magazine(item)
+			print_dbg("Enjoy your complimentary %ss!", default_mag)
+			alife_create_item(default_mag, db.actor)
+			alife_create_item(default_mag, db.actor)
+		end
+	end
+	db.actor:iterate_inventory(itr_inv)
+	return true
+end
+
+function item_backpack.actor_on_item_use(obj)
+	if obj and (obj:section() == "itm_actor_backpack") then 
+		local backpack = db.actor:item_in_slot(13)
+		if backpack then
+			local actor = db.actor
+			local se_obj = alife_create("inv_backpack",actor:position(),actor:level_vertex_id(),actor:game_vertex_id())
+			if (se_obj) then
+				local txt = strformat(game.translate_string("st_itm_stash_of_character"), db.actor:character_name())
+				level.map_add_object_spot_ser(se_obj.id, "treasure", txt)
+				actor_menu.set_msg(1, game.translate_string("st_stash_created"),4)
+				
+				local m_data = alife_storage_manager.get_state()
+				if not (m_data.player_created_stashes) then 
+					m_data.player_created_stashes = {}
+				end
+				
+				m_data.player_created_stashes[se_obj.id] = backpack:section()
+				
+				local b_id = backpack:id()
+				alife_release(backpack)
+				
+				local function transfer_items(id)
+					local obj = level.object_by_id(id)
+					if (obj) then 
+						local function itr_inv(temp,item)
+							if (item and item:id() ~= b_id and keep_items[item:section()] == nil) then 
+								if (IsAmmo(item) ~= true) or (item_backpack.is_ammo_for_wpn(item:section()) ~= true) then 
+									if (ini_sys:r_bool_ex(item:section(),"quest_item",false) == false) and not is_carried_mag(item) then
+										if (db.actor:is_on_belt(item) == false and item_backpack.is_in_slot(item) == false) then 
+											db.actor:transfer_item(item,obj)
+										end
+									end
+								end						
+							end
+						end
+	
+						db.actor:iterate_inventory(itr_inv)
+						return true
+					end			
+					return false
+				end
+				CreateTimeEvent(0,"actor_backpack",0,transfer_items,se_obj.id)
+			end
+		else
+			actor_menu.set_msg(1, game.translate_string("st_stash_no_backpack_found"),4)
+		end
+	end
+end
 
 -------------------------------------------------------------------
 --GUI = nil -- instance, don't touch --Raven using the GUI in item_weapon.script so that in case someone is acessing it directly it will be in the right place.
