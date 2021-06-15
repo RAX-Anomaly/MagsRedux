@@ -8,6 +8,7 @@ is_supported_weapon 		= magazine_binder.is_supported_weapon
 get_magazine_caliber 		= magazine_binder.get_magazine_caliber
 is_magazine					= magazine_binder.is_magazine
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
+weapon_improved_magazine		= magazine_binder.weapon_improved_magazine
 print_dbg                   = magazines.print_dbg
 
 local ini_loadouts = ini_file("items\\settings\\npc_mag_loadouts.ltx")
@@ -16,39 +17,19 @@ local mag_timer_global = nil
 local tm = {}
 -- trader management
 
-
--- function IsTrader(npc)
--- 	local st = db.storage[npc:id()]
--- 	if st.is_trader == nil then
--- 		local trader = false
--- 		if npc:character_community() == "trader" or npc:clsid() == clsid.script_trader or npc:clsid() == clsid.trader then
--- 			trader = true
--- 		end
--- 		if string.find(npc:section(),"trader") then
--- 			trader = true
--- 		end
--- 		local cini = db.storage[npc:id()].ini
--- 		local logic = db.storage[npc:id()].section_logic
--- 		if not logic and not trader then
--- 			return false
--- 		end
--- 		if cini and logic and cini:section_exist(logic) and cini:line_exist(logic,"trade") then
--- 			trader = true
--- 		end
--- 		st.is_trader = trader
--- 	end
--- 	return st.is_trader == true
--- end
-
 TraderAuto = trader_autoinject.update
 function trader_autoinject.update(npc)
     TraderAuto(npc)
     CreateTimeEvent(0, "stock_mags"..npc:id(), 0.1, stock_mags, npc)
 end
 
+-- function to resupply mags based on what weapons are in stock
+-- formula is: 3 mags for 1st weapon, and 1 extra for each subsequent
 function stock_mags(npc)
     local id = npc:id()
+    if trader_autoinject.get_trader_type(npc) ~= trader_autoinject.SUPPLIER then return end
     local to_spawn = {}
+    -- collect num. of mags to spawn
     local function itr_inv(temp, item)
         local sec = item:section()
         if is_magazine(item) then
@@ -65,6 +46,7 @@ function stock_mags(npc)
     end
     npc:iterate_inventory(itr_inv, npc)
     
+    -- spawn them empty
     for k,v in pairs(to_spawn) do
         if v < 1 then v = 0 end
         print_dbg("Trader - spawning %s of %s", v, k)
@@ -115,12 +97,6 @@ function npc_on_death(npc, who)
     function itr_inv(temp, item)
         local sec = item:section()
 		if IsWeapon(nil,item:clsid()) and not npc:marked_dropped(item) and is_supported_weapon(item) then
-            -- reduce ammo in loaded weapon
-            local mag_data = get_data(item:id())
-            for i=1, math.random(#mag_data.loaded - 5) do
-                stack.pop(mag_data.loaded)
-            end
-            set_data(item:id(), mag_data)
 
             -- spawn mags for one primary, one secondary
             local is_sidearm = false
@@ -128,16 +104,33 @@ function npc_on_death(npc, who)
                 is_sidearm = true
             end
             if (found_primary and not is_sidearm) or (found_secondary and is_sidearm) then return end
+
+            -- reduce ammo in loaded weapon
+            local mag_data = get_data(item:id())
+            if mag_data then
+                for i=1, math.random(#mag_data.loaded - 5) do
+                    stack.pop(mag_data.loaded)
+                end
+                set_data(item:id(), mag_data)
+            end
+            
             local mags_to_spawn = math.random(get_mag_prop(rank, "max_mags"))
             local mag_sec = weapon_default_magazine(sec)
+            local improved_mag_sec = weapon_improved_magazine(sec)
+            local mag_good_chance = get_mag_prop(rank, "mag_good_chance")
             local ammo_table = get_magazine_caliber(mag_sec)
-            print_dbg("Spawning %s of %s", mags_to_spawn, mag_sec)
-            local new_mag = alife_create_item(mag_sec, npc)
-            random_pop_mag(new_mag.id, mag_sec, ammo_table, rank)
+            print_dbg("Spawning %s mags for %s", mags_to_spawn, sec)
             for i=1,mags_to_spawn do
                 -- todo roll for upgraded mag
-                local new_mag = alife_create_item(mag_sec, npc)
-                random_pop_mag(new_mag.id, mag_sec, ammo_table, rank)
+                if improved_mag_sec and math.random(100) <= mag_good_chance then
+                    print_dbg("Creating magazine %s", improved_mag_sec)
+                    local new_mag = alife_create_item(improved_mag_sec, npc)
+                    random_pop_mag(new_mag.id, improved_mag_sec, ammo_table, rank)
+                else
+                    print_dbg("Creating magazine %s", mag_sec)
+                    local new_mag = alife_create_item(mag_sec, npc)
+                    random_pop_mag(new_mag.id, mag_sec, ammo_table, rank)
+                end
             end
             if is_sidearm then
                 found_secondary = true

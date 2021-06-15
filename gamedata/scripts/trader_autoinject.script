@@ -5,7 +5,7 @@ ex:
 TraderAuto = trader_autoinject.update
 function trader_autoinject.update(npc)
     TraderAuto(npc)
-    add_custom_crap(npc)
+    add_custom_crap(npc) -- you define this function ok
 end
 
 Some functions provided below for convenience.
@@ -67,7 +67,7 @@ SUPPLIER = 4    -- everyone else that sells crap
 -- return trader type as int, or nil if error
 function get_trader_type(npc)
     local st = db.storage[npc:id()]
-    
+    if not st then return -1 end
     local trader = false
     if npc:character_community() == "trader" or npc:clsid() == clsid.script_trader or npc:clsid() == clsid.trader then
         trader = true
@@ -79,6 +79,7 @@ function get_trader_type(npc)
     local logic = st.section_logic
     if not logic and not trader then return end
     local trade_logic = cini:r_string_ex(logic, "trade")
+    if not trade_logic then return -1 end
     if find(trade_logic, "companion") then
         return COMPANION
     elseif find(trade_logic, "trade_generic_mechanic") then
