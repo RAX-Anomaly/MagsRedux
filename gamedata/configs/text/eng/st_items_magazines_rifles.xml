@@ -353,7 +353,7 @@ sniper rifles / full size rifles
 	<string id="st_mag_hinge_ext_7.62x51">
 		<text>Extended 7.62x51 Magazine</text>
 	</string>
-	<string id="st_mag_hinge_7.62x51_descr">
+	<string id="st_mag_hinge_ext_7.62x51_descr">
 		<text>
 		Extended 30-round 7.62x51 magazine used in battle rifles with hinged magazine locking mechanisms. Used in the FN FAL, Mk. 14 EBR and G3 rifles.
 		</text>
