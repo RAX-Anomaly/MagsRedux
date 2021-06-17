@@ -272,14 +272,14 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 		-- do the reload
 	if not mag then 
 		print_dbg("No ready mags found, not reloading")
-		CreateTimeEvent(Mag_redux, "cancel_reload"..weapon:id(), 0, cancel_reload, weapon)
+		CreateTimeEvent("Mag_redux", "cancel_reload"..weapon:id(), 0, cancel_reload, weapon)
 		return 
 	end
 	
 	eject_magazine(weapon)
 	local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)
-	CreateTimeEvent(Mag_redux, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table)
+	CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table)
 
 	
 end
