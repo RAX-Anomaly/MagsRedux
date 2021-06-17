@@ -18,6 +18,7 @@ room_in_pouch				= magazine_binder.room_in_pouch
 get_retool_section			= magazine_binder.get_retool_section
 get_weapon_base_type		= magazine_binder.get_weapon_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
+print_dbg					= magazine_binder.print_dbg
 
 
 
@@ -33,18 +34,10 @@ local load_timeout = {}
 function dump_data(data)
     local s = ""
 	for k,v in pairs(data.loaded) do
-		s = s .. v
+		s = s .. v .. " "
 	end
 	print_dbg("Mag size: %s. Rounds loaded: %s. Section: %s. Rounds: %s", data.size, #data.loaded, data.section, s)
 end
-
-
-function print_dbg( text , ...)
-	if true then
-		printf( "RAX: | %s |  "..text ,time_global(), ...)
-	end
-end
-
 
 --------------------------------------
 -- SECTION mag un/loading functions --

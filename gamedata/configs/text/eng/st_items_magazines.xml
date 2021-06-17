@@ -2,9 +2,7 @@
 
 <string_table>
 
-<!--
-COMMON
--->
+	<!--COMMON-->
 	<string id="st_mag_weapon_jammed">
 		<text>Weapon jammed</text>
 	</string>
@@ -21,10 +19,33 @@ COMMON
 		<text>add to loadout</text>
 	</string>
 
+	<string id="st_mag_retool">
+		<text>retool</text>
+	</string>
 
-<!--
-MAGAZINES
--->
+	<!-- MCM -->
+	
+	<string id="ui_mcm_menu_magazines">
+		<text>Magazines</text>
+	</string>
+	<string id="ui_mcm_menu_magazines_title">
+		<text>Anomaly Magazines</text>
+	</string>
+	<string id="ui_mcm_magazines_lootquality">
+		<text>Loot quality</text>
+	</string>
+	<string id="ui_mcm_magazines_lootquality_desc">
+		<text>Multiplier on chance to find good ammo in magazines, and improved magazines.</text>
+	</string>
+	<string id="ui_mcm_magazines_debug">
+		<text>Enable Debug Logs</text>
+	</string>
+	<string id="ui_mcm_magazines_debug_desc">
+		<text>Enables debugging logs in console.</text>
+	</string>
+
+
+	<!--MAGAZINES-->
 
 	<string id="st_dot">
 		<text>•</text>
