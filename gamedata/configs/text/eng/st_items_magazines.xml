@@ -22,7 +22,10 @@
 	<string id="st_mag_retool">
 		<text>retool</text>
 	</string>
-
+	
+	<string id="st_mag_err_retool">
+		<text>Cannot retool loaded magazine! Remove all rounds before retooling.</text>
+	</string>
 	<!-- MCM -->
 	
 	<string id="ui_mcm_menu_magazines">
