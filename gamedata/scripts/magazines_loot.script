@@ -126,11 +126,15 @@ function npc_on_death(npc, who)
                 if improved_mag_sec and math.floor(quality * math.random(100)) <= mag_good_chance then
                     print_dbg("Creating magazine %s", improved_mag_sec)
                     local new_mag = alife_create_item(improved_mag_sec, npc)
-                    random_pop_mag(new_mag.id, improved_mag_sec, ammo_table, rank, quality)
+                    if new_mag then
+                        random_pop_mag(new_mag.id, improved_mag_sec, ammo_table, rank, quality)
+                    end
                 else
                     print_dbg("Creating magazine %s", mag_sec)
                     local new_mag = alife_create_item(mag_sec, npc)
-                    random_pop_mag(new_mag.id, mag_sec, ammo_table, rank, quality)
+                    if new_mag then
+                        random_pop_mag(new_mag.id, mag_sec, ammo_table, rank, quality)
+                    end
                 end
             end
             if is_sidearm then

@@ -279,7 +279,7 @@ function item_weapon.detach_scope(weapon)
 		item_parts.clear_parts_con(old_weapon.id)
 		
 		-- wuut: move over the old mag data
-		local dataOld = get_data(old_waepon.id)
+		local dataOld = get_data(old_weapon.id)
 		set_data(new_weapon.id, dataOld)
 		set_data(old_weapon.id, nil)
 		
