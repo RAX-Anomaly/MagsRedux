@@ -94,7 +94,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		else
 			local pre_table = count_ammo(weapon)
 			weapon:switch_state(7)
-			CreateTimeEvent(Mag_redux, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
+			CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
 		end
 
 	end
