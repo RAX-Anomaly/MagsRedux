@@ -309,7 +309,7 @@ function unjam_weapon(weapon)
 	jammed_guns[id] = nil
 	print_dbg("New weapon should have %s ammo", #data.loaded)
 	-- prep_weapon(new_weapon_obj, false)
-	CreateTimeEvent(Mag_redux, "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon, data)
+	CreateTimeEvent("Mag_redux", "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon, data)
 end
 
 function unjam_weapon_timer(weapon_obj, data)
