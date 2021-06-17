@@ -23,6 +23,11 @@ local mags_storage = {}
 -- this storage is for vested mags in specific
 local carried_mags = {}
 
+-- reverse lookups for magazine properties
+local mags_by_basetype = {}
+local mags_by_retool_group = {}
+
+
 local loadout_slots = {
 						small = 2,
 						medium = 0,
@@ -37,8 +42,10 @@ function print_dbg( text , ...)
 	end
 end
 
-local look_up_table = ini_file_ex("magazines\\lookups.ltx")
-local weapons_lookup = ini_file_ex("magazines\\weapons\\importer.ltx")
+local look_up_table 	= ini_file_ex("magazines\\lookups.ltx")
+local weapons_lookup 	= ini_file_ex("magazines\\weapons\\importer.ltx")
+
+
 -------------------------------
 -- SECTION acess functions --
 -------------------------------
@@ -82,6 +89,12 @@ function get_loadout_size()
 	return copy
 end
 
+function get_mags_for_basetype(basetype)	
+	return mags_by_basetype[basetype] and dup_table(  mags_by_basetype[basetype])
+
+end
+
+
 -------------------------------
 -- SECTION utility functions --
 -------------------------------
@@ -122,11 +135,7 @@ local function type_correction(val)
 end
 
 function is_carried_mag(id)
-	-- print_dbg("iscm:"..id)
-	
-	if carried_mags[id] then
-		--print_dbg("iscm:".. carried_mags[id].section or "nosec")
-	end
+
 	return carried_mags[id] and true or false
 end
 
@@ -217,12 +226,60 @@ function room_in_pouch(id)
 	return found < loadout_slots[s]
 end
 
+
+function build_mag_revers_lookups()
+	local function itr(section)
+		if not is_magazine(section) then return end
+		local basetype 		= SYS_GetParam(0, section, "base_type") or nil
+		local retool_group 	= SYS_GetParam(0, section, "retool_group") or nil
+		if basetype then
+			if not mags_by_basetype[basetype] then
+				mags_by_basetype[basetype] = {}
+			end
+			mags_by_basetype[basetype][#mags_by_basetype[basetype]+1] = section
+		end
+		if retool_group then
+			if not mags_by_retool_group[retool_group] then
+				mags_by_retool_group[retool_group] = {}
+			end
+			mags_by_retool_group[retool_group][#mags_by_retool_group[retool_group]+1] = section
+		end
+	end
+	ini_sys:section_for_each(itr)
+end
+
+
+
+
+
 -- these functions work equally well given an object id, item section, gameobject or server object.
 function is_supported_weapon(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
 	
 	return weapons_lookup:section_exist(parent_section(section))
+end
+
+function get_retool_section(val)
+	if not val then return end
+	id, section, obj, se_obj = type_correction(val)
+	local retool_group 	= SYS_GetParam(0, section, "retool_group") or nil
+	local retool_section = nil
+	if retool_group and mags_by_retool_group[retool_group] and #mags_by_retool_group[retool_group] > 1 then --want to return nil of mag has no retool group or is only memeber
+		for i,v in ipairs(mags_by_retool_group[retool_group]) do
+			print_dbg("retool section: %s|%s", section, v)
+			if v == section then
+				if i < #mags_by_retool_group[retool_group] then
+					retool_section = mags_by_retool_group[retool_group][i+1]
+				else
+					retool_section = mags_by_retool_group[retool_group][1]
+				end
+				break
+			end
+		end
+	end
+	return retool_section
+
 end
 
 function get_loadout_slots(val, force_outfit)
@@ -417,7 +474,6 @@ function check_ready(cell)
 		end
 end
 
-rax_persistent_highlight.register("ready_mag", check_ready) --used like a callback register
 
 
 
@@ -465,6 +521,8 @@ end
 
 
 function on_game_start()
+	build_mag_revers_lookups()
+	rax_persistent_highlight.register("ready_mag", check_ready) --used like a callback register
 	RegisterScriptCallback("save_state",save_state)
 	RegisterScriptCallback("load_state",load_state)
 	RegisterScriptCallback("actor_item_to_slot",actor_item_to_slot)

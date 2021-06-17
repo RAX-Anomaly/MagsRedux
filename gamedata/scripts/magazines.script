@@ -15,6 +15,10 @@ is_carried_mag				= magazine_binder.is_carried_mag
 toggle_carried_mag			= magazine_binder.toggle_carried_mag
 get_carried_mags			= magazine_binder.get_carried_mags
 room_in_pouch				= magazine_binder.room_in_pouch
+get_retool_section			= magazine_binder.get_retool_section
+get_weapon_base_type		= magazine_binder.get_weapon_base_type
+get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
+
 
 
 -- global flag to interrupt reloads (set on key press and stuff)
@@ -97,7 +101,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		else
 			local pre_table = count_ammo(weapon)
 			weapon:switch_state(7)
-			CreateTimeEvent(0, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
+			CreateTimeEvent(Mag_redux, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
 		end
 
 	end
@@ -268,14 +272,14 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 		-- do the reload
 	if not mag then 
 		print_dbg("No ready mags found, not reloading")
-		CreateTimeEvent(0, "cancel_reload"..weapon:id(), 0, cancel_reload, weapon)
+		CreateTimeEvent(Mag_redux, "cancel_reload"..weapon:id(), 0, cancel_reload, weapon)
 		return 
 	end
 	
 	eject_magazine(weapon)
 	local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)
-	CreateTimeEvent(0, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table)
+	CreateTimeEvent(Mag_redux, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table)
 
 	
 end
@@ -305,7 +309,7 @@ function unjam_weapon(weapon)
 	jammed_guns[id] = nil
 	print_dbg("New weapon should have %s ammo", #data.loaded)
 	-- prep_weapon(new_weapon_obj, false)
-	CreateTimeEvent(0, "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon, data)
+	CreateTimeEvent("Mag_redux", "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon, data)
 end
 
 function unjam_weapon_timer(weapon_obj, data)
@@ -372,7 +376,7 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	local delay = SYS_GetParam(2, sec, "load_delay") or default_delay
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
 	ui_inventory.GUI:UpdateItems()
-	CreateTimeEvent(0,"load_mag"..flip, delay, load_magazine, magazine, ammo_box, position, capacity, flip)
+	CreateTimeEvent("Mag_redux","load_mag"..flip, delay, load_magazine, magazine, ammo_box, position, capacity, flip)
 	return true
 end
 
@@ -393,7 +397,7 @@ function unload_magazine(magazine, flip)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
 		create_ammo(round, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, 1)
-		CreateTimeEvent(0,"unload_mag"..flip, default_delay, unload_magazine, magazine, flip)
+		CreateTimeEvent("Mag_redux","unload_mag"..flip, default_delay, unload_magazine, magazine, flip)
 	end
 	ui_inventory.GUI:UpdateItems()
 	return true
@@ -446,6 +450,31 @@ function loadout_func(obj)
 		mag_hud.HUD:Update(true)
 	end
 end
+
+function retool_mag_precondition(obj)
+	if is_magazine(obj) and get_retool_section(obj) then
+			return game.translate_string("st_mag_retool")
+	end
+end
+		
+function retool_mag_functor(obj)
+	local mag_data = get_mag_data(obj:id())
+	local tool = db.actor:object("leatherman_tool")
+	local retool_section = get_retool_section(obj)
+	if #mag_data.loaded > 0 then
+		actor_menu.set_item_news("fail", "detail", "st_mag_err_retool") --message to unload mag first
+	elseif not tool then 
+			actor_menu.set_item_news('fail', 'weapon', "st_dis_text_3", " ")
+	else
+		new_obj = alife_create_item(retool_section, db.actor)
+		if new_obj then
+			alife_release(obj)
+			utils_item.degrade( tool , 0 ) --change this 
+		end
+	end
+end
+
+
 
 -----------------------------------------
 -- SECTION weapon logic -----------------
@@ -502,12 +531,53 @@ function prep_weapon(weapon, feed_next)
 	end
 end
 
+
+-----------------------------------------
+-- SECTION UI callbacks -----------------
+-----------------------------------------
+local focus_last_sec
+local focus_last_id
+local focus_tbl = {}
+
+
+function ActorMenu_on_item_focus_receive(obj) -- highlight compatible items
+	
+	local sec_focus = obj:section()
+	local id = obj:id()
+	empty_table(focus_tbl)
+	if (is_supported_weapon(obj) and id ~= focus_last_id) then
+		focus_tbl = get_mags_for_basetype(get_weapon_base_type(obj))
+
+	elseif (is_magazine(obj) and sec_focus ~= focus_last_sec) then
+		focus_tbl = get_magazine_caliber(obj)
+	end
+
+	local inventory = GetActorMenu()
+	if not focus_tbl or not ((#focus_tbl > 0) or (inventory and inventory:IsShown())) then
+		return
+	end
+	
+	for i=1,#focus_tbl do 
+		inventory:highlight_section_in_slot(focus_tbl[i],EDDListType.iActorBag)
+		inventory:highlight_section_in_slot(focus_tbl[i],EDDListType.iPartnerTradeBag)
+		inventory:highlight_section_in_slot(focus_tbl[i],EDDListType.iDeadBodyBag)
+		inventory:highlight_section_in_slot(focus_tbl[i],EDDListType.iActorTrade)
+		inventory:highlight_section_in_slot(focus_tbl[i],EDDListType.iPartnerTrade)
+	end
+end
+
+
+
+
+
+
 local function se_item_on_unregister(se_obj, typ)
 	local id = se_obj.id
 	ammo_maps[id] = nil
 end
 
 function on_game_start()
+	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
 	RegisterScriptCallback("on_key_press", on_key_press)
 	RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
 	RegisterScriptCallback("actor_on_weapon_reload", actor_on_weapon_reload)
