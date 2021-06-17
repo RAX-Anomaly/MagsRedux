@@ -13,7 +13,7 @@ base type:
 [ak_5.45x39]
 caliber = ammo_5.45x39_fmj, ammo_5.45x39_fmj_bad, ammo_5.45x39_fmj_verybad, ammo_5.45x39_ep, ammo_5.45x39_ep_bad, ammo_5.45x39_ep_verybad, ammo_5.45x39_ap, ammo_5.45x39_ap_bad, ammo_5.45x39_ap_verybad
 
-This defines a basetype for 5.45 AK rifles and what ammo it is compatible with, in this case 9x39.
+This defines a basetype for 5.45 AK rifles and what ammo it is compatible with, in this case 5.45x39.
 
 magazine section:
 
