@@ -67,7 +67,7 @@ SUPPLIER = 4    -- everyone else that sells crap
 -- return trader type as int, or nil if error
 function get_trader_type(npc)
     local st = db.storage[npc:id()]
-    if not st then return -1 end
+    if not st then return end
     local trader = false
     if npc:character_community() == "trader" or npc:clsid() == clsid.script_trader or npc:clsid() == clsid.trader then
         trader = true

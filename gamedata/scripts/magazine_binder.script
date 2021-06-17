@@ -37,7 +37,7 @@ local loadout_slots = {
 
 
 function print_dbg( text , ...)
-	if true then
+	if (magazines_mcm.get_config("debug") or false) then
 		printf( "RAX: | %s |  "..text ,time_global(), ...)
 	end
 end
