@@ -332,10 +332,10 @@ sniper rifles / full size rifles
 			Modernized PMAG-style Magazine for 7.62x51 NATO rounds. Used in the HK417, SCAR and SR-25. Holds 20 rounds.
 		</text>
 	</string>
-	<string id="st_mag_stanag_7.62x51">
+	<string id="st_mag_stanag_7.62x51_short">
 		<text>10-round 7.62x51 STANAG Magazine</text>
 	</string>
-	<string id="st_mag_stanag_7.62x51_descr">
+	<string id="st_mag_stanag_7.62x51_short_descr">
 		<text>
 			Compact 10-round STANAG-style Magazine for 7.62x51 NATO rounds. Comes by default with the KAC SR-25, but can fit in the HK417 and SCAR Mk. 17.
 		</text>
