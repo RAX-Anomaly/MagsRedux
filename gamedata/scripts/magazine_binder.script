@@ -1,17 +1,4 @@
 
-local temp_find_similar = utils_ui.UICellContainer.FindSimilar
-
-
-function utils_ui.UICellContainer:FindSimilar(obj, sec)
-	--print_dbg(sec..":"..tostring(SYS_GetParam(1,sec,"dont_stack")))
-	if is_magazine(sec) then
-	--	print_dbg(sec..":magazine!")
-		return false
-	end
-	--x = temp_find_similar(self, obj, sec)
-	--print_dbg(x and "true" or "false")
-	return temp_find_similar(self, obj, sec)
-end
 
 
 
@@ -26,7 +13,7 @@ local carried_mags = {}
 -- reverse lookups for magazine properties
 local mags_by_basetype = {}
 local mags_by_retool_group = {}
-
+local basetypes_by_ammo_type ={}
 
 local loadout_slots = {
 						small = 2,
@@ -40,7 +27,10 @@ function print_dbg( text , ...)
 	if (magazines_mcm.get_config("debug") or false) then
 		printf( "RAX: | %s |  "..text ,time_global(), ...)
 	end
+	return nil
 end
+
+
 
 local look_up_table 	= ini_file_ex("magazines\\lookups.ltx")
 local weapons_lookup 	= ini_file_ex("magazines\\weapons\\importer.ltx")
@@ -94,6 +84,23 @@ function get_mags_for_basetype(basetype)
 
 end
 
+function get_basetypes_by_ammo_type(sec)
+		--print_dbg("#basetypes_by_ammo_type:%s basetypes_by_ammo_type[%s]:%s",#basetypes_by_ammo_type,sec,basetypes_by_ammo_type[sec] and #basetypes_by_ammo_type[sec])
+
+	return basetypes_by_ammo_type[sec] and dup_table(  basetypes_by_ammo_type[sec])
+end
+
+function get_mags_by_ammo_type(sec)
+	local t = {}
+	local basetypes = get_basetypes_by_ammo_type(sec) or {}
+	for _,v in ipairs(basetypes) do
+		local mags = get_mags_for_basetype(v) or {}
+		for __,v2 in ipairs(mags) do
+			table.insert(t, v2)
+		end
+	end
+	return t
+end
 
 -------------------------------
 -- SECTION utility functions --
@@ -206,8 +213,7 @@ function validate_loadout()
 	for id, mag in pairs(carried_mags) do
 		if mag.size then
 			found[mag.size] = found[mag.size] + 1
-			if found[mag.size] > loadout_slots[mag.size] then
-				--print_dbg("Clearing mag:%s", mag.section )
+			if found[mag.size] >= loadout_slots[mag.size] then
 				carried_mags[id] = nil
 			end
 		end
@@ -219,7 +225,9 @@ function room_in_pouch(id)
 	if loadout_slots[s] == 0 then return false end
 	local found = 0
 	for id, mag in pairs(carried_mags) do
-		if mag.size == s then
+		if not utils_item.in_actor_inv(level.object_by_id(id)) then
+			carried_mags[id] = nil
+		elseif mag.size == s then
 			found = found + 1
 		end
 	end 
@@ -227,11 +235,15 @@ function room_in_pouch(id)
 end
 
 
+
+
 function build_mag_revers_lookups()
+	local base_types = {}
 	local function itr(section)
-		if not is_magazine(section) then return end
+		if not is_magazine(section) or section == "tch_mag_base" then return end
 		local basetype 		= SYS_GetParam(0, section, "base_type") or nil
 		local retool_group 	= SYS_GetParam(0, section, "retool_group") or nil
+		local caliber = get_magazine_caliber(section)
 		if basetype then
 			if not mags_by_basetype[basetype] then
 				mags_by_basetype[basetype] = {}
@@ -244,6 +256,17 @@ function build_mag_revers_lookups()
 			end
 			mags_by_retool_group[retool_group][#mags_by_retool_group[retool_group]+1] = section
 		end
+		if caliber and basetype and not base_types[basetype] then
+			base_types[basetype] = true
+			for i = 1, #caliber do 
+				if not basetypes_by_ammo_type[caliber[i]] then
+					basetypes_by_ammo_type[caliber[i]] = {}
+				end
+				basetypes_by_ammo_type[caliber[i]][#basetypes_by_ammo_type[caliber[i]]+1] = basetype
+			end
+		end
+		
+		
 	end
 	ini_sys:section_for_each(itr)
 end
@@ -321,7 +344,7 @@ function get_magazine_base_type(val)
 end
 
 function get_magazine_caliber(val)
-	return str_explode(look_up_table:r_value(get_magazine_base_type(val), "caliber"), ",")
+	return str_explode(look_up_table:r_value(get_magazine_base_type(val) or print_dbg("Missing basetype for: %s",val), "caliber") or print_dbg("Invalid basetyper for: %s",val), ",")
 end
 
 -- check if this weapon takes a magazine, and return the base type. false if it does not

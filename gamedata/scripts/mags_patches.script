@@ -15,12 +15,22 @@ get_mag_info				= magazine_binder.get_mag_info
 get_total_carried			= magazine_binder.get_total_carried
 get_loadout_size			= magazine_binder.get_loadout_size
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
+print_dbg					= magazines.print_dbg
 
-function print_dbg( text , ...)
-	if true then
-		printf( "RAX: "..text , ...)
-	end
+
+
+
+
+function stack_rule(obj)	
+	local sec = obj:section()
+	local mag_data = get_data(obj:id())
+	return  (( not is_carried_mag(obj:id())) and ((mag_data and #mag_data.loaded == 0) and   magazines_mcm.get_config("empty_mags_stack")) )
 end
+
+rax_stacking_control.register(is_magazine, stack_rule)
+
+
+
 
 function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 	obj = self:CheckItem(obj,"Cond_Unload")
@@ -288,7 +298,7 @@ function itms_manager.new_game_equippment()
 	return true
 end
 
--- for quick release
+-- for quick release					
 function item_backpack.actor_on_item_use(obj)
 	if obj and (obj:section() == "itm_actor_backpack") then 
 		local backpack = db.actor:item_in_slot(13)

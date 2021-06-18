@@ -1,10 +1,10 @@
 <w>
-	<pouch x="990" y="675" width="480" height="85" stretch="1"> 
-		<large x="0" y="0" width="480" height="25" stretch="1"/>
-		<medium x="0" y="30" width="480" height="25" stretch="1"/>
-		<small x="0" y="60" width="480" height="25" stretch="1"/>
+	<pouch x="990" y="590" width="480" height="85" stretch="1"> 
+		<large x="0" y="0" width="480" height="50" stretch="1"/>
+		<medium x="0" y="55" width="480" height="50" stretch="1"/>
+		<small x="0" y="110" width="480" height="50" stretch="1"/>
 		
 	</pouch>
 	
-	<mag x="0" y="0" width="25" height="25" stretch="1"/>
+	<mag x="0" y="0" width="50" height="50" stretch="1"/>
 </w>
