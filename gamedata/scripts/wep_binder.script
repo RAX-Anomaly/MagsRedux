@@ -31,13 +31,14 @@ function wep_binder:update(delta)
 	end
 	if not mag_data and self.first_update then
 		self.first_update = false
+		local ammo_loaded = obj:get_ammo_in_magazine()
+		if ammo_loaded == 0 then return end
 		local default_mag = weapon_default_magazine(obj:section())
 		mag_data = {}
 		mag_data.section = default_mag
 		mag_data.size = SYS_GetParam(0, default_mag, "mag_size")
 		mag_data.loaded = {}
 		local ammo_type = obj:get_ammo_type()
-		local ammo_loaded = obj:get_ammo_in_magazine()
 		local mag_cap = SYS_GetParam(2, default_mag, "max_mag_size") or SYS_GetParam(2, obj:section(), "ammo_mag_size") or 999
 		print_dbg("Weapon %s uses mags, assigning default mag %s with %s rounds, type is %s", obj:section(), default_mag, ammo_loaded, ammo_type)
 		local ammo_map = utils_item.get_ammo(nil, id)
