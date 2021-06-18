@@ -52,10 +52,6 @@ function inventory_refresh() --safer way to refresh inventory, also refreshes so
 	end
 	inventory:On_Sort(sort or 1,false)
 end
-
-
-
-
 local ammo_maps = {} --cacheing. this function will get called a lot in combat.  ammo_maps gets niled in load_weapon should be enough protect against id recycling and weapon rechamper upgrades
 function get_ammo_map(id)
 	if not ammo_maps[id] then
