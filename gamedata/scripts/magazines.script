@@ -19,7 +19,7 @@ get_retool_section			= magazine_binder.get_retool_section
 get_weapon_base_type		= magazine_binder.get_weapon_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
 print_dbg					= magazine_binder.print_dbg
-
+get_mags_by_ammo_type		= magazine_binder.get_mags_by_ammo_type
 
 
 -- global flag to interrupt reloads (set on key press and stuff)
@@ -42,6 +42,16 @@ end
 --------------------------------------
 -- SECTION mag un/loading functions --
 --------------------------------------
+function inventory_refresh() --safer way to refresh inventory, also refreshes sorting.
+	local inventory = GetActorMenu()
+	local sort = nil
+	for i=1,#inventory.sort_btn do
+		if inventory.sort_btn[i]:GetCheck() then
+			sort = i
+		end
+	end
+	inventory:On_Sort(sort or 1,false)
+end
 local ammo_maps = {} --cacheing. this function will get called a lot in combat.  ammo_maps gets niled in load_weapon should be enough protect against id recycling and weapon rechamper upgrades
 function get_ammo_map(id)
 	if not ammo_maps[id] then
@@ -94,7 +104,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		else
 			local pre_table = count_ammo(weapon)
 			weapon:switch_state(7)
-			CreateTimeEvent(Mag_redux, "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
+			CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
 		end
 
 	end
@@ -340,7 +350,7 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	if interrupt_reload or ammo_box == nil then 
 		print_dbg("ending load prematurely. is ammo box nil? %s", ammo_box == nil)
 		-- interrupt_reload = false
-	ui_inventory.GUI:UpdateItems()
+	inventory_refresh()
 		return true
 	end
 	
@@ -349,7 +359,7 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	local mag_data = get_mag_data(id)
 	if (#mag_data.loaded >= capacity) then
 		print_dbg("ending load with full magazine")
-		ui_inventory.GUI:UpdateItems()
+		inventory_refresh()
 		return true
 	end
 	local num_bullets = ammo_box:ammo_get_count()
@@ -368,7 +378,7 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	print_dbg("Loaded 1 round of type %s. There are %s rounds loaded total", position, #mag_data.loaded)
 	local delay = SYS_GetParam(2, sec, "load_delay") or default_delay
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
-	ui_inventory.GUI:UpdateItems()
+	inventory_refresh()
 	CreateTimeEvent("Mag_redux","load_mag"..flip, delay, load_magazine, magazine, ammo_box, position, capacity, flip)
 	return true
 end
@@ -380,7 +390,7 @@ function unload_magazine(magazine, flip)
 	if not mag_data or #mag_data.loaded == 0 or interrupt_reload then
 		print_dbg("ending unload prematurely.")
 		-- interrupt_reload = false
-		ui_inventory.GUI:UpdateItems()
+		inventory_refresh()
 		return true
 	end
 
@@ -392,7 +402,7 @@ function unload_magazine(magazine, flip)
 		create_ammo(round, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, 1)
 		CreateTimeEvent("Mag_redux","unload_mag"..flip, default_delay, unload_magazine, magazine, flip)
 	end
-	ui_inventory.GUI:UpdateItems()
+	inventory_refresh()
 	return true
 end
 
@@ -439,7 +449,7 @@ function loadout_func(obj)
 	if is_magazine(obj) then
 		local id = obj:id()
 		toggle_carried_mag(id)
-		ui_inventory.GUI:On_Sort(1,false)
+		inventory_refresh()
 		mag_hud.HUD:Update(true)
 	end
 end
@@ -541,8 +551,10 @@ function ActorMenu_on_item_focus_receive(obj) -- highlight compatible items
 	if (is_supported_weapon(obj) and id ~= focus_last_id) then
 		focus_tbl = get_mags_for_basetype(get_weapon_base_type(obj))
 
-	elseif (is_magazine(obj) and sec_focus ~= focus_last_sec) then
-		focus_tbl = get_magazine_caliber(obj)
+	elseif (is_magazine(sec_focus) and sec_focus ~= focus_last_sec) then
+		focus_tbl = get_magazine_caliber(sec_focus)
+	elseif (IsAmmo(obj) and sec_focus ~= focus_last_sec) then
+		focus_tbl = get_mags_by_ammo_type(sec_focus)
 	end
 
 	local inventory = GetActorMenu()
