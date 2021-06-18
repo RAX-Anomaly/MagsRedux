@@ -1,0 +1,24 @@
+Adds magazines to the game like wuut_magazines, but optimized for compatibility and redone from the ground up.
+
+If you have used wuut_mags, this should feel pretty much the same. There are no changes in functionality.
+
+Some new features compared to wuut_mags:
++ Unjamming is simplified. Now it just plays the unjam animation.
++ Expanded loadouts, combat backpack adds some magazine slots.
++ Traders sell a fixed amount of mags, replenishing with stock.
++ NPC mag drops overhauled. NPCs drop a variable amount of mags that are filled to a random amount.
+
+Obviously this is not compatible with wuut_mags or other magazine mods. However we have incorporated a lot of quality of life tweaks:
+
++ Magazines automatically eject when upgrading or replacing parts
++ Mags are highlighted and ready mags are at the top of your inventory
++ Traders and NPCs have more realistic magazine loadouts
++ Arena gives you loaded mags
+
+Credits to:
+RavenAscendant for doing half the work
+wuut for originally creating magazines mod
+xcvkpop for rus translation
+Tester guinea pigs
+- Sneaky
+- EFP Discord

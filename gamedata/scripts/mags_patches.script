@@ -306,6 +306,7 @@ function itms_manager.new_game_equippment()
 	return true
 end
 
+-- for quick release
 function item_backpack.actor_on_item_use(obj)
 	if obj and (obj:section() == "itm_actor_backpack") then 
 		local backpack = db.actor:item_in_slot(13)
@@ -355,6 +356,111 @@ function item_backpack.actor_on_item_use(obj)
 	end
 end
 
+local mag_to_ammo = {
+	["mag_pm_9x18_default"] = "ammo_9x18_pmm",
+	["mag_mp5_9x19_default"] = "ammo_9x19_pbp",
+	["mag_ak_5.45x39_default"] = "ammo_5.45x39_ap",
+	["mag_ots_9x39_default"] = "ammo_9x39_ap",
+	["mag_g36_5.56x45_default"] = "ammo_5.56x45_ap"
+}
+-- MP for bar fights
+BarTele = xr_effects.bar_arena_teleport
+function xr_effects.bar_arena_teleport(actor, npc)
+
+	actor_effects.disable_effects_timer(100)
+
+	--hide_hud_inventory()
+	hide_hud_all()
+
+	local box = get_story_object("bar_arena_inventory_box")
+	if (box) then
+		local function transfer_object_item(item)
+			if is_carried_mag(item:id()) then
+				toggle_carried_mag(item:id())
+			end
+			db.actor:transfer_item(item, box)
+		end
+		db.actor:inventory_for_each(transfer_object_item)
+	end
+
+	local spawn_items = {}
+
+	if	has_alife_info("bar_arena_fight_1") then 
+		table.insert(spawn_items, "novice_outfit")	
+		table.insert(spawn_items, "wpn_pm")
+		table.insert(spawn_items, "mag_pm_9x18_default")
+		table.insert(spawn_items, "mag_pm_9x18_default")
+		--table.insert(spawn_items, "wpn_knife")
+	elseif	has_alife_info("bar_arena_fight_2") then
+		table.insert(spawn_items, "stalker_outfit")	
+		table.insert(spawn_items, "wpn_mp5")
+		table.insert(spawn_items, "mag_mp5_9x19_default")
+		--table.insert(spawn_items, "wpn_knife")		
+	elseif	has_alife_info("bar_arena_fight_3") then
+		table.insert(spawn_items, "stalker_outfit")		
+		table.insert(spawn_items, "wpn_bm16")
+		table.insert(spawn_items, "ammo_12x70_buck")
+		table.insert(spawn_items, "ammo_12x70_buck")
+		--table.insert(spawn_items, "wpn_knife")
+	elseif	has_alife_info("bar_arena_fight_4") then
+		table.insert(spawn_items, "stalker_outfit")		
+		table.insert(spawn_items, "wpn_ak74")
+		table.insert(spawn_items, "mag_ak_5.45x39_default")
+		--table.insert(spawn_items, "wpn_knife")
+		table.insert(spawn_items, "bandage")
+		table.insert(spawn_items, "bandage")
+	elseif	has_alife_info("bar_arena_fight_5") then
+		table.insert(spawn_items, "wpn_abakan")
+		table.insert(spawn_items, "mag_ak_5.45x39_default")
+		table.insert(spawn_items, "mag_ak_5.45x39_default")
+		--table.insert(spawn_items, "wpn_knife")
+		table.insert(spawn_items, "bandage")
+		table.insert(spawn_items, "medkit")
+		table.insert(spawn_items, "svoboda_light_outfit")
+	elseif	has_alife_info("bar_arena_fight_6") then
+		table.insert(spawn_items, "wpn_groza")
+		table.insert(spawn_items, "ammo_vog-25")
+		table.insert(spawn_items, "mag_ots_9x39_default")
+		table.insert(spawn_items, "mag_ots_9x39_default")
+		table.insert(spawn_items, "mag_ots_9x39_default")
+		--table.insert(spawn_items, "wpn_knife")
+		table.insert(spawn_items, "specops_outfit")
+	elseif	has_alife_info("bar_arena_fight_7") then
+		table.insert(spawn_items, "wpn_knife")
+		table.insert(spawn_items, "bandage")
+		table.insert(spawn_items, "grenade_f1")
+		table.insert(spawn_items, "grenade_f1")
+	elseif	has_alife_info("bar_arena_fight_8") then
+		table.insert(spawn_items, "wpn_g36")
+		table.insert(spawn_items, "exo_outfit")
+		table.insert(spawn_items, "mag_g36_5.56x45_default")
+		table.insert(spawn_items, "mag_g36_5.56x45_default")
+		--table.insert(spawn_items, "wpn_knife")
+	end
+
+	local k,v = 0,0
+
+	for k,v in pairs(spawn_items) do
+		local se = alife_create(v,
+						db.actor:position(),
+						db.actor:level_vertex_id(),
+						db.actor:game_vertex_id(),
+						AC_ID)
+		if string.find(v, "mag_") then
+			CreateTimeEvent("Mag_redux", "fill_mag"..se.id, 0.1, fill_mag, se.id, SYS_GetParam(2, v, "max_mag_size"), mag_to_ammo[v])
+		end
+		se_save_var( se.id, se:name(), "unpatched", true )
+	end
+end
+
+function fill_mag(id, amount, ammo_type)
+	local mag_data = get_data(id)
+	for i=1,amount do
+		stack.push(mag_data.loaded, ammo_type)
+	end
+	set_data(id, mag_data)
+	return true
+end
 -------------------------------------------------------------------
 --GUI = nil -- instance, don't touch --Raven using the GUI in item_weapon.script so that in case someone is acessing it directly it will be in the right place.
 local aw_cooldown = 0
@@ -510,15 +616,10 @@ function UIWheelAmmoWuut:Reset(obj)
 	end
 	db.actor:iterate_inventory(itr, nil)
 	
-	
-	
-	
 	if(magazines and obj and is_supported_weapon(obj)) then 
-		
 		self.ammo_inv = magazines.count_magazines(obj)
 		
 	else
-	
 		local function itr(temp, itm)
 			local section = itm:section()
 			if IsItem("ammo",section) or IsItem("grenade_ammo",section) then
@@ -612,17 +713,12 @@ function UIWheelAmmoWuut:SwitchNextAmmo()
 			end
 		end
 	end
-
 	self:Close()
 end
 
 function UIWheelAmmoWuut:OnAmmo(n)
 	local wpn = db.actor:active_item()
 	if wpn and (wpn:section() == self.section) and self.avail[n] then
-		
-
-		
-		
 		local ammo_type = wpn:get_ammo_type()
 		if (ammo_type ~= n - 1) then
 
