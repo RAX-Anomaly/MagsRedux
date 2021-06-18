@@ -80,24 +80,6 @@ function ui_workshop.UIWorkshopUpgrade:Upgrade()
 	WorkshopUpgrade(self)
 end
 
-
---Patching actor_menu.script_trader
--- Since all changes are in this script the use of callbacks to avoid crash on this script being missing is uneccssary. will patch in a call to the functions direct
--- this also eliminates the need to change axr_main.script so two for one
-original_inventory_wnd_closed = actor_menu.inventory_wnd_closed
-function actor_menu.inventory_wnd_closed()
-	-- wuut_InventoryWndClosed()
-	original_inventory_wnd_closed()
-end
-
-
-original_dead_body_search_wnd_closed = actor_menu.dead_body_search_wnd_closed
-function actor_menu.dead_body_search_wnd_closed()
-	-- wuut_DeadBodySearchWndClosed()
-	original_dead_body_search_wnd_closed()
-end
-
-
 --Patching ui_item.script
 --first duplicate some short hand so i can just copy paste
 local string_find         = string.find
@@ -129,9 +111,9 @@ function ui_item.build_desc_header(obj, sec, str)
 	if obj and magazines and IsWeapon(obj) and not IsAmmo(obj) and is_supported_weapon(obj) then
 		local mag_data = get_data(obj:id())
 		if mag_data then
-			_str = _str .. gc("st_mag_loaded") .. " " .. clr_2 .. ui_item.get_sec_name(mag_data.section) .. "\\n"
+			_str = _str .. " " .. clr_g .. gc("st_dot") .. " ".. gc("st_mag_loaded") .. " " .. clr_2 .. ui_item.get_sec_name(mag_data.section) .. "\\n"
 		else
-			_str = _str .. clr_r .. gc("st_mag_loaded_none") .. "\\n"
+			_str = _str .. " " .. clr_r .. gc("st_dot") .. " " .. gc("st_mag_loaded_none") .. "\\n"
 		end
 	end
 	_str = _str .. _str2
@@ -297,7 +279,7 @@ function itms_manager.new_game_equippment()
 	local function itr_inv(npc, item)
 		if is_supported_weapon(item) then
 			local default_mag = weapon_default_magazine(item)
-			print_dbg("Enjoy your complimentary %ss!", default_mag)
+			print_dbg("Enjoy your complimentary %s!", default_mag)
 			alife_create_item(default_mag, db.actor)
 			alife_create_item(default_mag, db.actor)
 		end

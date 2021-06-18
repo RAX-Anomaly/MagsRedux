@@ -4,16 +4,21 @@ If you have used wuut_mags, this should feel pretty much the same. There are no 
 
 Some new features compared to wuut_mags:
 + Unjamming is simplified. Now it just plays the unjam animation.
-+ Expanded loadouts, combat backpack adds some magazine slots.
++ Expanded loadouts, combat backpack adds some magazine slots. Support for attachments to add mag slots if needed.
 + Traders sell a fixed amount of mags, replenishing with stock.
 + NPC mag drops overhauled. NPCs drop a variable amount of mags that are filled to a random amount.
++ Ammo wheel is cooler now
++ Mags show in your HUD!
 
 Obviously this is not compatible with wuut_mags or other magazine mods. However we have incorporated a lot of quality of life tweaks:
 
 + Magazines automatically eject when upgrading or replacing parts
 + Mags are highlighted and ready mags are at the top of your inventory
 + Traders and NPCs have more realistic magazine loadouts
-+ Arena gives you loaded mags
++ Quick release retains vested mags
++ New game gives you free magazines.
++ Weapons show if they have a magazine loaded or not.
++ Arena gives you loaded mags.
 
 Credits to:
 RavenAscendant for doing half the work
