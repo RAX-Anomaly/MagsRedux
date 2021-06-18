@@ -41,7 +41,7 @@
 	<string id="st_mag_rpk74_5.45x39">
 		<text>Standard 5.45x39 RPK-74 Magazine</text>
 	</string>
-	<string id="st_mag_rpk74_7.62x39_descr">
+	<string id="st_mag_rpk74_5.45x39_descr">
 		<text>
 			45-round Bakelite magazine that comes standard with the RPK-74 LMG. This magazine also fits into AK-74 derivatives. Designation "6L18"
 		</text>

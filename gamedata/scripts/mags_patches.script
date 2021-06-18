@@ -402,21 +402,21 @@ function xr_effects.bar_arena_teleport(actor, npc)
 		table.insert(spawn_items, "bandage")
 		table.insert(spawn_items, "bandage")
 	elseif	has_alife_info("bar_arena_fight_5") then
+		table.insert(spawn_items, "svoboda_light_outfit")
 		table.insert(spawn_items, "wpn_abakan")
 		table.insert(spawn_items, "mag_ak_5.45x39_default")
 		table.insert(spawn_items, "mag_ak_5.45x39_default")
 		--table.insert(spawn_items, "wpn_knife")
 		table.insert(spawn_items, "bandage")
 		table.insert(spawn_items, "medkit")
-		table.insert(spawn_items, "svoboda_light_outfit")
 	elseif	has_alife_info("bar_arena_fight_6") then
+		table.insert(spawn_items, "specops_outfit")
 		table.insert(spawn_items, "wpn_groza")
 		table.insert(spawn_items, "ammo_vog-25")
 		table.insert(spawn_items, "mag_ots_9x39_default")
 		table.insert(spawn_items, "mag_ots_9x39_default")
 		table.insert(spawn_items, "mag_ots_9x39_default")
 		--table.insert(spawn_items, "wpn_knife")
-		table.insert(spawn_items, "specops_outfit")
 	elseif	has_alife_info("bar_arena_fight_7") then
 		table.insert(spawn_items, "wpn_knife")
 		table.insert(spawn_items, "bandage")
@@ -438,6 +438,9 @@ function xr_effects.bar_arena_teleport(actor, npc)
 						db.actor:level_vertex_id(),
 						db.actor:game_vertex_id(),
 						AC_ID)
+		if string.find(v, "outfit") then
+			CreateTimeEvent("Mag_redux", "equip_outfit"..se.id, 0.1, equip_outfit, se.id)
+		end
 		if string.find(v, "mag_") then
 			CreateTimeEvent("Mag_redux", "fill_mag"..se.id, 0.1, fill_mag, se.id, SYS_GetParam(2, v, "max_mag_size"), mag_to_ammo[v])
 		end
@@ -445,11 +448,18 @@ function xr_effects.bar_arena_teleport(actor, npc)
 	end
 end
 
+function equip_outfit(id)
+	local outfit = level.object_by_id(id)
+	db.actor:move_to_slot(outfit, 7)
+	return true
+end
+
 function fill_mag(id, amount, ammo_type)
 	local mag_data = get_data(id)
 	for i=1,amount do
 		stack.push(mag_data.loaded, ammo_type)
 	end
+	toggle_carried_mag(id)
 	set_data(id, mag_data)
 	return true
 end
