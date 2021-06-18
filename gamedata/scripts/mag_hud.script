@@ -183,7 +183,7 @@ function UIMagHUD:Update(force) --Update(true) can be called from weapon reload 
 	
 			
 	
-	self.dialog:Show(true)
+	self.dialog:Show(magazines_mcm.get_config("show_hud"))
 end
 
 

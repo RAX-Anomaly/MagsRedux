@@ -26,6 +26,9 @@ function wep_binder:update(delta)
 	
 	local id = obj:id()
 	local mag_data = get_data(id)
+	if mag_data and self.first_update then
+		self.first_update = false
+	end
 	if not mag_data and self.first_update then
 		self.first_update = false
 		local default_mag = weapon_default_magazine(obj:section())
