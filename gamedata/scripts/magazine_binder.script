@@ -208,16 +208,16 @@ function update_loadout_slots()
 end
 
 function validate_loadout()
-	update_loadout_slots()
-	local found = {small =0 ,medium = 0,large = 0}
-	for id, mag in pairs(carried_mags) do
-		if mag.size then
-			found[mag.size] = found[mag.size] + 1
-			if found[mag.size] >= loadout_slots[mag.size] then
-				carried_mags[id] = nil
-			end
-		end
-	end
+    update_loadout_slots()
+    local found = {small = 0, medium = 0, large = 0}
+    for id, mag in pairs(carried_mags) do
+        if mag.size then
+            found[mag.size] = found[mag.size] + 1
+            if found[mag.size] > loadout_slots[mag.size] then
+                carried_mags[id] = nil
+            end
+        end
+    end
 end
 
 function room_in_pouch(id)
