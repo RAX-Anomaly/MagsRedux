@@ -6,14 +6,10 @@
 	Ready Magazine HUD for Anomaly Magazine rewrite.
 --]]
 
-get_mag_property				= magazine_binder.get_mag_property
+get_mag_property			= magazine_binder.get_mag_property
 is_carried_mag				= magazine_binder.is_carried_mag
-
-function print_dbg( text , ...)
-	if true then
-		--printf( "RAX: "..text , ...)
-	end
-end
+print_dbg					= magazine_binder.print_dbg
+gc						 	= game.translate_string
 
 -- Update rate
 local tg_update_step = 1000 --[ms]
@@ -89,8 +85,8 @@ function UIMagHUD:__init() super()
 	
 	self.ratio  = utils_xml.screen_ratio()
 	self._tmr   = time_global()
-	self.offset = 10
-	
+	self.offset = 0
+	self.w = 1
 	self.index = {}
 	self.index.small = 0
 	self.index.medium = 0
@@ -125,7 +121,8 @@ function UIMagHUD:Clear()
 
 	for a, b in pairs(self.mags) do
 			for k, ele in pairs(b) do
-				ele:Show(false)
+				ele.ico:Show(false)
+				ele.bkg:Show(false)
 			end
 		
 	end
@@ -162,21 +159,59 @@ function UIMagHUD:Update(force) --Update(true) can be called from weapon reload 
 		if is_carried_mag(id) then
 			local section = get_mag_property(id, "section")
 			local size = get_mag_property(id, "size")
-			local index = self.index[size] +1
-			self.index[size] = index
+			local axis = utils_xml.get_item_axis(section,1)
+			local grid_w = axis.w / axis.h
+			local index = self.index[size]
+			if self.mirrored then
+				index = self.index[size] + (grid_w and math.ceil(grid_w) or 1) -- keep some semblance of standard spacing.
+				self.index[size] = index 
+			end
 			
 			if not self.mags[size][index] then
-				print_dbg("making:"..size..":"..index)
-				self.mags[size][index] = xml:InitStatic("mag", self.pouch[size])
-				scale_ui(self.mags[size][index])
-				local w = self.mags[size][index]:GetWidth()
-				self.mags[size][index]:SetWndPos( vector2():set( (w + self.offset) * index *(self.mirrored and -1 or 1) , 0 ) )
+				self.mags[size][index]= {}
+				self.mags[size][index].bkg = xml:InitStatic("mag", self.pouch[size])
+				self.mags[size][index].ico = xml:InitStatic("mag", self.pouch[size])
+				self.mags[size][index].ammo = xml:InitStatic("mini_ico", self.mags[size][index].ico)				
+				scale_ui(self.mags[size][index].ico)
+				scale_ui(self.mags[size][index].bkg)
+				scale_ui(self.mags[size][index].ammo)
+				self.w = self.mags[size][index].ico:GetWidth()
+				self.ammo_w = self.mags[size][index].ammo:GetWidth()
+				 
+				self.mags[size][index].ico:SetWndPos( vector2():set( (self.w + self.offset) * index *(self.mirrored and -1 or 1) , 0 ) )
+				self.mags[size][index].bkg:SetWndPos( vector2():set( (self.w + self.offset) * index *(self.mirrored and -1 or 1) , 0 ) )
 			end
-			print_dbg("making:"..size..":"..index..":"..(utils_xml.get_icons_texture(section) or "notext"))
-			self.mags[size][index]:InitTexture( utils_xml.get_icons_texture(section) )
-			self.mags[size][index]:SetTextureRect(Frect():set( utils_xml.get_item_axis(section, nil, true) ))
-			self.mags[size][index]:Show(true)
-	
+			local h = self.mags[size][index].ico:GetHeight()
+			self.mags[size][index].ico:SetWndSize( vector2():set( self.w * (grid_w or 1), h))
+			self.mags[size][index].bkg:SetWndSize( vector2():set( self.w * (grid_w and math.ceil(grid_w) or 1), h)) --icon needs to stay square, background needs to stay whole number ratio of h.
+			
+			local loaded = get_mag_property(id, "loaded")
+			local round = stack.peek(loaded)
+			local text = round and magazines_mcm.get_config("icon_text")and gc(SYS_GetParam(0, round, "inv_name_short")) or ""
+			
+			self.mags[size][index].ico:TextControl():SetText(text)
+			self.mags[size][index].ammo:Show(false)
+			if round then
+				local ammo_axis = utils_xml.get_item_axis(round,1)
+				local ammo_grid_w = ammo_axis.w / ammo_axis.h
+				h = self.mags[size][index].ammo:GetHeight()
+
+				self.mags[size][index].ammo:InitTexture( utils_xml.get_icons_texture(round) )
+				self.mags[size][index].ammo:SetTextureRect(Frect():set( utils_xml.get_item_axis(round, nil, true) ))
+				self.mags[size][index].ammo:SetWndSize( vector2():set(self.ammo_w * (ammo_grid_w or 1), h))
+				self.mags[size][index].ammo:Show(magazines_mcm.get_config("ammo_icon"))
+			end
+			self.mags[size][index].ico:InitTexture( utils_xml.get_icons_texture(section) )
+			self.mags[size][index].ico:SetTextureRect(Frect():set( utils_xml.get_item_axis(section, nil, true) ))
+			--self.mags[size][index].bkg:InitTexture( "ui\\ui_actor_hint_wnd.dds" )
+			--self.mags[size][index].bkg:SetTextureRect(Frect():set( 228, 540, 265, 590 ))
+			self.mags[size][index].bkg:InitTexture( "ui\\ui_ingame2_common.dds" )
+			self.mags[size][index].bkg:SetTextureRect(Frect():set( 0, 285, 68, 324 ))
+			self.mags[size][index].ico:Show(true)
+			self.mags[size][index].bkg:Show(true)
+			if not self.mirrored then
+				self.index[size] = index  + (grid_w and math.ceil(grid_w) or 1)
+			end
 		end
 	end
 	db.actor:inventory_for_each(itr)

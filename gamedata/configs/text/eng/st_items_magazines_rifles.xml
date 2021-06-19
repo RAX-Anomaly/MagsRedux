@@ -41,7 +41,7 @@
 	<string id="st_mag_rpk74_5.45x39">
 		<text>Standard 5.45x39 RPK-74 Magazine</text>
 	</string>
-	<string id="st_mag_rpk74_7.62x39_descr">
+	<string id="st_mag_rpk74_5.45x39_descr">
 		<text>
 			45-round Bakelite magazine that comes standard with the RPK-74 LMG. This magazine also fits into AK-74 derivatives. Designation "6L18"
 		</text>
@@ -285,7 +285,7 @@
 	<string id="st_mag_groza_9x39_pab9">
 		<text>20 round 9x39 Groza Magazine</text>
 	</string>
-	<string id="st_mag_groza_9x39_pab9">
+	<string id="st_mag_groza_9x39_pab9_descr">
 		<text>
 			20-round magazine of 9x39 that comes standard with the OTs-14 Groza assault rifle. Design is similar to the AK-style magazines.
 		</text>
@@ -332,10 +332,10 @@ sniper rifles / full size rifles
 			Modernized PMAG-style Magazine for 7.62x51 NATO rounds. Used in the HK417, SCAR and SR-25. Holds 20 rounds.
 		</text>
 	</string>
-	<string id="st_mag_stanag_7.62x51">
+	<string id="st_mag_stanag_7.62x51_short">
 		<text>10-round 7.62x51 STANAG Magazine</text>
 	</string>
-	<string id="st_mag_stanag_7.62x51_descr">
+	<string id="st_mag_stanag_7.62x51_short_descr">
 		<text>
 			Compact 10-round STANAG-style Magazine for 7.62x51 NATO rounds. Comes by default with the KAC SR-25, but can fit in the HK417 and SCAR Mk. 17.
 		</text>
