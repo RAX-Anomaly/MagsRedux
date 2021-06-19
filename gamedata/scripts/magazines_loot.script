@@ -20,7 +20,7 @@ local tm = {}
 TraderAuto = trader_autoinject.update
 function trader_autoinject.update(npc)
     TraderAuto(npc)
-    CreateTimeEvent(0, "stock_mags"..npc:id(), 0.1, stock_mags, npc)
+    CreateTimeEvent("mag_redux", "stock_mags"..npc:id(), 0.1, stock_mags, npc)
 end
 
 -- function to resupply mags based on what weapons are in stock
