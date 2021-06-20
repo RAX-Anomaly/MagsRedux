@@ -104,6 +104,10 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		else
 			local pre_table = count_ammo(weapon)
 			weapon:switch_state(7)
+			if not interrupt_reload then
+				print_dbg("Interrupting reload")
+				interrupt_reload = true
+			end
 			CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
 		end
 
@@ -275,6 +279,10 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 		-- do the reload
 	if not mag then 
 		print_dbg("No ready mags found, not reloading")
+		if not interrupt_reload then
+			print_dbg("Interrupting reload")
+			interrupt_reload = true
+		end
 		CreateTimeEvent("Mag_redux", "cancel_reload"..weapon:id(), 0, cancel_reload, weapon)
 		return 
 	end
@@ -282,6 +290,10 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	eject_magazine(weapon)
 	local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)
+	if not interrupt_reload then
+		print_dbg("Interrupting reload")
+		interrupt_reload = true
+	end
 	CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table)
 
 	
@@ -312,6 +324,10 @@ function unjam_weapon(weapon)
 	jammed_guns[id] = nil
 	print_dbg("New weapon should have %s ammo", #data.loaded)
 	-- prep_weapon(new_weapon_obj, false)
+	if not interrupt_reload then
+		print_dbg("Interrupting reload")
+		interrupt_reload = true
+	end
 	CreateTimeEvent("Mag_redux", "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon, data)
 end
 
@@ -429,7 +445,7 @@ function func_unload_ammo(obj)
 		local mag_data = get_mag_data(id)
 		if mag_data and #mag_data.loaded > 0 then
 			interrupt_reload = false
-			CreateTimeEvent(0,"unload_mag " .. id, 0, unload_magazine, obj, 0)
+			CreateTimeEvent("mag_redux","unload_mag " .. id, 0, unload_magazine, obj, 0)
 		end
 	end
 end
