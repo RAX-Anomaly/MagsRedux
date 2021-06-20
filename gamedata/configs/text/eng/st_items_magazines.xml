@@ -63,10 +63,25 @@
 	<string id="ui_mcm_magazines_show_hud_desc">
 		<text>If enabled, you will see magazines currently equipped in your HUD, near your ammo counter.</text>
 	</string>
+	<string id="ui_mcm_magazines_icon_text">
+		<text>Enable Ammo Text on Magazine HUD</text>
+	</string>
+	<string id="ui_mcm_magazines_icon_text_desc">
+		<text>If enabled, you will see text on the hud for the first round in a magazine.</text>
+	</string>
+	<string id="ui_mcm_magazines_ammo_icon">
+		<text>Enable Ammo Icons on Magazine HUD</text>
+	</string>
+	<string id="ui_mcm_magazines_ammo_icon_desc">
+		<text>If enabled, you will see small ammo icons on the hud for the first round in a magazine.</text>
+	</string>
 	<!--MAGAZINES-->
 
 	<string id="st_dot">
 		<text>•</text>
+	</string>
+	<string id="st_mag_bonus">
+		<text>(Outfit:%s + Extra:%s)<!--alt:> (%s + %s)<--></text>
 	</string>
 	<string id="st_mag_small">
 		<text>Small magazines:</text>
