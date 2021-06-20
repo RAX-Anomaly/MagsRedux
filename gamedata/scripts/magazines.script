@@ -587,6 +587,9 @@ function ActorMenu_on_item_focus_receive(obj) -- highlight compatible items
 end
 
 
+function ActorMenu_on_item_before_move(flags, npc_id, obj, mode, bag)
+	flags.ret_value = flags.ret_value and not is_carried_mag(obj:id())
+end
 
 
 
@@ -597,6 +600,7 @@ local function se_item_on_unregister(se_obj, typ)
 end
 
 function on_game_start()
+	RegisterScriptCallback("ActorMenu_on_item_before_move", ActorMenu_on_item_before_move)
 	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
 	RegisterScriptCallback("on_key_press", on_key_press)
 	RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)

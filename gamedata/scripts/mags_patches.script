@@ -16,7 +16,8 @@ get_total_carried			= magazine_binder.get_total_carried
 get_loadout_size			= magazine_binder.get_loadout_size
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
 print_dbg					= magazines.print_dbg
-
+has_loadout_slots			= magazine_binder.has_loadout_slots
+get_loadout_slots			= magazine_binder.get_loadout_slots
 
 
 
@@ -43,7 +44,7 @@ function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 end
 
 --
--- monkey patches for ready mag quest status
+--[[ monkey patches for ready mag quest status
 
 function ui_inventory.UIInventory:Cond_Quest(obj, bag)
 	obj = self:CheckItem(obj,"Cond_NotQuest")
@@ -56,9 +57,8 @@ function ui_inventory.UIInventory:Cond_NotQuest(obj, bag)
 	
 	return (SYS_GetParam(1,obj:section(),"quest_item") ~= true) or is_carried_mag(obj:id()) and true or false
 end
-
+--]]
 -- still in need to updating to new functions
-
 
 
 -- raven's merge
@@ -116,7 +116,7 @@ original_build_desc_header = ui_item.build_desc_header
 function ui_item.build_desc_header(obj, sec, str)
 	local _str = ""
 	local _str2 = original_build_desc_header(obj, sec, str)
-
+	
 
 	if obj and magazines and IsWeapon(obj) and not IsAmmo(obj) and is_supported_weapon(obj) then
 		local mag_data = get_data(obj:id())
@@ -128,20 +128,28 @@ function ui_item.build_desc_header(obj, sec, str)
 	end
 	_str = _str .. _str2
 	
-	if obj and magazines and IsOutfit(obj) then
+	if obj and magazines and has_loadout_slots(obj)  then
 		local current_id = db.actor:item_in_slot(7) and db.actor:item_in_slot(7):id() or 0
+		local outfit_slots = get_loadout_slots(obj,true)
 		if obj:id() == current_id then
-			local total_slots = get_loadout_size()
+			local total_slots = get_loadout_size()			
 			local carried = get_total_carried()
 			for k,v in pairs(carried) do
 				local total = total_slots[k]
 				if total > 0 then
 					local color_ratio = 100 * tonumber(v)/tonumber(total)
 					print_dbg("Color ratio is %s", color_ratio)
-					_str = _str .. clr_p .. gc("st_dot")  .. " ".. clr_1 .. gc("st_mag_"..k) .. " " .. utils_xml.get_color_con(color_ratio) .. v .. "/" .. total .. "\\n"
+					_str = _str .. clr_p .. gc("st_dot")  .. " ".. clr_1 .. gc("st_mag_"..k) .. " " .. utils_xml.get_color_con(color_ratio) .. v .. "/" .. total ..(total > outfit_slots[k] and string.format(gc("st_mag_bonus"),outfit_slots[k],total - outfit_slots[k] ) or "") .. "\\n"
 				end
 			end
 			_str = _str .. '\\n'
+		else
+			for k,slots in pairs(outfit_slots) do
+					_str = _str .. clr_p .. gc("st_dot")  .. " ".. clr_1 .. gc("st_mag_"..k)..slots.. "\\n"
+			end
+			_str = _str .. '\\n'
+
+			
 		end
 	end
 
