@@ -41,6 +41,7 @@ end
 
 function parent_is_box(obj)
 	local parent = obj:parent()
+	if parent:id() == 0 then return false end
 	local se_parent = alife_object(parent:id())
 	if se_parent:clsid() == clsid.inventory_box_s then
 		return true
@@ -80,12 +81,15 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 	print_dbg("on_item_drag_dropped " .. item:section() .. " on " .. weapon:section() .. " to_slot " .. to_slot)
 
 	-- Check capability
-	if not (from_slot == EDDListType.iDeadBodyBag and to_slot == EDDListType.iDeadBodyBag) or (from_slot == EDDListType.iActorBag  and (to_slot == EDDListType.iActorBag or to_slot == EDDListType.iActorSlot)) then
+	if not ((from_slot == EDDListType.iDeadBodyBag and to_slot == EDDListType.iDeadBodyBag) or (from_slot == EDDListType.iActorBag  and (to_slot == EDDListType.iActorBag or to_slot == EDDListType.iActorSlot))) then
         return
     end
 	if(item:id() == weapon:id()) then
 		return
 	end
+	
+	local is_box_mode = (parent_is_box(item) and from_slot == EDDListType.iDeadBodyBag) and true or false
+	
 	-- bullet to mag
 	if(IsAmmo(item) and is_magazine(weapon)) then
 		-- check compatibility, then fire (heh) the loading loop
@@ -97,7 +101,11 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		    local capacity = SYS_GetParam(2, weapon:section(), "max_mag_size")  or 20
 			print_dbg("start loading loop")
 			interrupt_reload = false
-			load_magazine(weapon, item, ammos[ammo_sec], capacity, 0)
+			if is_box_mode then
+				fast_load_magazine(weapon, item)
+			else
+				load_magazine(weapon, item, ammos[ammo_sec], capacity, 0)
+			end
 		end
 	end
 	-- mag to weapon
@@ -292,7 +300,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 			print_dbg("Interrupting reload")
 			interrupt_reload = true
 		end
-		CreateTimeEvent("Mag_redux", "cancel_reload"..weapon:id(), 0, cancel_reload, weapon)
+		CreateTimeEvent("Mag_redux", "cancel_reload"..weapon:id(), 0.1, cancel_reload, weapon)
 		return 
 	end
 	
@@ -375,7 +383,7 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	if interrupt_reload or ammo_box == nil then 
 		print_dbg("ending load prematurely. is ammo box nil? %s", ammo_box == nil)
 		-- interrupt_reload = false
-	inventory_refresh()
+		inventory_refresh()
 		return true
 	end
 	
@@ -402,16 +410,13 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	set_mag_data(id, mag_data)
 	print_dbg("Loaded 1 round of type %s. There are %s rounds loaded total", position, #mag_data.loaded)
 	local delay = SYS_GetParam(2, sec, "load_delay") or default_delay
-	if parent_is_box(magazine) then
-		delay = 0.1
-	end
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
 	inventory_refresh()
-	CreateTimeEvent("Mag_redux","load_mag"..flip, 0, load_magazine, magazine, ammo_box, position, capacity, flip)
+	CreateTimeEvent("Mag_redux","load_mag"..flip, delay, load_magazine, magazine, ammo_box, position, capacity, flip)
 	return true
 end
 
-function unload_magazine(magazine, flip, delay)
+function unload_magazine(magazine, flip)
 	print_dbg("Start unload magazine")
 	local id = magazine:id()
 	local mag_data = get_mag_data(id)
@@ -428,10 +433,47 @@ function unload_magazine(magazine, flip, delay)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
 		create_ammo(round, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, 1)
-		CreateTimeEvent("Mag_redux","unload_mag"..flip, 0, unload_magazine, magazine, flip, delay)
+		CreateTimeEvent("Mag_redux","unload_mag"..flip, 0.4, unload_magazine, magazine, flip)
 	end
 	inventory_refresh()
 	return true
+end
+
+function fast_load_magazine(magazine, box)
+	local ammo_count = box:ammo_get_count()
+	local mag_data = get_mag_data(magazine:id())
+	local ammo_to_load = SYS_GetParam(2, magazine:section(), "max_mag_size") - #mag_data.loaded
+	if ammo_count < ammo_to_load then ammo_to_load = ammo_count end
+	for i=1,ammo_to_load do
+		stack.push(mag_data.loaded, box:section())
+	end
+
+	if ammo_to_load == ammo_count then
+		alife_release_id(box:id())
+	else
+		box:ammo_set_count(ammo_count - ammo_to_load)
+	end
+	xr_sound.set_sound_play(AC_ID,"reload_shell")
+	inventory_refresh()
+end
+
+function fast_unload_magazine(magazine)
+	local ammo_to_make = {}
+	local mag_data = get_mag_data(magazine:id())
+	while #mag_data.loaded > 0 do
+		local round = stack.pop(mag_data.loaded)
+		if not ammo_to_make[round] then
+			ammo_to_make[round] = 1
+		else
+			ammo_to_make[round] = ammo_to_make[round] + 1
+		end
+	end
+	set_mag_data(magazine:id(), mag_data)
+	local to_spawn = magazine:parent() ~= nil and magazine:parent() or db.actor
+	for k,v in pairs(ammo_to_make) do
+		create_ammo(k, to_spawn:position(), to_spawn:level_vertex_id(), 	to_spawn:game_vertex_id(), to_spawn:id(), v)
+	end
+	inventory_refresh()
 end
 
 function on_key_press(key)
@@ -457,8 +499,11 @@ function func_unload_ammo(obj)
 		local mag_data = get_mag_data(id)
 		if mag_data and #mag_data.loaded > 0 then
 			interrupt_reload = false
-			local delay = parent_is_box(obj) and 0.1 or default_delay
-			CreateTimeEvent("mag_redux","unload_mag " .. id, 0, unload_magazine, obj, 0, delay)
+			if parent_is_box(obj) then
+				fast_unload_magazine(obj)
+			else
+				CreateTimeEvent("mag_redux","unload_mag " .. id, 0.1, unload_magazine, obj, 0)
+			end
 		end
 	end
 end
