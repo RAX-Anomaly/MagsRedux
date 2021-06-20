@@ -714,7 +714,7 @@ function UIWheelAmmoWuut:SwitchNextAmmo()
 				end
 				local pre_table = magazines.count_ammo(wpn)
 				wpn:switch_state(7)
-				CreateTimeEvent(0, "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
+				CreateTimeEvent("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
 
 			else
 				wpn:unload_magazine(true)
@@ -741,7 +741,7 @@ function UIWheelAmmoWuut:OnAmmo(n)
 				end
 				local pre_table = magazines.count_ammo(wpn)
 				wpn:switch_state(7)
-				CreateTimeEvent(0, "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
+				CreateTimeEvent("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
 			else
 			
 				wpn:unload_magazine(true)

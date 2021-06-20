@@ -23,6 +23,7 @@ local expanded_rules = {}
 
 
 local function get_rules(section)
+	-- printf("get_rules1:%s %s", section, type(expanded_rules[section]) )	
 	if expanded_rules[section] or expanded_rules[section] == false then return expanded_rules[section] end --false indicates no rules for section, nil is section has not been evaluated
 	expanded_rules[section] = {}
 	for k,v in pairs(registered_rules) do

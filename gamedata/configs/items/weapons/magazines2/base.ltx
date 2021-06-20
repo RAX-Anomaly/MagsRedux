@@ -41,11 +41,17 @@ can_stack 								 = false
 kind                                     = w_ammo
 icons_texture							 = ui\ui_icon_wuut_magazines
 
-use1_functor         								   = magazines.unload_ammo
-use1_action_functor  								   = magazines.func_unload_ammo
+use1_functor         							= magazines.unload_ammo
+use1_action_functor  							= magazines.func_unload_ammo
+use1_modes         						        = inventory, loot
+use1_containers  						        = actor_bag, actor_equ, actor_belt, npc_bag
 
-use6_functor                                       = magazines.loadout_precondition
-use6_action_functor                                = magazines.loadout_func
-use7_functor                                       = magazines.retool_mag_precondition
-use7_action_functor                                = magazines.retool_mag_functor
+use6_functor                                    = magazines.loadout_precondition
+use6_action_functor                             = magazines.loadout_func
+use6_modes         		                		= inventory, loot
+use6_containers             					= actor_bag, actor_equ, actor_belt
+use7_functor                                    = magazines.retool_mag_precondition
+use7_action_functor                             = magazines.retool_mag_functor
+use7_modes         						        = inventory, loot
+use7_containers  						        = actor_bag, actor_equ, actor_belt, npc_bag
 script_binding                                         = magazine_binder.bind
