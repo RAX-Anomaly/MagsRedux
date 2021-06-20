@@ -22,7 +22,10 @@
 	<string id="st_mag_retool">
 		<text>retool</text>
 	</string>
-
+	
+	<string id="st_mag_err_retool">
+		<text>Cannot retool loaded magazine! Remove all rounds before retooling.</text>
+	</string>
 	<!-- MCM -->
 	
 	<string id="ui_mcm_menu_magazines">
@@ -30,6 +33,9 @@
 	</string>
 	<string id="ui_mcm_menu_magazines_title">
 		<text>Anomaly Magazines</text>
+	</string>
+	<string id="ui_mcm_magazines_title">
+		<text>Anomaly Magazines Redux</text>
 	</string>
 	<string id="ui_mcm_magazines_lootquality">
 		<text>Loot quality</text>
@@ -44,11 +50,38 @@
 		<text>Enables debugging logs in console.</text>
 	</string>
 
+	<string id="ui_mcm_magazines_empty_mags_stack">
+		<text>Stack empty magazines in inventory</text>
+	</string>
+	<string id="ui_mcm_magazines_empty_mags_stack_desc">
+		<text>If enabled, empty magazines will stack together in inventory instead of being separate.</text>
+	</string>
 
+	<string id="ui_mcm_magazines_show_hud">
+		<text>Enable Magazine HUD</text>
+	</string>
+	<string id="ui_mcm_magazines_show_hud_desc">
+		<text>If enabled, you will see magazines currently equipped in your HUD, near your ammo counter.</text>
+	</string>
+	<string id="ui_mcm_magazines_icon_text">
+		<text>Enable Ammo Text on Magazine HUD</text>
+	</string>
+	<string id="ui_mcm_magazines_icon_text_desc">
+		<text>If enabled, you will see text on the hud for the first round in a magazine.</text>
+	</string>
+	<string id="ui_mcm_magazines_ammo_icon">
+		<text>Enable Ammo Icons on Magazine HUD</text>
+	</string>
+	<string id="ui_mcm_magazines_ammo_icon_desc">
+		<text>If enabled, you will see small ammo icons on the hud for the first round in a magazine.</text>
+	</string>
 	<!--MAGAZINES-->
 
 	<string id="st_dot">
 		<text>•</text>
+	</string>
+	<string id="st_mag_bonus">
+		<text>(Outfit:%s + Extra:%s)<!--alt:> (%s + %s)<--></text>
 	</string>
 	<string id="st_mag_small">
 		<text>Small magazines:</text>

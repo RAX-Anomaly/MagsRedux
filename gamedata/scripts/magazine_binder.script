@@ -34,7 +34,7 @@ end
 
 local look_up_table 	= ini_file_ex("magazines\\lookups.ltx")
 local weapons_lookup 	= ini_file_ex("magazines\\weapons\\importer.ltx")
-
+local loadout_lookup 	= ini_file_ex("magazines\\outfitloadouts\\importer.ltx")
 
 -------------------------------
 -- SECTION acess functions --
@@ -157,6 +157,8 @@ function toggle_carried_mag(id)
 			--print_dbg("tcm3"..tostring(carried_mags[id] and carried_mags[id].section))
 	end
 end
+
+
 
 function update_loadout_slots()
 	local outfit = db.actor:item_in_slot(7)
@@ -283,6 +285,14 @@ function is_supported_weapon(val)
 	return weapons_lookup:section_exist(parent_section(section))
 end
 
+function has_loadout_slots(val)
+	if not val then return end
+	id, section, obj, se_obj = type_correction(val)
+	local in_list = loadout_lookup:section_exist(parent_section(section))
+	return IsItem("outfit", section, obj) or in_list
+end
+
+
 function get_retool_section(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
@@ -305,28 +315,33 @@ function get_retool_section(val)
 
 end
 
-function get_loadout_slots(val, force_outfit)
+function get_loadout_slots(val, combine, force_outfit)
 	if not val then return 0,0,0 end
 	id, section, obj, se_obj = type_correction(val)
 
 	local s,m,l = 0,0,0
 	if look_up_table:section_exist(section) then
-		s = look_up_table:r_value(section, "mag_limit_small", 2)
-		m = look_up_table:r_value(section, "mag_limit_medium", 2)
-		l = look_up_table:r_value(section, "mag_limit_large", 2)
+		s = look_up_table:r_value(section, "mag_limit_small", 2) or s
+		m = look_up_table:r_value(section, "mag_limit_medium", 2) or m
+		l = look_up_table:r_value(section, "mag_limit_large", 2) or l
 	elseif IsOutfit(obj) or force_outfit then
 		local kind = SYS_GetParam(0, section, "kind")
 		if look_up_table:section_exist(kind) then
-			s = look_up_table:r_value(kind, "mag_limit_small", 2)
-			m = look_up_table:r_value(kind, "mag_limit_medium", 2)
-			l = look_up_table:r_value(kind, "mag_limit_large", 2)
+			s = look_up_table:r_value(kind, "mag_limit_small", 2) or s
+			m = look_up_table:r_value(kind, "mag_limit_medium", 2) or m
+			l = look_up_table:r_value(kind, "mag_limit_large", 2) or l
 		else
-			s = look_up_table:r_value("o_none", "mag_limit_small", 2)
-			m = look_up_table:r_value("o_none", "mag_limit_medium", 2)
-			l = look_up_table:r_value("o_none", "mag_limit_large", 2)
+			print_dbg("Outfit defaulted: sec:%s kind:%s",section ,kind )
+			s = look_up_table:r_value("o_none", "mag_limit_small", 2) or s
+			m = look_up_table:r_value("o_none", "mag_limit_medium", 2) or m
+			l = look_up_table:r_value("o_none", "mag_limit_large", 2) or l
 		end
 	end
-	return s, m, l
+	if combine then
+		return {small = s,medium = m, large = l}
+	else
+		return s, m, l
+	end
 end
 
 function is_magazine(val)
@@ -524,12 +539,13 @@ end
 local past_first_update = false
 function actor_on_first_update()
 	past_first_update = true
+	validate_loadout()
 end
 
 
 
-function actor_item_to_slot()
-	if past_first_update then
+function actor_item_to_slot(obj)
+	if past_first_update and has_loadout_slots(obj) then
 		validate_loadout()
 	end
 end
