@@ -52,6 +52,15 @@ end
 --------------------------------------
 -- SECTION mag un/loading functions --
 --------------------------------------
+function timed_refresh()
+	CreateTimeEvent("mag_redux", "timed_refresh", 0.1, timer_refresh)
+end
+
+function timer_refresh()
+	inventory_refresh()
+	return true
+end
+
 function inventory_refresh() --safer way to refresh inventory, also refreshes sorting.
 	local inventory = GetActorMenu()
 	local sort = nil
@@ -89,7 +98,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 	end
 	
 	local is_box_mode = (parent_is_box(item) and from_slot == EDDListType.iDeadBodyBag) and true or false
-	
+
 	-- bullet to mag
 	if(IsAmmo(item) and is_magazine(weapon)) then
 		-- check compatibility, then fire (heh) the loading loop
@@ -432,7 +441,8 @@ function unload_magazine(magazine, flip)
 	set_mag_data(id, mag_data)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
-		create_ammo(round, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, 1)
+		local parent = magazine:parent()
+		create_ammo(round, parent:position(), parent:level_vertex_id(), parent:game_vertex_id(), parent:id(), 1)
 		CreateTimeEvent("Mag_redux","unload_mag"..flip, 0.4, unload_magazine, magazine, flip)
 	end
 	inventory_refresh()
@@ -454,7 +464,7 @@ function fast_load_magazine(magazine, box)
 		box:ammo_set_count(ammo_count - ammo_to_load)
 	end
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
-	inventory_refresh()
+	timed_refresh()
 end
 
 function fast_unload_magazine(magazine)
@@ -473,7 +483,7 @@ function fast_unload_magazine(magazine)
 	for k,v in pairs(ammo_to_make) do
 		create_ammo(k, to_spawn:position(), to_spawn:level_vertex_id(), 	to_spawn:game_vertex_id(), to_spawn:id(), v)
 	end
-	inventory_refresh()
+	timed_refresh()
 end
 
 function on_key_press(key)
