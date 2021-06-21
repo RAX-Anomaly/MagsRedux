@@ -3,10 +3,22 @@ local defaults = {
     lootquality			= 1.0,
     debug				= false,
 	empty_mags_stack 	= true,
+	sort_inv			= true,
 	show_hud			= true,
 	icon_text			= true,
 	ammo_icon			= true,
+	
 }
+
+local colors = {--alpha value will be reset to match slider
+	orange = GetARGB(100, 255, 159, 82),
+	pink = GetARGB(100, 255, 192, 203),
+	blond = GetARGB(100, 240, 240, 190),
+	white = GetARGB(100, 255, 255, 255),
+	brown = GetARGB(100, 165, 42, 42),
+	blue = GetARGB(100, 0, 0, 255),
+}
+
 
 function get_config(key)
     if ui_mcm then return ui_mcm.get("magazines/"..key) else return defaults[key] end
@@ -17,6 +29,9 @@ function on_mcm_load()
             { id= "title",type= "slide",link= "ui_options_slider_player",text="ui_mcm_magazines_title",size= {512,50},spacing= 20 },
             {id = "lootquality", type = "track", val = 2, min=0.1,max=2,step=0.1, def = 1.0},
             {id = "empty_mags_stack", type = "check", val = 1, def=true},
+            {id = "sort_inv", type = "check", val = 1, def=true},
+			{id= "highlight_color"  			,type= "list"     ,val= 0  ,def= "orange" 	 ,content= {{"orange","ram_orange"} , {"pink","ram_pink"} , {"blond","ram_blond"} , {"white","ram_white"}, {"brown","ram_brown"}, {"blue","ram_blue"}}		},		
+			{ id= "highlight_clr_a"       	 ,type= "track"    ,val= 2	,min= 0   ,max= 255    ,step= 1		,def= 100   },
             {id = "show_hud", type = "check", val = 1, def=true},			
             {id = "icon_text", type = "check", val = 1, def=true},			
             {id = "ammo_icon", type = "check", val = 1, def=true},			
@@ -24,4 +39,15 @@ function on_mcm_load()
         }
     }
     return op
+end
+
+local function on_option_change()
+	if ui_mcm then
+		magazine_binder.ready_color = rax_persistent_highlight.change_alpha(colors[ui_mcm.get("magazines/highlight_color")] or colors.orange , ui_mcm.get("magazines/highlight_clr_a") or 100 )
+	end
+end
+
+function on_game_start()
+	RegisterScriptCallback("on_option_change",on_option_change)
+	on_option_change()
 end

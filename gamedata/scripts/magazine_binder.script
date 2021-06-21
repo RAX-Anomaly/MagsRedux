@@ -505,7 +505,7 @@ end
 -- this gets called _ALOT_ so putting it here where table can be read
 
 local bags = {actor_bag = true,actor_trade_bag= true} --player inv in normal/looting and in the merchant UI.
-ready_color = GetARGB(50, 255, 255, 255) -- bit brighter than the default highlight color.
+ready_color = GetARGB(100, 255, 159, 82)
 function check_ready(cell)
         if bags[cell.container.ID] then
 			return carried_mags[cell.ID] and ready_color --cell.ID and cell.sec are the object id and section

@@ -25,6 +25,7 @@ get_loadout_slots			= magazine_binder.get_loadout_slots
 function stack_rule(obj)	
 	local sec = obj:section()
 	local mag_data = get_data(obj:id())
+	--print_dbg("stack rule sec:%s id:%s loaded%s config%s", sec, obj:id(), (mag_data and #mag_data.loaded == 0), magazines_mcm.get_config("empty_mags_stack"))
 	return  (( not is_carried_mag(obj:id())) and ((mag_data and #mag_data.loaded == 0) and   magazines_mcm.get_config("empty_mags_stack")) )
 end
 
