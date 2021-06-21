@@ -25,6 +25,7 @@ get_loadout_slots			= magazine_binder.get_loadout_slots
 function stack_rule(obj)	
 	local sec = obj:section()
 	local mag_data = get_data(obj:id())
+	--print_dbg("stack rule sec:%s id:%s loaded%s config%s", sec, obj:id(), (mag_data and #mag_data.loaded == 0), magazines_mcm.get_config("empty_mags_stack"))
 	return  (( not is_carried_mag(obj:id())) and ((mag_data and #mag_data.loaded == 0) and   magazines_mcm.get_config("empty_mags_stack")) )
 end
 
@@ -293,17 +294,16 @@ end
 
 NewGameEquipment = itms_manager.new_game_equippment
 function itms_manager.new_game_equippment()
-    
-    local function itr_inv(npc, item)
-        if is_supported_weapon(item) then
-            local default_mag = weapon_default_magazine(item)
-            print_dbg("Enjoy your complimentary %s!", default_mag)
-            alife_create_item(default_mag, db.actor)
-            alife_create_item(default_mag, db.actor)
-        end
-    end
-    db.actor:iterate_inventory(itr_inv)
-    return NewGameEquipment()
+	local function itr_inv(npc, item)
+		if is_supported_weapon(item) then
+			local default_mag = weapon_default_magazine(item)
+			print_dbg("Enjoy your complimentary %s!", default_mag)
+			alife_create_item(default_mag, db.actor)
+			alife_create_item(default_mag, db.actor)
+		end
+	end
+	db.actor:iterate_inventory(itr_inv)
+	return NewGameEquipment()
 end
 
 -- for quick release					
