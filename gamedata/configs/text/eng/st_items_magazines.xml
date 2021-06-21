@@ -115,6 +115,12 @@
 	<string id="ui_mcm_magazines_ammo_icon_desc">
 		<text>If enabled, you will see small ammo icons on the hud for the first round in a magazine.</text>
 	</string>
+	<string id="ui_mcm_magazines_fast_loading">
+		<text>Enable Fast Loading in Stashes</text>
+	</string>
+	<string id="ui_mcm_magazines_fast_loading_desc">
+		<text>If enabled, loading and unloading rounds in stashes will be instant, like in Escape from Tarkov.</text>
+	</string>
 	<!--MAGAZINES-->
 
 	<string id="st_dot">

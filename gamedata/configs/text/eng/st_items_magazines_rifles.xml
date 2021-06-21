@@ -424,7 +424,7 @@ sniper rifles / full size rifles
 	</string>
 
 	<string id="st_mag_svd_7.62x54_extended">
-		<text>20-round Extended 7.62x54 SVD Magazine</text>
+		<text>20-round 7.62x54 SVD Magazine</text>
 	</string>
 	<string id="st_mag_svd_7.62x54_extended_descr">
 		<text>
@@ -464,7 +464,7 @@ sniper rifles / full size rifles
 	</string>
 	<string id="st_mag_trg_magnum_300_descr">
 		<text>
-			5-round magazine for the Sako TRG-42 and M24 SWS. This magazine was originally designed for the Sako, however, it has been 'modified' slightly to accommodate the M24. Works fine in either rifle, as long as you remember to tap the magazine every once in a while.
+			5-round magazine for the Sako TRG-42, L96 AWM and M24 SWS. This magazine was originally designed for the Sako, however, it has been 'modified' slightly to accommodate different rifles. Works fine in most rifles, as long as you remember to tap the magazine every once in a while.
 		</text>
 	</string>
 

@@ -129,7 +129,7 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_fort_9x18_fmj_descr">
 		<text>
-		Standard-issue 12-round magazine for the Fort-17 handgun. Commonly seen in the Zone as the sidearm of backline Ukrainian Military troops or stalkers with backgrounds as police officers.
+		Standard-issue 12-round magazine for the Fort-12 handgun. Commonly seen in the Zone as the sidearm of backline Ukrainian Military troops or stalkers with backgrounds as police officers.
 		</text>
 	</string>
 
@@ -179,11 +179,11 @@ Pistols and MP's
 	</string>
 
 	<string id="st_mag_hpsa_9x18_fmj">
-		<text>Modified 9x19 Browning Hi-Power Magazine</text>
+		<text>Modified 9x18 Browning Hi-Power Magazine</text>
 	</string>
 	<string id="st_mag_hpsa_9x18_fmj_descr">
 		<text>
-		Browning Hi-Power magazine modified to accept the 9x19 Parabellum round.
+		Browning Hi-Power magazine modified to accept the 9x18 Makarov round.
 		</text>
 	</string>
 
@@ -202,33 +202,6 @@ Pistols and MP's
 	<string id="st_mag_mp443_9x18_fmj_descr">
 		<text>
 		Modified MP-443 Magazine made to accept the 9x18 Makarov round.
-		</text>
-	</string>
-	
-	<string id="st_mag_ppsh41_7.62x25_p">
-		<text>Standard PPSh41 Drum calibre 7.62x25</text>
-	</string>
-	<string id="st_mag_ppsh41_7.62x25_p_descr">
-		<text>
-		Standard PPSh41 Drum calibre 7.62x25.
-		</text>
-	</string>
-
-	<string id="st_mag_mp7_9x19_fmj">
-		<text>Modified 9x19 MP7 Magazine</text>
-	</string>
-	<string id="st_mag_mp7_9x19_fmj_descr">
-		<text>
-            40-round extended MP7 magazine modified to accept 9x19 Parabellum rounds. Due to the somewhat rare nature of 4.6x30 rounds, some thrifty technicians were able to retrofit the MP7 to fire more common 9mm pistol rounds.
-		</text>
-	</string>
-
-	<string id="st_mag_mp7_9x18_fmj">
-		<text>Modified 9x18 MP7 Magazine</text>
-	</string>
-	<string id="st_mag_mp7_9x18_fmj_descr">
-		<text>
-		40-round extended MP7 magazine modified yet again to accept 9x18 Parabellum rounds. The nonstandard modification on top of a nonstandard modification tends to cause issues with reliability with the weapon.
 		</text>
 	</string>
 
@@ -426,6 +399,15 @@ Pistols and MP's
 		</text>
 	</string>
 	
+	<string id="st_mag_ppsh41_7.62x25_p">
+		<text>Standard PPSh41 Drum calibre 7.62x25</text>
+	</string>
+	<string id="st_mag_ppsh41_7.62x25_p_descr">
+		<text>
+		Standard PPSh41 Drum calibre 7.62x25.
+		</text>
+	</string>
+
 	<string id="st_mag_mp5_9x19_fmj">
 		<text>Standard 9x19 MP5 Magazine</text>
 	</string>
@@ -441,6 +423,24 @@ Pistols and MP's
 	<string id="st_mag_mp5_9x18_fmj_descr">
 		<text>
             MP5 magazine modified to take 9x18 Makarov rounds. Conversions to 9x18 are fairly common for the MP5, given its popularity and familiarity to many of the Zone's technicians.
+		</text>
+	</string>
+
+	<string id="st_mag_mp7_9x19_fmj">
+		<text>Modified 9x19 MP7 Magazine</text>
+	</string>
+	<string id="st_mag_mp7_9x19_fmj_descr">
+		<text>
+            40-round extended MP7 magazine modified to accept 9x19 Parabellum rounds. Due to the somewhat rare nature of 4.6x30 rounds, some thrifty technicians were able to retrofit the MP7 to fire more common 9mm pistol rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_mp7_9x18_fmj">
+		<text>Modified 9x18 MP7 Magazine</text>
+	</string>
+	<string id="st_mag_mp7_9x18_fmj_descr">
+		<text>
+		40-round extended MP7 magazine modified yet again to accept 9x18 Parabellum rounds. The nonstandard modification on top of a nonstandard modification tends to cause issues with reliability with the weapon.
 		</text>
 	</string>
 

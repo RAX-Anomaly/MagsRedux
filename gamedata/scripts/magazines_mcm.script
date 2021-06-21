@@ -7,7 +7,8 @@ local defaults = {
 	show_hud			= true,
 	icon_text			= true,
 	ammo_icon			= true,
-	
+  fast_loading        = false
+
 }
 
 local colors = {--alpha value will be reset to match slider
@@ -35,6 +36,7 @@ function on_mcm_load()
             {id = "show_hud", type = "check", val = 1, def=true},			
             {id = "icon_text", type = "check", val = 1, def=true},			
             {id = "ammo_icon", type = "check", val = 1, def=true},			
+            {id = "fast_loading", type = "check", val = 1, def=false},	
             {id = "debug", type = "check", val = 1, def=false},
         }
     }

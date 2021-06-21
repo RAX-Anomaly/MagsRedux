@@ -117,7 +117,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		    local capacity = SYS_GetParam(2, weapon:section(), "max_mag_size")  or 20
 			print_dbg("start loading loop")
 			interrupt_reload = false
-			if is_box_mode then
+			if magazines_mcm.get_config("fast_loading") and is_box_mode then
 				fast_load_magazine(weapon, item)
 			else
 				load_magazine(weapon, item, ammos[ammo_sec], capacity, 0)
@@ -463,18 +463,33 @@ function unload_magazine(magazine, flip)
 end
 
 function fast_load_magazine(magazine, box)
-	local ammo_count = box:ammo_get_count()
 	local mag_data = get_mag_data(magazine:id())
+	local ammo_sec = box:section()
+	local parent = box:parent()
 	local ammo_to_load = SYS_GetParam(2, magazine:section(), "max_mag_size") - #mag_data.loaded
-	if ammo_count < ammo_to_load then ammo_to_load = ammo_count end
-	for i=1,ammo_to_load do
-		stack.push(mag_data.loaded, box:section())
+	local boxes_to_load = {}
+	local count_so_far = 0
+	local function itr_box(temp, item)
+		if item:section() == ammo_sec and count_so_far < ammo_to_load then
+			boxes_to_load[item:id()] = true
+			count_so_far = count_so_far + item:ammo_get_count()
+		end
 	end
+	parent:iterate_inventory_box(itr_box)
+	for k,v in pairs(boxes_to_load) do
+		local ammo_box = level.object_by_id(k)
+		local loaded = ammo_box:ammo_get_count() > ammo_to_load and ammo_to_load or ammo_box:ammo_get_count()
+		local release_box = loaded == ammo_box:ammo_get_count()
+		for i=1,loaded do
+			stack.push(mag_data.loaded, ammo_sec)
+		end
 
-	if ammo_to_load == ammo_count then
-		alife_release_id(box:id())
-	else
-		box:ammo_set_count(ammo_count - ammo_to_load)
+		if release_box then
+			ammo_to_load = ammo_to_load - ammo_box:ammo_get_count()
+			alife_release_id(k)
+		else
+			ammo_box:ammo_set_count(ammo_box:ammo_get_count() - loaded)
+		end
 	end
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
 	timed_refresh()
@@ -522,7 +537,7 @@ function func_unload_ammo(obj)
 		local mag_data = get_mag_data(id)
 		if mag_data and #mag_data.loaded > 0 then
 			interrupt_reload = false
-			if parent_is_box(obj) then
+			if magazines_mcm.get_config("fast_loading") and parent_is_box(obj) then
 				fast_unload_magazine(obj)
 			else
 				CreateTimeEvent("mag_redux","unload_mag " .. id, 0.1, unload_magazine, obj, 0)
