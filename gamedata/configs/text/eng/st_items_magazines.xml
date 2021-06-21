@@ -56,6 +56,46 @@
 	<string id="ui_mcm_magazines_empty_mags_stack_desc">
 		<text>If enabled, empty magazines will stack together in inventory instead of being separate.</text>
 	</string>
+	<string id="ui_mcm_magazines_sort_inv">
+		<text>Sort inventory as magazines are updated</text>
+	</string>
+	<string id="ui_mcm_magazines_sort_inv_desc">
+		<text>Uncheck this if you don't like items in your invetory moving around when magazines are updated.</text>
+	</string>
+	<string id="ui_mcm_magazines_highlight_color">
+		<text>Highlight Color</text>
+	</string>
+	<string id="ui_mcm_magazines_highlight_color_desc">
+		<text>Highlight color for magazines that are part of your loadout.</text>
+	</string>
+
+	<string id="ui_mcm_magazines_highlight_clr_a">
+		<text>Highlight Opacity</text>
+	</string>
+	<string id="ui_mcm_magazines_highlight_clr_a_desc">
+		<text>How much of the UI background is visable through the highlight. Lower values make the highlight more subtile.</text>
+	</string>
+
+	<string id="ui_mcm_lst_ram_orange">
+		<text>Orange</text>
+	</string>
+	<string id="ui_mcm_lst_ram_pink">
+		<text>Pink</text>
+	</string>
+	<string id="ui_mcm_lst_ram_blond">
+		<text>Blond</text>
+	</string>
+	<string id="ui_mcm_lst_ram_white">
+		<text>White</text>
+	</string>
+	<string id="ui_mcm_lst_ram_brown">
+		<text>Brown</text>
+	</string>
+	<string id="ui_mcm_lst_ram_blue">
+		<text>Blue</text>
+	</string>
+	
+
 
 	<string id="ui_mcm_magazines_show_hud">
 		<text>Enable Magazine HUD</text>
