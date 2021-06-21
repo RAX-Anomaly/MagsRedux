@@ -61,15 +61,22 @@ function timer_refresh()
 	return true
 end
 
-function inventory_refresh() --safer way to refresh inventory, also refreshes sorting.
-	local inventory = GetActorMenu()
-	local sort = nil
-	for i=1,#inventory.sort_btn do
-		if inventory.sort_btn[i]:GetCheck() then
-			sort = i
-		end
+function inventory_refresh(mode) --safer way to refresh inventory, mode == 1  refreshes sorting.
+	if not mode then
+		mode = magazines_mcm.get_config("sort_inv") and 1 or 2
 	end
-	inventory:On_Sort(sort or 1,false)
+	local inventory = GetActorMenu()
+	if mode == 1 then
+		local sort = nil
+		for i=1,#inventory.sort_btn do
+			if inventory.sort_btn[i]:GetCheck() then
+				sort = i
+			end
+		end
+		inventory:On_Sort(sort or 1,false)
+	else
+		inventory:UpdateItems()
+	end
 end
 local ammo_maps = {} --cacheing. this function will get called a lot in combat.  ammo_maps gets niled in load_weapon should be enough protect against id recycling and weapon rechamper upgrades
 function get_ammo_map(id)
@@ -197,6 +204,9 @@ function count_ammo(weapon)
 end
 -- Refund ammo.
 function refund_ammo(weapon, pre_ammo_table)
+	if rax_inventory_highlights_mcm  then -- yes i am adding a compatablity patch with my own mod. 
+		rax_inventory_highlights_mcm.temp_disable() --don't flag this magazine as new.
+	end
 	local post_ammo_table = count_ammo(weapon)
 	for ammo_type, count in pairs(pre_ammo_table) do
 		local to_refund = count - post_ammo_table[ammo_type]
@@ -223,6 +233,9 @@ function weapon_in_slot(weapon)
 end
 
 function eject_magazine(weapon)
+	if rax_inventory_highlights_mcm then 
+		rax_inventory_highlights_mcm.temp_disable() --don't flag this magazine as new.
+	end
 	local id = weapon:id()
 	local mag_data = get_mag_data(id)
 	if mag_data then
