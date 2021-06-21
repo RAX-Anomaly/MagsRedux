@@ -294,7 +294,7 @@ end
 
 NewGameEquipment = itms_manager.new_game_equippment
 function itms_manager.new_game_equippment()
-	NewGameEquipment()
+	
 	local function itr_inv(npc, item)
 		if is_supported_weapon(item) then
 			local default_mag = weapon_default_magazine(item)
@@ -304,7 +304,7 @@ function itms_manager.new_game_equippment()
 		end
 	end
 	db.actor:iterate_inventory(itr_inv)
-	return true
+	return NewGameEquipment()
 end
 
 -- for quick release					
