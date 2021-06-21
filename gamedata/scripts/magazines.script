@@ -110,7 +110,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		    local capacity = SYS_GetParam(2, weapon:section(), "max_mag_size")  or 20
 			print_dbg("start loading loop")
 			interrupt_reload = false
-			if is_box_mode then
+			if magazines_mcm.get_config("fast_loading") and is_box_mode then
 				fast_load_magazine(weapon, item)
 			else
 				load_magazine(weapon, item, ammos[ammo_sec], capacity, 0)
@@ -509,7 +509,7 @@ function func_unload_ammo(obj)
 		local mag_data = get_mag_data(id)
 		if mag_data and #mag_data.loaded > 0 then
 			interrupt_reload = false
-			if parent_is_box(obj) then
+			if magazines_mcm.get_config("fast_loading") and parent_is_box(obj) then
 				fast_unload_magazine(obj)
 			else
 				CreateTimeEvent("mag_redux","unload_mag " .. id, 0.1, unload_magazine, obj, 0)
