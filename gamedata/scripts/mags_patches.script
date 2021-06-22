@@ -292,6 +292,7 @@ function item_weapon.detach_scope(weapon)
 	end
 end
 
+NewGameEquipment = itms_manager.new_game_equippment
 function itms_manager.new_game_equippment()
 	local function itr_inv(npc, item)
 		if is_supported_weapon(item) then
