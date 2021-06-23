@@ -60,7 +60,7 @@
 		<text>Sort inventory as magazines are updated</text>
 	</string>
 	<string id="ui_mcm_magazines_sort_inv_desc">
-		<text>Uncheck this if you don't like items in your invetory moving around when magazines are updated.</text>
+		<text>Uncheck this if you don't like items in your inventory moving around when magazines are updated.</text>
 	</string>
 	<string id="ui_mcm_magazines_highlight_color">
 		<text>Highlight Color</text>
@@ -73,7 +73,7 @@
 		<text>Highlight Opacity</text>
 	</string>
 	<string id="ui_mcm_magazines_highlight_clr_a_desc">
-		<text>How much of the UI background is visable through the highlight. Lower values make the highlight more subtile.</text>
+		<text>How much of the UI background is visible through the highlight. Lower values make the highlight more subtle.</text>
 	</string>
 
 	<string id="ui_mcm_lst_ram_orange">
@@ -94,8 +94,6 @@
 	<string id="ui_mcm_lst_ram_blue">
 		<text>Blue</text>
 	</string>
-	
-
 
 	<string id="ui_mcm_magazines_show_hud">
 		<text>Enable Magazine HUD</text>
@@ -107,13 +105,13 @@
 		<text>Enable Ammo Text on Magazine HUD</text>
 	</string>
 	<string id="ui_mcm_magazines_icon_text_desc">
-		<text>If enabled, you will see text on the hud for the first round in a magazine.</text>
+		<text>If enabled, you will see text on the HUD for the first round in a magazine.</text>
 	</string>
 	<string id="ui_mcm_magazines_ammo_icon">
 		<text>Enable Ammo Icons on Magazine HUD</text>
 	</string>
 	<string id="ui_mcm_magazines_ammo_icon_desc">
-		<text>If enabled, you will see small ammo icons on the hud for the first round in a magazine.</text>
+		<text>If enabled, you will see small ammo icons on the HUD for the first round in a magazine.</text>
 	</string>
 	<string id="ui_mcm_magazines_fast_loading">
 		<text>Enable Fast Loading in Stashes</text>
@@ -124,7 +122,7 @@
 	<!--MAGAZINES-->
 
 	<string id="st_dot">
-		<text>•</text>
+		<text>ï¿½</text>
 	</string>
 	<string id="st_mag_bonus">
 		<text>(Outfit:%s + Extra:%s)<!--alt:> (%s + %s)<--></text>
