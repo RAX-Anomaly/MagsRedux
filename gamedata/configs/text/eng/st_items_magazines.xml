@@ -122,7 +122,7 @@
 	<!--MAGAZINES-->
 
 	<string id="st_dot">
-		<text>ï¿½</text>
+		<text>•</text>
 	</string>
 	<string id="st_mag_bonus">
 		<text>(Outfit:%s + Extra:%s)<!--alt:> (%s + %s)<--></text>
