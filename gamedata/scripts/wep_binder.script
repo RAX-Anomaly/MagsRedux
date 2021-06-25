@@ -28,8 +28,9 @@ function wep_binder:update(delta)
 	local mag_data = get_data(id)
 	if mag_data and self.first_update then
 		self.first_update = false
-		local ammmo_cap = SYS_GetParam(2, mag_data.section, "max_mag_size")
-		if #mag_data.loaded > ammo_cap then
+		local ammo_cap = SYS_GetParam(2, mag_data.section, "max_mag_size")
+		if ammo_cap and mag_data.loaded and #mag_data.loaded > ammo_cap then
+			print_dbg("Popping excess rounds from %s because %s > %s", mag_data.section, #mag_data.loaded, ammo_cap)
 			while #mag_data.loaded > ammo_cap do
 				stack.pop(mag_data.loaded)
 			end
