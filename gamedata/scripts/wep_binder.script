@@ -28,6 +28,12 @@ function wep_binder:update(delta)
 	local mag_data = get_data(id)
 	if mag_data and self.first_update then
 		self.first_update = false
+		local ammmo_cap = SYS_GetParam(2, mag_data.section, "max_mag_size")
+		if #mag_data.loaded > ammo_cap then
+			while #mag_data.loaded > ammo_cap do
+				stack.pop(mag_data.loaded)
+			end
+		end
 	end
 	if not mag_data and self.first_update then
 		self.first_update = false
