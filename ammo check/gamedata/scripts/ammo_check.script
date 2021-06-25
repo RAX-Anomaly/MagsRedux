@@ -103,6 +103,8 @@ function checkAmmo()
 				message = game.translate_string("st_ac_less_half")
 			elseif (curAmmoPerc < 0.25 and curAmmoPerc >= 0.001) then 
 				message = game.translate_string("st_ac_near_empty")
+			elseif (curAmmoPerc > 1) then 
+				message = game.translate_string("st_ac_overfull")
 			else
 				message = game.translate_string("st_ac_empty")
 			end	

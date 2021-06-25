@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <string_table>
     <!-- Ammo_Check Messages -->
+    <string id="st_ac_overfull">
+        <text>Overfilled</text>
+    </string>
     <string id="st_ac_full">
         <text>Full</text>
     </string>
