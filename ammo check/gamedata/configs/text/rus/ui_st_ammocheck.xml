@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+    <!-- Ammo_Check Messages -->
+	<string id="st_ac_full">
+		<text>Полный магазин</text>
+	</string>
+	<string id="st_ac_nearly_full">
+		<text>Почти полный</text>
+	</string>
+	<string id="st_ac_more_half">
+		<text>Больше половины</text>
+	</string>
+	<string id="st_ac_about_half">
+		<text>Половина магазина</text>
+	</string>
+	<string id="st_ac_less_half">
+		<text>Меньше половины</text>
+	</string>
+	<string id="st_ac_near_empty">
+		<text>Почти пустой магазин</text>
+	</string>
+	<string id="st_ac_empty">
+		<text>Пустой магазин</text>
+	</string>
+	<string id="st_ac_jammed">
+		<text>Оружие заклинило</text>
+	</string>
+	<string id="st_ac_noMag">
+		<text>Магазин снят</text>
+	</string>
+	<string id="st_ac_ammoLeft">
+		<text>осталось</text>
+	</string>
+    <string id="st_ac_noAmmo">
+        <text>Не использует боеприпасы!</text>
+    </string>
+    
+	<string id="kb_check_ammo">
+		<text>Проверить обойму патронов</text>
+	</string>
+
+</string_table>

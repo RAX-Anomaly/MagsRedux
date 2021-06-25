@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+    <!-- Ammo_Check Messages -->
+    <string id="st_ac_full">
+        <text>Full</text>
+    </string>
+    <string id="st_ac_nearly_full">
+        <text>Nearly Full</text>
+    </string>
+    <string id="st_ac_more_half">
+        <text>More than Half</text>
+    </string>
+    <string id="st_ac_about_half">
+        <text>About Half</text>
+    </string>
+    <string id="st_ac_less_half">
+        <text>Less Than Half</text>
+    </string>
+    <string id="st_ac_near_empty">
+        <text>Nearly Empty</text>
+    </string>
+    <string id="st_ac_empty">
+        <text>Empty</text>
+    </string>
+    <string id="st_ac_jammed">
+        <text>Jammed Weapon</text>
+    </string>
+    <string id="st_ac_noMag">
+        <text>No Magazine loaded</text>
+    </string>
+    <string id="st_ac_noAmmo">
+        <text>This doesn't take ammo!</text>
+    </string>
+    <string id="st_ac_ammoLeft">
+        <text>left</text>
+    </string>
+    
+	<string id="kb_check_ammo">
+		<text>Check Ammo</text>
+	</string>
+
+</string_table>
