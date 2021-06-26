@@ -27,9 +27,15 @@ function on_game_start()
 	RegisterScriptCallback("on_key_press",on_key_press)
 	RegisterScriptCallback("actor_on_weapon_jammed", weapon_jammed)
 	RegisterScriptCallback("actor_on_weapon_reload", on_reload)
+	RegisterScriptCallback("actor_on_first_update",actor_on_first_update)
 end
 
 -- Script Callbacks --
+
+function actor_on_first_update()
+	ActorMenu.get_maingame().m_ui_hud_states.m_ui_weapon_cur_ammo:SetWndPos(vector2():set(9990,0))
+end
+
 function on_key_press(key)
 	local bind = dik_to_bind(key)
     if (bind == key_bindings.kCUSTOM25) then
