@@ -4,6 +4,9 @@
     <string id="st_ac_overfull">
         <text>Overfilled</text>
     </string>
+    <string id="st_ac_just_one">
+        <text>Just One</text>
+    </string>
     <string id="st_ac_full">
         <text>Full</text>
     </string>
@@ -37,9 +40,9 @@
     <string id="st_ac_ammoLeft">
         <text>left</text>
     </string>
-    
-	<string id="kb_check_ammo">
-		<text>Check Ammo</text>
-	</string>
+
+    <string id="kb_check_ammo">
+        <text>Check Ammo</text>
+    </string>
 
 </string_table>

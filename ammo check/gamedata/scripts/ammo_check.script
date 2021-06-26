@@ -110,10 +110,15 @@ function checkAmmo()
             print_dbg("Top round is %s, index %s, ammo table has %s entries", top_round, ammo_type, #ammo_table)
             max_ammo = SYS_GetParam(2, sec, "ammo_mag_size")
         end
+
         local curAmmoPerc = currentAmmo / max_ammo
+        local shottyMode = false
 
         if (curAmmoPerc == 1) then
             message = game.translate_string("st_ac_full")
+        elseif (currentAmmo == 1 and max_ammo == 2) then
+            message = game.translate_string("st_ac_just_one")
+            shottyMode = true
         elseif (curAmmoPerc < 1 and curAmmoPerc >= 0.8) then
             message = game.translate_string("st_ac_nearly_full")
         elseif (curAmmoPerc < 0.8 and curAmmoPerc >= 0.6) then
@@ -131,7 +136,11 @@ function checkAmmo()
         end
 
         if curAmmoPerc > 0 and top_round then
-            message = message .. ", " .. gc(SYS_GetParam(0, top_round, "inv_name"))
+            if shottyMode then
+                message = message .. " " .. gc(SYS_GetParam(0, top_round, "inv_name")):gsub("shells$", "shell") -- TODO: Singular conversion needs Russian support?
+            else
+                message = message .. ", " .. gc(SYS_GetParam(0, top_round, "inv_name"))
+            end
         end
     end
 
