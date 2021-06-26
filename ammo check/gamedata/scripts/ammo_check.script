@@ -88,7 +88,7 @@ function checkAmmo()
     local sec = weapon:section()
 
     if (jammed_weapon) then
-        message = game.translate_string("st_ac_jammed")
+        message = gc("st_ac_jammed")
     elseif currentAmmo == 0 then
         if is_supported_weapon(sec) and get_data(weaponId) == nil then
             message = gc("st_ac_noMag")
@@ -115,24 +115,24 @@ function checkAmmo()
         local shottyMode = false
 
         if (curAmmoPerc == 1) then
-            message = game.translate_string("st_ac_full")
+            message = gc("st_ac_full")
         elseif (currentAmmo == 1 and max_ammo == 2) then
-            message = game.translate_string("st_ac_just_one")
+            message = gc("st_ac_just_one")
             shottyMode = true
         elseif (curAmmoPerc < 1 and curAmmoPerc >= 0.8) then
-            message = game.translate_string("st_ac_nearly_full")
+            message = gc("st_ac_nearly_full")
         elseif (curAmmoPerc < 0.8 and curAmmoPerc >= 0.6) then
-            message = game.translate_string("st_ac_more_half")
+            message = gc("st_ac_more_half")
         elseif (curAmmoPerc < 0.6 and curAmmoPerc >= 0.45) then
-            message = game.translate_string("st_ac_about_half")
+            message = gc("st_ac_about_half")
         elseif (curAmmoPerc < 0.45 and curAmmoPerc >= 0.25) then
-            message = game.translate_string("st_ac_less_half")
+            message = gc("st_ac_less_half")
         elseif (curAmmoPerc < 0.25 and curAmmoPerc >= 0.001) then
-            message = game.translate_string("st_ac_near_empty")
+            message = gc("st_ac_near_empty")
         elseif (curAmmoPerc > 1) then
-            message = game.translate_string("st_ac_overfull")
+            message = gc("st_ac_overfull")
         else
-            message = game.translate_string("st_ac_empty")
+            message = gc("st_ac_empty")
         end
 
         if curAmmoPerc > 0 and top_round then
