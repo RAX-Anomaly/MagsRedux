@@ -126,14 +126,18 @@ function checkAmmo()
 			end
 		end
 	end
+
+	local function evt_id()
+		return "amocek" .. math.random(99999)
+	end
 	
 	db.actor:hide_weapon()
-	CreateTimeEvent(0,"showMessage",0.7,function() 
+	CreateTimeEvent(evt_id(),"showMessage",0.7,function() 
 		actor_menu.set_msg(1, message, 1)
 		return true
 	end)
-	
-	CreateTimeEvent(0,"restore Weapon",1.5,function() 
+
+	CreateTimeEvent(evt_id(),"restore Weapon",1.5,function() 
 		db.actor:restore_weapon()
 		return true
 	end)
