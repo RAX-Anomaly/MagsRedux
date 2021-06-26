@@ -140,7 +140,7 @@ function checkAmmo()
     local eventId = "amocek" .. math.random(99999)
 
     CreateTimeEvent(eventId, "restore Weapon", 1.5, function()
-        actor_menu.set_msg(1, message, 1)
+        actor_menu.set_msg(1, message, 2)
         db.actor:restore_weapon()
         return true
     end)
