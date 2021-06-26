@@ -19,8 +19,8 @@ local jammed_weapon = false
 
 gc						 	= game.translate_string
 print_dbg	 				= magazine_binder.print_dbg
-get_data 				= magazine_binder.get_data
-set_data 				= magazine_binder.set_data
+get_data 					= magazine_binder.get_data
+set_data 					= magazine_binder.set_data
 is_supported_weapon			= magazine_binder.is_supported_weapon
 
 function on_game_start()
@@ -88,11 +88,17 @@ function checkAmmo()
 			end
 		else
 			local max_ammo = 0
+			local top_round = nil
 			if is_supported_weapon(sec) then
 				local mag_data = get_data(weaponId)
 				print_dbg("checking for section %s", mag_data.section)
 				max_ammo = SYS_GetParam(2, mag_data.section, "max_mag_size")
+				top_round = stack.peek(mag_data.loaded)
 			else
+				local ammo_type = weapon:get_ammo_type()
+				local ammo_table = utils_item.get_ammo(nil, weaponId)
+				top_round = ammo_table[ammo_type + 1]
+				print_dbg("Top round is %s, index %s, ammo table has %s entries", top_round, ammo_type, #ammo_table)
 				max_ammo = SYS_GetParam(2, sec, "ammo_mag_size")
 			end
 			local curAmmoPerc = currentAmmo/max_ammo
@@ -113,7 +119,11 @@ function checkAmmo()
 				message = game.translate_string("st_ac_overfull")
 			else
 				message = game.translate_string("st_ac_empty")
-			end	
+			end
+			
+			if curAmmoPerc > 0 and top_round then
+				message = message .. ", " .. gc(SYS_GetParam(0, top_round, "inv_name"))
+			end
 		end
 	end
 	
