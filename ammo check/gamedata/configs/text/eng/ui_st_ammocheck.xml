@@ -45,4 +45,25 @@
         <text>Check Ammo</text>
     </string>
 
+	
+    <string id="ui_mcm_menu_rax_ammo_check">
+        <text>Ammo Check</text>
+    </string>
+    <string id="ui_mm_title_rax_ammo_check">
+        <text>Ammo Check</text>
+    </string>
+
+	<string id="ui_mcm_rax_ammo_check_usecolor">
+		<text>Color messages.</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_hidecounter">
+		<text>Hide Ammo Counter.</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_hideicon">
+		<text>Hide Ammo Icon.</text>
+	</string>
+
+
 </string_table>
