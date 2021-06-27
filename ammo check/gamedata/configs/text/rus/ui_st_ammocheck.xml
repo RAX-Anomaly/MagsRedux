@@ -1,50 +1,73 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <string_table>
 	<!-- Ammo_Check Messages -->
-	<!-- New strings requiring RU translation.
+	
 	<string id="st_ac_overfull">
 		<text>Overfilled</text>
 	</string>
 	<string id="st_ac_just_one">
 		<text>Just one</text>
 	</string> 
-	-->
+
 	<string id="st_ac_full">
-		<text>РџРѕР»РЅС‹Р№ РјР°РіР°Р·РёРЅ</text>
+		<text>Полный магазин</text>
 	</string>
 	<string id="st_ac_nearly_full">
-		<text>РџРѕС‡С‚Рё РїРѕР»РЅС‹Р№</text>
+		<text>Почти полный</text>
 	</string>
 	<string id="st_ac_more_half">
-		<text>Р‘РѕР»СЊС€Рµ РїРѕР»РѕРІРёРЅС‹</text>
+		<text>Больше половины</text>
 	</string>
 	<string id="st_ac_about_half">
-		<text>РџРѕР»РѕРІРёРЅР° РјР°РіР°Р·РёРЅР°</text>
+		<text>Половина магазина</text>
 	</string>
 	<string id="st_ac_less_half">
-		<text>РњРµРЅСЊС€Рµ РїРѕР»РѕРІРёРЅС‹</text>
+		<text>Меньше половины</text>
 	</string>
 	<string id="st_ac_near_empty">
-		<text>РџРѕС‡С‚Рё РїСѓСЃС‚РѕР№ РјР°РіР°Р·РёРЅ</text>
+		<text>Почти пустой магазин</text>
 	</string>
 	<string id="st_ac_empty">
-		<text>РџСѓСЃС‚РѕР№ РјР°РіР°Р·РёРЅ</text>
+		<text>Пустой магазин</text>
 	</string>
 	<string id="st_ac_jammed">
-		<text>РћСЂСѓР¶РёРµ Р·Р°РєР»РёРЅРёР»Рѕ</text>
+		<text>Оружие заклинило</text>
 	</string>
 	<string id="st_ac_noMag">
-		<text>РњР°РіР°Р·РёРЅ СЃРЅСЏС‚</text>
+		<text>Магазин снят</text>
 	</string>
 	<string id="st_ac_ammoLeft">
-		<text>РѕСЃС‚Р°Р»РѕСЃСЊ</text>
+		<text>осталось</text>
 	</string>
 	<string id="st_ac_noAmmo">
-		<text>РќРµ РёСЃРїРѕР»СЊР·СѓРµС‚ Р±РѕРµРїСЂРёРїР°СЃС‹!</text>
+		<text>Не использует боеприпасы!</text>
 	</string>
 
 	<string id="kb_check_ammo">
-		<text>РџСЂРѕРІРµСЂРёС‚СЊ РѕР±РѕР№РјСѓ РїР°С‚СЂРѕРЅРѕРІ</text>
+		<text>Проверить обойму патронов</text>
 	</string>
+
+    <string id="ui_mcm_menu_rax_ammo_check">
+        <text>Ammo Check</text>
+    </string>
+    <string id="ui_mm_title_rax_ammo_check">
+        <text>Ammo Check</text>
+    </string>
+
+	<string id="ui_mcm_rax_ammo_check_usecolor">
+		<text>Color messages.</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_hidecounter">
+		<text>Hide Ammo Counter.</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_hideicon">
+		<text>Hide Ammo Icon.</text>
+	</string>
+
+
+
+
 
 </string_table>
