@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <string_table>
-    <!-- Ammo_Check Messages -->
+	<!-- Ammo_Check Messages -->
+	<!-- New strings requiring RU translation.
+	<string id="st_ac_overfull">
+		<text>Overfilled</text>
+	</string>
+	<string id="st_ac_just_one">
+		<text>Just one</text>
+	</string> 
+	-->
 	<string id="st_ac_full">
 		<text>Полный магазин</text>
 	</string>
@@ -31,10 +39,10 @@
 	<string id="st_ac_ammoLeft">
 		<text>осталось</text>
 	</string>
-    <string id="st_ac_noAmmo">
-        <text>Не использует боеприпасы!</text>
-    </string>
-    
+	<string id="st_ac_noAmmo">
+		<text>Не использует боеприпасы!</text>
+	</string>
+
 	<string id="kb_check_ammo">
 		<text>Проверить обойму патронов</text>
 	</string>
