@@ -6,19 +6,27 @@ hide_ammo_icon = true
 -- locals --
 local jammed_weapon = false
 
--- the miss alighnment of the colors and the text 2x the info without 2x the text. change it if it's weird. 
+local clr00_Red = GetARGB(0xff, 0xff, 0x00, 0x00)
+local clr01_RedOrange = GetARGB(0xff, 0xff, 0x40, 0x00)
+local clr02_Orange = GetARGB(0xff, 0xff, 0x80, 0x00)
+local clr03_Amber = GetARGB(0xff, 0xff, 0xc0, 0x00)
+local clr04_LemonGlacier = GetARGB(0xff, 0xff, 0xff, 0x00)
+local clr05_LaserLemon = GetARGB(0xff, 0xff, 0xff, 0x80)
+local clr06_White = GetARGB(0xff, 0xff, 0xff, 0xff)
+
+-- the misalignment of the colors and the text means 2x the info without 2x the text.
 local messages = {
-    {m = "st_ac_near_empty", c = GetARGB(0xff, 0xff, 0x40, 0x00)}, -- <1/10, Red Orange
-    {m = "st_ac_near_empty", c = GetARGB(0xff, 0xff, 0x40, 0x00)}, -- <2/10
-    {m = "st_ac_less_half", c = GetARGB(0xff, 0xff, 0x80, 0x00)}, -- <3/10, Orange
-    {m = "st_ac_less_half", c = GetARGB(0xff, 0xff, 0x80, 0x00)}, -- <4/10
-    {m = "st_ac_about_half", c = GetARGB(0xff, 0xff, 0xc0, 0x00)}, -- <5/10, Amber
-    {m = "st_ac_about_half", c = GetARGB(0xff, 0xff, 0xc0, 0x00)}, -- <6/10
-    {m = "st_ac_more_half", c = GetARGB(0xff, 0xff, 0xff, 0x00)}, -- <7/10, lemon glacier
-    {m = "st_ac_more_half", c = GetARGB(0xff, 0xff, 0xff, 0x00)}, -- <8/10
-    {m = "st_ac_nearly_full", c = GetARGB(0xff, 0xff, 0xff, 0x80)}, -- <9/10, laser lemon
-    {m = "st_ac_nearly_full", c = GetARGB(0xff, 0xff, 0xff, 0x80)}, -- <10/10
-    {m = "st_ac_full", c = GetARGB(0xff, 0xff, 0xff, 0xff)} -- full, white
+    {m = "st_ac_near_empty", c = clr00_Red}, -- <1/10
+    {m = "st_ac_near_empty", c = clr01_RedOrange}, -- <2/10
+    {m = "st_ac_less_half", c = clr01_RedOrange}, -- <3/10
+    {m = "st_ac_less_half", c = clr02_Orange}, -- <4/10
+    {m = "st_ac_about_half", c = clr02_Orange}, -- <5/10
+    {m = "st_ac_about_half", c = clr03_Amber}, -- <6/10
+    {m = "st_ac_more_half", c = clr03_Amber}, -- <7/10
+    {m = "st_ac_more_half", c = clr04_LemonGlacier}, -- <8/10
+    {m = "st_ac_nearly_full", c = clr04_LemonGlacier}, -- <9/10
+    {m = "st_ac_nearly_full", c = clr05_LaserLemon}, -- <10/10
+    {m = "st_ac_full", c = clr06_White} -- full
 }
 
 -- aliases--
@@ -120,13 +128,14 @@ function checkAmmo()
     local top_round = nil
     if (jammed_weapon) then
         message = game.translate_string("st_ac_jammed")
+        clr = use_clr and clr00_Red or nil
     elseif currentAmmo == 0 then
         if is_supported_weapon(sec) and get_data(weaponId) == nil then
             message = gc("st_ac_noMag")
-            clr = use_clr and GetARGB(0xff, 0xff, 0x00, 0x00) or nil
+            clr = use_clr and clr00_Red or nil
         else
             message = gc("st_ac_empty")
-            clr = use_clr and GetARGB(0xff, 0xff, 0x00, 0x00) or nil
+            clr = use_clr and clr00_Red or nil
         end
     else
         local max_ammo = 0
@@ -150,7 +159,7 @@ function checkAmmo()
             clr = utils_xml.get_color("d_purple", true) -- always colored this is an error.
         elseif (currentAmmo == 1 and SYS_GetParam(2, sec, "ammo_mag_size", 0) == 2) then
             message = gc("st_ac_just_one")
-            clr = use_clr and GetARGB(0xff, 0xff, 0xC0, 0x00) -- Amber
+            clr = use_clr and clr03_Amber
         else
             idx = l_round((curAmmoPerc * 10) + .5) -- gives an interger value n for the decile of curAmmoPerc and 11 for full.
             print_dbg("IDX is %s %s %s %s", idx, curAmmoPerc, currentAmmo, max_ammo)
