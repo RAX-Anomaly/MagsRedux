@@ -40,6 +40,7 @@ function trade_manager.update(npc, force_refresh)
         return
 	end
 	tm_custom[id] = c2t(game.get_game_time())
+    CreateTimeEvent("custom_update"..npc:id(), "custom_resupply"..npc:id(), 0.1, timed_update, npc)
     update(npc)
 end
 
@@ -50,24 +51,26 @@ function trade_manager.on_npc_death(npc)
 	end
 end
 
+function timed_update(npc)
+    update(npc)
+    return true
+end
+
 -- monkeypatch me
 function update(npc)
 end
 
 -- util functions to help with monkey patching
 
-function get_faction_goodwill(faction)
-end
-
 COMPANION = 0   -- companions got special trade logic, this is just to catch errors
 MECHANIC = 1    -- mechanics/techs
 BARMAN = 2      -- exclusive food suppliers like Spirit
 MEDIC = 3       -- medics 
 SUPPLIER = 4    -- everyone else that sells crap
--- return trader type as int, or nil if error
+-- return trader type as int, or -1 if error
 function get_trader_type(npc)
     local st = db.storage[npc:id()]
-    if not st then return end
+    if not st then return -1 end
     local trader = false
     if npc:character_community() == "trader" or npc:clsid() == clsid.script_trader or npc:clsid() == clsid.trader then
         trader = true
@@ -77,7 +80,7 @@ function get_trader_type(npc)
     end
     local cini = st.ini
     local logic = st.section_logic
-    if not logic and not trader then return end
+    if not logic and not trader then return -1 end
     local trade_logic = cini:r_string_ex(logic, "trade")
     if not trade_logic then return -1 end
     if find(trade_logic, "companion") then
@@ -94,9 +97,13 @@ function get_trader_type(npc)
 end
 
 -- return supply level of npc, like suppy_1, supply_2, etc
-function supply_level(npc)
-    local config = trade_manager.get_trade_profile(npc:id(), "cfg_ltx")
-    
+-- as_number removes the supply_ prefix and only returns as int
+function supply_level(npc, as_number)
+
+    local profile = trade_manager.get_trade_profile(npc:id(), "cfg_ltx")
+    -- printf("Profile is %s", profile)
+    local config = trade_manager.get_trade_cfg(profile)    
+    if not config then return end
 	local str = config:r_string_ex("trader", "buy_supplies")
 	if not (str) then 
 		return -- no buy_supplies this is normal
@@ -104,8 +111,39 @@ function supply_level(npc)
 
 	local condlist = xr_logic.parse_condlist(npc, "trader", "buy_supplies", str)
 	str = condlist and xr_logic.pick_section_from_condlist(db.actor, npc, condlist)
-    return str
+    if as_number then
+        local num = str_explode(str, "_")
+        return tonumber(num[2])
+    else   
+        return str
+    end
 end
+
+-- to_spawn should be table of sections to amount
+-- if check_existing is true, only spawns up to that amount in trader inventory. else arbitrarily spawns
+function spawn_items(npc, to_spawn, check_existing)
+    local supply_table = {}
+    copy_table(supply_table, to_spawn)
+    if check_existing then
+		local function itr_inv(temp, item)
+			if supply_table[item:section()] and supply_table[item:section()] > 0 then
+				-- printf("Found 1 of %s", item:section())
+                supply_table[item:section()] = supply_table[item:section()] - 1
+			end
+		end
+		npc:iterate_inventory(itr_inv)
+    end
+    
+    for k,v in pairs(supply_table) do
+        -- printf("Creating %s of %s", v, k)
+        for i=1, v do
+            -- printf("Created %s", k)
+            alife_create_item(k, npc)
+        end
+    end
+end
+
+
 function load_state(m_data)
     tm_custom = m_data.tm_custom or {}
 end

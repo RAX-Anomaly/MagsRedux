@@ -345,6 +345,7 @@ end
 function unjam_weapon(weapon)
 	local id = weapon:id()
 	local data = {}
+	local slot = db.actor:active_slot()
 	copy_table(data, get_mag_data(id))
 	actor_effects.use_weapon(0)
 	local ammo_loaded = weapon:get_ammo_in_magazine()
@@ -354,15 +355,16 @@ function unjam_weapon(weapon)
 	jammed_guns[id] = nil
 	print_dbg("New weapon should have %s ammo", #data.loaded)
 	on_key_press()
-	CreateTimeEvent("Mag_redux", "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon, data)
+	CreateTimeEvent("Mag_redux", "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon.id, data, slot)
 end
 
-function unjam_weapon_timer(weapon_obj, data)
+function unjam_weapon_timer(weapon_id, data, slot)
 	utils_obj.play_sound("handgun_unjam")
-	local weapon = level.object_by_id(weapon_obj.id)
-	set_mag_data(weapon_obj.id, nil)
-	set_mag_data(weapon_obj.id, data)
+	local weapon = level.object_by_id(weapon_id)
+	set_mag_data(weapon_id, nil)
+	set_mag_data(weapon_id, data)
 	prep_weapon(weapon, false)
+	db.actor:move_to_slot(weapon, slot)
 	actor_effects.use_weapon(1)
 	return true
 end
