@@ -92,6 +92,22 @@ function ui_workshop.UIWorkshopUpgrade:Upgrade()
 	WorkshopUpgrade(self)
 end
 
+WorkshopRepair = ui_workshop.UIWorkshopRepair.Repair
+function ui_workshop.UIWorkshopRepair:Repair()
+	
+	local obj = self.CC["inventory"]:GetCell_Selected(true)
+	if (not obj) then
+		return
+	end
+	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
+		--artifax fix
+		if get_data(obj:id()) ~= nil then
+			local mag = eject(obj)
+		end
+	end
+	WorkshopRepair(self)
+end
+
 --Patching ui_item.script
 --first duplicate some short hand so i can just copy paste
 local string_find         = string.find
