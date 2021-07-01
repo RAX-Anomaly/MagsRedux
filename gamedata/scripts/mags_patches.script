@@ -67,8 +67,9 @@ end
 -- MP for ejecting mags on upgrade/replacement
 DisassemblyWeapon = item_parts.disassembly_weapon
 function item_parts.disassembly_weapon(obj, obj_d) 
-	
-	if get_data(obj) ~= nil then
+	print_dbg("Interdict disassembly")
+	if get_data(obj:id()) ~= nil then
+		print_dbg("Found magazine, ejecting")
 		local mag = eject(obj)
 	end
 	DisassemblyWeapon(obj, obj_d)
@@ -84,11 +85,27 @@ function ui_workshop.UIWorkshopUpgrade:Upgrade()
 	-- For weapons, unload mag and clear ammo cache in case of ammo type upgrades
 	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
 		--artifax fix
-		if get_data(obj) ~= nil then
+		if get_data(obj:id()) ~= nil then
 			local mag = eject(obj)
 		end
 	end
 	WorkshopUpgrade(self)
+end
+
+WorkshopRepair = ui_workshop.UIWorkshopRepair.Repair
+function ui_workshop.UIWorkshopRepair:Repair()
+	
+	local obj = self.CC["inventory"]:GetCell_Selected(true)
+	if (not obj) then
+		return
+	end
+	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
+		--artifax fix
+		if get_data(obj:id()) ~= nil then
+			local mag = eject(obj)
+		end
+	end
+	WorkshopRepair(self)
 end
 
 --Patching ui_item.script
