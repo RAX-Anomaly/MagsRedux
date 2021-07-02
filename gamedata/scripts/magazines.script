@@ -600,6 +600,10 @@ function weapon_jammed(weapon)
 	jammed_guns[weapon:id()] = true
 end
 
+function is_jammed_weapon(weapon_id)
+	return jammed_guns[weapon_id] or false
+end
+
 -- Load next round into the weapon. 
 -- feed_next removes top round and feeds one after. otherwise feeds current
 function prep_weapon(weapon, feed_next)

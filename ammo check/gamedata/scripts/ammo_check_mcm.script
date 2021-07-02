@@ -4,8 +4,6 @@ hide_counter = true
 hide_ammo_icon = true
 
 -- locals --
-local jammed_weapon = false
-
 local clr00_Red = GetARGB(0xff, 0xff, 0x00, 0x00)
 local clr01_RedOrange = GetARGB(0xff, 0xff, 0x40, 0x00)
 local clr02_Orange = GetARGB(0xff, 0xff, 0x80, 0x00)
@@ -35,6 +33,7 @@ print_dbg = magazine_binder.print_dbg
 get_data = magazine_binder.get_data
 set_data = magazine_binder.set_data
 is_supported_weapon = magazine_binder.is_supported_weapon
+is_jammed_weapon = magazines.is_jammed_weapon
 
 function l_round(value)
     local min = math.floor(value + 0.5)
@@ -43,8 +42,6 @@ end
 
 function on_game_start()
     RegisterScriptCallback("on_key_press", on_key_press)
-    RegisterScriptCallback("actor_on_weapon_jammed", weapon_jammed)
-    RegisterScriptCallback("actor_on_weapon_reload", on_reload)
     RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
     RegisterScriptCallback("on_option_change", on_option_change)
 end
@@ -91,14 +88,6 @@ function on_key_press(key)
     end
 end
 
-function weapon_jammed()
-    jammed_weapon = true
-end
-
-function on_reload()
-    jammed_weapon = false
-end
-
 -- Main function --
 function checkAmmo()
     local weapon = db.actor:active_item()
@@ -126,7 +115,8 @@ function checkAmmo()
 
     local sec = weapon:section()
     local top_round = nil
-    if (jammed_weapon) then
+
+    if (is_jammed_weapon(weaponId)) then
         message = game.translate_string("st_ac_jammed")
         clr = use_clr and clr00_Red or nil
     elseif currentAmmo == 0 then
