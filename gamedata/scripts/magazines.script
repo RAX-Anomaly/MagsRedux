@@ -301,8 +301,8 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	-- cancel reload only if we have a valid mag
 	if not weapon or not is_supported_weapon(weapon) or is_grenade_mode() then return end
 
-	if jammed_guns[weapon:id()] then
-		jammed_guns[weapon:id()] = nil
+	if is_jammed_weapon(weapon) then
+		weapon_unjammed(weapon)
 		local hud_section = SYS_GetParam(0, weapon:section(), "hud")
 		if SYS_GetParam(0, hud_section, "anm_reload_misfire") == nil then
 			-- actually do the weapon replace logic here
@@ -352,7 +352,7 @@ function unjam_weapon(weapon)
 	-- local fire_queue = 0 -- this shit complicated do later
 	local old_weapon = alife_object(weapon:id())
 	local new_weapon = alife_clone_weapon(old_weapon)
-	jammed_guns[id] = nil
+	weapon_unjammed(weapon)
 	print_dbg("New weapon should have %s ammo", #data.loaded)
 	on_key_press()
 	CreateTimeEvent("Mag_redux", "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon.id, data, slot)
@@ -588,6 +588,8 @@ end
 -----------------------------------------
 
 function actor_on_weapon_fired(obj, weapon, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
+	weapon_unjammed(weapon) --this is only needed here for automatic shotguns, because they do not trigger the reload callback.
+
 	if is_grenade_mode() then  
 		return
 	end
@@ -595,9 +597,21 @@ function actor_on_weapon_fired(obj, weapon, ammo_elapsed, grenade_elapsed, ammo_
 	prep_weapon(weapon, true)
 end
 
+function weapon_unjammed(weapon)
+    local weapon_id = weapon:id()
+    if jammed_guns[weapon_id] then
+        print_dbg("Removing jammed weapon entry %s", weapon_id)
+        jammed_guns[weapon_id] = nil
+    end
+end
+
 function weapon_jammed(weapon)
 	print_dbg("Logging jammed weapon %s", weapon:id())
 	jammed_guns[weapon:id()] = true
+end
+
+function is_jammed_weapon(weapon)
+	return jammed_guns[weapon:id()] or false
 end
 
 -- Load next round into the weapon. 
