@@ -116,7 +116,7 @@ function checkAmmo()
     local sec = weapon:section()
     local top_round = nil
 
-    if (is_jammed_weapon(weaponId)) then
+    if (is_jammed_weapon(weapon)) then
         message = game.translate_string("st_ac_jammed")
         clr = use_clr and clr00_Red or nil
     elseif currentAmmo == 0 then
