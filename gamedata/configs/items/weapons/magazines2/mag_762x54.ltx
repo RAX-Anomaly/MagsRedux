@@ -18,8 +18,12 @@
 description			                                   = st_mag_pkm_pkm_descr
 inv_name			                                   = st_mag_pkm_pkm
 inv_name_short		                                   = st_mag_pkm_pkm
-inv_grid_x                     					       = 5
-inv_grid_y               				               = 18
+icons_texture							               = ui\ui_icon_magazines
+inv_grid_height                                        = 2
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 13
+inv_weight			                                   = 0.5
+cost                                                   = 4125
 inv_grid_width                           			   = 2
 max_mag_size										   = 100
 mag_size											   = large
@@ -27,12 +31,14 @@ load_delay                                             = 0.1
 
 base_type											   = pkp_pkm
 
-[mag_196a1_7.62x54_alt]:tch_mag_base
+[mag_196a1_7.62x54_alt]:tch_mag_base,tch_mag_alt
 description			                                   = st_mag_l96a1_pkm_descr
 inv_name			                                   = st_mag_l96a1_pkm
 inv_name_short		                                   = st_mag_l96a1_pkm
 inv_grid_x                     					       = 0
-inv_grid_y               				               = 29
+inv_grid_y               				               = 28
+inv_weight			                                   = 0.5
+cost                                                   = 4125
 max_mag_size										   = 10
 mag_size											   = medium
 
@@ -45,18 +51,22 @@ inv_name			                                   = st_mag_svt40_7.62x54
 inv_name_short		                                   = st_mag_svt40_7.62x54
 inv_grid_x                     					       = 3
 inv_grid_y               				               = 30
+inv_weight			                                   = 0.1
+cost                                                   = 1335
 max_mag_size										   = 10
 mag_size											   = medium
 
 base_type											   = svt_7.62x54
 retool_group										   = svt_default
 
-[mag_t63_7.62x54_alt]:tch_mag_base
+[mag_t63_7.62x54_alt]:tch_mag_base,tch_mag_alt
 description			                                   = st_mag_type63_7.62x54_descr
 inv_name			                                   = st_mag_type63_7.62x54
 inv_name_short		                                   = st_mag_type63_7.62x54
 inv_grid_x                     					       = 6
-inv_grid_y               				               = 21
+inv_grid_y               				               = 20
+inv_weight			                                   = 0.3
+cost                                                   = 1002
 max_mag_size										   = 20
 mag_size											   = medium
 
@@ -69,6 +79,8 @@ inv_name			                                   = st_mag_sv98_7.62x54
 inv_name_short		                                   = st_mag_sv98_7.62x54
 inv_grid_x                     					       = 1
 inv_grid_y               				               = 30
+inv_weight			                                   = 0.1
+cost                                                   = 1870
 max_mag_size										   = 10
 mag_size											   = medium
 
@@ -80,19 +92,23 @@ inv_name			                                   = st_mag_svd_7.62x54
 inv_name_short		                                   = st_mag_svd_7.62x54
 inv_grid_x                     					       = 4
 inv_grid_y               				               = 30
+inv_weight			                                   = 0.1
+cost                                                   = 1990
 max_mag_size										   = 10
 mag_size											   = medium
 
 base_type											   = svd_7.62x54
 
-[mag_svd_7.62x54_extended]:tch_mag_base
+[mag_svd_7.62x54_extended]:tch_mag_base,tch_mag_upgr
 description			                                   = st_mag_svd_7.62x54_extended_descr
 inv_name			                                   = st_mag_svd_7.62x54_extended
 inv_name_short		                                   = st_mag_svd_7.62x54_extended
 inv_grid_x                     					       = 2
 inv_grid_y               				               = 30
 max_mag_size										   = 20
-mag_size											   = large
+inv_weight			                                   = 0.1
+cost                                                   = 5475
+mag_size											   = medium
 
 base_type											   = svd_7.62x54
 load_delay = 0.45

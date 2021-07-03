@@ -18,8 +18,12 @@
 description			                                   = st_mag_ak_7.62x39_descr
 inv_name			                                   = st_mag_ak_7.62x39
 inv_name_short		                                   = st_mag_ak_7.62x39
-inv_grid_x                     					       = 4
-inv_grid_y               				               = 10
+icons_texture							               = ui\ui_icon_magazines
+inv_grid_height                                        = 2
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 0
+inv_weight			                                   = 0.37
+cost                                                   = 1010
 max_mag_size										   = 30
 mag_size											   = medium
 
@@ -30,20 +34,28 @@ retool_group										   = ak_default
 description			                                   = st_mag_ak103_7.62x39_descr
 inv_name			                                   = st_mag_ak103_7.62x39
 inv_name_short		                                   = st_mag_ak103_7.62x39
+icons_texture							               = ui\ui_icon_magazines
+inv_grid_height                                        = 2
 inv_grid_x                     					       = 7
-inv_grid_y               				               = 10
+inv_grid_y               				               = 0
+inv_weight			                                   = 0.21
+cost                                                   = 1465
 max_mag_size										   = 30
 mag_size											   = medium
 
 base_type											   = ak_7.62x39
 retool_group										   = ak_modern
 
-[mag_ak_7.62x39_fast]:tch_mag_base
+[mag_ak_7.62x39_fast]:tch_mag_base,tch_mag_upgr
 description			                                   = st_mag_ak103_fast_7.62x39_descr
 inv_name			                                   = st_mag_ak103_fast_7.62x39
 inv_name_short		                                   = st_mag_ak103_fast_7.62x39
+icons_texture							               = ui\ui_icon_magazines
+inv_grid_height                                        = 2
 inv_grid_x                     					       = 8
-inv_grid_y               				               = 10
+inv_grid_y               				               = 0
+inv_weight			                                   = 0.2
+cost                                                   = 5475
 max_mag_size										   = 30
 mag_size											   = medium
 
@@ -54,9 +66,13 @@ load_delay                                             = 0.3
 description			                                   = st_mag_rpk_7.62x39_descr
 inv_name			                                   = st_mag_rpk_7.62x39
 inv_name_short		                                   = st_mag_rpk_7.62x39
-inv_grid_x                     					       = 3
-inv_grid_y               				               = 20
-max_mag_size                                           = 45
+icons_texture							               = ui\ui_icon_magazines
+inv_grid_height                                        = 3
+inv_grid_x                     					       = 11
+inv_grid_y               				               = 0
+inv_weight			                                   = 0.46
+cost                                                   = 1765
+max_mag_size                                           = 40
 mag_size											   = medium
 
 base_type											   = ak_7.62x39
@@ -66,8 +82,12 @@ load_delay                                             = 0.3
 description			                                   = st_mag_rpd_7.62x39_descr
 inv_name			                                   = st_mag_rpd_7.62x39
 inv_name_short		                                   = st_mag_rpd_7.62x39
-inv_grid_x                     					       = 1
-inv_grid_y               				               = 20
+icons_texture							               = ui\ui_icon_magazines
+inv_grid_height                                        = 2
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 13
+inv_weight			                                   = 0.5
+cost                                                   = 3125
 inv_grid_width                           			   = 2
 max_mag_size										   = 100
 mag_size											   = large
@@ -83,18 +103,22 @@ inv_grid_x                     					       = 6
 inv_grid_y               				               = 20
 max_mag_size										   = 20
 mag_size											   = medium
+inv_weight			                                   = 0.3
+cost                                                   = 1002
 
 base_type											   = ak_7.62x39
 retool_group										   = t63_default
 
-[mag_svt_7.62x39_alt]:tch_mag_base
+[mag_svt_7.62x39_alt]:tch_mag_base,tch_mag_alt
 description			                                   = st_mag_svt40_7.62x39_descr
 inv_name			                                   = st_mag_svt40_7.62x39
 inv_name_short		                                   = st_mag_svt40_7.62x39
 inv_grid_x                     					       = 3
-inv_grid_y               				               = 31
+inv_grid_y               				               = 30
 max_mag_size										   = 10
 mag_size											   = medium
+inv_weight			                                   = 0.3
+cost                                                   = 1335
 
 base_type											   = svt_7.62x39
 retool_group										   = svt_default

@@ -13,7 +13,6 @@ Note: If you want to iterate NPC inventory to check for items, fire a time event
 --]] --
 
 
-local tm_custom = {}
 find = string.find
 local function t2c(t)
 	if not t then return nil end
@@ -32,23 +31,17 @@ end
 
 TraderUpdate = trade_manager.update
 function trade_manager.update(npc, force_refresh)
-    TraderUpdate(npc, force_refresh)
     local id = npc:id()
+    local reup_time = trade_manager.get_trade_profile(id, "resupply_time")
+    TraderUpdate(npc, force_refresh)
     local restock_time = game_difficulties.get_eco_factor("restock") or 24
-	if tm_custom[id] and (tm_custom[id] and game.get_game_time():diffSec(t2c(tm_custom[id])) < (restock_time * 3600))  then
+    if force_refresh then restock_time = 0 end
+	if reup_time and game.get_game_time():diffSec(t2c(reup_time)) < (restock_time * 3600)  then
 		-- print_dbg("Not time to resupply yet!")
         return
 	end
-	tm_custom[id] = c2t(game.get_game_time())
     CreateTimeEvent("custom_update"..npc:id(), "custom_resupply"..npc:id(), 0.1, timed_update, npc)
     update(npc)
-end
-
-OnNpcDeath = trade_manager.on_npc_death
-function trade_manager.on_npc_death(npc)
-	if (npc) then
-		tm_custom[npc:id()] = nil
-	end
 end
 
 function timed_update(npc)
@@ -62,12 +55,15 @@ end
 
 -- util functions to help with monkey patching
 
+function get_faction_goodwill(faction)
+end
+
 COMPANION = 0   -- companions got special trade logic, this is just to catch errors
 MECHANIC = 1    -- mechanics/techs
 BARMAN = 2      -- exclusive food suppliers like Spirit
 MEDIC = 3       -- medics 
 SUPPLIER = 4    -- everyone else that sells crap
--- return trader type as int, or -1 if error
+-- return trader type as int, or nil if error
 function get_trader_type(npc)
     local st = db.storage[npc:id()]
     if not st then return -1 end
@@ -119,6 +115,24 @@ function supply_level(npc, as_number)
     end
 end
 
+-- collapse several tables into one table, the way sections work in ltx files
+-- tables should be in section -> amount format
+-- precedence goes up to last table, meaning whatever is in the last table will be the last changes applied
+function merge_tables(tables)
+    local final_table = {}
+    if #tables > 0 then
+        copy_table(final_table, tables[1])
+        if #tables > 1 then
+            for i=2, #tables do
+                for k,v in pairs(tables[i]) do
+                    final_table[k] = v
+                end
+            end
+        end
+    end
+    return final_table
+end
+
 -- to_spawn should be table of sections to amount
 -- if check_existing is true, only spawns up to that amount in trader inventory. else arbitrarily spawns
 function spawn_items(npc, to_spawn, check_existing)
@@ -145,13 +159,8 @@ end
 
 
 function load_state(m_data)
-    tm_custom = m_data.tm_custom or {}
-end
-
-function save_state(m_data)
-    m_data.tm_custom = tm_custom
+    if m_data.tm_custom then m_data.tm_custom = nil end
 end
 function on_game_start()
     RegisterScriptCallback("load_state",load_state)
-    RegisterScriptCallback("save_state",save_state)
 end

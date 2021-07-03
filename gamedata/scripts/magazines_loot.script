@@ -28,13 +28,11 @@ end
 function stock_mags(npc)
     local id = npc:id()
     if trader_autoinject.get_trader_type(npc) ~= trader_autoinject.SUPPLIER then return end
+    print_dbg("Restocking mags for %s", npc:name())
     local to_spawn = {}
     -- collect num. of mags to spawn
     local function itr_inv(temp, item)
         local sec = item:section()
-        if is_magazine(item) then
-            to_spawn[sec] = to_spawn[sec] == nil and 0 or to_spawn[sec] - 1
-        end
         if not IsAmmo(item) and IsWeapon(item) and is_supported_weapon(item) then
             local default_mag = weapon_default_magazine(item)
             if to_spawn[default_mag] then
@@ -47,13 +45,7 @@ function stock_mags(npc)
     npc:iterate_inventory(itr_inv, npc)
     
     -- spawn them empty
-    for k,v in pairs(to_spawn) do
-        if v < 1 then v = 0 end
-        print_dbg("Trader - spawning %s of %s", v, k)
-        for i=1,v do
-            alife_create_item(k, npc)
-        end
-    end
+    trader_autoinject.spawn_items(npc, to_spawn, true)
 end
 
 
