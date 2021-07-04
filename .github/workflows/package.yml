@@ -29,15 +29,15 @@ jobs:
         run: echo "::set-output name=today::$(date +'%Y.%m.%d')"
 
       - name: Zip folder
-        run: zip -r MagsRedux.$RELEASE_NAME.zip gamedata README "ammo check" "eft reposition wpo patch" "wpo patch" 
+        run: zip -r $RELEASE_NAME.zip gamedata README "ammo check" "eft reposition wpo patch" "wpo patch" 
         env: 
-          RELEASE_NAME: ${{steps.date.outputs.today}}
+          RELEASE_NAME: ${{ github.event.repository.name }}.${{ steps.date.outputs.today }}
       
       - name: Publish
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: false
+          automatic_release_tag: ${{ github.event_name == 'push' && 'latest' || 'pre-release' }}
+          prerelease: ${{ github.event_name != 'push' }}
           files: |
             *.zip
