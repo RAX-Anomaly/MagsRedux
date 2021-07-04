@@ -514,7 +514,7 @@ end
 
 function icon_check_ready(cell)
         if bags[cell.container.ID] and carried_mags[cell.ID] then
-			return {texture = "ui_am_propery_01", x = 1, y = 1, w = 15, h = 15}
+			return {texture = "ui_mags_loadout", x = 1, y = 1, w = 15, h = 15}
 		end
 end
 
