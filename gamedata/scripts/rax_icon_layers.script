@@ -27,8 +27,42 @@ function register(name, functor)
     table.insert(icon_layers[name], functor)
 end
 
+function refresh(mode) --safer way to refresh inventory, mode == 1  refreshes sorting.
+	local inventory = GetActorMenu()
+	if mode == 1 then
+		local sort = nil
+		for i=1,#inventory.sort_btn do
+			if inventory.sort_btn[i]:GetCheck() then
+				sort = i
+			end
+		end
+		inventory:On_Sort(sort or 1,false)
+	else
+		inventory:UpdateItems()
+	end
+end
 
 
+--add layers to what gets updated
+local base_update = utils_ui.UICellItem.Update
+
+function utils_ui.UICellItem:Update(obj)
+	obj = obj or (self.ID and level.object_by_id(self.ID))
+	if (self.showcase == 0) and (not obj) then
+		self:ResetToChild()
+		return false
+	end
+	
+	local sec = self.section
+	local xml = self:GetXML()
+	
+	if obj then
+		local clsid = obj:clsid()
+		self:Add_Layers(xml, obj, sec, clsid)
+	end
+
+	return base_update(self, obj)
+end
 
 
 local base_layers = utils_ui.UICellItem.Add_Layers
