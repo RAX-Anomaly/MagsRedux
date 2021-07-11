@@ -163,7 +163,7 @@ function load_weapon(weapon, magazine)
 	end
 end
 
-function delay_load_weapon(weapon, magazine, pre_table)
+function delay_load_weapon(weapon, magazine, pre_table, eject)
 	local tg = time_global()
 	-- extra timer stuff so we don't let the time event linger
 	local id = weapon:id()
@@ -173,6 +173,11 @@ function delay_load_weapon(weapon, magazine, pre_table)
 	if tg > load_timeout[id] + 10000 then
 		load_timeout[id] = nil
 		return true
+	end
+
+	if eject and get_mag_data(weapon:id()) ~= nil then
+		print_dbg("Weapon already has magazine, ejecting first")
+		eject_magazine(weapon)
 	end
 
 	if weapon:get_state() == 0 then
@@ -323,12 +328,12 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 		return 
 	end
 	
-	eject_magazine(weapon)
 	local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)
+	-- eject_magazine(weapon)
 	on_key_press()
 	disable_info("sleep_active")
-	CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table)
+	CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table, true	)
 
 	
 end
