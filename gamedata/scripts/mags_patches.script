@@ -108,6 +108,12 @@ function ui_workshop.UIWorkshopRepair:Repair()
 	WorkshopRepair(self)
 end
 
+CanRepair = inventory_upgrades.can_repair_item
+function inventory_upgrades.can_repair_item( sec, cond, mechanic )
+    if string.find(sec, "mag_") then return false
+    else return CanRepair(sec, cond, mechanic) end
+end
+
 --Patching ui_item.script
 --first duplicate some short hand so i can just copy paste
 local string_find         = string.find
