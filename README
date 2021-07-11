@@ -3,11 +3,14 @@ Adds magazines to the game like wuut_magazines, but optimized for compatibility 
 If you have used wuut_mags, this should feel pretty much the same. There are no changes in functionality.
 
 Some new features compared to wuut_mags:
++ All the logic has been redone from scratch using time events. Now it's easier to track and do stuff.
++ Item boxes are way more informative - you can see if a weapon has a mag loaded, what kind of mag, stuff like that.
++ Ready mags are tracked separately and aren't their own item now. This also solves an exploit allowing for infinite magazines.
 + Unjamming is simplified. Now it just plays the unjam animation.
-+ Expanded loadouts, combat backpack adds some magazine slots. Support for attachments to add mag slots if needed.
-+ Traders sell a fixed amount of mags, replenishing with stock.
++ Modular loadouts, combat backpack adds some magazine slots. Support for attachments to add mag slots if needed.
++ Traders sell a fixed amount of mags, replenishing with stock, using new methods of item injection.
 + NPC mag drops overhauled. NPCs drop a variable amount of mags that are filled to a random amount.
-+ Ammo wheel is cooler now
++ Ammo wheel is cooler now.
 + Mags show in your HUD!
 
 Obviously this is not compatible with wuut_mags or other magazine mods. However we have incorporated a lot of quality of life tweaks:
@@ -20,10 +23,19 @@ Obviously this is not compatible with wuut_mags or other magazine mods. However 
 + Weapons show if they have a magazine loaded or not.
 + Arena gives you loaded mags.
 
-Credits to:
-RavenAscendant for doing half the work
-wuut for originally creating magazines mod
-xcvkpop for rus translation
+Use of MCM strongly recommended to enable tweaking of a lot of features.
+
+Proper RUS translation pending.
+
+Compat patches are available with WPO and EFT Reposition (and WPO). The only conflict is defines.ltx which we tweaked to add the mag eject method.
+
+Optional features:
+- Ammo check with MCM support.
+
+Collaborators:
+RavenAscendant
+Ishmaeel
+Crepis for icons
 Tester guinea pigs
 - Sneaky
 - EFP Discord

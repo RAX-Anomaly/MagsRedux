@@ -53,6 +53,7 @@ end
 -- SECTION mag un/loading functions --
 --------------------------------------
 function timed_refresh()
+	disable_info("sleep_active")
 	CreateTimeEvent("mag_redux", "timed_refresh", 0.1, timer_refresh)
 end
 
@@ -138,6 +139,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 			local pre_table = count_ammo(weapon)
 			weapon:switch_state(7)
 			on_key_press()
+			disable_info("sleep_active")
 			CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
 		end
 
@@ -316,6 +318,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	if not mag then 
 		print_dbg("No ready mags found, not reloading")
 		on_key_press()
+		disable_info("sleep_active")
 		CreateTimeEvent("Mag_redux", "cancel_reload"..weapon:id(), 0.1, cancel_reload, weapon)
 		return 
 	end
@@ -324,6 +327,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)
 	on_key_press()
+	disable_info("sleep_active")
 	CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table)
 
 	
@@ -355,6 +359,7 @@ function unjam_weapon(weapon)
 	weapon_unjammed(weapon)
 	print_dbg("New weapon should have %s ammo", #data.loaded)
 	on_key_press()
+	disable_info("sleep_active")
 	CreateTimeEvent("Mag_redux", "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon.id, data, slot)
 end
 
@@ -423,6 +428,7 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	local delay = SYS_GetParam(2, sec, "load_delay") or default_delay
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
 	inventory_refresh()
+	disable_info("sleep_active")
 	CreateTimeEvent("Mag_redux","load_mag"..flip, delay, load_magazine, magazine, ammo_box, position, capacity, flip)
 	return true
 end
@@ -446,6 +452,7 @@ function unload_magazine(magazine, flip)
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
 		local parent = magazine:parent()
 		create_ammo(round, parent:position(), parent:level_vertex_id(), parent:game_vertex_id(), parent:id(), 1)
+		disable_info("sleep_active")
 		CreateTimeEvent("Mag_redux","unload_mag"..flip, 0.4, unload_magazine, magazine, flip)
 	else
 		item_weapon.ammo_aggregation_full(0)
@@ -532,6 +539,7 @@ function func_unload_ammo(obj)
 			if magazines_mcm.get_config("fast_loading") and parent_is_box(obj) then
 				fast_unload_magazine(obj)
 			else
+				disable_info("sleep_active")
 				CreateTimeEvent("mag_redux","unload_mag " .. id, 0.1, unload_magazine, obj, 0)
 			end
 		end
