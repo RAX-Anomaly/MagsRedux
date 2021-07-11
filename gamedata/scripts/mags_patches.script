@@ -365,6 +365,7 @@ function item_backpack.actor_on_item_use(obj)
 					end			
 					return false
 				end
+				disable_info("sleep_active")
 				CreateTimeEvent(0,"actor_backpack",0,transfer_items,se_obj.id)
 			end
 		else
@@ -464,9 +465,11 @@ function xr_effects.bar_arena_teleport(actor, npc)
 						db.actor:game_vertex_id(),
 						AC_ID)
 		if string.find(v, "outfit") then
+			disable_info("sleep_active")
 			CreateTimeEvent("Mag_redux", "equip_outfit"..se.id, 0.1, equip_outfit, se.id)
 		end
 		if string.find(v, "mag_") then
+			disable_info("sleep_active")
 			CreateTimeEvent("Mag_redux", "fill_mag"..se.id, 0.1, fill_mag, se.id, SYS_GetParam(2, v, "max_mag_size"), mag_to_ammo[v])
 		end
 		se_save_var( se.id, se:name(), "unpatched", true )
@@ -731,6 +734,7 @@ function UIWheelAmmoWuut:SwitchNextAmmo()
 				end
 				local pre_table = magazines.count_ammo(wpn)
 				wpn:switch_state(7)
+				disable_info("sleep_active")
 				CreateTimeEvent("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
 
 			else
@@ -758,6 +762,7 @@ function UIWheelAmmoWuut:OnAmmo(n)
 				end
 				local pre_table = magazines.count_ammo(wpn)
 				wpn:switch_state(7)
+				disable_info("sleep_active")
 				CreateTimeEvent("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
 			else
 			
