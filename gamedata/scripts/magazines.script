@@ -176,7 +176,6 @@ function delay_load_weapon(weapon, magazine, pre_table, eject)
 	end
 
 	if eject and get_mag_data(weapon:id()) ~= nil then
-		print_dbg("Weapon already has magazine, ejecting first")
 		eject_magazine(weapon)
 	end
 
@@ -333,8 +332,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	-- eject_magazine(weapon)
 	on_key_press()
 	disable_info("sleep_active")
-	CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table, true	)
-
+	CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table, true)
 	
 end
 
