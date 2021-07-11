@@ -114,6 +114,22 @@ function inventory_upgrades.can_repair_item( sec, cond, mechanic )
     else return CanRepair(sec, cond, mechanic) end
 end
 
+TechUpgrade = ui_inventory.UIInventory.RMode_UpgradeYes
+function ui_inventory.UIInventory:RMode_UpgradeYes()
+	
+	local obj = self.upgr.id and level.object_by_id(self.upgr.id)
+	if (not obj) then
+		return
+	end
+	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
+		--artifax fix
+		if get_data(obj:id()) ~= nil then
+			local mag = eject(obj)
+		end
+	end
+	TechUpgrade(self)
+end
+
 --Patching ui_item.script
 --first duplicate some short hand so i can just copy paste
 local string_find         = string.find
