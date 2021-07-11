@@ -40,6 +40,7 @@ function trade_manager.update(npc, force_refresh)
 		-- print_dbg("Not time to resupply yet!")
         return
 	end
+    disable_info("sleep_active")
     CreateTimeEvent("custom_update"..npc:id(), "custom_resupply"..npc:id(), 0.1, timed_update, npc)
     update(npc)
 end
