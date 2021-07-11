@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+    
+<!--
+Pistols and MP's
+-->
+
+	<string id="st_mag_sr1m_9x21">
+		<text>Standard 9x21 SR1M Magazine</text>
+	</string>
+	<string id="st_mag_sr1m_9x21_descr">
+		<text>
+		Standard 9x21 SR1M Magazine with a capacity of 19 rounds. The SR1M is the latest development in Russian handgun technology, firing a proprietary 9x21 round also used in the SR-2 Veresk PDW.
+		</text>
+	</string>
+</string_table>
