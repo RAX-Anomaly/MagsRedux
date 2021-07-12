@@ -305,7 +305,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	local weapon = db.actor:active_item()
 	
 	-- cancel reload only if we have a valid mag
-	if not weapon or not is_supported_weapon(weapon) or is_grenade_mode() then return end
+	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() then return end
 
 	if is_jammed_weapon(weapon) then
 		weapon_unjammed(weapon)
@@ -339,14 +339,6 @@ end
 function cancel_reload(weapon)
 	weapon:switch_state(2)
 	return true
-end
-
-function is_grenade_mode()
-	local weapon = db.actor:item_in_slot(db.actor:active_slot())
-	if(weapon) then
-		return weapon:get_state() == 10
-	end
-	return false
 end
 
 function unjam_weapon(weapon)
@@ -521,6 +513,15 @@ function on_key_press(key)
 		print_dbg("Interrupting reload")
 		interrupt_reload = true
 	end
+	if key then
+		local bind = dik_to_bind(key)
+		if bind == key_bindings.kWPN_RELOAD then
+			local current_weapon = db.actor:item_in_slot(db.actor:active_slot())
+			if current_weapon and is_supported_weapon(current_weapon) then
+				actor_on_weapon_reload(db.actor, current_weapon)
+			end
+		end
+	end
 end
 
 function unload_ammo(obj)
@@ -601,7 +602,7 @@ end
 function actor_on_weapon_fired(obj, weapon, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
 	weapon_unjammed(weapon) --this is only needed here for automatic shotguns, because they do not trigger the reload callback.
 
-	if is_grenade_mode() then  
+	if weapon:weapon_in_grenade_mode() then  
 		return
 	end
 	-- printf("Do prepare weapon")
@@ -707,7 +708,7 @@ function on_game_start()
 	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
 	RegisterScriptCallback("on_key_press", on_key_press)
 	RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
-	RegisterScriptCallback("actor_on_weapon_reload", actor_on_weapon_reload)
+	-- RegisterScriptCallback("actor_on_weapon_reload", actor_on_weapon_reload)
 	RegisterScriptCallback("actor_on_weapon_jammed", weapon_jammed)
 	RegisterScriptCallback("ActorMenu_on_item_drag_drop", on_item_drag_dropped)
 	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
