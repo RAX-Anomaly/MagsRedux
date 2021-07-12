@@ -360,6 +360,9 @@ end
 
 -- for quick release					
 function item_backpack.actor_on_item_use(obj)
+	
+	local ini_stash = ini_file("items\\settings\\backpack_stash.ltx")
+	keep_items = utils_data.collect_section(ini_stash,"actor_backpack_keep_items",true)
 	if obj and (obj:section() == "itm_actor_backpack") then 
 		local backpack = db.actor:item_in_slot(13)
 		if backpack then
@@ -384,9 +387,11 @@ function item_backpack.actor_on_item_use(obj)
 					local obj = level.object_by_id(id)
 					if (obj) then 
 						local function itr_inv(temp,item)
+							print_dbg("checking section %s", item:section())
+							if is_carried_mag(item:id()) then return end
 							if (item and item:id() ~= b_id and keep_items[item:section()] == nil) then 
 								if (IsAmmo(item) ~= true) or (item_backpack.is_ammo_for_wpn(item:section()) ~= true) then 
-									if (ini_sys:r_bool_ex(item:section(),"quest_item",false) == false) and not is_carried_mag(item) then
+									if (ini_sys:r_bool_ex(item:section(),"quest_item",false) == false) then
 										if (db.actor:is_on_belt(item) == false and item_backpack.is_in_slot(item) == false) then 
 											db.actor:transfer_item(item,obj)
 										end
