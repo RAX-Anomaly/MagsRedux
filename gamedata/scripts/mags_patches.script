@@ -130,6 +130,19 @@ function ui_inventory.UIInventory:RMode_UpgradeYes()
 	TechUpgrade(self)
 end
 
+UnloadAll = item_weapon.unload_all_weapons
+function item_weapon.unload_all_weapons()
+	db.actor:iterate_ruck( function(temp,obj)	
+		if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
+			if is_supported_weapon(obj) then
+				eject(obj)
+			else
+				obj:force_unload_magazine(true)
+			end
+		end
+	end)
+end
+
 --Patching ui_item.script
 --first duplicate some short hand so i can just copy paste
 local string_find         = string.find
