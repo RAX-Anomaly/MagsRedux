@@ -1,0 +1,70 @@
+<!-- Created with FOMOD Creation Tool 1.7.0.37 [http://www.nexusmods.com/fallout4/mods/6821] --> 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://qconsulting.ca/fo3/ModConfig5.0.xsd"> 
+	<moduleName>Anomaly Magazines Redux</moduleName> 
+	<moduleImage path="fomod\images\ak_mag.jpg" /> 
+	<installSteps order="Explicit"> 
+		<installStep name="Installation"> 
+			<optionalFileGroups order="Explicit"> 
+				<group name="Core" type="SelectAtLeastOne"> 
+					<plugins order="Explicit"> 
+						<plugin name="Mags Redux"> 
+							<description>Anomaly Magazines Redux
+
+Warning: After you install this, your save games will no longer be compatible with vanilla game. Removal of this addon might require restarting your game. Make backups.</description> 
+							<image path="fomod\images\ak_mag.jpg" /> 
+							<files> 
+								<folder source="gamedata" destination="gamedata" priority="0" /> 
+							</files> 
+							<typeDescriptor> 
+								<type name="Optional"/> 
+							</typeDescriptor> 
+						</plugin> 
+						<plugin name="Ammo Check"> 
+							<description>Optional Ammo Check addon.
+
+Hides the ammo count from HUD. Press a hotkey to check your weapon and see the approximate amount of rounds remaining in the magazine.</description> 
+							<image path="fomod\images\amochek.png" /> 
+							<files> 
+								<folder source="ammo check\gamedata" destination="gamedata" priority="0" /> 
+							</files> 
+							<typeDescriptor> 
+								<type name="Optional"/> 
+							</typeDescriptor> 
+						</plugin> 
+					</plugins> 
+				</group> 
+				<group name="Patches" type="SelectAny"> 
+					<plugins order="Explicit"> 
+						<plugin name="EFT reposition WPO patch"> 
+							<description>Compatibility patch. Only install if you're also using EFT reposition.</description> 
+							<files> 
+								<folder source="eft reposition wpo patch\gamedata" destination="gamedata" priority="0" /> 
+							</files> 
+							<typeDescriptor> 
+								<type name="Optional"/> 
+							</typeDescriptor> 
+						</plugin> 
+						<plugin name="WPO patch"> 
+							<description>Compatibility patch. Only install if you're also using Weapon Parts Overhaul.</description> 
+							<files> 
+								<folder source="wpo patch\gamedata" destination="gamedata" priority="0" /> 
+							</files> 
+							<typeDescriptor> 
+								<type name="Optional"/> 
+							</typeDescriptor> 
+						</plugin> 
+						<plugin name="BaS patch"> 
+							<description>Compatibility patch. Only install if you're also using Boomsticks and Sharpsticks.</description> 
+							<files> 
+								<folder source="bas_patch\gamedata" destination="gamedata" priority="0" /> 
+							</files> 
+							<typeDescriptor> 
+								<type name="Optional"/> 
+							</typeDescriptor> 
+						</plugin> 
+					</plugins> 
+				</group> 
+			</optionalFileGroups> 
+		</installStep> 
+	</installSteps> 
+</config>
