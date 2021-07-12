@@ -394,6 +394,7 @@ function is_compatible(weapon, magazine) --both called functions do type correct
 	end
     local weapon_base = get_weapon_base_type(weapon)
     local magazine_base = get_magazine_base_type(magazine)
+	print_dbg("wpn base type is %s, mag base type is %s", weapon_base, magazine_base)
     return weapon_base == magazine_base
 end
 
