@@ -1,41 +1,60 @@
+Anomaly Magazines rewritten from scratch with more features and quality of life.
+
 Adds magazines to the game like wuut_magazines, but optimized for compatibility and redone from the ground up.
 
-If you have used wuut_mags, this should feel pretty much the same. There are no changes in functionality.
+If you have used the original Anomaly Magazines, this should feel pretty much the same. There are no changes in functionality.
 
-Some new features compared to wuut_mags:
-+ All the logic has been redone from scratch using time events. Now it's easier to track and do stuff.
-+ Item boxes are way more informative - you can see if a weapon has a mag loaded, what kind of mag, stuff like that.
-+ Ready mags are tracked separately and aren't their own item now. This also solves an exploit allowing for infinite magazines.
-+ Unjamming is simplified. Now it just plays the unjam animation.
-+ Modular loadouts, combat backpack adds some magazine slots. Support for attachments to add mag slots if needed.
-+ Traders sell a fixed amount of mags, replenishing with stock, using new methods of item injection.
-+ NPC mag drops overhauled. NPCs drop a variable amount of mags that are filled to a random amount.
-+ Ammo wheel is cooler now.
-+ Mags show in your HUD!
+DISCLAIMER
+This addon is not compatible with Anomaly Magazines.
+Do not use with Anomaly Magazines.
+Do not use with anything that previously affected Anomaly Magazines.
+Do not use existing saves that had Anomaly Magazines.
 
+Some new features compared to Anomaly Magazines:
+
+All the logic has been redone from scratch using time events. Now it's easier to track and do stuff.
+Item boxes are way more informative - you can see if a weapon has a mag loaded, what kind of mag, stuff like that.
+Ready mags are tracked separately and aren't their own item now. This also solves an exploit allowing for infinite magazines.
+Unjamming is simplified. Now it just plays the unjam animation.
+Modular loadouts, combat backpack adds some magazine slots. Support for attachments to add mag slots if needed.
+Brand new icons from Crepis
+Traders sell a fixed amount of mags, replenishing with stock, using new methods of item injection.
+NPC mag drops overhauled. NPCs drop a variable amount of mags that are filled to a random amount.
+Ammo wheel is cooler now.
+Mags show in your HUD!
+And the biggest feature:
+
+Compatibility with weapon packs! The way this addon is set up, you can integrate other mods super easily! BaS, CW, you name it! There's an integration guide written in the addon. Integrate whatever you want!
 Obviously this is not compatible with wuut_mags or other magazine mods. However we have incorporated a lot of quality of life tweaks:
 
-+ Magazines automatically eject when upgrading or replacing parts
-+ Mags are highlighted and ready mags are at the top of your inventory
-+ Traders and NPCs have more realistic magazine loadouts
-+ Quick release retains vested mags
-+ New game gives you free magazines.
-+ Weapons show if they have a magazine loaded or not.
-+ Arena gives you loaded mags.
-
+Magazines automatically eject when upgrading or replacing parts
+Mags are highlighted and ready mags are at the top of your inventory
+Traders and NPCs have more realistic magazine loadouts
+Quick release retains vested mags
+New game gives you free magazines.
+Weapons show if they have a magazine loaded or not.
+Arena gives you loaded mags.
 Use of MCM strongly recommended to enable tweaking of a lot of features.
 
-Proper RUS translation pending.
+Proper RUS translation pending. The BAS patch doesn't work yet.
 
 Compat patches are available with WPO and EFT Reposition (and WPO). The only conflict is defines.ltx which we tweaked to add the mag eject method.
 
 Optional features:
 - Ammo check with MCM support.
 
+Want to contribute? Submit a pull request here! Github.com
+
 Collaborators:
-RavenAscendant
-Ishmaeel
+RavenAscendant (UI work, inventory work)
+Ishmaeel (Bugfixes, playtesting)
 Crepis for icons
 Tester guinea pigs
 - Sneaky
 - EFP Discord
+
+Changelog
+
+1.0.3 - Lots of misc fixes for broken weapons, fix for 
+1.0.2 - Cleaned up addon and integrated several fixes. You can find the latest Anomaly Magazines build here: Github.com
+1.0.1 - Hotfix for mechanic upgrades and repairs of mags
