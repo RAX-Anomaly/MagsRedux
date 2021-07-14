@@ -272,14 +272,15 @@ function item_weapon.attach_scope(item, weapon)
 	end
 	
 	-- Create objects for the 'before' and 'after' attachment weapons.
-	local old_weapon = alife_object(weapon:id())
+	local old_id = weapon:id()
+	local dataOld = get_data(old_id)
+	-- wuut: copy over the custom data, needed for the mag addon
+	local old_weapon = alife_object(old_id)
 	local new_weapon = old_weapon and alife_clone_weapon(old_weapon, child_section)
 	if new_weapon then
 	
-		-- wuut: copy over the custom data, needed for the mag addon
-		local dataOld = get_data(weapon:id())
 		set_data(new_weapon.id, dataOld)
-		set_data(weapon:id(), nil)
+		set_data(old_id, nil)
 		alife_release(item)
 	end
 end
@@ -295,6 +296,8 @@ function check_scope(addon_sect, weapon_sect)
 end
 
 function item_weapon.detach_scope(weapon)
+
+	
 	-- Return if the weapon is not valid.
 	if not (weapon) then
 		return
@@ -324,23 +327,17 @@ function item_weapon.detach_scope(weapon)
 	end
 	
 	-- Create objects for the 'before' and 'after' detachment weapons.
-	local new_weapon = alife():clone_weapon(old_weapon, parent_section, old_weapon.position, old_weapon.m_level_vertex_id, old_weapon.m_game_vertex_id, old_weapon.parent_id, false)
+	local dataOld = get_data(old_weapon.id)
+	local new_weapon = old_weapon and alife_clone_weapon(old_weapon, parent_section)
 	if (new_weapon) then
 	
 		-- Transfer parts states
-		item_parts.copy_parts_con(old_weapon.id, new_weapon.id)
-		item_parts.clear_parts_con(old_weapon.id)
+		-- item_parts.copy_parts_con(old_weapon.id, new_weapon.id)
+		-- item_parts.clear_parts_con(old_weapon.id)
 		
 		-- wuut: move over the old mag data
-		local dataOld = get_data(old_weapon.id)
 		set_data(new_weapon.id, dataOld)
 		set_data(old_weapon.id, nil)
-		
-		-- Release the old modified weapon.
-		alife_release(old_weapon)
-		
-		-- Register the new unmodified weapon.
-		alife():register(new_weapon)
 	end
 end
 
