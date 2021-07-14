@@ -387,7 +387,7 @@ function find_next_box(ammo_section, id)
 	return item_to_get
 end
 
-local default_delay = 0.4
+
 -- position is ammo type as number
 function load_magazine(magazine, ammo_box, position, capacity, flip)
 	print_dbg("Try load magazine, interrupt_reload state: %s", interrupt_reload)
@@ -420,7 +420,7 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	stack.push(mag_data.loaded, ammo_section)
 	set_mag_data(id, mag_data)
 	print_dbg("Loaded 1 round of type %s. There are %s rounds loaded total", position, #mag_data.loaded)
-	local delay = SYS_GetParam(2, sec, "load_delay") or default_delay
+	local delay = magazines_mcm.get_config("magazine_load_time")
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
 	inventory_refresh()
 	disable_info("sleep_active")
@@ -444,11 +444,12 @@ function unload_magazine(magazine, flip)
 	flip = math.fmod(flip + 1, 3)
 	set_mag_data(id, mag_data)
 	if round ~= nil then
+		local delay = magazines_mcm.get_config("magazine_unload_time")
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
 		local parent = magazine:parent()
 		create_ammo(round, parent:position(), parent:level_vertex_id(), parent:game_vertex_id(), parent:id(), 1)
 		disable_info("sleep_active")
-		CreateTimeEvent("Mag_redux","unload_mag"..flip, 0.4, unload_magazine, magazine, flip)
+		CreateTimeEvent("Mag_redux","unload_mag"..flip, delay, unload_magazine, magazine, flip)
 	else
 		item_weapon.ammo_aggregation_full(0)
 	end

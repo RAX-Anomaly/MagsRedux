@@ -40,6 +40,19 @@
 	<string id="ui_mcm_magazines_lootquality">
 		<text>Loot quality</text>
 	</string>
+	<string id="ui_mcm_magazines_magazine_load_time">
+		<text>Magazine load time per bullet</text>
+	</string>
+	<string id="ui_mcm_magazines_magazine_load_time_desc">
+		<text>How long does it take to load a single bullet in to the magazine, in seconds</text>
+	</string>
+
+	<string id="ui_mcm_magazines_magazine_unload_time">
+		<text>Magazine unload time per bullet</text>
+	</string>
+	<string id="ui_mcm_magazines_magazine_unload_time_desc">
+		<text>How long does it take to unload a single bullet from the magazine, in seconds</text>
+	</string>
 	<string id="ui_mcm_magazines_lootquality_desc">
 		<text>Multiplier on chance to find good ammo in magazines, and improved magazines.</text>
 	</string>
@@ -122,7 +135,7 @@
 	<!--MAGAZINES-->
 
 	<string id="st_dot">
-		<text>•</text>
+		<text>ï¿½</text>
 	</string>
 	<string id="st_mag_bonus">
 		<text>(Outfit:%s + Extra:%s)<!--alt:> (%s + %s)<--></text>
