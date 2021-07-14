@@ -367,8 +367,10 @@ function get_weapon_base_type(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
 	id = obj and id or nil --utils_item.get_ammo will not work if given an id of an offline object. nil id if no gameobject exists
-	
-	return is_supported_weapon(section) and look_up_table:r_value(parent_section(section), utils_item.get_ammo(section, id)[1]) -- base_type is in the ltx based on the first entry in the weapons ammo list.
+	local ammo =  utils_item.get_ammo(section, id)[1]
+	local parent = parent_section(section)
+	print_dbg("for weapon %s, using ammo %s, bt is %s", ammo, parent, is_supported_weapon(section) and look_up_table:r_value(parent, ammo))
+	return is_supported_weapon(section) and look_up_table:r_value(parent, ammo) -- base_type is in the ltx based on the first entry in the weapons ammo list.
 end
 
 function weapon_default_magazine(val)
