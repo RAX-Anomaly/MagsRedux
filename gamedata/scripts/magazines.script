@@ -127,6 +127,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 	end
 	-- mag to weapon
 	if is_magazine(item) and IsWeapon(weapon) and is_compatible(weapon, item) then
+		if weapon:weapon_in_grenade_mode() then return end
 		-- init loading of weapon
 		if get_mag_data(weapon:id()) ~= nil then
 			print_dbg("Weapon already has magazine, ejecting first")
@@ -220,7 +221,7 @@ function refund_ammo(weapon, pre_ammo_table)
 end
 
 function check_eject_magazine(weapon)
-	if get_mag_data(weapon:id()) then
+	if get_mag_data(weapon:id()) and not weapon:weapon_in_grenade_mode() then
 		return gc("st_mag_eject_magazine")
 	end
 end
@@ -239,6 +240,7 @@ function eject_magazine(weapon)
 	if rax_inventory_highlights_mcm then 
 		rax_inventory_highlights_mcm.temp_disable() --don't flag this magazine as new.
 	end
+	if weapon:weapon_in_grenade_mode() then return end
 	local id = weapon:id()
 	local mag_data = get_mag_data(id)
 	if mag_data then
