@@ -1,62 +1,60 @@
 -- If you don't use MCM, change your defaults from here.
 local defaults = {
-	lootquality				= 1.0,
-	debug					= false,
-	empty_mags_stack 		= true,
-	sort_inv				= true,
-	show_hud				= true,
-	icon_text				= true,
-	ammo_icon				= true,
-	fast_loading        	= false,
-	ignore_loaddelay		= false,
-	mag_loadtime_factor		= 1,
-	mag_unloadtime_factor	= 1,
-	magazine_unequip_trs	= 0
+    lootquality				= 1.0,
+    debug					= false,
+    empty_mags_stack 		= true,
+    sort_inv				= true,
+    show_hud				= true,
+    icon_text				= true,
+    ammo_icon				= true,
+    fast_loading        	= false,
+    ignore_loaddelay		= false,
+    mag_loadtime_factor		= 1,
+    mag_unloadtime_factor	= 1
 }
 
 local colors = {--alpha value will be reset to match slider
-	orange = GetARGB(100, 255, 159, 82),
-	pink = GetARGB(100, 255, 192, 203),
-	blond = GetARGB(100, 240, 240, 190),
-	white = GetARGB(100, 255, 255, 255),
-	brown = GetARGB(100, 165, 42, 42),
-	blue = GetARGB(100, 0, 0, 255),
+    orange = GetARGB(100, 255, 159, 82),
+    pink = GetARGB(100, 255, 192, 203),
+    blond = GetARGB(100, 240, 240, 190),
+    white = GetARGB(100, 255, 255, 255),
+    brown = GetARGB(100, 165, 42, 42),
+    blue = GetARGB(100, 0, 0, 255),
 }
 
 
 function get_config(key)
-	if ui_mcm then return ui_mcm.get("magazines/"..key) else return defaults[key] end
+    if ui_mcm then return ui_mcm.get("magazines/"..key) else return defaults[key] end
 end
 
 function on_mcm_load()
-	op = { id= "magazines",sh=true ,gr={
-			{ id= "title",type= "slide",link= "ui_options_slider_player",text="ui_mcm_magazines_title",size= {512,50},spacing= 20 },
-			{id = "lootquality", type = "track", val = 2, min=0.1,max=2,step=0.1, def = 1.0},
-			{id = "ignore_loaddelay", type = "check", val = 1, def=false},
-			{id = "mag_loadtime_factor", type = "track", val = 2, min=0,max=2,step=0.01, def = 1},
-			{id = "mag_unloadtime_factor", type = "track", val = 2, min=0,max=2,step=0.01, def = 1},
-			{id = "magazine_unequip_trs", type = "track", val = 2, min=0,max=1,step=0.01, def = 0.1},
-			{id = "empty_mags_stack", type = "check", val = 1, def=true},
-			{id = "sort_inv", type = "check", val = 1, def=true},
-			{id= "highlight_color"  			,type= "list"     ,val= 0  ,def= "orange" 	 ,content= {{"brown","ram_brown"},{"white","ram_white"}, {"blond","ram_blond"} ,   {"blue","ram_blue"}, {"orange","ram_orange"} , {"pink","ram_pink"} }	},		
-			{ id= "highlight_clr_a"       	 ,type= "track"    ,val= 2	,min= 0   ,max= 255    ,step= 1		,def= 100   },
-			{id = "show_hud", type = "check", val = 1, def=true},			
-			{id = "icon_text", type = "check", val = 1, def=true},			
-			{id = "ammo_icon", type = "check", val = 1, def=true},			
-			{id = "fast_loading", type = "check", val = 1, def=false},	
-			{id = "debug", type = "check", val = 1, def=false},
-		}
-	}
-	return op
+    op = { id= "magazines",sh=true ,gr={
+            { id= "title",type= "slide",link= "ui_options_slider_player",text="ui_mcm_magazines_title",size= {512,50},spacing= 20 },
+            {id = "lootquality", type = "track", val = 2, min=0.1,max=2,step=0.1, def = 1.0},
+            {id = "ignore_loaddelay", type = "check", val = 1, def=false},
+            {id = "mag_loadtime_factor", type = "track", val = 2, min=0,max=2,step=0.01, def = 1},
+            {id = "mag_unloadtime_factor", type = "track", val = 2, min=0,max=2,step=0.01, def = 1},
+            {id = "empty_mags_stack", type = "check", val = 1, def=true},
+            {id = "sort_inv", type = "check", val = 1, def=true},
+            {id= "highlight_color"  			,type= "list"     ,val= 0  ,def= "orange" 	 ,content= {{"brown","ram_brown"},{"white","ram_white"}, {"blond","ram_blond"} ,   {"blue","ram_blue"}, {"orange","ram_orange"} , {"pink","ram_pink"} }	},		
+            { id= "highlight_clr_a"       	 ,type= "track"    ,val= 2	,min= 0   ,max= 255    ,step= 1		,def= 100   },
+            {id = "show_hud", type = "check", val = 1, def=true},			
+            {id = "icon_text", type = "check", val = 1, def=true},			
+            {id = "ammo_icon", type = "check", val = 1, def=true},			
+            {id = "fast_loading", type = "check", val = 1, def=false},	
+            {id = "debug", type = "check", val = 1, def=false},
+        }
+    }
+    return op
 end
 
 local function on_option_change()
-	if ui_mcm then
-		magazine_binder.ready_color = rax_persistent_highlight.change_alpha(colors[ui_mcm.get("magazines/highlight_color")] or colors.orange , ui_mcm.get("magazines/highlight_clr_a") or 100 )
-	end
+    if ui_mcm then
+        magazine_binder.ready_color = rax_persistent_highlight.change_alpha(colors[ui_mcm.get("magazines/highlight_color")] or colors.orange , ui_mcm.get("magazines/highlight_clr_a") or 100 )
+    end
 end
 
 function on_game_start()
-	RegisterScriptCallback("on_option_change",on_option_change)
-	on_option_change()
+    RegisterScriptCallback("on_option_change",on_option_change)
+    on_option_change()
 end

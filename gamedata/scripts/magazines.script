@@ -32,7 +32,7 @@ local load_timeout = {}
 ------------------------
 
 function dump_data(data)
-	local s = ""
+    local s = ""
 	for k,v in pairs(data.loaded) do
 		s = s .. v .. " "
 	end
@@ -60,7 +60,7 @@ end
 --
 -- **is_unload** *(bool)* = should we get mag unload time
 function get_mag_time(mag_section,is_unload)
-	is_unload=is_unload or false
+    is_unload=is_unload or false
 
 	local load_factor=magazines_mcm.get_config('mag_loadtime_factor')
 	local unload_factor=magazines_mcm.get_config('mag_unloadtime_factor')
@@ -73,7 +73,7 @@ function get_mag_time(mag_section,is_unload)
 			default_delay=SYS_GetParam(2, mag_section, "load_delay") or default_delay
 		end
 	end
-	-- this could benefit from rounding to 0.01 but calling math.floor on each iteration is much worse
+    -- this could benefit from rounding to 0.01 but calling math.floor on each iteration is much worse
 	if not is_unload then
 		return default_delay*load_factor
 	else
@@ -128,8 +128,8 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 
 	-- Check capability
 	if not ((from_slot == EDDListType.iDeadBodyBag and to_slot == EDDListType.iDeadBodyBag) or (from_slot == EDDListType.iActorBag  and (to_slot == EDDListType.iActorBag or to_slot == EDDListType.iActorSlot))) then
-		return
-	end
+        return
+    end
 	if(item:id() == weapon:id()) then
 		return
 	end
@@ -144,7 +144,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		print_dbg("Checking compat for ammo sec %s", ammos[ammo_sec])
 		if ammos[ammo_sec] ~= nil then
 			-- start loading loop
-			local capacity = SYS_GetParam(2, weapon:section(), "max_mag_size")  or 20
+		    local capacity = SYS_GetParam(2, weapon:section(), "max_mag_size")  or 20
 			print_dbg("start loading loop")
 			interrupt_reload = false
 			if magazines_mcm.get_config("fast_loading") and is_box_mode then
@@ -276,8 +276,7 @@ function eject_magazine(weapon)
 		copy_table(copy, mag_data)
 		weapon:unload_magazine()
 		set_mag_data(se_mag.id, copy)
-		local ammo_percent=#copy.loaded/SYS_GetParam(2, mag_data.section, "max_mag_size")
-		if ammo_percent > magazines_mcm.get_config('magazine_unequip_trs') and weapon_in_slot(weapon) then
+		if #copy.loaded > 0 and weapon_in_slot(weapon) then
 			toggle_carried_mag(se_mag.id)
 		end
 		set_mag_data(id, nil)
@@ -450,7 +449,7 @@ function load_magazine(magazine, ammo_box, position, capacity, flip)
 	stack.push(mag_data.loaded, ammo_section)
 	set_mag_data(id, mag_data)
 	print_dbg("Loaded 1 round of type %s. There are %s rounds loaded total", position, #mag_data.loaded)
-	local delay = get_mag_time(sec,false)
+    local delay = get_mag_time(sec,false)
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
 	inventory_refresh()
 	disable_info("sleep_active")
@@ -477,7 +476,7 @@ function unload_magazine(magazine, flip)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
 		local parent = magazine:parent()
-		local delay = get_mag_time(magazine:section(),true)
+        local delay = get_mag_time(magazine:section(),true)
 		create_ammo(round, parent:position(), parent:level_vertex_id(), parent:game_vertex_id(), parent:id(), 1)
 		disable_info("sleep_active")
 		CreateTimeEvent("Mag_redux","unload_mag"..flip, delay, unload_magazine, magazine, flip)
@@ -642,11 +641,11 @@ function actor_on_weapon_fired(obj, weapon, ammo_elapsed, grenade_elapsed, ammo_
 end
 
 function weapon_unjammed(weapon)
-	local weapon_id = weapon:id()
-	if jammed_guns[weapon_id] then
-		print_dbg("Removing jammed weapon entry %s", weapon_id)
-		jammed_guns[weapon_id] = nil
-	end
+    local weapon_id = weapon:id()
+    if jammed_guns[weapon_id] then
+        print_dbg("Removing jammed weapon entry %s", weapon_id)
+        jammed_guns[weapon_id] = nil
+    end
 end
 
 function weapon_jammed(weapon)
@@ -676,9 +675,9 @@ function prep_weapon(weapon, feed_next)
 			weapon:set_ammo_elapsed(count)
 			print_dbg("chambering round of type %s, there are %s rounds loaded, ammo in mag is %s", round, count, weapon:get_ammo_in_magazine())
 			set_mag_data(id, mag_data) 
-		elseif count ~= 0 then
-			weapon:set_ammo_elapsed(1)
-			print_dbg("mag has invalid ammo. If gun is not SVT this is a problem with the mag caliber entry")
+        elseif count ~= 0 then
+            weapon:set_ammo_elapsed(1)
+            print_dbg("mag has invalid ammo. If gun is not SVT this is a problem with the mag caliber entry")
 		else
 			print_dbg("mag empty")
 		end

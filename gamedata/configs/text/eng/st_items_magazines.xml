@@ -61,12 +61,6 @@
 	<string id="ui_mcm_magazines_mag_unloadtime_factor_desc">
 		<text>Multiplier for bullet unload time \nIf per-magazine bullet un/load time is disabled can be treated as seconds</text>
 	</string>
-	<string id="ui_mcm_magazines_magazine_unequip_trs">
-		<text>Deactivation treshold %</text>
-	</string>
-	<string id="ui_mcm_magazines_magazine_unequip_trs_desc">
-		<text>Magazines that are filled below this % will be removed from vest. Set to 0 to disable</text>
-	</string>
 	<string id="ui_mcm_magazines_debug">
 		<text>Enable Debug Logs</text>
 	</string>
