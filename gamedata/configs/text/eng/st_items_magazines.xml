@@ -40,21 +40,32 @@
 	<string id="ui_mcm_magazines_lootquality">
 		<text>Loot quality</text>
 	</string>
-	<string id="ui_mcm_magazines_magazine_load_time">
-		<text>Magazine load time per bullet</text>
-	</string>
-	<string id="ui_mcm_magazines_magazine_load_time_desc">
-		<text>How long does it take to load a single bullet in to the magazine, in seconds</text>
-	</string>
-
-	<string id="ui_mcm_magazines_magazine_unload_time">
-		<text>Magazine unload time per bullet</text>
-	</string>
-	<string id="ui_mcm_magazines_magazine_unload_time_desc">
-		<text>How long does it take to unload a single bullet from the magazine, in seconds</text>
-	</string>
 	<string id="ui_mcm_magazines_lootquality_desc">
 		<text>Multiplier on chance to find good ammo in magazines, and improved magazines.</text>
+	</string>
+	<string id="ui_mcm_magazines_ignore_loaddelay">
+		<text>Disable per-magazine bullet un/load time</text>
+	</string>
+	<string id="ui_mcm_magazines_ignore_loaddelay_desc">
+		<text>If enabled, use consistent times for loading/unloading ammo from magazines \nThis changes un/load speeds to 1 second per bullet \nFactor sliders below still take effect</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_loadtime_factor">
+		<text>Bullet load time factor</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_loadtime_factor_desc">
+		<text>Multiplier for bullet load time \nIf per-magazine bullet un/load time is disabled can be treated as seconds</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_unloadtime_factor">
+		<text>Bullet unload time factor</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_unloadtime_factor_desc">
+		<text>Multiplier for bullet unload time \nIf per-magazine bullet un/load time is disabled can be treated as seconds</text>
+	</string>
+	<string id="ui_mcm_magazines_magazine_unequip_trs">
+		<text>Deactivation treshold %</text>
+	</string>
+	<string id="ui_mcm_magazines_magazine_unequip_trs_desc">
+		<text>Magazines that are filled below this % will be removed from vest. Set to 0 to disable</text>
 	</string>
 	<string id="ui_mcm_magazines_debug">
 		<text>Enable Debug Logs</text>
@@ -62,7 +73,6 @@
 	<string id="ui_mcm_magazines_debug_desc">
 		<text>Enables debugging logs in console.</text>
 	</string>
-
 	<string id="ui_mcm_magazines_empty_mags_stack">
 		<text>Stack empty magazines in inventory</text>
 	</string>
@@ -135,7 +145,7 @@
 	<!--MAGAZINES-->
 
 	<string id="st_dot">
-		<text>ï¿½</text>
+		<text>•</text>
 	</string>
 	<string id="st_mag_bonus">
 		<text>(Outfit:%s + Extra:%s)<!--alt:> (%s + %s)<--></text>
