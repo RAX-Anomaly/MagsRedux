@@ -246,13 +246,14 @@ function validate_loadout()
 end
 
 function room_in_pouch(id)
+	local s = mags_storage[id].size
 	for id, mag in pairs(carried_mags) do -- safety purge of esccaped mags
 		if not utils_item.in_actor_inv(level.object_by_id(id)) then
 			carried_mags[id] = nil
 		end
 	end 
 	carried = get_total_carried()
-	return carried.large < loadout_slots.large
+	return carried.large < loadout_slots.large or ((s == "medium" or s == "small") and (carried.medium < loadout_slots.medium)) or (s == "small" and (carried.small < loadout_slots.small))
 end
 
 
