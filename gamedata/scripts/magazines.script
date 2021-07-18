@@ -252,7 +252,7 @@ function eject_magazine(weapon)
 		if #copy.loaded > 0 and weapon_in_slot(weapon) then
 			toggle_carried_mag(se_mag.id)
 		end
-		set_mag_data(id, nil)
+		set_mag_data(id, false)
 		dump_data(copy)
 	end
 end
