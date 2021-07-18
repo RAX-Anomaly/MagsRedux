@@ -675,14 +675,7 @@ function UIWheelAmmoWuut:Reset(obj)
 	-- Collect all ammo in inventory
 	empty_table(self.ammo_inv)
 	--
-	local function itr(temp, itm)
-		local section = itm:section()
-		if IsItem("ammo",section) or IsItem("grenade_ammo",section) then
-			self.ammo_inv[section] = (self.ammo_inv[section] or 0) + itm:ammo_get_count()
-		end
-	end
-	db.actor:iterate_inventory(itr, nil)
-	
+
 	if(magazines and obj and is_supported_weapon(obj)) then 
 		self.ammo_inv = magazines.count_magazines(obj)
 		
