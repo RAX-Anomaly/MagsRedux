@@ -43,13 +43,30 @@
 	<string id="ui_mcm_magazines_lootquality_desc">
 		<text>Multiplier on chance to find good ammo in magazines, and improved magazines.</text>
 	</string>
+	<string id="ui_mcm_magazines_ignore_loaddelay">
+		<text>Disable per-magazine bullet un/load time</text>
+	</string>
+	<string id="ui_mcm_magazines_ignore_loaddelay_desc">
+		<text>If enabled, use consistent times for loading/unloading ammo from magazines \nThis changes un/load speeds to 1 second per bullet \nFactor sliders below still take effect</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_loadtime_factor">
+		<text>Bullet load time factor</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_loadtime_factor_desc">
+		<text>Multiplier for bullet load time \nIf per-magazine bullet un/load time is disabled can be treated as seconds</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_unloadtime_factor">
+		<text>Bullet unload time factor</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_unloadtime_factor_desc">
+		<text>Multiplier for bullet unload time \nIf per-magazine bullet un/load time is disabled can be treated as seconds</text>
+	</string>
 	<string id="ui_mcm_magazines_debug">
 		<text>Enable Debug Logs</text>
 	</string>
 	<string id="ui_mcm_magazines_debug_desc">
 		<text>Enables debugging logs in console.</text>
 	</string>
-
 	<string id="ui_mcm_magazines_empty_mags_stack">
 		<text>Stack empty magazines in inventory</text>
 	</string>
