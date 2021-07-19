@@ -64,7 +64,7 @@ function get_mag_time(mag_section,is_unload)
 
 	local load_factor=magazines_mcm.get_config('mag_loadtime_factor')
 	local unload_factor=magazines_mcm.get_config('mag_unloadtime_factor')
-	local default_delay=0.4
+	local default_delay=SYS_GetParam(2, "tch_mag_base", "load_delay") or 0.4
 
 	if magazines_mcm.get_config('ignore_loaddelay') then
 		default_delay=1
