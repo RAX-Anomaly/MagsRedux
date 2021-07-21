@@ -29,7 +29,7 @@ function print_dbg( text , ...)
 	return nil
 end
 
-
+PAST_LOAD_DATA = false
 
 local look_up_table 	= ini_file_ex("magazines\\lookups.ltx")
 local weapons_lookup 	= ini_file_ex("magazines\\weapons\\importer.ltx")
@@ -45,7 +45,12 @@ function get_carried_mags(tbl)
 end
 
 function get_data(id)
-	return mags_storage[id] or nil
+	tbl = {}
+	if mags_storage[id] then
+		copy_table(tbl, mags_storage[id] )
+		return tbl
+	end
+	return mags_storage[id] --could be nil or false want to return either.
 end
 
 function set_data(id, data)
@@ -459,6 +464,7 @@ end
 local freeze = false
 -- update the weight and condition based on capacity
 function magazine_binder:update(delta)
+	if not PAST_LOAD_DATA then return end
 	object_binder.update(self, delta)
 	local obj = self.object
 	local id = obj:id()
@@ -556,6 +562,7 @@ end
 local function load_state(mdata) 
 	mags_storage = mdata.mags_storage or {}
 	carried_mags = mdata.carried_mags or {}
+	PAST_LOAD_DATA = true
 end
 
 local function se_item_on_unregister(se_obj, typ)
@@ -596,6 +603,7 @@ function on_game_start()
 	RegisterScriptCallback("actor_item_to_slot",actor_item_to_slot)
 	RegisterScriptCallback("actor_item_to_ruck",actor_item_to_slot)
 	RegisterScriptCallback("actor_item_to_belt",actor_item_to_slot)
+	RegisterScriptCallback("actor_on_item_drop",actor_item_to_slot)
 	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
 	RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
 	RegisterScriptCallback("ActorMenu_on_trade_started",on_trade_opened)
