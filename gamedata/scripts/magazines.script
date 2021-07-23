@@ -67,7 +67,7 @@ function get_mag_time(mag_section,is_unload)
 	local default_delay=SYS_GetParam(2, "tch_mag_base", "load_delay") or 0.4
 
 	if magazines_mcm.get_config('ignore_loaddelay') then
-		default_delay=1
+		default_delay = 0.4
 	else
 		if not is_unload then
 			default_delay=SYS_GetParam(2, mag_section, "load_delay") or default_delay
@@ -274,15 +274,19 @@ function eject_magazine(weapon)
 	local mag_data = get_mag_data(id)
 	if mag_data then
 		se_mag = alife_create_item(mag_data.section, weapon:parent())
-		local copy = {}
-		copy_table(copy, mag_data)
-		weapon:unload_magazine()
-		set_mag_data(se_mag.id, copy)
-		if #copy.loaded > 0 and weapon_in_slot(weapon) then
-			toggle_carried_mag(se_mag.id)
+		if se_mag then
+			local copy = {}
+			copy_table(copy, mag_data)
+			weapon:unload_magazine()
+			set_mag_data(se_mag.id, copy)
+			if #copy.loaded > 0 and weapon_in_slot(weapon) then
+				toggle_carried_mag(se_mag.id)
+			end
+			set_mag_data(id, false)
+			dump_data(copy)
+		else
+			printf("Failed to create magazine %s. This is bad, contact @arti.", mag_data.section)
 		end
-		set_mag_data(id, false)
-		dump_data(copy)
 	end
 end
 
