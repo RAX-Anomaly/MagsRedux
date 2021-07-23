@@ -16,7 +16,7 @@ function wep_binder:__init(obj) super(obj)
    self.first_update = true
 end
 
-function wep_binder:update(delta) 
+function wep_binder:update(delta)
 	local obj = self.object
 	if  not is_supported_weapon(obj) then
 		-- print_dbg("Spawned weapon does not use mags")
