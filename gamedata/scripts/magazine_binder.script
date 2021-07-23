@@ -29,8 +29,6 @@ function print_dbg( text , ...)
 	return nil
 end
 
-PAST_LOAD_DATA = false
-
 local look_up_table 	= ini_file_ex("magazines\\lookups.ltx")
 local weapons_lookup 	= ini_file_ex("magazines\\weapons\\importer.ltx")
 local loadout_lookup 	= ini_file_ex("magazines\\outfitloadouts\\importer.ltx")
@@ -464,7 +462,6 @@ end
 local freeze = false
 -- update the weight and condition based on capacity
 function magazine_binder:update(delta)
-	if not PAST_LOAD_DATA then return end
 	object_binder.update(self, delta)
 	local obj = self.object
 	local id = obj:id()
@@ -543,9 +540,9 @@ function check_ready(cell)
 end
 
 function icon_check_ready(cell)
-        if bags[cell.container.ID] and carried_mags[cell.ID] then
-			return {texture = "ui_mags_loadout", x = 1, y = 1, w = 15, h = 15}
-		end
+	if bags[cell.container.ID] and carried_mags[cell.ID] then
+		return {texture = "ui_mags_loadout", x = 1, y = 1, w = 15, h = 15}
+	end
 end
 
 
@@ -559,10 +556,9 @@ local function save_state(mdata)
 	mdata.carried_mags = carried_mags
 end
 
-local function load_state(mdata) 
+function load_state(mdata) 
 	mags_storage = mdata.mags_storage or {}
 	carried_mags = mdata.carried_mags or {}
-	PAST_LOAD_DATA = true
 end
 
 local function se_item_on_unregister(se_obj, typ)
@@ -596,10 +592,10 @@ end
 
 function on_game_start()
 	build_mag_revers_lookups()
-	rax_persistent_highlight.register("ready_mag", check_ready) --used like a callback register
-	rax_icon_layers.register("ready_mag", icon_check_ready) --used like a callback register
 	RegisterScriptCallback("save_state",save_state)
 	RegisterScriptCallback("load_state",load_state)
+	rax_persistent_highlight.register("ready_mag", check_ready) --used like a callback register
+	rax_icon_layers.register("ready_mag", icon_check_ready) --used like a callback register
 	RegisterScriptCallback("actor_item_to_slot",actor_item_to_slot)
 	RegisterScriptCallback("actor_item_to_ruck",actor_item_to_slot)
 	RegisterScriptCallback("actor_item_to_belt",actor_item_to_slot)
