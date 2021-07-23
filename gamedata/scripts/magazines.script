@@ -685,7 +685,6 @@ function prep_weapon(weapon, feed_next)
 			weapon:unload_magazine()
 			weapon:set_ammo_elapsed(count)
 			print_dbg("chambering round of type %s, there are %s rounds loaded, ammo in mag is %s", round, count, weapon:get_ammo_in_magazine())
-			set_mag_data(id, mag_data) 
         elseif count ~= 0 then
             weapon:set_ammo_elapsed(1)
             print_dbg("mag has invalid ammo. If gun is not SVT this is a problem with the mag caliber entry")
@@ -693,6 +692,7 @@ function prep_weapon(weapon, feed_next)
 			print_dbg("mag empty")
 		end
 	end
+	set_mag_data(id, mag_data) 
 end
 
 
