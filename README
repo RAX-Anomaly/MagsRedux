@@ -36,7 +36,7 @@ Weapons show if they have a magazine loaded or not.
 Arena gives you loaded mags.
 Use of MCM strongly recommended to enable tweaking of a lot of features.
 
-Proper RUS translation pending. The BAS patch doesn't work yet.
+Proper RUS translation pending.
 
 Compat patches are available with WPO and EFT Reposition (and WPO). The only conflict is defines.ltx which we tweaked to add the mag eject method.
 
