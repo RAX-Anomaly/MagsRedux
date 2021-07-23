@@ -205,7 +205,10 @@ function utils_ui.UICellItem:Add_Layers(xml, obj, sec, clsid)
 		self:Print(nil, "Show layer (%s) [%s]", ii, icon_layer)
 	end
 end
-
+local clr_icon_1 = GetARGB(255, 255, 255, 255)
+local clr_icon_2 = GetARGB(70, 255, 255, 255)
+local ico_size, rw, rh, _le = 0.7,1,1,50
+local ico_width
 function utils_xml.set_icon(sec, hidden, XML_temp, XML_box, XML_box_small)
 	ico_width = ico_width or (utils_xml.is_widescreen() and 0.8 or 1)
 	
