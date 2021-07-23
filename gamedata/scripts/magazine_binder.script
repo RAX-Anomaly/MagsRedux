@@ -29,6 +29,8 @@ function print_dbg( text , ...)
 	return nil
 end
 
+
+
 local look_up_table 	= ini_file_ex("magazines\\lookups.ltx")
 local weapons_lookup 	= ini_file_ex("magazines\\weapons\\importer.ltx")
 local loadout_lookup 	= ini_file_ex("magazines\\outfitloadouts\\importer.ltx")
@@ -43,12 +45,7 @@ function get_carried_mags(tbl)
 end
 
 function get_data(id)
-	tbl = {}
-	if mags_storage[id] then
-		copy_table(tbl, mags_storage[id] )
-		return tbl
-	end
-	return mags_storage[id] --could be nil or false want to return either.
+	return mags_storage[id] or nil
 end
 
 function set_data(id, data)
@@ -540,9 +537,9 @@ function check_ready(cell)
 end
 
 function icon_check_ready(cell)
-	if bags[cell.container.ID] and carried_mags[cell.ID] then
-		return {texture = "ui_mags_loadout", x = 1, y = 1, w = 15, h = 15}
-	end
+        if bags[cell.container.ID] and carried_mags[cell.ID] then
+			return {texture = "ui_mags_loadout", x = 1, y = 1, w = 15, h = 15}
+		end
 end
 
 
@@ -556,7 +553,7 @@ local function save_state(mdata)
 	mdata.carried_mags = carried_mags
 end
 
-function load_state(mdata) 
+local function load_state(mdata) 
 	mags_storage = mdata.mags_storage or {}
 	carried_mags = mdata.carried_mags or {}
 end
@@ -592,14 +589,13 @@ end
 
 function on_game_start()
 	build_mag_revers_lookups()
-	RegisterScriptCallback("save_state",save_state)
-	RegisterScriptCallback("load_state",load_state)
 	rax_persistent_highlight.register("ready_mag", check_ready) --used like a callback register
 	rax_icon_layers.register("ready_mag", icon_check_ready) --used like a callback register
+	RegisterScriptCallback("save_state",save_state)
+	RegisterScriptCallback("load_state",load_state)
 	RegisterScriptCallback("actor_item_to_slot",actor_item_to_slot)
 	RegisterScriptCallback("actor_item_to_ruck",actor_item_to_slot)
 	RegisterScriptCallback("actor_item_to_belt",actor_item_to_slot)
-	RegisterScriptCallback("actor_on_item_drop",actor_item_to_slot)
 	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
 	RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
 	RegisterScriptCallback("ActorMenu_on_trade_started",on_trade_opened)
