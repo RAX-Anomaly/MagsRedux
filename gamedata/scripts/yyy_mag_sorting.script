@@ -1,7 +1,7 @@
 --[[
 Small tweak to item sorting to favor readymags>magazines>everythihng else
 --]]
-
+if aaa_rax_icon_override then end --force load order.
 
 is_magazine					= magazine_binder.is_magazine
 is_carried_mag				= magazine_binder.is_carried_mag
@@ -187,9 +187,9 @@ function utils_ui.UICellContainer.FindFreeCell(self,obj, sec)
 		end
 		sec = obj and obj:section()
 	end
-	
-	local w = SYS_GetParam(2,sec, "inv_grid_width",1)
-	local h = SYS_GetParam(2,sec, "inv_grid_height",1)
+	axis = get_item_axis(sec,1)
+	local w = axis.w
+	local h = axis.h
 
 	-- Avoid icons that don't fit
 	if w > self.cols then

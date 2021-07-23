@@ -1,0 +1,285 @@
+
+--[[
+Icon Override
+06JUN2021
+This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+Author: RavenAscendant
+
+Provide a location to specifiy alternitive item icons that should be less prone to conflicts
+--]]
+
+
+
+
+icon_override = ini_file_ex("icon_override\\icon_override.ltx")
+
+function print_dbg( text , ...)
+	if true then
+		printf( "RAX: | %s |  "..text ,time_global(), ...)
+	end
+end
+
+
+print_dbg("test %s",getfenv(1) == _G)
+
+function utils_xml.get_icons_texture(section)
+
+	return section and (icon_override:section_exist(section) and icon_override:r_string_ex(section,"icons_texture") or ini_sys:r_string_ex(section,"icons_texture")) or "ui\\ui_icon_equipment"
+end
+
+
+function utils_xml.get_item_axis(section, grid_size, unpacked)
+
+-- Rule: get item axis out of info from its section
+-- Input: section of the target item (string)
+-- Output: table of item's axis (x1, y1, x2, y2, width, height)
+	grid_size = grid_size or 50
+	--print_dbg("axis %s %s %s %s %s", section, icon_override:section_exist(section) and icon_override:r_float_ex(section,"inv_grid_x") ,icon_override:section_exist(section) and icon_override:r_float_ex(section,"inv_grid_y") ,icon_override:section_exist(section) and icon_override:r_float_ex(section,"inv_grid_width") , icon_override:section_exist(section) and icon_override:r_float_ex(section,"inv_grid_height"))
+	local inv_grid_x = icon_override:section_exist(section) and icon_override:r_float_ex(section,"inv_grid_x") or ini_sys:r_float_ex(section,"inv_grid_x") or 0
+	local inv_grid_y = icon_override:section_exist(section) and icon_override:r_float_ex(section,"inv_grid_y") or ini_sys:r_float_ex(section,"inv_grid_y") or 0
+	local inv_grid_width = icon_override:section_exist(section) and icon_override:r_float_ex(section,"inv_grid_width") or ini_sys:r_float_ex(section,"inv_grid_width") or 0
+	local inv_grid_height = icon_override:section_exist(section) and icon_override:r_float_ex(section,"inv_grid_height") or ini_sys:r_float_ex(section,"inv_grid_height") or 0
+	
+	local x1 = inv_grid_x * grid_size
+	local y1 = inv_grid_y * grid_size
+	local w = inv_grid_width * grid_size
+	local h = inv_grid_height * grid_size
+	local x2 = x1 + w
+	local y2 = y1 + h
+	
+	if unpacked then
+		return x1, y1, x2, y2
+	end
+	return { x1=x1, y1=y1, x2=x2, y2=y2, w=w, h=h }
+end
+
+--utils_ui.get_item_axis = utils_xml.get_item_axis
+local sync_element          = utils_xml.sync_element
+function utils_ui.UICellItem:Set(obj, area)
+	local ratio = utils_xml.screen_ratio()
+	local xml = self:GetXML()
+	local path = self.path
+	local is_obj = (self.showcase == 0)
+	local grid_size = self.grid_size
+	
+	local sec = is_obj and obj:section() or obj
+	local clsid = is_obj and obj:clsid()
+
+	local x = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"inv_grid_x") or SYS_GetParam(2,sec, "inv_grid_x")
+	local y = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"inv_grid_y") or SYS_GetParam(2,sec, "inv_grid_y")
+	local w = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"inv_grid_width") or SYS_GetParam(2,sec, "inv_grid_width")
+	local h = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"inv_grid_height") or SYS_GetParam(2,sec, "inv_grid_height")
+	
+	if not x or not y or not w or not h then
+		return false
+	end
+	
+	x = x * grid_size
+	y = y * grid_size
+	w = w * grid_size
+	h = h * grid_size
+	
+	self.ID = is_obj and obj:id() or nil
+	self.section = sec
+	self.area = area
+	--self.X = x
+	--self.Y = y
+	self.W = w
+	self.H = h
+
+	-- Trade mode
+	--if self:Check_TradeMode(obj, sec) then
+		--return false
+	--end
+	
+	-- Cell pos
+	if area and (not self.manual) then
+		local area_x = ((area.x * grid_size) - grid_size) * ratio
+		local area_y = (area.y * grid_size) - grid_size
+		local area_xl = self.grid_line * area.x
+		local area_yl = self.grid_line * area.y
+		
+		self.cell:SetWndPos(vector2():set( area_x + area_xl , area_y + area_yl ))
+		self.cell:SetWndSize(vector2():set(w * ratio , h))
+		sync_element(self.hl, self.cell)
+		self:Print(nil, "Set for [%s]  in (%s,%s,%s,%s)", sec, area_x, area_y, w, h)
+		
+	-- Cell pos (free cell)
+	elseif self.st then 
+		local st_x = ((self.st:GetWidth() /2) - ((w * ratio) /2))
+		local st_y = ((self.st:GetHeight() /2) - (h /2))
+		self.cell:SetWndPos(vector2():set( st_x , st_y ))
+		self.cell:SetWndSize(vector2():set(w * ratio , h))
+		sync_element(self.hl, self.cell)
+		self:Print(nil, "Set for [%s]  in free cell", sec)
+	end
+	
+	-- Icon
+	self:Add_Icon(sec, w, h)
+	self:Add_Shadow(sec, w, h)
+	
+	-- Icon layers
+	self:Add_Layers(xml, obj, sec, clsid)
+	
+	-- Update cell
+	local is_updated = self:Update(is_obj and obj)
+	if (not is_updated) then
+		self:Print(nil, "Updating failed for [%s] | Reset cell", sec)
+		self:Reset()
+		return false
+	end
+	
+	self.cell:Show(true)
+	return true
+end
+
+function utils_ui.UICellItem:Create_Layer(ele, base, sec_m, sec_l, str_x, str_y, str_scale)
+	local ratio = utils_xml.screen_ratio()
+	local grid_size = self.grid_size
+	local x = str_x and (icon_override:section_exist(sec_m) and icon_override:r_float_ex(sec_m,str_x) or SYS_GetParam(2,sec_m, str_x)) or 0 
+	local y = str_y and (icon_override:section_exist(sec_m) and icon_override:r_float_ex(sec_m,str_y) or SYS_GetParam(2,sec_m, str_y)) or 0
+	local w = icon_override:section_exist(sec_l) and icon_override:r_float_ex(sec_l,"inv_grid_width") or SYS_GetParam(2,sec_l, "inv_grid_width",1) * grid_size
+	local h = icon_override:section_exist(sec_l) and icon_override:r_float_ex(sec_l,"inv_grid_height") or SYS_GetParam(2,sec_l, "inv_grid_height",1) * grid_size
+	local scale = str_scale and (icon_override:section_exist(sec_m) and icon_override:r_float_ex(sec_m,str_scale) or SYS_GetParam(2,sec_m, str_scale)) or 1
+	local scale_pos = scale * (grid_size/50)
+
+	local rot = ele:GetHeading() > 0
+	local x_s = x * ratio * scale_pos
+	local y_s = y * scale_pos
+	local w_s = w * ratio * scale
+	local h_s = h * scale
+	local w_off = (w_s/2)
+	local h_off = (h_s/2)
+	
+	if rot then
+		-- despite rotation, movement for x and y stays normal! 
+		-- Move start pos to match the one for rotated base icon
+		local w_b, h_b = base:GetWidth(), base:GetHeight()
+		local x_st = (w_b/2) - (h_b/2)
+		local y_st = h_b + x_st
+		
+		-- On 90 rotation, x and y are inverted, y axis goes negative simulate normal x movement
+		x_s = x_st + (y * ratio * scale_pos)
+		y_s = y_st - (x * scale_pos) 
+		w_s = w * scale
+		h_s = h * ratio * scale
+		w_off = (h_s * (1/ratio))/2
+		h_off = -w_s/2
+	end
+	
+	ele:InitTexture( utils_xml.get_icons_texture(sec_l) )
+	ele:SetTextureRect(Frect():set( utils_xml.get_item_axis(sec_l, nil, true) ))
+	ele:SetStretchTexture(true)
+	ele:SetWndPos(vector2():set( x_s + w_off , y_s + h_off ))
+	ele:SetWndSize(vector2():set( w_s , h_s ))
+	ele:Show(true)
+end
+
+function utils_ui.UICellItem:Add_Layers(xml, obj, sec, clsid)
+	local ratio = utils_xml.screen_ratio()
+	-- Hide all layers
+	if self.layer then
+		for i=1,#self.layer do
+			self.layer[i]:Show(false)
+		end
+	end
+	
+	-- Add all possible layers
+	local ii = 0
+	while (icon_override:section_exist(sec) and icon_override:r_string_ex(sec,(ii+1).."icon_layer") or SYS_GetParam(0, sec, (ii+1).."icon_layer") ~= nil) do
+		ii = ii + 1
+		
+		if (not self.layer) then
+			self.layer = {}
+		end
+		if (not self.layer[ii]) then
+			if (not xml) then 
+				xml = self:GetXML()
+			end
+			self.layer[ii] = xml:InitStatic(self.path .. ":" .. self.cx .. ":pic", self.ico)
+		end
+		
+		local icon_layer = icon_override:section_exist(sec) and icon_override:r_string_ex(sec,ii.."icon_layer") or SYS_GetParam(0, sec, ii.."icon_layer")
+		self:Create_Layer(self.layer[ii], self.ico, sec, icon_layer, ii.."icon_layer_x", ii.."icon_layer_y", ii.."icon_layer_scale")
+		
+		self:Print(nil, "Show layer (%s) [%s]", ii, icon_layer)
+	end
+end
+
+function utils_xml.set_icon(sec, hidden, XML_temp, XML_box, XML_box_small)
+	ico_width = ico_width or (utils_xml.is_widescreen() and 0.8 or 1)
+	
+	if not (XML_temp and XML_box) then
+		callstack()
+		printe("!ERROR utils_xml.set_icon | XML_box or XML_temp doesn't exist")
+		return
+	end
+	
+	if not (sec and ini_sys:section_exist(sec)) then
+		XML_box:Show(false)
+		
+		callstack()
+		printe("!ERROR utils_xml.set_icon | section [%s] doesn't exist in system ini", sec)
+		return
+	end
+	
+	-- Icon
+	local ico = utils_xml.get_item_axis(sec)
+	XML_box:InitTexture( utils_xml.get_icons_texture(sec) )
+	XML_box:SetTextureRect(Frect():set(ico.x1, ico.y1, ico.x2, ico.y2))
+	XML_box:SetTextureColor( hidden and clr_icon_2 or clr_icon_1 )
+	XML_box:SetStretchTexture(true)
+	XML_box:Show(true)
+	
+	local pos = XML_temp:GetWndPos()
+	local _w = XML_temp:GetWidth()
+	local _h = XML_temp:GetHeight()
+	
+	local ratio = ico.w/ico.h
+	local h, w
+	ico.w = ico.w * ico_size * ico_width
+	ico.h = ico.h * ico_size
+	
+	for i=1,2 do
+		local w_t, h_t = 0, 0
+		local resize = false
+		if (ico.w > _w) then -- if icon width is bigger than frame width
+			w_t = ico.w - _w
+			resize = true	
+		end 
+		if (ico.h > _h) then -- if icon height is bigger than frame height
+			h_t = ico.h - _h 
+			resize = true	
+		end 
+		
+		if resize then -- resize is required
+			if (w_t >= h_t) then -- if icon width is the big number (or square), use it as a base for resizing
+				w = _w
+				h = w / ratio
+			elseif (w_t < h_t) then -- if icon width is the big number, use it as a base for resizing
+				h = _h
+				w = h * ratio
+			end
+		else -- no resize
+			w = ico.w
+			h = ico.h
+		end
+	end
+	
+	local offset_x = (_w - w)/2
+	local offset_y = (_h - h)/2
+	XML_box:SetWndSize(vector2():set(w , h))
+	XML_box:SetWndPos(vector2():set(pos.x + offset_x , pos.y + offset_y))
+	
+	local ico_layer = icon_override:section_exist(sec) and icon_override:r_string_ex(sec,"1icon_layer") or ini_sys:r_string_ex(sec,"1icon_layer")
+	if XML_box_small and ico_layer then
+		local ico_layer_x = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"1icon_layer_x") or ini_sys:r_float_ex(sec,"1icon_layer_x")
+		local ico_layer_y = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"1icon_layer_y") or ini_sys:r_float_ex(sec,"1icon_layer_y")
+		local ico_layer_scale = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"1icon_layer_scale") or ini_sys:r_float_ex(sec,"1icon_layer_scale")
+		if (ico_layer_x == 0) and (ico_layer_y == 0) and (ico_layer_scale == 1) then
+			utils_xml.set_icon(ico_layer, hidden, XML_temp, XML_box_small)
+		end
+	end
+end
+
+
