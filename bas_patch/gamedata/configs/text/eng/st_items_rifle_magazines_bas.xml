@@ -41,13 +41,13 @@ Pistols and MP's
 		Standard DVL10 Magazine with a capacity of 10 rounds.
 		</text>
 	</string>
-	
+		
 	<string id="st_mag_remington700_7.62x51">
-		<text>Standard 7.62x51 Remington 700 Magazine</text>
+		<text>Extended 7.62x51 Remington 700 Magazine</text>
 	</string>
 	<string id="st_mag_remington700_7.62x51_descr">
 		<text>
-		Standard Remington 700 Magazine with a capacity of 12 rounds.
+		Extended Remington 700 Magazine with a capacity of 12 rounds.
 		</text>
 	</string>
 	
