@@ -78,7 +78,7 @@ function get_trader_type(npc)
     local cini = st.ini
     local logic = st.section_logic
     if not logic and not trader then return -1 end
-    local trade_logic = cini:r_string_ex(logic, "trade")
+    local trade_logic = cini and cini:r_string_ex(logic, "trade")
     if not trade_logic then return -1 end
     if find(trade_logic, "companion") then
         return COMPANION

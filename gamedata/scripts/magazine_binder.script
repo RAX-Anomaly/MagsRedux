@@ -15,12 +15,11 @@ local mags_by_basetype = {}
 local mags_by_retool_group = {}
 local basetypes_by_ammo_type ={}
 
-local loadout_slots = {
+local loadout_slots = 	{
 						small = 2,
 						medium = 0,
 						large = 0,
 						}
-
 
 
 function print_dbg( text , ...)
@@ -29,8 +28,6 @@ function print_dbg( text , ...)
 	end
 	return nil
 end
-
-
 
 local look_up_table 	= ini_file_ex("magazines\\lookups.ltx")
 local weapons_lookup 	= ini_file_ex("magazines\\weapons\\importer.ltx")
@@ -46,7 +43,12 @@ function get_carried_mags(tbl)
 end
 
 function get_data(id)
-	return mags_storage[id] or nil
+	tbl = {}
+	if mags_storage[id] then
+		copy_table(tbl, mags_storage[id] )
+		return tbl
+	end
+	return mags_storage[id] --could be nil or false want to return either.
 end
 
 function set_data(id, data)
@@ -61,7 +63,7 @@ function get_mag_property(id,key)
 	return mags_storage[id] and mags_storage[id][key]
 end
 
-function get_total_carried()
+function get_total_carried(exact)
 	local carried = {
 		["small"] = 0,
 		["medium"] = 0,
@@ -70,6 +72,21 @@ function get_total_carried()
 	for id, mag in pairs(carried_mags) do
 		carried[mag.size] = carried[mag.size] + 1
 	end
+	
+
+	if not exact then --shift exess up to next size
+		if carried.small > loadout_slots.small then
+			carried.medium = carried.medium + carried.small - loadout_slots.small
+			carried.small = loadout_slots.small
+		end
+		if carried.medium > loadout_slots.medium then
+			carried.large = carried.large + carried.medium - loadout_slots.medium
+			carried.medium = loadout_slots.medium
+		end
+		
+	end
+	
+	
 	return carried
 end
 
@@ -211,29 +228,35 @@ end
 
 function validate_loadout()
     update_loadout_slots()
+	local carried = get_total_carried()
+	local excess = carried.large - loadout_slots.large
+	if excess < 1 then -- if they shift arround and don't over fill large all good
+		--print_dbg("validate_loadout s:%s m:%s l:%s excess:%s", carried.small, carried.medium, carried.large, excess)
+		return
+	end
     local found = {small = 0, medium = 0, large = 0}
-    for id, mag in pairs(carried_mags) do
-        if mag.size then
+    for id, mag in pairs(carried_mags) do --shed exess favoring shifted mags.
+		if mag.size then
             found[mag.size] = found[mag.size] + 1
             if found[mag.size] > loadout_slots[mag.size] then
                 carried_mags[id] = nil
+				excess = excess - 1
+				if excess == 0 then break end
             end
         end
     end
+	magazines.inventory_refresh()
 end
 
 function room_in_pouch(id)
 	local s = mags_storage[id].size
-	if loadout_slots[s] == 0 then return false end
-	local found = 0
-	for id, mag in pairs(carried_mags) do
+	for id, mag in pairs(carried_mags) do -- safety purge of esccaped mags
 		if not utils_item.in_actor_inv(level.object_by_id(id)) then
 			carried_mags[id] = nil
-		elseif mag.size == s then
-			found = found + 1
 		end
 	end 
-	return found < loadout_slots[s]
+	carried = get_total_carried()
+	return carried.large < loadout_slots.large or ((s == "medium" or s == "small") and (carried.medium < loadout_slots.medium)) or (s == "small" and (carried.small < loadout_slots.small))
 end
 
 
@@ -289,6 +312,7 @@ function has_loadout_slots(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
 	local in_list = loadout_lookup:section_exist(parent_section(section))
+	--print_dbg("has_loadout_slots %s|%s:%s|%s", section,parent_section(section), in_list, IsItem("outfit", section, obj) )
 	return IsItem("outfit", section, obj) or in_list
 end
 
@@ -367,8 +391,10 @@ function get_weapon_base_type(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
 	id = obj and id or nil --utils_item.get_ammo will not work if given an id of an offline object. nil id if no gameobject exists
-	
-	return is_supported_weapon(section) and look_up_table:r_value(parent_section(section), utils_item.get_ammo(section, id)[1]) -- base_type is in the ltx based on the first entry in the weapons ammo list.
+	local ammo =  utils_item.get_ammo(section, id)[1]
+	local parent = parent_section(section)
+	print_dbg("for weapon %s, using ammo %s, bt is %s", parent, ammo, is_supported_weapon(section) and look_up_table:r_value(parent, ammo))
+	return is_supported_weapon(section) and look_up_table:r_value(parent, ammo) -- base_type is in the ltx based on the first entry in the weapons ammo list.
 end
 
 function weapon_default_magazine(val)
@@ -514,9 +540,9 @@ function check_ready(cell)
 end
 
 function icon_check_ready(cell)
-        if bags[cell.container.ID] and carried_mags[cell.ID] then
-			return {texture = "ui_mags_loadout", x = 1, y = 1, w = 15, h = 15}
-		end
+	if bags[cell.container.ID] and carried_mags[cell.ID] then
+		return {texture = "ui_mags_loadout", x = 1, y = 1, w = 15, h = 15}
+	end
 end
 
 
@@ -530,7 +556,7 @@ local function save_state(mdata)
 	mdata.carried_mags = carried_mags
 end
 
-local function load_state(mdata) 
+function load_state(mdata) 
 	mags_storage = mdata.mags_storage or {}
 	carried_mags = mdata.carried_mags or {}
 end
@@ -566,13 +592,14 @@ end
 
 function on_game_start()
 	build_mag_revers_lookups()
-	rax_persistent_highlight.register("ready_mag", check_ready) --used like a callback register
-	rax_icon_layers.register("ready_mag", icon_check_ready) --used like a callback register
 	RegisterScriptCallback("save_state",save_state)
 	RegisterScriptCallback("load_state",load_state)
+	rax_persistent_highlight.register("ready_mag", check_ready) --used like a callback register
+	rax_icon_layers.register("ready_mag", icon_check_ready) --used like a callback register
 	RegisterScriptCallback("actor_item_to_slot",actor_item_to_slot)
 	RegisterScriptCallback("actor_item_to_ruck",actor_item_to_slot)
 	RegisterScriptCallback("actor_item_to_belt",actor_item_to_slot)
+	RegisterScriptCallback("actor_on_item_drop",actor_item_to_slot)
 	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
 	RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
 	RegisterScriptCallback("ActorMenu_on_trade_started",on_trade_opened)

@@ -50,6 +50,12 @@ end
 
 
 function utils_ui.UICellContainer:ValidateSimilar(obj, sec)
+	if not (obj or sec) then	
+		printe("!ERROR UICellContainer:ValidateSimilar | no data recieved!")
+		return false
+	end
+
+	
 	local sec = obj:section()
 	
 	if get_rules(sec) and check_rules(obj) then
@@ -113,7 +119,7 @@ function utils_ui.UICellContainer:FindSimilar(obj, sec)
 	-- items with condition, full search
 	for idx,ci in pairs(self.cell) do
 		local obj_2 = ci.ID and level.object_by_id(ci.ID)
-		if (ci.section == sec and self:ValidateSimilar(obj_2, ci.section)) then
+		if (ci.section == sec and obj_2 and self:ValidateSimilar(obj_2, ci.section)) then
 			-- full multiuse item can stack
 			if max_uses then
 				return ci 
