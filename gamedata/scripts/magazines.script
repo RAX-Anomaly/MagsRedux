@@ -500,6 +500,8 @@ end
 
 function fast_load_magazine(magazine, box)
 	local mag_data = get_mag_data(magazine:id())
+	print_dbg("begin fastload")
+	dump_data(mag_data)
 	local ammo_sec = box:section()
 	local parent = box:parent()
 	local ammo_to_load = SYS_GetParam(2, magazine:section(), "max_mag_size") - #mag_data.loaded
@@ -527,6 +529,7 @@ function fast_load_magazine(magazine, box)
 			ammo_box:ammo_set_count(ammo_box:ammo_get_count() - loaded)
 		end
 	end
+	set_mag_data(magazine:id(), mag_data)
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
 	timed_refresh()
 end
