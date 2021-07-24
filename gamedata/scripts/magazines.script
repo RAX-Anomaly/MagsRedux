@@ -275,18 +275,16 @@ function eject_magazine(weapon)
 	if mag_data then
 		se_mag = alife_create_item(mag_data.section, weapon:parent())
 		if se_mag then
-			local copy = {}
-			copy_table(copy, mag_data)
 			weapon:unload_magazine()
-			set_mag_data(se_mag.id, copy)
-			if #copy.loaded > 0 and weapon_in_slot(weapon) then
+			set_mag_data(se_mag.id, mag_data)
+			if #mag_data.loaded > 0 and weapon_in_slot(weapon) then
 				toggle_carried_mag(se_mag.id)
 			end
 		else
 			print_dbg("Could not create magazine %s", mag_data.section)
 		end
 		set_mag_data(id, false)
-		dump_data(copy)
+		dump_data(mag_data)
 	end
 end
 
