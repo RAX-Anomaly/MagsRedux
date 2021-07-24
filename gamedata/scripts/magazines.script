@@ -67,7 +67,7 @@ function get_mag_time(mag_section,is_unload)
 	local default_delay=SYS_GetParam(2, "tch_mag_base", "load_delay") or 0.4
 
 	if magazines_mcm.get_config('ignore_loaddelay') then
-		default_delay=0.4
+		default_delay=1
 	else
 		if not is_unload then
 			default_delay=SYS_GetParam(2, mag_section, "load_delay") or default_delay
