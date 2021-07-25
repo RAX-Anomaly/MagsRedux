@@ -336,12 +336,12 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_bizon_9x19_fmj">
-		<text>Modified 9x19 PP-19 Magazine</text>
+	<string id="st_mag_bizon_7.62x25_p">
+		<text>Modified 7.62x25 PP-19 Magazine</text>
 	</string>
-	<string id="st_mag_bizon_9x19_fmj_descr">
+	<string id="st_mag_bizon_7.62x25_p_descr">
 		<text>
-		Modified PP-19 magazine made to accept the 9x19 Parabellum round. Clearly the work of a wizard, considering the complexity of the Bizon's helical magazine.
+		Modified PP-19 magazine made to accept the 7.62x25 Tokarev round. Clearly the work of a wizard, considering the complexity of the Bizon's helical magazine.
 		</text>
 	</string>
 
@@ -351,6 +351,15 @@ Pistols and MP's
 	<string id="st_mag_kiparis_9x18_fmj_descr">
 		<text>
 		Standard 30-round Kiparis Magazine. The Kiparis is a cheap submachine gun that has its admirers amongst bandit and renegade clans.
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x19_fmj">
+		<text>Modified 9x19 Kiparis Magazine</text>
+	</string>
+	<string id="st_mag_kiparis_9x19_fmj_descr">
+		<text>
+		Modified 30-round Kiparis Magazine made to accept the 9x19 Parabellum round. The Kiparis is a cheap submachine gun that has its admirers amongst bandit and renegade clans.
 		</text>
 	</string>
 
