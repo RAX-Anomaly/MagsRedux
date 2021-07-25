@@ -18,6 +18,7 @@ weapon_default_magazine		= magazine_binder.weapon_default_magazine
 print_dbg					= magazines.print_dbg
 has_loadout_slots			= magazine_binder.has_loadout_slots
 get_loadout_slots			= magazine_binder.get_loadout_slots
+create_mag_data             = magazine_binder.create_mag_data
 
 
 
@@ -503,11 +504,11 @@ function xr_effects.bar_arena_teleport(actor, npc)
 						AC_ID)
 		if string.find(v, "outfit") then
 			disable_info("sleep_active")
-			CreateTimeEvent("Mag_redux", "equip_outfit"..se.id, 0.1, equip_outfit, se.id)
+			CreateTimeEvent("Mag_redux", "equip_outfit"..se.id, 0.09, equip_outfit, se.id)
 		end
 		if string.find(v, "mag_") then
 			disable_info("sleep_active")
-			CreateTimeEvent("Mag_redux", "fill_mag"..se.id, 0.1, fill_mag, se.id, SYS_GetParam(2, v, "max_mag_size"), mag_to_ammo[v])
+			CreateTimeEvent("Mag_redux", "fill_mag"..se.id, 0.1, fill_mag, se.id, v, SYS_GetParam(2, v, "max_mag_size"), mag_to_ammo[v])
 		end
 		se_save_var( se.id, se:name(), "unpatched", true )
 	end
@@ -519,8 +520,12 @@ function equip_outfit(id)
 	return true
 end
 
-function fill_mag(id, amount, ammo_type)
+function fill_mag(id, sec, amount, ammo_type)
 	local mag_data = get_data(id)
+	if not mag_data then
+		print_dbg("mag_data not initialized yet for %s, creating now")
+		mag_data = create_mag_data(id, sec)
+	end
 	for i=1,amount do
 		stack.push(mag_data.loaded, ammo_type)
 	end

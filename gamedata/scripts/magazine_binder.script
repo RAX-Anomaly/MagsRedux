@@ -58,6 +58,15 @@ function set_data(id, data)
 	end
 end
 
+function create_mag_data(id, sec)
+    local mag_data = {}
+    mag_data.loaded = {}
+    mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
+    mag_data.section = sec
+    set_data(id, mag_data)
+    return mag_data
+end
+
 function get_mag_property(id,key)
 	--print_dbg("wtf:".. tostring((mags_storage[id] and mags_storage[id][key] or "no dice")))
 	return mags_storage[id] and mags_storage[id][key]
