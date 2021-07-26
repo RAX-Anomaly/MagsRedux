@@ -9,6 +9,7 @@ get_magazine_caliber 		= magazine_binder.get_magazine_caliber
 is_magazine					= magazine_binder.is_magazine
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
 weapon_improved_magazine	= magazine_binder.weapon_improved_magazine
+create_mag_data             = magazine_binder.create_mag_data
 print_dbg                   = magazines.print_dbg
 
 local ini_loadouts = ini_file("items\\settings\\npc_mag_loadouts.ltx")
@@ -35,6 +36,10 @@ function stock_mags(npc)
         local sec = item:section()
         if not IsAmmo(item) and IsWeapon(item) and is_supported_weapon(item) then
             local default_mag = weapon_default_magazine(item)
+			local wpn = GetWeaponInHands()
+			if wpn and (math.random(1,100)) <= 1 then
+				default_mag = weapon_default_magazine(wpn)
+			end
             if to_spawn[default_mag] then
                 to_spawn[default_mag] = to_spawn[default_mag] + 1
             else
@@ -48,20 +53,19 @@ function stock_mags(npc)
     trader_autoinject.spawn_items(npc, to_spawn, true)
 end
 
+function GetWeaponInHands()
+    local wpn = db.actor:item_in_slot(db.actor:active_slot())
+    if not IsAmmo(item) and IsWeapon(item) and is_supported_weapon(item) then
+        return wpn
+    end
+	return nil
+end
+
 
 -- death management
 local function get_mag_prop(rank, prop)
     rank = rank or "novice"
     return ini_loadouts:r_float_ex(rank.."_mag_loadout", prop)
-end
-
-function create_mag_data(id, sec)
-    local mag_data = {}
-    mag_data.loaded = {}
-    mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
-    mag_data.section = sec
-    set_data(id, mag_data)
-    return mag_data
 end
 
 -- called on each created magazine, autofill with the appropriate crap
