@@ -68,15 +68,18 @@ end
 -- Script Callbacks --
 
 function on_mcm_load()
+    -- LuaFormatter off
     ch_options = {
         id = "rax_ammo_check",
         sh = true,
         gr = {
             {id = "ammo_check", type = "slide", link = "ui_options_slider_player", text = "ui_mm_title_rax_ammo_check", size = {512, 50}, spacing = 20},
-            {id = "usecolor", type = "check", val = 1, def = false}, {id = "hidecounter", type = "check", val = 1, def = true},
+            {id = "usecolor", type = "check", val = 1, def = false},
+            {id = "hidecounter", type = "check", val = 1, def = true},
             {id = "hideicon", type = "check", val = 1, def = true}
         }
     }
+    -- LuaFormatter on
     return ch_options
 end
 
