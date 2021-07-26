@@ -4,7 +4,7 @@ is_magazine					= magazine_binder.is_magazine
 GetTradeStatus = utils_item.get_item_trade_status
 function utils_item.get_item_trade_status(obj, profile)
     print_dbg("trade profile: %s", profile.cfg)
-    if profile.cfg ~= "items\\trade\\trade_generic.ltx" and is_magazine(obj) and obj:parent():id() == 0 then
+    if profile.cfg ~= "items\\trade\\trade_generic.ltx" and is_magazine(obj) and obj:parent() and obj:parent():id() == 0 then
         print_dbg("blacklisting mag for sale from player, %s", obj:section())
         return 1
     else
