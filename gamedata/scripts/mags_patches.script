@@ -258,6 +258,7 @@ function item_weapon.attach_scope(item, weapon)
 	if not (item and weapon) then 
 		return 
 	end 
+	if magazines.action_in_progress() then return end
 	
 	-- An addon has already been attached or none can be used.
 	local parent_section = ini_sys:r_string_ex(weapon:section(),"parent_section")
@@ -297,12 +298,12 @@ function check_scope(addon_sect, weapon_sect)
 end
 
 function item_weapon.detach_scope(weapon)
-
-	
 	-- Return if the weapon is not valid.
 	if not (weapon) then
 		return
 	end
+	
+	if magazines.action_in_progress() then return end
 	
 	-- An addon has not been attached or none can be detached.
 	local parent_section = ini_sys:r_string_ex(weapon:section(),"parent_section")
@@ -331,12 +332,6 @@ function item_weapon.detach_scope(weapon)
 	local dataOld = get_data(old_weapon.id)
 	local new_weapon = old_weapon and alife_clone_weapon(old_weapon, parent_section)
 	if (new_weapon) then
-	
-		-- Transfer parts states
-		-- item_parts.copy_parts_con(old_weapon.id, new_weapon.id)
-		-- item_parts.clear_parts_con(old_weapon.id)
-		
-		-- wuut: move over the old mag data
 		set_data(new_weapon.id, dataOld)
 		set_data(old_weapon.id, nil)
 	end
@@ -504,7 +499,7 @@ function xr_effects.bar_arena_teleport(actor, npc)
 						AC_ID)
 		if string.find(v, "outfit") then
 			disable_info("sleep_active")
-			CreateTimeEvent("Mag_redux", "equip_outfit"..se.id, 0.09, equip_outfit, se.id)
+			CreateTimeEvent("Mag_redux", "equip_outfit"..se.id, 0.1, equip_outfit, se.id)
 		end
 		if string.find(v, "mag_") then
 			disable_info("sleep_active")
