@@ -9,6 +9,7 @@ get_magazine_caliber 		= magazine_binder.get_magazine_caliber
 is_magazine					= magazine_binder.is_magazine
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
 weapon_improved_magazine	= magazine_binder.weapon_improved_magazine
+create_mag_data             = magazine_binder.create_mag_data
 print_dbg                   = magazines.print_dbg
 
 local ini_loadouts = ini_file("items\\settings\\npc_mag_loadouts.ltx")
@@ -53,15 +54,6 @@ end
 local function get_mag_prop(rank, prop)
     rank = rank or "novice"
     return ini_loadouts:r_float_ex(rank.."_mag_loadout", prop)
-end
-
-function create_mag_data(id, sec)
-    local mag_data = {}
-    mag_data.loaded = {}
-    mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
-    mag_data.section = sec
-    set_data(id, mag_data)
-    return mag_data
 end
 
 -- called on each created magazine, autofill with the appropriate crap
