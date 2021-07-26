@@ -35,31 +35,31 @@ function null_function()
     return false
 end
 
--- aliases--
-gc = game.translate_string
-
-if magazine_binder then
-    print_dbg = magazine_binder.print_dbg
-    get_data = magazine_binder.get_data
-    set_data = magazine_binder.set_data
-    is_supported_weapon = magazine_binder.is_supported_weapon
-    is_jammed_weapon = magazines.is_jammed_weapon
-    print_dbg("MagsRedux installed. Working in integrated mode.")
-else
-    print_dbg = ac_print_dbg -- Use own print function.
-    get_data = null_function -- Should not be called, just in case.
-    set_data = null_function -- Should not be called, just in case.
-    is_supported_weapon = null_function -- Always returns false, meaning none of the weapons are supported, fall back on vanilla ammo handling.
-    is_jammed_weapon = null_function -- Sadly, standalone mode does not report weapon jams for now.
-    print_dbg("MagsRedux not found. Working in standalone mode.")
-end
-
 function l_round(value)
     local min = math.floor(value + 0.5)
     return min
 end
 
 function on_game_start()
+    -- aliases--
+    gc = game.translate_string
+
+    if magazine_binder then
+        print_dbg = magazine_binder.print_dbg
+        get_data = magazine_binder.get_data
+        set_data = magazine_binder.set_data
+        is_supported_weapon = magazine_binder.is_supported_weapon
+        is_jammed_weapon = magazines.is_jammed_weapon
+        print_dbg("MagsRedux installed. Working in integrated mode.")
+    else
+        print_dbg = ac_print_dbg -- Use own print function.
+        get_data = null_function -- Should not be called, just in case.
+        set_data = null_function -- Should not be called, just in case.
+        is_supported_weapon = null_function -- Always returns false, meaning none of the weapons are supported, fall back on vanilla ammo handling.
+        is_jammed_weapon = null_function -- Sadly, standalone mode does not report weapon jams for now.
+        print_dbg("MagsRedux not found. Working in standalone mode.")
+    end
+
     RegisterScriptCallback("on_key_press", on_key_press)
     RegisterScriptCallback("on_option_change", on_option_change)
 
