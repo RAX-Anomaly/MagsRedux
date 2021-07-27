@@ -121,7 +121,7 @@ function get_loaded(wm_sec, rm_sec, id, fill)
 	w_data = GetMagData(id)
 	ammoFill = w_data[fill]
 	print_dbg("CONVERT fill %s", ammoFill)
-	while ammoFill ~= '' do
+	while ammoFill and ammoFill ~= '' do
 		ammoIndex = tonumber(string.sub(ammoFill, 1,1))
 		ammoFill = string.sub(ammoFill, 2)
 		a_sec = GetAmmoTypeByIndex(wm_sec, ammoIndex)
