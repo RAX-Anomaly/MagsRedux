@@ -218,10 +218,10 @@ function delay_load_weapon(weapon, magazine, pre_table, eject)
 
 	if weapon:get_state() == 0 then
 		weapon:unload_magazine()
+		ACTION_IN_PROGRESS = false
 		load_weapon(weapon, magazine)
 		refund_ammo(weapon, pre_table)
 		load_timeout[id] = nil
-		ACTION_IN_PROGRESS = false
 		return true
 	end
 	return false
