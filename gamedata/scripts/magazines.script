@@ -174,7 +174,8 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 			weapon:switch_state(7)
 			on_key_press()
 			disable_info("sleep_active")
-			ACTION_IN_PROGRESS = true
+			ACTION_IN_PROGRESS = true		
+			interrupt_reload = false
 			CreateTimeEvent("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
 		end
 
@@ -206,9 +207,13 @@ function delay_load_weapon(weapon, magazine, pre_table, eject)
 	if not load_timeout[id] then
 		load_timeout[id] = tg
 	end
-	if tg > load_timeout[id] + 10000 then
+	
+	local inventory = GetActorMenu()
+	if (interrupt_reload and inventory:IsShown()) or tg > load_timeout[id] + 10000 then
 		load_timeout[id] = nil
 		ACTION_IN_PROGRESS = false
+		interrupt_reload = false	
+		weapon:switch_state(2)
 		return true
 	end
 

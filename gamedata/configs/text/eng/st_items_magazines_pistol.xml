@@ -336,6 +336,15 @@ Pistols and MP's
 		</text>
 	</string>
 
+	<string id="st_mag_bizon_9x19_fmj">
+		<text>Modified 9x19 PP-19 Magazine</text>
+	</string>
+	<string id="st_mag_bizon_9x19_fmj_descr">
+		<text>
+		Modified PP-19 magazine made to accept the 9x19 Tokarev round. Clearly the work of a wizard, considering the complexity of the Bizon's helical magazine.
+		</text>
+	</string>
+
 	<string id="st_mag_bizon_7.62x25_p">
 		<text>Modified 7.62x25 PP-19 Magazine</text>
 	</string>
