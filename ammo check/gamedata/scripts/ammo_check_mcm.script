@@ -61,9 +61,8 @@ function on_game_start()
     end
 
     RegisterScriptCallback("on_key_press", on_key_press)
+    RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
     RegisterScriptCallback("on_option_change", on_option_change)
-
-    on_option_change()
 end
 
 -- Script Callbacks --
@@ -82,6 +81,10 @@ function on_mcm_load()
     }
     -- LuaFormatter on
     return ch_options
+end
+
+function actor_on_first_update()
+    on_option_change()
 end
 
 function on_option_change()
