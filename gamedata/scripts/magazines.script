@@ -264,7 +264,11 @@ end
 
 function check_eject_magazine(weapon)
 	if get_mag_data(weapon:id()) and not weapon:weapon_in_grenade_mode() then
-		return gc("st_mag_eject_magazine")
+		if not is_supported_weapon(weapon) then
+			set_mag_data(weapon:id(), nil)
+		else
+			return gc("st_mag_eject_magazine")
+		end
 	end
 end
 
