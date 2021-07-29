@@ -8,6 +8,7 @@ get_mag_data 				= magazine_binder.get_data
 set_mag_data 				= magazine_binder.set_data
 is_supported_weapon 		= magazine_binder.is_supported_weapon
 get_magazine_caliber 		= magazine_binder.get_magazine_caliber
+weapon_default_magazine 	= magazine_binder.weapon_default_magazine
 is_compatible 				= magazine_binder.is_compatible
 isMagazine					= magazine_binder.is_magazine
 is_magazine					= magazine_binder.is_magazine
@@ -20,6 +21,7 @@ get_weapon_base_type		= magazine_binder.get_weapon_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
 print_dbg					= magazine_binder.print_dbg
 get_mags_by_ammo_type		= magazine_binder.get_mags_by_ammo_type
+get_config					= magazines_mcm.get_config
 
 
 -- global flag to interrupt reloads (set on key press and stuff)
@@ -66,11 +68,11 @@ end
 function get_mag_time(mag_section,is_unload)
     is_unload=is_unload or false
 
-	local load_factor=magazines_mcm.get_config('mag_loadtime_factor')
-	local unload_factor=magazines_mcm.get_config('mag_unloadtime_factor')
+	local load_factor=get_config('mag_loadtime_factor')
+	local unload_factor=get_config('mag_unloadtime_factor')
 	local default_delay=SYS_GetParam(2, "tch_mag_base", "load_delay") or 0.4
 
-	if magazines_mcm.get_config('ignore_loaddelay') then
+	if get_config('ignore_loaddelay') then
 		default_delay=1
 	else
 		if not is_unload then
@@ -97,7 +99,7 @@ end
 
 function inventory_refresh(mode) --safer way to refresh inventory, mode == 1  refreshes sorting.
 	if not mode then
-		mode = magazines_mcm.get_config("sort_inv") and 1 or 2
+		mode = get_config("sort_inv") and 1 or 2
 	end
 	local inventory = GetActorMenu()
 	if mode == 1 then
@@ -151,7 +153,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		    local capacity = SYS_GetParam(2, weapon:section(), "max_mag_size")  or 20
 			print_dbg("start loading loop")
 			interrupt_reload = false
-			if magazines_mcm.get_config("fast_loading") and is_box_mode then
+			if get_config("fast_loading") and is_box_mode then
 				fast_load_magazine(weapon, item)
 			else
 				load_magazine(weapon, item, ammos[ammo_sec], capacity, 0)
@@ -265,8 +267,19 @@ end
 function check_eject_magazine(weapon)
 	if get_mag_data(weapon:id()) and not weapon:weapon_in_grenade_mode() then
 		if not is_supported_weapon(weapon) then
+			print_dbg("Weapon should not have a magzine. Setting to nil.")
 			set_mag_data(weapon:id(), nil)
 		else
+			if get_config("purge") then
+				-- additional check for mag compatibility
+				mag_data = get_mag_data(weapon:id())
+				if get_weapon_base_type(weapon) ~= get_weapon_base_type(mag_data.section) then
+					print_dbg("Incompatible magazine %s found on gun %s. Granting default magazine.", mag_data.section, weapon:section())
+					mag_data.section = weapon_default_magazine(weapon)
+					empty_table(mag_data.loaded)
+					set_mag_data(weapon:id(), false)
+				end
+			end
 			return gc("st_mag_eject_magazine")
 		end
 	end
@@ -293,6 +306,13 @@ function eject_magazine(weapon)
 		se_mag = alife_create_item(mag_data.section, weapon:parent())
 		if se_mag then
 			weapon:unload_magazine()
+			if get_config("purge") then
+				-- check for ammo that shouldn't belong in the magazine, and replace with generic ammo
+				local ammo_map = invert_table(get_magazine_caliber(mag_data.section))
+				for k,v in pairs(mag_data.loaded) do
+					if not ammo_map[v] then mag_data.loaded[k] = random_key_table(ammo_map) end
+				end
+			end
 			set_mag_data(se_mag.id, mag_data)
 			if #mag_data.loaded > 0 and weapon_in_slot(weapon) then
 				toggle_carried_mag(se_mag.id)
@@ -601,7 +621,7 @@ function func_unload_ammo(obj)
 		local mag_data = get_mag_data(id)
 		if mag_data and #mag_data.loaded > 0 then
 			interrupt_reload = false
-			if magazines_mcm.get_config("fast_loading") and parent_is_box(obj) then
+			if get_config("fast_loading") and parent_is_box(obj) then
 				fast_unload_magazine(obj)
 			else
 				disable_info("sleep_active")

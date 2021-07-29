@@ -67,6 +67,12 @@
 	<string id="ui_mcm_magazines_debug_desc">
 		<text>Enables debugging logs in console.</text>
 	</string>
+	<string id="ui_mcm_magazines_purge">
+		<text>Enable data cleanup</text>
+	</string>
+	<string id="ui_mcm_magazines_purge_desc">
+		<text>Enables validation and cleaning up of corrupted data. Use if you see weird things like weapons not ejecting the right mag, weapons without mags ejecting mags, etc. This lowers performance slightly as additional validations are performed, and offending data will be purged.</text>
+	</string>
 	<string id="ui_mcm_magazines_empty_mags_stack">
 		<text>Stack empty magazines in inventory</text>
 	</string>
