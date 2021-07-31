@@ -29,6 +29,14 @@ function print_dbg( text , ...)
 	return nil
 end
 
+
+function print_err( text , ...)
+	if (magazines_mcm.get_config("debug") or false) then
+		printe( "ERR: | %s |  "..text ,time_global(), ...)
+	end
+	return nil
+end
+
 function dump_data(data)
     local s = ""
 	for k,v in pairs(data.loaded) do
@@ -403,7 +411,7 @@ function get_weapon_base_type(val)
 	id = obj and id or nil --utils_item.get_ammo will not work if given an id of an offline object. nil id if no gameobject exists
 	local ammo =  utils_item.get_ammo(section, id)[1]
 	local parent = parent_section(section)
-	print_dbg("for weapon %s, using ammo %s, bt is %s", parent, ammo, is_supported_weapon(section) and look_up_table:r_value(parent, ammo))
+	-- print_dbg("for weapon %s, using ammo %s, bt is %s", parent, ammo, is_supported_weapon(section) and look_up_table:r_value(parent, ammo))
 	return is_supported_weapon(section) and look_up_table:r_value(parent, ammo) -- base_type is in the ltx based on the first entry in the weapons ammo list.
 end
 
@@ -450,7 +458,6 @@ function get_mag_info(magazine)
 			result.ammo[mag_data.loaded[i]] = (result.ammo[mag_data.loaded[i]] or 0) + 1
 		end
 	end
-	dump_data(mag_data)
 	return result
 end
 
@@ -461,29 +468,34 @@ function validate_wep(id, sec)
 	local w_bt = get_weapon_base_type(sec)
 	local m_bt = get_magazine_base_type(mag_data.section)
 	if w_bt ~= m_bt then
-		print_dbg("Incompatible magazine %s (bt %s) found on gun %s (bt %s). Granting default magazine.", mag_data.section, m_bt, sec, w_bt)
+		print_err("(CLEANUP) Incompatible magazine %s (bt %s) found on gun %s (typ %s, bt %s). Granting default magazine.", mag_data.section, m_bt, id, sec, w_bt)
 		mag_data.section = weapon_default_magazine(obj)
 		empty_table(mag_data.loaded)
 		set_data(id, mag_data)
 	end
 end
 
-function validate_mag(id)
+function validate_mag(id, sec)
 	local mag_data = get_data(id)
 	if not mag_data then return end
 
+	if sec ~= mag_data.section then
+		print_err("(CLEANUP) Mag section mismatch! Saved type is %s, actual %s for id %s", mag_data.section, sec, id)
+		mag_data.section = sec
+	end
 	-- check for ammo that shouldn't belong in the magazine, and replace with generic ammo
 	local ammo_map = invert_table(get_magazine_caliber(mag_data.section))
 	-- remove excess rounds
 	local ammo_cap = SYS_GetParam(2, mag_data.section, "max_mag_size")
-	print_dbg("(CLEANUP) Loaded magazine %s (%s) has capacity %s, current %s rounds loaded", mag_data.section, id, ammo_cap, #mag_data.loaded)
 	while #mag_data.loaded > ammo_cap do
+		print_err("(CLEANUP) Loaded magazine %s (%s) has capacity %s, current %s rounds loaded", mag_data.section, id, ammo_cap, #mag_data.loaded)
 		stack.pop(mag_data.loaded)
 	end
+	local ammo_replace = random_key_table(ammo_map)
 	for k,v in pairs(mag_data.loaded) do
 		if not ammo_map[v] then 
-			print_dbg("(CLEANUP) Round %s loaded in mag %s, replacing", v, mag_data.section)
-			mag_data.loaded[k] = random_key_table(ammo_map) 
+			print_err("(CLEANUP) Invalid round %s loaded in mag %s, id %s, replacing", v, mag_data.section, id)
+			mag_data.loaded[k] = ammo_replace
 		end
 	end
 	set_data(id, mag_data)
