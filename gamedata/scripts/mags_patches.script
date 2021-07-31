@@ -19,6 +19,8 @@ print_dbg					= magazines.print_dbg
 has_loadout_slots			= magazine_binder.has_loadout_slots
 get_loadout_slots			= magazine_binder.get_loadout_slots
 create_mag_data             = magazine_binder.create_mag_data
+validate_mag				= magazine_binder.validate_mag
+validate_wep             	= magazine_binder.validate_wep
 
 
 
@@ -173,6 +175,7 @@ function ui_item.build_desc_header(obj, sec, str)
 	
 
 	if obj and magazines and IsWeapon(obj) and not IsAmmo(obj) and is_supported_weapon(obj) then
+		validate_wep(obj:id(), obj:section())
 		local mag_data = get_data(obj:id())
 		if mag_data then
 			_str = _str .. " " .. clr_g .. gc("st_dot") .. " ".. gc("st_mag_loaded") .. " " .. clr_2 .. ui_item.get_sec_name(mag_data.section) .. "\\n"
@@ -215,6 +218,7 @@ function ui_item.build_desc_footer(obj, sec, str)
 	local _str = ""
 	local _str2 = original_build_desc_footer(obj, sec, str)
 	if obj and magazines and is_magazine(obj) then
+		validate_mag(obj:id())
 		local magInfo = get_mag_info(obj)
 				
 		local weaponTitle

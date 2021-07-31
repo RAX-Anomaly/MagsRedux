@@ -271,18 +271,6 @@ function check_eject_magazine(weapon)
 			print_dbg("Weapon should not have a magzine. Setting to nil.")
 			set_mag_data(weapon:id(), nil)
 		else
-			if get_config("purge") == true then
-				-- additional check for mag compatibility
-				mag_data = get_mag_data(weapon:id())
-				local weapon_basetype = get_weapon_base_type(weapon)
-				local mag_basetype = get_magazine_base_type(mag_data.section)
-				if weapon_basetype ~= mag_basetype then
-					print_dbg("Incompatible magazine %s (bt %s) found on gun %s (bt %s). Granting default magazine.", mag_data.section, mag_basetype, weapon:section(), weapon_basetype)
-					mag_data.section = weapon_default_magazine(weapon)
-					empty_table(mag_data.loaded)
-					set_mag_data(weapon:id(), mag_data)
-				end
-			end
 			return gc("st_mag_eject_magazine")
 		end
 	end
@@ -309,13 +297,6 @@ function eject_magazine(weapon)
 		se_mag = alife_create_item(mag_data.section, weapon:parent())
 		if se_mag then
 			weapon:unload_magazine()
-			if get_config("purge") then
-				-- check for ammo that shouldn't belong in the magazine, and replace with generic ammo
-				local ammo_map = invert_table(get_magazine_caliber(mag_data.section))
-				for k,v in pairs(mag_data.loaded) do
-					if not ammo_map[v] then mag_data.loaded[k] = random_key_table(ammo_map) end
-				end
-			end
 			set_mag_data(se_mag.id, mag_data)
 			if #mag_data.loaded > 0 and weapon_in_slot(weapon) then
 				toggle_carried_mag(se_mag.id)

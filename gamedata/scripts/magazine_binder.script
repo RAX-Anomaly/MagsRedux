@@ -184,8 +184,6 @@ function toggle_carried_mag(id)
 	end
 end
 
-
-
 function update_loadout_slots()
 	local outfit = db.actor:item_in_slot(7)
 	local small,medium,large =  0,0,0
@@ -269,8 +267,6 @@ function room_in_pouch(id)
     return carried.large < loadout_slots.large or ((s == "medium" or s == "small") and (carried.medium < loadout_slots.medium)) or (s == "small" and (carried.small < loadout_slots.small))
 end
 
-
-
 function build_mag_revers_lookups()
 	local base_types = {}
 	local function itr(section)
@@ -304,9 +300,6 @@ function build_mag_revers_lookups()
 	end
 	ini_sys:section_for_each(itr)
 end
-
-
-
 
 
 -- these functions work equally well given an object id, item section, gameobject or server object.
@@ -452,8 +445,40 @@ function get_mag_info(magazine)
 	return result
 end
 
+function validate_wep(id, sec)
+	local mag_data = get_data(id)
+	if not mag_data then return end
 
+	local w_bt = get_weapon_base_type(sec)
+	local m_bt = get_magazine_base_type(mag_data.section)
+	if w_bt ~= m_bt then
+		print_dbg("Incompatible magazine %s (bt %s) found on gun %s (bt %s). Granting default magazine.", mag_data.section, m_bt, sec, w_bt)
+		mag_data.section = weapon_default_magazine(obj)
+		empty_table(mag_data.loaded)
+		set_mag_data(id, mag_data)
+	end
+end
 
+function validate_mag(id)
+	local mag_data = get_data(id)
+	if not mag_data then return end
+
+	-- check for ammo that shouldn't belong in the magazine, and replace with generic ammo
+	local ammo_map = invert_table(get_magazine_caliber(mag_data.section))
+	-- remove excess rounds
+	local ammo_cap = SYS_GetParam(2, mag_data.section, "max_mag_size")
+	print_dbg("(CLEANUP) Loaded magazine %s (%s) has capacity %s, current %s rounds loaded", mag_data.section, id, ammo_cap, #mag_data.loaded)
+	while #mag_data.loaded > ammo_cap do
+		stack.pop(mag_data.loaded)
+	end
+	for k,v in pairs(mag_data.loaded) do
+		if not ammo_map[v] then 
+			print_dbg("(CLEANUP) Round %s loaded in mag %s, replacing", v, mag_data.section)
+			mag_data.loaded[k] = random_key_table(ammo_map) 
+		end
+	end
+	set_data(id, mag_data)
+end
 
 -- class
 function bind(obj)
@@ -506,6 +531,7 @@ function magazine_binder:update(delta)
 	set_data(id, mag_data)
     obj:set_weight(mag_weight)
     obj:set_condition(cond)
+
 end
 
 function magazine_binder:reload(section)
