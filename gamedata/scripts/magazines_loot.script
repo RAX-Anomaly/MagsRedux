@@ -80,7 +80,6 @@ function npc_on_death(npc, who)
     function itr_inv(temp, item)
         local sec = item:section()
 		if IsWeapon(nil,item:clsid()) and not npc:marked_dropped(item) and is_supported_weapon(item) then
-
             -- spawn mags for one primary, one secondary
             local is_sidearm = false
             if IsPistol(item) then
@@ -89,12 +88,14 @@ function npc_on_death(npc, who)
             if (found_primary and not is_sidearm) or (found_secondary and is_sidearm) then return end
 
             -- reduce ammo in loaded weapon
-            local mag_data = get_data(item:id())
+            local id = item:id()
+            local mag_data = get_data(id)
             if mag_data then
-                for i=1, math.random(#mag_data.loaded - 5) do
+                local amt_loaded = #mag_data.loaded
+                for i=1, math.random(math.floor(amt_loaded / 2), amt_loaded) do
                     stack.pop(mag_data.loaded)
                 end
-                set_data(item:id(), mag_data)
+                set_data(id, mag_data)
             end
             
             local mags_to_spawn = math.random(0, get_mag_prop(rank, "max_mags"))

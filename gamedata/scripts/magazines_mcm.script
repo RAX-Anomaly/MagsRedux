@@ -9,6 +9,7 @@ local defaults = {
     ammo_icon				= true,
     fast_loading        	= false,
     ignore_loaddelay		= false,
+    purge                   = false,
     mag_loadtime_factor		= 1,
     mag_unloadtime_factor	= 1
 }
@@ -42,6 +43,7 @@ function on_mcm_load()
             {id = "icon_text", type = "check", val = 1, def=true},			
             {id = "ammo_icon", type = "check", val = 1, def=true},			
             {id = "fast_loading", type = "check", val = 1, def=false},	
+            {id = "purge", type = "check", val = 1, def=false},
             {id = "debug", type = "check", val = 1, def=false},
         }
     }

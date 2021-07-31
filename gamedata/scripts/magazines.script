@@ -18,6 +18,7 @@ get_carried_mags			= magazine_binder.get_carried_mags
 room_in_pouch				= magazine_binder.room_in_pouch
 get_retool_section			= magazine_binder.get_retool_section
 get_weapon_base_type		= magazine_binder.get_weapon_base_type
+get_magazine_base_type		= magazine_binder.get_magazine_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
 print_dbg					= magazine_binder.print_dbg
 get_mags_by_ammo_type		= magazine_binder.get_mags_by_ammo_type
@@ -270,14 +271,16 @@ function check_eject_magazine(weapon)
 			print_dbg("Weapon should not have a magzine. Setting to nil.")
 			set_mag_data(weapon:id(), nil)
 		else
-			if get_config("purge") then
+			if get_config("purge") == true then
 				-- additional check for mag compatibility
 				mag_data = get_mag_data(weapon:id())
-				if get_weapon_base_type(weapon) ~= get_weapon_base_type(mag_data.section) then
-					print_dbg("Incompatible magazine %s found on gun %s. Granting default magazine.", mag_data.section, weapon:section())
+				local weapon_basetype = get_weapon_base_type(weapon)
+				local mag_basetype = get_magazine_base_type(mag_data.section)
+				if weapon_basetype ~= mag_basetype then
+					print_dbg("Incompatible magazine %s (bt %s) found on gun %s (bt %s). Granting default magazine.", mag_data.section, mag_basetype, weapon:section(), weapon_basetype)
 					mag_data.section = weapon_default_magazine(weapon)
 					empty_table(mag_data.loaded)
-					set_mag_data(weapon:id(), false)
+					set_mag_data(weapon:id(), mag_data)
 				end
 			end
 			return gc("st_mag_eject_magazine")

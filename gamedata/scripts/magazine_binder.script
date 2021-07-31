@@ -478,13 +478,13 @@ function magazine_binder:update(delta)
 	if not self.first_update then
 		self.first_update = true
 	end
-    local mag_data = mags_storage[id]
+    local mag_data = get_data(id)
     if not mag_data then
         mag_data = {}
         mag_data.loaded = {}
         mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
         mag_data.section = sec
-        mags_storage[id] = mag_data
+        set_data(id, mag_data)
     end
     if freeze then 
 		obj:set_condition(0.999)
@@ -502,7 +502,8 @@ function magazine_binder:update(delta)
         cond = #mag_data.loaded / capacity
         mag_weight = mag_weight + (#mag_data.loaded * cartridge_weight)
     end
-	mags_storage[id] = mag_data
+	-- mags_storage[id] = mag_data
+	set_data(id, mag_data)
     obj:set_weight(mag_weight)
     obj:set_condition(cond)
 end
