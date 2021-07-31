@@ -21,6 +21,7 @@ get_weapon_base_type		= magazine_binder.get_weapon_base_type
 get_magazine_base_type		= magazine_binder.get_magazine_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
 print_dbg					= magazine_binder.print_dbg
+dump_data					= magazine_binder.dump_data
 get_mags_by_ammo_type		= magazine_binder.get_mags_by_ammo_type
 get_config					= magazines_mcm.get_config
 
@@ -34,14 +35,6 @@ ACTION_IN_PROGRESS = false
 ------------------------
 -- SECTION debug info --
 ------------------------
-
-function dump_data(data)
-    local s = ""
-	for k,v in pairs(data.loaded) do
-		s = s .. v .. " "
-	end
-	print_dbg("Mag size: %s. Rounds loaded: %s. Section: %s. Rounds: %s", data.size, #data.loaded, data.section, s)
-end
 
 function parent_is_box(obj)
 	local parent = obj:parent()
