@@ -80,7 +80,6 @@ function npc_on_death(npc, who)
     function itr_inv(temp, item)
         local sec = item:section()
 		if IsWeapon(nil,item:clsid()) and not npc:marked_dropped(item) and is_supported_weapon(item) then
-
             -- spawn mags for one primary, one secondary
             local is_sidearm = false
             if IsPistol(item) then
@@ -89,13 +88,8 @@ function npc_on_death(npc, who)
             if (found_primary and not is_sidearm) or (found_secondary and is_sidearm) then return end
 
             -- reduce ammo in loaded weapon
-            local mag_data = get_data(item:id())
-            if mag_data then
-                for i=1, math.random(#mag_data.loaded - 5) do
-                    stack.pop(mag_data.loaded)
-                end
-                set_data(item:id(), mag_data)
-            end
+            local id = item:id()
+            local mag_data = get_data(id)
             
             local mags_to_spawn = math.random(0, get_mag_prop(rank, "max_mags"))
             local mag_sec = weapon_default_magazine(sec)
@@ -103,6 +97,17 @@ function npc_on_death(npc, who)
             local mag_good_chance = get_mag_prop(rank, "mag_good_chance")
             local ammo_table = get_magazine_caliber(mag_sec)
             local quality = magazines_mcm.get_config("lootquality") or 1
+
+            if mag_data then
+                -- local amt_loaded = #mag_data.loaded
+                -- for i=1, math.random(math.floor(amt_loaded / 2), amt_loaded) do
+                --     stack.pop(mag_data.loaded)
+                -- end
+                -- set_data(id, mag_data)
+                set_data(id, false)
+                random_pop_mag(id, mag_data.section, ammo_table, rank, quality)
+            end
+
             print_dbg("Spawning %s mags for %s", mags_to_spawn, sec)
             for i=1,mags_to_spawn do
                 -- todo roll for upgraded mag

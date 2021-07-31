@@ -8,6 +8,7 @@ get_mag_data 				= magazine_binder.get_data
 set_mag_data 				= magazine_binder.set_data
 is_supported_weapon 		= magazine_binder.is_supported_weapon
 get_magazine_caliber 		= magazine_binder.get_magazine_caliber
+weapon_default_magazine 	= magazine_binder.weapon_default_magazine
 is_compatible 				= magazine_binder.is_compatible
 isMagazine					= magazine_binder.is_magazine
 is_magazine					= magazine_binder.is_magazine
@@ -17,9 +18,11 @@ get_carried_mags			= magazine_binder.get_carried_mags
 room_in_pouch				= magazine_binder.room_in_pouch
 get_retool_section			= magazine_binder.get_retool_section
 get_weapon_base_type		= magazine_binder.get_weapon_base_type
+get_magazine_base_type		= magazine_binder.get_magazine_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
 print_dbg					= magazine_binder.print_dbg
 get_mags_by_ammo_type		= magazine_binder.get_mags_by_ammo_type
+get_config					= magazines_mcm.get_config
 
 
 -- global flag to interrupt reloads (set on key press and stuff)
@@ -66,11 +69,11 @@ end
 function get_mag_time(mag_section,is_unload)
     is_unload=is_unload or false
 
-	local load_factor=magazines_mcm.get_config('mag_loadtime_factor')
-	local unload_factor=magazines_mcm.get_config('mag_unloadtime_factor')
+	local load_factor=get_config('mag_loadtime_factor')
+	local unload_factor=get_config('mag_unloadtime_factor')
 	local default_delay=SYS_GetParam(2, "tch_mag_base", "load_delay") or 0.4
 
-	if magazines_mcm.get_config('ignore_loaddelay') then
+	if get_config('ignore_loaddelay') then
 		default_delay=1
 	else
 		if not is_unload then
@@ -97,7 +100,7 @@ end
 
 function inventory_refresh(mode) --safer way to refresh inventory, mode == 1  refreshes sorting.
 	if not mode then
-		mode = magazines_mcm.get_config("sort_inv") and 1 or 2
+		mode = get_config("sort_inv") and 1 or 2
 	end
 	local inventory = GetActorMenu()
 	if mode == 1 then
@@ -151,7 +154,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		    local capacity = SYS_GetParam(2, weapon:section(), "max_mag_size")  or 20
 			print_dbg("start loading loop")
 			interrupt_reload = false
-			if magazines_mcm.get_config("fast_loading") and is_box_mode then
+			if get_config("fast_loading") and is_box_mode then
 				fast_load_magazine(weapon, item)
 			else
 				load_magazine(weapon, item, ammos[ammo_sec], capacity, 0)
@@ -264,7 +267,12 @@ end
 
 function check_eject_magazine(weapon)
 	if get_mag_data(weapon:id()) and not weapon:weapon_in_grenade_mode() then
-		return gc("st_mag_eject_magazine")
+		if not is_supported_weapon(weapon) then
+			print_dbg("Weapon should not have a magzine. Setting to nil.")
+			set_mag_data(weapon:id(), nil)
+		else
+			return gc("st_mag_eject_magazine")
+		end
 	end
 end
 
@@ -597,7 +605,7 @@ function func_unload_ammo(obj)
 		local mag_data = get_mag_data(id)
 		if mag_data and #mag_data.loaded > 0 then
 			interrupt_reload = false
-			if magazines_mcm.get_config("fast_loading") and parent_is_box(obj) then
+			if get_config("fast_loading") and parent_is_box(obj) then
 				fast_unload_magazine(obj)
 			else
 				disable_info("sleep_active")
