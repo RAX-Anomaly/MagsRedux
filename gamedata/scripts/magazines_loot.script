@@ -138,12 +138,15 @@ function death_manager.set_weapon_drop_condition(npc, itm)
 
 	if (IsWeapon(nil,itm:clsid()) and not npc:marked_dropped(itm)) then
         local id = itm:id()
+        local sec = itm:section()
         local mag_data = get_data(id)
         if mag_data then
-            print_dbg("Resetting mag data for weapon %s (%s), using mag %s", id, itm:section(), mag_data.section)
-            local ammo_table = get_magazine_caliber(mag_data.section)
+            local mag_sec = weapon_default_magazine(sec)
+            if not mag_data.section then mag_data.section = mag_sec end
+            local ammo_table = get_magazine_caliber(mag_sec)
             local rank = ranks.get_obj_rank_name(npc)
             local quality = magazines_mcm.get_config("lootquality") or 1
+            print_dbg("Resetting mag data for weapon %s (%s), using mag %s", id, itm:section(), mag_data.section)
             set_data(id, false)
             random_pop_mag(id, mag_data.section, ammo_table, rank, quality)
         end
