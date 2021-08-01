@@ -58,7 +58,7 @@ end
 
 -- called on each created magazine, autofill with the appropriate crap
 function random_pop_mag(mag_id, mag_sec, ammo_table, rank, quality)
-    local amount = math.random(get_mag_prop(rank, "mag_fill_max"))
+    local amount = math.random(0, get_mag_prop(rank, "mag_fill_max"))
     local mag_data = get_data(mag_id) or create_mag_data(mag_id, mag_sec)
     empty_table(mag_data.loaded)
     local to_fill = math.floor((amount/100) * SYS_GetParam(2, mag_sec, "max_mag_size"))

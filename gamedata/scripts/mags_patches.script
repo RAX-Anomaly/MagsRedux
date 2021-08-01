@@ -218,7 +218,7 @@ function ui_item.build_desc_footer(obj, sec, str)
 	local _str = ""
 	local _str2 = original_build_desc_footer(obj, sec, str)
 	if obj and magazines and is_magazine(obj) then
-		validate_mag(obj:id(), sec)
+		validate_mag(obj:id(), obj:section())
 		local magInfo = get_mag_info(obj)
 				
 		local weaponTitle
