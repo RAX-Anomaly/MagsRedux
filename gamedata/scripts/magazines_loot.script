@@ -93,8 +93,8 @@ function npc_on_death(npc, who)
             local mag_data = get_data(id)
             
             local mags_to_spawn = math.random(0, get_mag_prop(rank, "max_mags"))
-            local mag_sec = weapon_default_magazine(sec)
             local improved_mag_sec = weapon_improved_magazine(sec)
+            local mag_sec = weapon_default_magazine(sec)
             local mag_good_chance = get_mag_prop(rank, "mag_good_chance")
             local ammo_table = get_magazine_caliber(mag_sec)
             local quality = magazines_mcm.get_config("lootquality") or 1
@@ -136,8 +136,12 @@ function death_manager.set_weapon_drop_condition(npc, itm)
 		return
 	end
 
-	if (IsWeapon(nil,itm:clsid()) and not npc:marked_dropped(itm)) then
+	if (IsWeapon(nil,itm:clsid()) and not npc:marked_dropped(itm) and is_supported_weapon(itm)) then
         local id = itm:id()
+        if not is_supported_weapon(itm) then
+            set_data(id, nil)
+            return
+        end
         local sec = itm:section()
         local mag_data = get_data(id)
         if mag_data then
