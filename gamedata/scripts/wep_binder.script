@@ -3,6 +3,7 @@ print_dbg                   = magazines.print_dbg
 set_data 					= magazine_binder.set_data
 get_data 					= magazine_binder.get_data
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
+validate_wep				= magazine_binder.validate_wep
 is_supported_weapon			= magazine_binder.is_supported_weapon
 get_weapon_base_type		= magazine_binder.get_weapon_base_type
 get_magazine_base_type		= magazine_binder.get_magazine_base_type
@@ -31,13 +32,7 @@ function wep_binder:update(delta)
 	local mag_data = get_data(id)
 	if mag_data and self.first_update then
 		self.first_update = false
-		local ammo_cap = SYS_GetParam(2, mag_data.section, "max_mag_size")
-		if ammo_cap and mag_data.loaded and #mag_data.loaded > ammo_cap then
-			print_dbg("Popping excess rounds from %s because %s > %s", mag_data.section, #mag_data.loaded, ammo_cap)
-			while #mag_data.loaded > ammo_cap do
-				stack.pop(mag_data.loaded)
-			end
-		end
+		validate_wep(id, obj:section())
 	end
 	if mag_data == nil and self.first_update then
 		self.first_update = false
