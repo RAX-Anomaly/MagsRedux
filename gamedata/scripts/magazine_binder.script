@@ -111,7 +111,6 @@ function get_total_carried(exact)
 		
 	end
 	
-	
 	return carried
 end
 
