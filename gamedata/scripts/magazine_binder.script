@@ -164,7 +164,7 @@ local function type_correction(val)
         if obj  then
 			section = obj:section()
 		elseif se_obj then
-			section = se_obj:section()
+			section = se_obj:section_name()
 		else
 			print_dbg("WTF is:%s any way?", id)
 		end
@@ -172,7 +172,7 @@ local function type_correction(val)
         id = val.id
         se_obj = val
         obj = level.object_by_id(id)
-        section = val:section()
+        section = val:section_name()
     elseif type(val.id) == "function" then
         id = val:id()
         obj = val
