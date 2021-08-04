@@ -1,0 +1,184 @@
+--[[
+SaveGame Coverter from wuuts Anomaly Magazines to Anomaly Magazines Redux by Arti and RavenAscendant 
+02AUG2021
+This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+Author: RavenAscendant
+--]]
+
+
+
+local iMAG_SLOT = 1
+local iMAG_COUNT = 2
+local iMAG_FILL = 3
+local iWEP_MSLOT = 1
+local iWEP_MSEC = 2
+local iWEP_COUNT = 3
+local iWEP_FILL = 4
+local wuut_mags_storage = {}
+
+if magazine_binder then
+    get_mag_data = magazine_binder.get_data
+    set_mag_data = magazine_binder.set_data
+    is_supported_weapon = magazine_binder.is_supported_weapon
+    get_magazine_caliber = magazine_binder.get_magazine_caliber
+    is_compatible = magazine_binder.is_compatible
+    isMagazine = magazine_binder.is_magazine
+    is_magazine = magazine_binder.is_magazine
+    toggle_carried_mag = magazine_binder.toggle_carried_mag
+    get_magazine_base_type = magazine_binder.get_magazine_base_type
+    print_dbg = magazine_binder.print_dbg
+end
+
+local function parent_section(sec)
+    return SYS_GetParam(0, sec, "parent_section", sec) or sec
+end
+
+ini = ini_file_ex("items\\settings\\wuut_mapping.ltx")
+local weapons_lookup = ini_file_ex("magazines\\weapons\\importer.ltx")
+
+function on_game_start()
+    assert(not wuut_mags, "Wuut->Redux Converter: Unistall Anomaly Magazines, wuuts mags, Mad Mags, or whaterver addon it is you have with wuut_mags.script")
+    assert(magazine_binder, "Anomaly Magazines Redux not detected!")
+    RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
+    RegisterScriptCallback("save_state", save_state)
+    RegisterScriptCallback("load_state", load_state)
+end
+
+function actor_on_first_update()
+    for i = 1, 65535 do
+        if i - math.floor(i / 1000) * 1000 == 0 then
+            print_dbg("CONVERT loop:%s", i)
+        end
+
+        local se_obj = alife_object(i)
+
+        if se_obj then
+            rm_data = nil
+            sec = se_obj:section_name()
+            id = se_obj.id
+            rm_sec = ini:r_string_ex("magazine_map", sec)
+            wm_sec = nil
+            new_mag = nil
+
+            if rm_sec then
+                print_dbg("CONVERT MAG: %s", rm_sec)
+                rm_data = build_mag_data(rm_sec)
+                rm_data.loaded = get_loaded(sec, rm_sec, id, iMAG_FILL)
+                new_mag = alife_create_item(rm_sec, alife_object(se_obj.parent_id))
+                nmid = new_mag.id
+                set_mag_data(nmid, rm_data)
+                alife_release(se_obj)
+                print_dbg(string.sub(sec, -5))
+
+                if string.sub(sec, -5) == "ready" then
+                    print_dbg(nmid)
+
+                    CreateTimeEvent("Mag_convert", nmid, 1, function(x)
+                        toggle_carried_mag(x)
+                        print_dbg(x)
+
+                        return true
+                    end, nmid)
+                end
+            elseif IsWeapon(se_obj) then
+                w_data = GetMagData(id)
+                rm_sec = validate_and_get_mag_in_gun(sec, w_data and w_data[iWEP_MSEC])
+
+                if rm_sec then
+                    print_dbg("CONVERT WPN %s %s", rm_sec, sec)
+                    rm_data = build_mag_data(rm_sec)
+                    rm_data.loaded = get_loaded(w_data[iWEP_MSEC], rm_sec, id, iWEP_FILL)
+                    set_mag_data(id, rm_data)
+                end
+            elseif SYS_GetParam(1, sec, "is_mag_wuut") then
+                alife_release(se_obj)
+            end
+        end
+    end
+
+    print_dbg("CONVERT loop:end")
+    wuut_mags_storage = nil
+end
+
+function validate_and_get_mag_in_gun(w_sec, wm_sec)
+    if not (w_sec and wm_sec and ini_sys:section_exist(wm_sec)) then return end
+    w_base = weapons_lookup:r_string_ex(parent_section(w_sec), GetAmmoTypeByIndex(wm_sec, 0)) -- checks if weapon is supported by redux, and a pre test for compatablity, using the wuut mag ammo list because it is obligated to be in the same order as the guns, redux are not
+    print_dbg("CONVERT WPN base %s %s %s", w_sec, wm_sec, w_base)
+
+    if w_base then
+        rm_sec = ini:r_string_ex("magazine_map", wm_sec)
+        m_base = get_magazine_base_type(rm_sec)
+        print_dbg("CONVERT WPN base %s %s %s %s ", w_sec, rm_sec, m_base, w_base)
+
+        return m_base == w_base and rm_sec
+    end
+end
+
+function build_mag_data(sec)
+    mag_data = {}
+    mag_data.loaded = {}
+    mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
+    mag_data.section = sec
+
+    return mag_data
+end
+
+function get_loaded(wm_sec, rm_sec, id, fill)
+    loaded = {}
+    if not (rm_sec and wm_sec and ini_sys:section_exist(wm_sec) and is_magazine(rm_sec)) then return loaded end
+    cal = get_magazine_caliber(rm_sec) or {}
+    valid_ammo = invert_table(cal) or {}
+    w_data = GetMagData(id)
+    ammoFill = w_data[fill]
+    print_dbg("CONVERT fill %s", ammoFill)
+
+    while ammoFill and ammoFill ~= '' do
+        ammoIndex = tonumber(string.sub(ammoFill, 1, 1))
+        ammoFill = string.sub(ammoFill, 2)
+        a_sec = GetAmmoTypeByIndex(wm_sec, ammoIndex)
+        print_dbg("CONVERT fill %s %s", a_sec, valid_ammo[a_sec])
+
+        if valid_ammo[a_sec] then
+            stack.push(loaded, a_sec)
+        end
+    end
+
+    return loaded
+end
+
+function load_state(m_data)
+    wuut_mags_storage = m_data.wuut_mags_storage or {}
+end
+
+function save_state(m_data)
+    m_data.wuut_mags_storage = wuut_mags_storage
+end
+
+function GetMagStorage(id)
+    return wuut_mags_storage[id] or ""
+end
+
+function SetMagStorage(id, data)
+    wuut_mags_storage[id] = data
+end
+
+function GetAmmoTypeByIndex(sec, index)
+    local ammo = parse_list(system_ini(), sec, "mag_ammo_class")
+
+    return ammo[index + 1]
+end
+
+function GetMagData(id)
+    local data = GetMagStorage(id)
+    if (data == nil) then return nil end
+
+    return str_explode(data, ":")
+end
+
+function string_starts_with(str, start)
+    return str:sub(1, #start) == start
+end
+
+function string_ends_with(str, ending)
+    return ending == "" or str:sub(-#ending) == ending
+end
