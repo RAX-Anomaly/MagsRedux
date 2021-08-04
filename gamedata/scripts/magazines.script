@@ -32,6 +32,7 @@ local jammed_guns = {}
 local load_timeout = {}
 ACTION_IN_PROGRESS = false
 
+-- due to changing how mag loading works (1 big event vs. several events) we need this here to persist which box we are taking ammo from
 local ext_ammo_box = nil
 ------------------------
 -- SECTION debug info --
@@ -191,6 +192,7 @@ function load_weapon(weapon, magazine)
 		-- check for empty mag and initialize
 		local mag_data = get_mag_data(mag_id)
 		if mag_data ~= nil then
+			if mag_data.section == "mag_ak_5.56x45_default" then mag_data.section = "mag_ak_5.56x45_modern" end
 			set_mag_data(wep_id, mag_data)
 			set_mag_data(mag_id, nil)
 			alife_release_id(mag_id)
@@ -447,7 +449,7 @@ function load_magazine(magazine, capacity, delay)
 	-- added 'optional' delay to avoid calling get_mag_time on each iteration
 	print_dbg("Try load magazine, interrupt_reload state: %s", interrupt_reload)
 	if interrupt_reload or ext_ammo_box == nil then 
-		print_dbg("ending load prematurely. is ammo box nil? %s", ammo_box == nil)
+		print_dbg("ending load prematurely. is ammo box nil? %s", ext_ammo_box == nil)
 		interrupt_reload = false
 		inventory_refresh()
 		last_time = 0
@@ -648,12 +650,12 @@ function retool_mag_functor(obj)
 	if #mag_data.loaded > 0 then
 		actor_menu.set_item_news("fail", "detail", "st_mag_err_retool") --message to unload mag first
 	elseif not tool then 
-			actor_menu.set_item_news('fail', 'weapon', "st_dis_text_3", " ")
+		actor_menu.set_item_news('fail', 'weapon', "st_dis_text_3", " ")
 	else
 		new_obj = alife_create_item(retool_section, obj:parent())
 		if new_obj then
 			alife_release(obj)
-			utils_item.degrade( tool , 0 ) --change this 
+			utils_item.degrade( tool , 0) --change this 
 		end
 	end
 end
