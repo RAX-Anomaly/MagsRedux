@@ -47,10 +47,10 @@
 		</text>
 	</string>
 
-	<string id="st_mag_rpk74_5.56.45">
+	<string id="st_mag_rpk74_5.56x45">
 		<text>Modified 5.56x45 RPK-74 Magazine</text>
 	</string>
-	<string id="st_mag_rpk74_7.62x39_descr">
+	<string id="st_mag_rpk74_5.56x45_descr">
 		<text>
 			Modified RPK magazine to fit 5.56 NATO rounds. Also compatible with the export AK-101 and AK-102.
 		</text>
