@@ -32,6 +32,7 @@ local jammed_guns = {}
 local load_timeout = {}
 ACTION_IN_PROGRESS = false
 
+local ext_ammo_box = nil
 ------------------------
 -- SECTION debug info --
 ------------------------
@@ -142,7 +143,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		-- check compatibility, then fire (heh) the loading loop
 		local ammos = invert_table(get_magazine_caliber(weapon))
 		local ammo_sec = item:section()
-		print_dbg("Checking compat for ammo sec %s", ammos[ammo_sec])
+		print_dbg("Checking compat for ammo sec %s", ammo_sec)
 		if ammos[ammo_sec] ~= nil then
 			-- start loading loop
 		    local capacity = SYS_GetParam(2, weapon:section(), "max_mag_size")  or 20
@@ -152,7 +153,9 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 				fast_load_magazine(weapon, item)
 			else
 				local delay = get_mag_time(weapon:section(), false)
-				create_time_event("Mag_redux", "unload"..weapon:id(), 0.1, load_magazine, weapon, item, ammos[ammo_sec], capacity, delay * 1000)
+				print_dbg("Start load magazine at speed %s", delay)
+				ext_ammo_box = item
+				create_time_event("Mag_redux", "unload"..weapon:id(), 0.1, load_magazine, weapon, capacity, delay * 1000)
 			end
 		end
 	end
@@ -421,11 +424,9 @@ end
 function find_next_box(ammo_section, id)
 	local item_to_get = nil
 	function grab_inv_items(npc, item)
-		if IsAmmo(item) then 
-			print_dbg("checking ammo: " .. item:section())
+		if IsAmmo(item) then
 			if ammo_section == item:section() and item:id() ~= id then
 				item_to_get = item
-				print_dbg("gottem")
 			end
 		end
 	end
@@ -436,7 +437,7 @@ end
 
 local last_time = 0
 -- position is ammo type as number
-function load_magazine(magazine, ammo_box, position, capacity, delay)
+function load_magazine(magazine, capacity, delay)
 
 	local tg = time_global()
 	if tg < last_time + delay then return false end
@@ -445,7 +446,7 @@ function load_magazine(magazine, ammo_box, position, capacity, delay)
 	-- Pepsifan04
 	-- added 'optional' delay to avoid calling get_mag_time on each iteration
 	print_dbg("Try load magazine, interrupt_reload state: %s", interrupt_reload)
-	if interrupt_reload or ammo_box == nil then 
+	if interrupt_reload or ext_ammo_box == nil then 
 		print_dbg("ending load prematurely. is ammo box nil? %s", ammo_box == nil)
 		interrupt_reload = false
 		inventory_refresh()
@@ -459,21 +460,23 @@ function load_magazine(magazine, ammo_box, position, capacity, delay)
 		print_dbg("ending load with full magazine")
 		inventory_refresh()
 		last_time = 0
+		ext_ammo_box = nil
 		return true
 	end
-	local num_bullets = ammo_box:ammo_get_count()
-	local ammo_section = ammo_box:section()
+	local num_bullets = ext_ammo_box:ammo_get_count()
+	local ammo_section = ext_ammo_box:section()
 	if num_bullets == 1 then
 		print_dbg("Searching for next box")
-		new_ammo_box = find_next_box(ammo_section, ammo_box:id())
-		alife_release_id(ammo_box:id())
-		ammo_box = new_ammo_box
+		local ext_id = ext_ammo_box:id()
+		new_ammo_box = find_next_box(ammo_section, ext_id)
+		alife_release_id(ext_id)
+		ext_ammo_box = new_ammo_box
 	else
-		ammo_box:ammo_set_count(num_bullets - 1)
+		ext_ammo_box:ammo_set_count(num_bullets - 1)
 	end
 	stack.push(mag_data.loaded, ammo_section)
 	set_mag_data(id, mag_data)
-	print_dbg("Loaded 1 round of type %s. There are %s rounds loaded total", position, #mag_data.loaded)
+	print_dbg("Loaded 1 round of type %s. There are %s rounds loaded total", ammo_section, #mag_data.loaded)
 	xr_sound.set_sound_play(AC_ID,"reload_shell")
 	inventory_refresh(2)
 	return false
@@ -488,8 +491,6 @@ function unload_magazine(magazine, delay)
 
 	-- Pepsifan04
 	-- added 'optional' delay to avoid calling get_mag_time on each iteration
-	-- delay = delay or get_mag_time(magazine:section(),true)
-	print_dbg("Start unload magazine")
 	local id = magazine:id()
 	local mag_data = get_mag_data(id)
 	if not mag_data or #mag_data.loaded == 0 or interrupt_reload then
@@ -509,8 +510,8 @@ function unload_magazine(magazine, delay)
 		create_ammo(round, parent:position(), parent:level_vertex_id(), parent:game_vertex_id(), parent:id(), 1)
 	else
 		print_dbg("Mag empty, returning")
-		inventory_refresh()
 		item_weapon.ammo_aggregation_full(0)
+		inventory_refresh()
 		last_time = 0
 		return true
 	end
@@ -606,7 +607,8 @@ function func_unload_ammo(obj)
 			if get_config("fast_loading") and parent_is_box(obj) then
 				fast_unload_magazine(obj)
 			else
-				local delay = get_mag_time(obj:section(), true)
+				local delay = get_mag_time(obj:section(), true)	
+				print_dbg("Start unload magazine at speed %s", delay)
 				create_time_event("mag_redux","unload_mag " .. id, 0.1, unload_magazine, obj, delay * 1000)
 			end
 		end
