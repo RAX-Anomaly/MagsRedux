@@ -793,7 +793,7 @@ function UIWheelAmmoWuut:OnAmmo(n)
 				local magazine = magazines.find_magazine(wpn, ammo_map[n])
 				if magazines.get_mag_data(wpn:id()) ~= nil then
 					print_dbg("Weapon already has magazine, ejecting first")
-					magazines.eject_magazine(wpn)
+					eject(wpn)
 				end
 				local pre_table = magazines.count_ammo(wpn)
 				wpn:switch_state(7)
