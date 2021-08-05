@@ -37,7 +37,6 @@ function wep_binder:update(delta)
 	if mag_data == nil and self.first_update then
 		self.first_update = false
 		local ammo_loaded = obj:get_ammo_in_magazine()
-		--if ammo_loaded == 0 then return end -- might not need this now.
 		local default_mag = weapon_default_magazine(obj:section())
 		mag_data = {}
 		mag_data.section = default_mag

@@ -29,7 +29,6 @@ function print_dbg( text , ...)
 	return nil
 end
 
-
 function print_err( text , ...)
 	if (magazines_mcm.get_config("debug") or false) then
 		printe( "ERR: | %s |  "..text ,time_global(), ...)
@@ -54,7 +53,6 @@ local loadout_lookup 	= ini_file_ex("magazines\\outfitloadouts\\importer.ltx")
 -------------------------------
 function get_carried_mags(tbl)
 	--return carried_mags			--efficency v acess control hud won't call this very often so went with acess control
-	
 	copy_table(tbl, carried_mags )
 end
 
@@ -188,14 +186,10 @@ function is_carried_mag(id)
 end
 
 function toggle_carried_mag(id)
---	print_dbg("tcm1")
 	if carried_mags[id] then
 		carried_mags[id] = nil
-			--print_dbg("tcm2")
-
 	elseif room_in_pouch(id) then
 		carried_mags[id] = mags_storage[id]
-			--print_dbg("tcm3"..tostring(carried_mags[id] and carried_mags[id].section))
 	end
 end
 
@@ -204,12 +198,8 @@ function update_loadout_slots()
 	local small,medium,large =  0,0,0
 	if outfit then
 		small,medium,large = get_loadout_slots(outfit)
-		
-		--print_dbg("Outfit:%s||S:%s|M:%s|L:%s",outfit:section(), small,medium,large)
 	else
 		small,medium,large = get_loadout_slots("o_none")
-		
-		--print_dbg("Outfit:%s||S:%s|M:%s|L:%s","o_none", small,medium,large)
 	end
 	
 	local s,m,l =  0,0,0

@@ -24,8 +24,6 @@ validate_wep             	= magazine_binder.validate_wep
 create_time_event			= magazines.create_time_event
 
 
-
-
 function stack_rule(obj)	
 	local sec = obj:section()
 	local mag_data = get_data(obj:id())
@@ -34,8 +32,6 @@ function stack_rule(obj)
 end
 
 rax_stacking_control.register(is_magazine, stack_rule)
-
-
 
 
 function ui_inventory.UIInventory:Cond_Unload(obj, bag)
@@ -47,24 +43,6 @@ function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 	end
 	return false
 end
-
---
---[[ monkey patches for ready mag quest status
-
-function ui_inventory.UIInventory:Cond_Quest(obj, bag)
-	obj = self:CheckItem(obj,"Cond_NotQuest")
-	
-	return (SYS_GetParam(1,obj:section(),"quest_item") == true) or is_carried_mag(obj:id()) and true or false --lets give it a pure bool
-end
-
-function ui_inventory.UIInventory:Cond_NotQuest(obj, bag)
-	obj = self:CheckItem(obj,"Cond_NotQuest")
-	
-	return (SYS_GetParam(1,obj:section(),"quest_item") ~= true) or is_carried_mag(obj:id()) and true or false
-end
---]]
--- still in need to updating to new functions
-
 
 -- raven's merge
 -- utility functions related to magazines that shouldn't clutter main mags script
@@ -321,7 +299,6 @@ function item_weapon.detach_scope(weapon)
 		printf("~ item_weapon.detach_scope | weapon owner not found")
 		return
 	end
-	
 	
 	-- Determine which addon is attached to the weapon.
 	-- Create the item in the actor's inventory when found.

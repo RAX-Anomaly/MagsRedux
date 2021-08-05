@@ -211,7 +211,7 @@ function delay_load_weapon(weapon, magazine, pre_table, eject)
 	
 	local inventory = GetActorMenu()
 	local active_id = db.actor:active_item() and db.actor:active_item():id() or 0 
-	if (interrupt_reload and inventory:IsShown()) or tg > load_timeout[id] + 50000 or (active_id ~= weapon:id()) then
+	if (interrupt_reload and inventory:IsShown()) or tg > load_timeout[id] + 50000 or (active_id ~= id) then
 		load_timeout[id] = nil
 		ACTION_IN_PROGRESS = false
 		interrupt_reload = false	
@@ -395,12 +395,10 @@ end
 
 function unjam_weapon(weapon)
 	local id = weapon:id()
-	local data = {}
+	local data =  get_mag_data(id)
 	local slot = db.actor:active_slot()
-	copy_table(data, get_mag_data(id))
 	actor_effects.use_weapon(0)
 	local ammo_loaded = weapon:get_ammo_in_magazine()
-	-- local fire_queue = 0 -- this shit complicated do later
 	local old_weapon = alife_object(weapon:id())
 	local new_weapon = alife_clone_weapon(old_weapon)
 	weapon_unjammed(weapon)
@@ -569,7 +567,7 @@ function fast_unload_magazine(magazine)
 	set_mag_data(magazine:id(), mag_data)
 	local to_spawn = magazine:parent() ~= nil and magazine:parent() or db.actor
 	for k,v in pairs(ammo_to_make) do
-		create_ammo(k, to_spawn:position(), to_spawn:level_vertex_id(), 	to_spawn:game_vertex_id(), to_spawn:id(), v)
+		create_ammo(k, to_spawn:position(), to_spawn:level_vertex_id(), to_spawn:game_vertex_id(), to_spawn:id(), v)
 	end
 	timed_refresh()
 end
