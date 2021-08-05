@@ -42,7 +42,8 @@ function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 	obj = self:CheckItem(obj,"Cond_Unload")
 	
 	local sec = obj:section()
-	if IsWeapon(obj) and(obj:weapon_in_grenade_mode() or get_data(obj:id()) == nil) and (not IsItem("fake_ammo_wpn",sec)) then
+	local mag_data = get_data(obj:id())
+	if IsWeapon(obj) and (obj:weapon_in_grenade_mode() or mag_data == nil or mag_data == false) and (not IsItem("fake_ammo_wpn",sec)) then
 		return obj:get_ammo_in_magazine() > 0
 	end
 	return false

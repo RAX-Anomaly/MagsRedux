@@ -193,6 +193,12 @@ function load_weapon(weapon, magazine)
 		local mag_data = get_mag_data(mag_id)
 		if mag_data ~= nil then
 			if mag_data.section == "mag_ak_5.56x45_default" then mag_data.section = "mag_ak_5.56x45_modern" end
+			print_dbg("ammo in weapon existing: %s", weapon:get_ammo_in_magazine())
+			if weapon:get_ammo_in_magazine() > 0 then
+				local ammo_map = utils_item.get_ammo(nil, wep_id)
+				print_dbg("extra round of type %s (%s) found, adding to mag", weapon:get_ammo_type(), ammo_map[weapon:get_ammo_type() + 1])
+				stack.push(mag_data.loaded, ammo_map[weapon:get_ammo_type() + 1])
+			end
 			set_mag_data(wep_id, mag_data)
 			set_mag_data(mag_id, nil)
 			alife_release_id(mag_id)
@@ -224,7 +230,7 @@ function delay_load_weapon(weapon, magazine, pre_table, eject)
 	end
 
 	if weapon:get_state() == 0 then
-		weapon:unload_magazine()
+		-- weapon:unload_magazine()
 		ACTION_IN_PROGRESS = false
 		load_weapon(weapon, magazine)
 		refund_ammo(weapon, pre_table)
@@ -296,6 +302,11 @@ function eject_magazine(weapon)
 		se_mag = alife_create_item(mag_data.section, weapon:parent())
 		if se_mag then
 			weapon:unload_magazine()
+			if #mag_data.loaded > 0 then
+				print_dbg("retaining round of type %s in chamber", stack.peek(mag_data.loaded))
+				stack.pop(mag_data.loaded)
+				weapon:set_ammo_elapsed(1)
+			end
 			set_mag_data(se_mag.id, mag_data)
 			if #mag_data.loaded > 0 and weapon_in_slot(weapon) then
 				toggle_carried_mag(se_mag.id)
