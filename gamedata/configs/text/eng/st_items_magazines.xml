@@ -130,6 +130,12 @@
 	<string id="ui_mcm_magazines_ammo_icon_desc">
 		<text>If enabled, you will see small ammo icons on the HUD for the first round in a magazine.</text>
 	</string>
+	<string id="ui_mcm_magazines_retain_round">
+		<text>Enable "one in the chamber"</text>
+	</string>
+	<string id="ui_mcm_magazines_retain_round_desc">
+		<text>If enabled, weapons retain a round in the chamber when magazines are ejected.</text>
+	</string>
 	<string id="ui_mcm_magazines_fast_loading">
 		<text>Enable Fast Loading in Stashes</text>
 	</string>
