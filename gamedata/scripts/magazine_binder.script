@@ -38,11 +38,15 @@ function print_err( text , ...)
 end
 
 function dump_data(data)
-    local s = ""
-	for k,v in pairs(data.loaded) do
-		s = s .. v .. " "
+	if not data or type(data) ~= "table" then
+		print_dbg("Mag data unavailable: %s (%s)", data, type(data))
+	else
+		local s = ""
+		for k,v in pairs(data.loaded) do
+			s = s .. v .. " "
+		end
+		print_dbg("Mag size: %s. Rounds loaded: %s. Section: %s. Rounds: %s", data.size, #data.loaded, data.section, s)
 	end
-	print_dbg("Mag size: %s. Rounds loaded: %s. Section: %s. Rounds: %s", data.size, #data.loaded, data.section, s)
 end
 
 local look_up_table 	= ini_file_ex("magazines\\lookups.ltx")
