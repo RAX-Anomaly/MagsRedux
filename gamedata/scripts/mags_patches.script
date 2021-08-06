@@ -3,6 +3,7 @@
 gc						 	= game.translate_string
 get_data 					= magazine_binder.get_data
 set_data 					= magazine_binder.set_data
+dump_data					= magazine_binder.dump_data
 is_supported_weapon 		= magazine_binder.is_supported_weapon
 get_magazine_caliber 		= magazine_binder.get_magazine_caliber
 is_compatible 				= magazine_binder.is_compatible
@@ -257,8 +258,8 @@ local string_gsub   = string.gsub
 -- SCOPES
 -------------------------------
 
-CloneWep = _g.alife_clone_weapon
-function _g.alife_clone_weapon(se_obj, section, parent_id)
+CloneWep = _G.alife_clone_weapon
+function _G.alife_clone_weapon(se_obj, section, parent_id)
 	local old_id = se_obj.id
 	local old_data = get_data(old_id)
 	local new_wep = CloneWep(se_obj, section, parent_id)
