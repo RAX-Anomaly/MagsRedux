@@ -256,52 +256,28 @@ local string_gsub   = string.gsub
 -------------------------------
 -- SCOPES
 -------------------------------
-local scopes_table = utils_data.collect_sections(ini_sys, {"addons_table"})
 
+CloneWep = _g.alife_clone_weapon
+function _g.alife_clone_weapon(se_obj, section, parent_id)
+	local old_id = se_obj.id
+	local old_data = get_data(old_id)
+	local new_wep = CloneWep(se_obj, section, parent_id)
+	print_dbg("transferring data from %s to %s", old_id, new_wep.id)
+	dump_data(old_data)
+	set_data(new_wep.id, old_data)
+	set_data(old_id, nil)
+	return new_wep
+end
+AttachScope = item_weapon.attach_scope
 function item_weapon.attach_scope(item, weapon)
 	-- Return if the addon or weapon aren't valid.
 	if not (item and weapon) then 
 		return 
 	end 
 	if magazines.action_in_progress() then return end
-	
-	-- An addon has already been attached or none can be used.
-	local parent_section = ini_sys:r_string_ex(weapon:section(),"parent_section")
-	if (not parent_section or weapon:section() ~= parent_section) then return end
-	
-	-- Modified weapon does not exist and as such can't be used.
-	local child_section = (parent_section .. "_" .. item:section())
-	if not (ini_sys:section_exist(child_section)) then return end
-	
-	-- Determine whether the addon is valid for the weapon selected.
-	if not (check_scope(item:section(), weapon:section())) then
-		return
-	end
-	
-	-- Create objects for the 'before' and 'after' attachment weapons.
-	local old_id = weapon:id()
-	local dataOld = get_data(old_id)
-	-- wuut: copy over the custom data, needed for the mag addon
-	local old_weapon = alife_object(old_id)
-	local new_weapon = old_weapon and alife_clone_weapon(old_weapon, child_section)
-	if new_weapon then
-	
-		set_data(new_weapon.id, dataOld)
-		set_data(old_id, nil)
-		alife_release(item)
-	end
+	AttachScope(item, weapon)
 end
--- LOCAL FUNCTIONS REEEEEEEEE
-function check_scope(addon_sect, weapon_sect)
-	local valid_addons = parse_list(ini_sys, weapon_sect, "scopes")
-	for k, v in pairs(valid_addons) do
-		if (v == addon_sect) then
-			return true
-		end
-	end
-	return false
-end
-
+DetachScope = item_weapon.detach_scope
 function item_weapon.detach_scope(weapon)
 	-- Return if the weapon is not valid.
 	if not (weapon) then
@@ -309,37 +285,7 @@ function item_weapon.detach_scope(weapon)
 	end
 	
 	if magazines.action_in_progress() then return end
-	
-	-- An addon has not been attached or none can be detached.
-	local parent_section = ini_sys:r_string_ex(weapon:section(),"parent_section")
-	if (not parent_section or weapon:section() == parent_section) then return end
-	
-	-- Get weapon owner
-	local old_weapon = alife_object(weapon:id())
-	local owner = old_weapon and old_weapon.parent_id and get_object_by_id(old_weapon.parent_id)
-	if (not owner) then
-		printf("~ item_weapon.detach_scope | weapon owner not found")
-		return
-	end
-	
-	
-	-- Determine which addon is attached to the weapon.
-	-- Create the item in the actor's inventory when found.
-	for k, v in pairs(scopes_table) do
-		if (string.find(weapon:section(), k)) then
-			--give_object_to_actor(k)
-			alife_create_item(k, owner)
-			break
-		end
-	end
-	
-	-- Create objects for the 'before' and 'after' detachment weapons.
-	local dataOld = get_data(old_weapon.id)
-	local new_weapon = old_weapon and alife_clone_weapon(old_weapon, parent_section)
-	if (new_weapon) then
-		set_data(new_weapon.id, dataOld)
-		set_data(old_weapon.id, nil)
-	end
+	DetachScope(weapon)
 end
 
 NewGameEquipment = itms_manager.new_game_equippment
