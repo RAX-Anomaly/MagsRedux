@@ -42,7 +42,8 @@ function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 	obj = self:CheckItem(obj,"Cond_Unload")
 	
 	local sec = obj:section()
-	if IsWeapon(obj) and(obj:weapon_in_grenade_mode() or get_data(obj:id()) == nil) and (not IsItem("fake_ammo_wpn",sec)) then
+	local mag_data = get_data(obj:id())
+	if IsWeapon(obj) and (obj:weapon_in_grenade_mode() or mag_data == nil or mag_data == false) and (not IsItem("fake_ammo_wpn",sec)) then
 		return obj:get_ammo_in_magazine() > 0
 	end
 	return false
@@ -764,7 +765,7 @@ function UIWheelAmmoWuut:SwitchNextAmmo()
 				local magazine = magazines.find_magazine(wpn, ammo_map[new_type])
 				if magazines.get_mag_data(wpn:id()) ~= nil then
 					print_dbg("Weapon already has magazine, ejecting first")
-					magazines.eject_magazine(wpn)
+					eject(wpn)
 				end
 				local pre_table = magazines.count_ammo(wpn)
 				wpn:switch_state(7)
@@ -792,7 +793,7 @@ function UIWheelAmmoWuut:OnAmmo(n)
 				local magazine = magazines.find_magazine(wpn, ammo_map[n])
 				if magazines.get_mag_data(wpn:id()) ~= nil then
 					print_dbg("Weapon already has magazine, ejecting first")
-					magazines.eject_magazine(wpn)
+					eject(wpn)
 				end
 				local pre_table = magazines.count_ammo(wpn)
 				wpn:switch_state(7)

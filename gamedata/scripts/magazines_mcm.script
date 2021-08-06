@@ -9,6 +9,7 @@ local defaults = {
     ammo_icon				= true,
     fast_loading        	= false,
     ignore_loaddelay		= false,
+    retain_round    		= false,
     mag_loadtime_factor		= 1,
     mag_unloadtime_factor	= 1
 }
@@ -32,8 +33,8 @@ function on_mcm_load()
             { id= "title",type= "slide",link= "ui_options_slider_player",text="ui_mcm_magazines_title",size= {512,50},spacing= 20 },
             {id = "lootquality", type = "track", val = 2, min=0.1,max=2,step=0.1, def = 1.0},
             {id = "ignore_loaddelay", type = "check", val = 1, def=false},
-            {id = "mag_loadtime_factor", type = "track", val = 2, min=0,max=2,step=0.01, def = 1},
-            {id = "mag_unloadtime_factor", type = "track", val = 2, min=0,max=2,step=0.01, def = 1},
+            {id = "mag_loadtime_factor", type = "track", val = 2, min=0.05,max=2,step=0.01, def = 1},
+            {id = "mag_unloadtime_factor", type = "track", val = 2, min=0.05,max=2,step=0.01, def = 1},
             {id = "empty_mags_stack", type = "check", val = 1, def=true},
             {id = "sort_inv", type = "check", val = 1, def=true},
             {id= "highlight_color" ,type= "list"     ,val= 0  ,def= "orange" 	 ,content= {{"brown","ram_brown"},{"white","ram_white"}, {"blond","ram_blond"} ,   {"blue","ram_blue"}, {"orange","ram_orange"} , {"pink","ram_pink"} }	},		
@@ -42,6 +43,7 @@ function on_mcm_load()
             {id = "icon_text", type = "check", val = 1, def=true},			
             {id = "ammo_icon", type = "check", val = 1, def=true},			
             {id = "fast_loading", type = "check", val = 1, def=false},	
+            {id = "retain_round", type = "check", val = 1, def=false},	
             {id = "debug", type = "check", val = 1, def=false},
         }
     }
