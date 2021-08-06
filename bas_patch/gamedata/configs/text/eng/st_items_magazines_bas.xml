@@ -43,20 +43,20 @@ Pistols and MP's
 	</string>
 	
 	<string id="st_mag_sigp220_11.43x23_fmj">
-		<text>Standard 9x19 SigP220 Magazine</text>
+		<text>Standard .45 SigP220 Magazine</text>
 	</string>
 	<string id="st_mag_sigp220_11.43x23_fmj_descr">
 		<text>
-		Standard 9x19 SigP220 Magazine with a capacity of 12 rounds.
+		Standard .45 SigP220 Magazine with a capacity of 12 rounds.
 		</text>
 	</string>
 	
 	<string id="st_mag_sigp220_11.43x23_fmjext">
-		<text>Extended 9x19 SigP220 Magazine</text>
+		<text>Extended .45 SigP220 Magazine</text>
 	</string>
 	<string id="st_mag_sigp220_11.43x23_fmjext_descr">
 		<text>
-		Extended 9x19 SigP220 Magazine with a capacity of 20 rounds.
+		Extended .45 SigP220 Magazine with a capacity of 20 rounds.
 		</text>
 	</string>
 	
@@ -104,4 +104,14 @@ Pistols and MP's
 		Standard 9x19 Walther P99 Magazine with a capacity of 16 rounds.
 		</text>
 	</string>
+	
+		<string id="st_mag_wp99_9x19_fmjext">
+		<text>Extended 9x19 Walther P99 Magazine</text>
+	</string>
+	<string id="st_mag_wp99_9x19_fmjext_descr">
+		<text>
+		Extended 9x19 Walther P99 Magazine with a capacity of 16 rounds.
+		</text>
+	</string>
+
 </string_table>
