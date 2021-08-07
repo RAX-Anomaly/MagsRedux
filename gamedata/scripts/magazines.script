@@ -272,9 +272,10 @@ function chamber_single_round(ammo, weapon)
 	print_dbg("do chamber one round")
 	if get_config("retain_round") and weapon:get_ammo_in_magazine() == 0 and is_supported_weapon(weapon) and mag_data == false then
 		local ammo_map = get_ammo_map(weapon:id())
-		weapon:set_ammo_elapsed(1)
 		local typ = ammo_map[ammo:section()]
+		if not typ then return end
 		print_dbg("chamber single round, ammo is %s, type is %s", ammo:section(), typ - 1)
+		weapon:set_ammo_elapsed(1)
 		weapon:set_ammo_type(typ - 1)
 		utils_obj.play_sound("handgun_unjam")
 		if ammo:ammo_get_count() == 1 then
