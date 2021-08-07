@@ -189,7 +189,10 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		else
 			load_weapon(weapon, item)
 		end
-
+	end
+	-- bullet to weapon
+	if (IsAmmo(item) and IsWeapon(weapon)) then
+		 chamber_single_round(item, weapon)
 	end
 end
 
@@ -260,6 +263,26 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 		return true
 	end
 	return false
+end
+
+-- put a single round in the chamber
+--only works if they are compatible and there is no magazine inserted
+function chamber_single_round(ammo, weapon)
+	local mag_data = get_mag_data(weapon:id())
+	print_dbg("do chamber one round")
+	if get_config("retain_round") and weapon:get_ammo_in_magazine() == 0 and is_supported_weapon(weapon) and mag_data == false then
+		local ammo_map = get_ammo_map(weapon:id())
+		weapon:set_ammo_elapsed(1)
+		local typ = ammo_map[ammo:section()]
+		print_dbg("chamber single round, ammo is %s, type is %s", ammo:section(), typ - 1)
+		weapon:set_ammo_type(typ - 1)
+		utils_obj.play_sound("handgun_unjam")
+		if ammo:ammo_get_count() == 1 then
+			alife_release_id(ammo:id())
+		else
+			ammo:ammo_set_count(ammo:ammo_get_count() - 1)
+		end
+	end
 end
 
 -- When weapon is reloaded in any way, it will subtract a box from player inventory. We don't want this to happen - loading should only happen from magazines. Record the prior amount of ammo before reload and refund it afterwards.
