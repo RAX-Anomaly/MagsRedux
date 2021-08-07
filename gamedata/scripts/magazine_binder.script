@@ -473,7 +473,7 @@ function validate_wep(id, sec)
 	local m_bt = get_magazine_base_type(mag_data.section)
 	if w_bt ~= m_bt then
 		print_err("(CLEANUP) Incompatible magazine %s (bt %s) found on gun %s (typ %s, bt %s). Granting default magazine.", mag_data.section, m_bt, id, sec, w_bt)
-		mag_data.section = weapon_default_magazine(obj)
+		mag_data.section = weapon_default_magazine(wpn_obj)
 		empty_table(mag_data.loaded)
 		set_data(id, mag_data)
 	end
