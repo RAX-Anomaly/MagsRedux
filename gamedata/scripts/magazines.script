@@ -565,7 +565,7 @@ function unload_magazine(magazine, delay)
 	set_mag_data(id, mag_data)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
-		local parent = magazine:parent() or db.actor        
+		local parent = db.actor --magazine:parent() or db.actor        
 		create_ammo(round, parent:position(), parent:level_vertex_id(), parent:game_vertex_id(), parent:id(), 1)
 	else
 		print_dbg("Mag empty, returning")
@@ -663,7 +663,7 @@ function func_unload_ammo(obj)
 		local mag_data = get_mag_data(id)
 		if mag_data and #mag_data.loaded > 0 then
 			interrupt_reload = false
-			if get_config("fast_loading") and parent_is_box(obj) then
+			if parent_is_box(obj)  then--get_config("fast_loading") and parent_is_box(obj) then
 				fast_unload_magazine(obj)
 			else
 				local delay = get_mag_time(obj:section(), true)	
