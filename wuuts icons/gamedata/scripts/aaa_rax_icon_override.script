@@ -9,8 +9,7 @@ Provide a location to specifiy alternitive item icons that should be less prone 
 --]]
 
 
-
-
+local ratio = utils_xml.screen_ratio()
 icon_override = ini_file_ex("icon_override\\icon_override.ltx")
 
 function print_dbg( text , ...)
