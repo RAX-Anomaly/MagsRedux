@@ -413,7 +413,7 @@ end
 function actor_on_weapon_reload(actor, weapon, ammo_total)
 	
 	local weapon = db.actor:active_item()
-	
+	local id = weapon:id()
 	-- cancel reload only if we have a valid mag
 	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() then return end
 
@@ -432,7 +432,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	if not mag then 
 		print_dbg("No ready mags found, not reloading")
 		interrupt_reload = true
-		create_time_event("Mag_redux", "cancel_reload"..weapon:id(), 0.1, cancel_reload, weapon)
+		create_time_event("Mag_redux", "cancel_reload"..id, 0.1, cancel_reload, weapon)
 		return 
 	end
 	
@@ -441,7 +441,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	interrupt_reload = true
 	ACTION_IN_PROGRESS = true
 	local first_round = get_sec_chambered(weapon)
-	create_time_event("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table, first_round)
+	create_time_event("Mag_redux", "delay_weapon"..id, 0.1, delay_load_weapon, weapon, mag, pre_table, first_round)
 	
 end
 
@@ -452,16 +452,15 @@ end
 
 function unjam_weapon(weapon)
 	local id = weapon:id()
-	local data = {}
+	local data = get_mag_data(id)
 	local slot = db.actor:active_slot()
-	copy_table(data, get_mag_data(id))
 	actor_effects.use_weapon(0)
 	local ammo_loaded = weapon:get_ammo_in_magazine()
 	-- local fire_queue = 0 -- this shit complicated do later
-	local old_weapon = alife_object(weapon:id())
+	local old_weapon = alife_object(id)
 	local new_weapon = alife_clone_weapon(old_weapon)
 	weapon_unjammed(weapon)
-	print_dbg("New weapon should have %s ammo", #data.loaded)
+	print_dbg("New weapon should have %s ammo", data and #data.loaded or "no")
 	interrupt_reload = true
 	create_time_event("Mag_redux", "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon.id, data, slot)
 end
@@ -565,7 +564,7 @@ function unload_magazine(magazine, delay)
 	set_mag_data(id, mag_data)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
-		local parent = magazine:parent() or db.actor        
+		local parent = db.actor --magazine:parent() or db.actor        
 		create_ammo(round, parent:position(), parent:level_vertex_id(), parent:game_vertex_id(), parent:id(), 1)
 	else
 		print_dbg("Mag empty, returning")
@@ -663,7 +662,7 @@ function func_unload_ammo(obj)
 		local mag_data = get_mag_data(id)
 		if mag_data and #mag_data.loaded > 0 then
 			interrupt_reload = false
-			if get_config("fast_loading") and parent_is_box(obj) then
+			if parent_is_box(obj)  then--get_config("fast_loading") and parent_is_box(obj) then
 				fast_unload_magazine(obj)
 			else
 				local delay = get_mag_time(obj:section(), true)	
