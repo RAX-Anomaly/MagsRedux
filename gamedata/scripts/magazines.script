@@ -413,7 +413,7 @@ end
 function actor_on_weapon_reload(actor, weapon, ammo_total)
 	
 	local weapon = db.actor:active_item()
-	
+	local id = weapon:id()
 	-- cancel reload only if we have a valid mag
 	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() then return end
 
@@ -432,7 +432,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	if not mag then 
 		print_dbg("No ready mags found, not reloading")
 		interrupt_reload = true
-		create_time_event("Mag_redux", "cancel_reload"..weapon:id(), 0.1, cancel_reload, weapon)
+		create_time_event("Mag_redux", "cancel_reload"..id, 0.1, cancel_reload, weapon)
 		return 
 	end
 	
@@ -441,7 +441,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	interrupt_reload = true
 	ACTION_IN_PROGRESS = true
 	local first_round = get_sec_chambered(weapon)
-	create_time_event("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, mag, pre_table, first_round)
+	create_time_event("Mag_redux", "delay_weapon"..id, 0.1, delay_load_weapon, weapon, mag, pre_table, first_round)
 	
 end
 
@@ -457,7 +457,7 @@ function unjam_weapon(weapon)
 	actor_effects.use_weapon(0)
 	local ammo_loaded = weapon:get_ammo_in_magazine()
 	-- local fire_queue = 0 -- this shit complicated do later
-	local old_weapon = alife_object(weapon:id())
+	local old_weapon = alife_object(id)
 	local new_weapon = alife_clone_weapon(old_weapon)
 	weapon_unjammed(weapon)
 	print_dbg("New weapon should have %s ammo", data and #data.loaded or "no")
