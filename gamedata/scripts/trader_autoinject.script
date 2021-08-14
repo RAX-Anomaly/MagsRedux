@@ -136,7 +136,14 @@ end
 
 -- to_spawn should be table of sections to amount
 -- if check_existing is true, only spawns up to that amount in trader inventory. else arbitrarily spawns
+local furniture = {
+    ["esc_m_trader"] = true,
+    ["yan_stalker_sakharov"] = true
+}
 function spawn_items(npc, to_spawn, check_existing)
+    local npc_name = npc:name()
+    local alive_or_furniture = xr_conditions.is_alive(db.actor, npc) or furniture[npc_name]
+    if not alive_or_furniture then return end
     local supply_table = {}
     copy_table(supply_table, to_spawn)
     if check_existing then
