@@ -31,6 +31,7 @@ local interrupt_reload = false
 local jammed_guns = {}
 local load_timeout = {}
 ACTION_IN_PROGRESS = false
+block_reload_spam = false
 
 -- due to changing how mag loading works (1 big event vs. several events) we need this here to persist which box we are taking ammo from
 local ext_ammo_box = nil
@@ -208,7 +209,7 @@ function load_weapon(weapon, magazine, first_round)
 		if mag_data ~= nil then
 			if mag_data.section == "mag_ak_5.56x45_default" then mag_data.section = "mag_ak_5.56x45_modern" end
 			print_dbg("ammo in weapon existing: %s", weapon:get_ammo_in_magazine())
-			if weapon:get_ammo_in_magazine() > 0 or first_round then
+			if get_config("retain_round") and  (weapon:get_ammo_in_magazine() > 0 or first_round) then
 				if not first_round then
 					local ammo_map = invert_table(get_ammo_map(wep_id))
 					first_round = ammo_map[weapon:get_ammo_type() + 1]
@@ -246,13 +247,6 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 		eject_magazine(weapon)
 	end
 
-	-- local first_round = nil
-	-- if weapon:get_ammo_in_magazine() > 0 and first_round == nil then
-	-- 	local ammo_map = invert_table(get_ammo_map(id))
-	-- 	first_round = ammo_map[weapon:get_ammo_type() + 1]
-	-- 	print_dbg("there are %s rounds in wep, set first round to %s", weapon:get_ammo_in_magazine(), first_round)
-	-- end
-
 	if weapon:get_state() == 0 then
 		weapon:unload_magazine()
 		ACTION_IN_PROGRESS = false
@@ -260,6 +254,7 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 		load_weapon(weapon, magazine, first_round)
 		refund_ammo(weapon, pre_table)
 		load_timeout[id] = nil
+		weapon:switch_state(0)
 		return true
 	end
 	return false
@@ -639,11 +634,18 @@ function on_key_press(key)
 		local bind = dik_to_bind(key)
 		if bind == key_bindings.kWPN_RELOAD then
 			local current_weapon = db.actor:item_in_slot(db.actor:active_slot())
-			if current_weapon and is_supported_weapon(current_weapon) then
+			if not block_reload_spam and current_weapon and is_supported_weapon(current_weapon) then
 				actor_on_weapon_reload(db.actor, current_weapon)
+				block_reload_spam = true
+				create_time_event("mag_redux","unblock_spam", 1, unblock_spam)
 			end
 		end
 	end
+end
+
+function unblock_spam()
+	block_reload_spam = false
+	return true
 end
 
 function unload_ammo(obj)
