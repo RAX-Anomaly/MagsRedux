@@ -75,14 +75,10 @@ function get_mag_time(mag_section,is_unload)
 	if get_config('ignore_loaddelay') then
 		local load_factor=get_config('mag_loadtime_factor')
 		local unload_factor=get_config('mag_unloadtime_factor')
-		default_delay=1
+		default_delay= SYS_GetParam(2, mag_section, "load_delay")
 		return default_delay * (is_unload and unload_factor or load_factor)
 	else
-		if is_unload then
-			return 0.4
-		else
-			return SYS_GetParam(2, mag_section, "load_delay") or default_delay
-		end
+		return SYS_GetParam(2, mag_section, "load_delay") or default_delay
 	end
 end
 
@@ -546,11 +542,12 @@ function unload_magazine(magazine, delay)
 	-- added 'optional' delay to avoid calling get_mag_time on each iteration
 	local id = magazine:id()
 	local mag_data = get_mag_data(id)
+	local mag_parent = magazine:parent() and magazine:parent():id() or 0
 	if not mag_data or #mag_data.loaded == 0 or interrupt_reload then
 		print_dbg("ending unload prematurely.")
 		interrupt_reload = false
 		inventory_refresh()
-		item_weapon.ammo_aggregation_full(0)
+		item_weapon.ammo_aggregation_full(mag_parent)
 		last_time = 0
 		return true
 	end
@@ -559,11 +556,11 @@ function unload_magazine(magazine, delay)
 	set_mag_data(id, mag_data)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
-		local parent = db.actor --magazine:parent() or db.actor        
+		local parent = magazine:parent() or db.actor        
 		create_ammo(round, parent:position(), parent:level_vertex_id(), parent:game_vertex_id(), parent:id(), 1)
 	else
 		print_dbg("Mag empty, returning")
-		item_weapon.ammo_aggregation_full(0)
+		item_weapon.ammo_aggregation_full(mag_parent)
 		inventory_refresh()
 		last_time = 0
 		return true
