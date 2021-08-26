@@ -178,11 +178,20 @@ Pistols and MP's
 	</string>
 	
 	<string id="st_mag_sr2m_9x21_veresk">
-		<text>Standard SR-2M Veresk Magazine</text>
+		<text>Standard 9x21 SR-2M Veresk Magazine</text>
 	</string>
 	<string id="st_mag_sr2m_9x21_veresk_descr">
 		<text>
-		Standard SR-2M Veresk Magazine with a capacity of 30 rounds.
+		Standard 9x21 SR-2M Veresk Magazine with a capacity of 30 rounds.
+		</text>
+	</string>
+	
+	<string id="st_mag_sr2m_9x18_veresk">
+		<text>Standard SR-2M 9x18 Veresk Magazine</text>
+	</string>
+	<string id="st_mag_sr2m_9x18_veresk_descr">
+		<text>
+		Standard 9x18 SR-2M Veresk Magazine with a capacity of 30 rounds.
 		</text>
 	</string>
 
