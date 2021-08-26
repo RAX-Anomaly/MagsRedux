@@ -42,7 +42,6 @@ function trade_manager.update(npc, force_refresh)
 	end
     disable_info("sleep_active")
     CreateTimeEvent("custom_update"..npc:id(), "custom_resupply"..npc:id(), 0.1, timed_update, npc)
-    update(npc)
 end
 
 function timed_update(npc)
