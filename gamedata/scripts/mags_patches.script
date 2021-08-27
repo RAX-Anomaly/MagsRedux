@@ -50,24 +50,6 @@ function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 	return false
 end
 
---
---[[ monkey patches for ready mag quest status
-
-function ui_inventory.UIInventory:Cond_Quest(obj, bag)
-	obj = self:CheckItem(obj,"Cond_NotQuest")
-	
-	return (SYS_GetParam(1,obj:section(),"quest_item") == true) or is_carried_mag(obj:id()) and true or false --lets give it a pure bool
-end
-
-function ui_inventory.UIInventory:Cond_NotQuest(obj, bag)
-	obj = self:CheckItem(obj,"Cond_NotQuest")
-	
-	return (SYS_GetParam(1,obj:section(),"quest_item") ~= true) or is_carried_mag(obj:id()) and true or false
-end
---]]
--- still in need to updating to new functions
-
-
 -- raven's merge
 -- utility functions related to magazines that shouldn't clutter main mags script
 -- MP for ejecting mags on upgrade/replacement
