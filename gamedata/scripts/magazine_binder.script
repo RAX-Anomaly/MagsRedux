@@ -546,8 +546,8 @@ function magazine_binder:update(delta)
     local cond = 0
     if mag_data then
 		local ammoType = get_magazine_caliber(sec)[1]
-		local box_size = SYS_GetParam(2, ammoType, "box_size")
-		local box_weight = SYS_GetParam(2, ammoType, "inv_weight")
+		local box_size = SYS_GetParam(2, ammoType, "box_size") or 1
+		local box_weight = SYS_GetParam(2, ammoType, "inv_weight") or 0
 		local cartridge_weight = box_weight / box_size
         cond = #mag_data.loaded / capacity
         mag_weight = mag_weight + (#mag_data.loaded * cartridge_weight)
