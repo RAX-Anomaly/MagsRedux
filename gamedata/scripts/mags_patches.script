@@ -205,11 +205,13 @@ function ui_item.build_desc_footer(obj, sec, str)
 	if obj and magazines and is_magazine(obj) then
 		validate_mag(obj:id(), obj:section())
 		local magInfo = get_mag_info(obj)
-				
+		
+		_str = _str .. "\\n \\n".. gc('st_mag_size') .. " " .. gc('st_mag_size_'..magInfo.slot_size) 
+		
 		local weaponTitle
 		local ammoCountTitle = gc('st_mag_ammo_loaded_count')
 
-		_str = _str .. " \\n \\n" .. ammoCountTitle .. " " .. clr_g .. magInfo.total_ammo  .. clr_2 .. " / " .. clr_g .. magInfo.mag_size .. " \\n"
+		_str = _str .. "\\n \\n" .. ammoCountTitle .. " " .. clr_g .. magInfo.total_ammo  .. clr_2 .. " / " .. clr_g .. magInfo.mag_size .. " \\n"
 
 		if magInfo.total_ammo > 0 then
 			_str = _str .. " \\n"

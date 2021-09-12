@@ -450,6 +450,7 @@ function get_mag_info(magazine)
 	local result = {
 		-- ["compatibleWeapons"] = str_explode(system_ini():r_string_ex(mag:section(), "magazine_group"),","),
 		["mag_size"] = SYS_GetParam(2, sec, "max_mag_size"),
+		["slot_size"] = SYS_GetParam(2, sec, "mag_size"),
 		["ammo"] = {},
 		["total_ammo"] = 0,
 		["ammo_type"] = get_magazine_caliber(sec)

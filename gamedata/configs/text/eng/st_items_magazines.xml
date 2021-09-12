@@ -166,6 +166,19 @@
 		<text>Magazine base.</text>
 	</string>
 	
+	<string id="st_mag_size">
+		<text>Magazine size:</text>
+	</string>
+	<string id="st_mag_size_small">
+		<text>small</text>
+	</string>
+	<string id="st_mag_size_medium">
+		<text>medium</text>
+	</string>
+	<string id="st_mag_size_large">
+		<text>large</text>
+	</string>
+
 	<string id="st_mag_loaded">
 		<text>Loaded magazine:</text>
 	</string>
