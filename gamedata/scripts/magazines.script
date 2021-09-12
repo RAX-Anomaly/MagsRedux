@@ -167,7 +167,8 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 				local delay = get_mag_time(weapon_sec, false)
 				print_dbg("Start load magazine at speed %s", delay)
 				ext_ammo_box = item
-				create_time_event("Mag_redux", "unload"..weapon:id(), 0.1, load_magazine, weapon, capacity, delay * 1000)
+				RemoveTimeEvent("Mag_redux", "load_mag"..weapon_id)
+				create_time_event("Mag_redux", "load_mag"..weapon_id, 0.1, load_magazine, weapon, capacity, delay * 1000)
 			end
 		end
 	end
@@ -666,7 +667,8 @@ function func_unload_ammo(obj)
 			else
 				local delay = get_mag_time(obj:section(), true)	
 				print_dbg("Start unload magazine at speed %s", delay)
-				create_time_event("mag_redux","unload_mag " .. id, 0.1, unload_magazine, obj, delay * 1000)
+				RemoveTimeEvent("mag_redux", "unload_mag"..id)
+				create_time_event("mag_redux","unload_mag"..id, 0.1, unload_magazine, obj, delay * 1000)
 			end
 		end
 	end
