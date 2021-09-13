@@ -532,36 +532,6 @@ function load_magazine(magazine, capacity, delay)
 	return false
 end
 
-function ammo_aggregation_box(npc_id)
-	local npc = npc_id and db.storage[npc_id] and db.storage[npc_id].object or level.object_by_id(npc_id)
-	if (not npc) then
-		return true
-	end
-	
-	-- Ammo aggregation
-	local ammo_sec_list = {}
-	local function itr_ammo(npc,itm)
-		local sec = itm:section()
-		if IsItem("ammo",sec) and (not ammo_sec_list[sec]) then
-			ammo_sec_list[sec] = true
-		end
-	end
-    if npc_id == 0 then
-        npc:iterate_inventory(itr_ammo,npc)
-    else
-        npc:iterate_inventory_box(itr_ammo,npc)
-    end
-	
-	for sec,_ in pairs(ammo_sec_list) do
-		local obj = npc:object(sec)
-		if obj then
-			item_weapon.ammo_aggregation(obj, npc)
-		end
-	end
-	
-	return true
-end
-
 function unload_magazine(magazine, delay)
 	
 	local tg = time_global()
@@ -572,12 +542,12 @@ function unload_magazine(magazine, delay)
 	-- added 'optional' delay to avoid calling get_mag_time on each iteration
 	local id = magazine:id()
 	local mag_data = get_mag_data(id)
-	local mag_parent = magazine:parent() and magazine:parent():id() or 0
+	local mag_parent = db.actor--magazine:parent() and magazine:parent():id() or 0
 	if not mag_data or #mag_data.loaded == 0 or interrupt_reload then
 		print_dbg("ending unload prematurely.")
 		interrupt_reload = false
 		inventory_refresh()
-		CreateTimeEvent("mag_redux", "box_ammo_aggregation", 0, ammo_aggregation_box, mag_parent)
+		CreateTimeEvent("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
 		last_time = 0
 		return true
 	end
@@ -586,11 +556,10 @@ function unload_magazine(magazine, delay)
 	set_mag_data(id, mag_data)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
-		local parent = magazine:parent() or db.actor        
-		create_ammo(round, parent:position(), parent:level_vertex_id(), parent:game_vertex_id(), parent:id(), 1)
+		create_ammo(round, mag_parent:position(), mag_parent:level_vertex_id(), mag_parent:game_vertex_id(), mag_parent:id(), 1)
 	else
 		print_dbg("Mag empty, returning")
-		CreateTimeEvent("mag_redux", "box_ammo_aggregation", 0, ammo_aggregation_box, mag_parent)
+		CreateTimeEvent("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
 		inventory_refresh()
 		last_time = 0
 		return true
