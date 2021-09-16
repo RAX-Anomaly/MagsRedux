@@ -339,22 +339,27 @@ function eject_magazine(weapon)
 	if mag_data then
 		se_mag = alife_create_item(mag_data.section, weapon:parent())
 		if se_mag then
-			weapon:unload_magazine()
-			if get_config("retain_round") and #mag_data.loaded > 0 then
-				print_dbg("retaining round of type %s in chamber", stack.peek(mag_data.loaded))
-				stack.pop(mag_data.loaded)
-				weapon:set_ammo_elapsed(1)
-			end
-			set_mag_data(se_mag.id, mag_data)
-			if #mag_data.loaded > 0 and weapon_in_slot(weapon) then
-				toggle_carried_mag(se_mag.id)
-			end
+			CreateTimeEvent("mag_redux", "timer_eject", 0, timer_eject_magazine, weapon, se_mag.id, mag_data)
 		else
 			print_dbg("Could not create magazine %s", mag_data.section)
 		end
 		set_mag_data(id, false)
 		dump_data(mag_data)
 	end
+end
+
+function timer_eject_magazine(weapon, id, mag_data)
+	weapon:unload_magazine()
+	if get_config("retain_round") and #mag_data.loaded > 0 then
+		print_dbg("retaining round of type %s in chamber", stack.peek(mag_data.loaded))
+		stack.pop(mag_data.loaded)
+		weapon:set_ammo_elapsed(1)
+	end
+	set_mag_data(id, mag_data)
+	if #mag_data.loaded > 0 and weapon_in_slot(weapon) then
+		toggle_carried_mag(id)
+	end
+	return true
 end
 
 -- locate appropriate mag in vest
@@ -547,7 +552,7 @@ function unload_magazine(magazine, delay)
 		print_dbg("ending unload prematurely.")
 		interrupt_reload = false
 		inventory_refresh()
-		CreateTimeEvent("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
+		create_time_event("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
 		last_time = 0
 		return true
 	end
@@ -559,7 +564,7 @@ function unload_magazine(magazine, delay)
 		create_ammo(round, mag_parent:position(), mag_parent:level_vertex_id(), mag_parent:game_vertex_id(), mag_parent:id(), 1)
 	else
 		print_dbg("Mag empty, returning")
-		CreateTimeEvent("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
+		create_time_event("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
 		inventory_refresh()
 		last_time = 0
 		return true
