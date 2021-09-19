@@ -552,7 +552,7 @@ function unload_magazine(magazine, delay)
 		print_dbg("ending unload prematurely.")
 		interrupt_reload = false
 		inventory_refresh()
-		create_time_event("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
+		-- create_time_event("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
 		last_time = 0
 		return true
 	end
@@ -564,7 +564,7 @@ function unload_magazine(magazine, delay)
 		create_ammo(round, mag_parent:position(), mag_parent:level_vertex_id(), mag_parent:game_vertex_id(), mag_parent:id(), 1)
 	else
 		print_dbg("Mag empty, returning")
-		create_time_event("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
+		-- create_time_event("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
 		inventory_refresh()
 		last_time = 0
 		return true
