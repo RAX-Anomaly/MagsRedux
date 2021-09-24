@@ -64,7 +64,7 @@ function actor_on_first_update()
                 print_dbg("CONVERT MAG: %s", rm_sec)
                 rm_data = build_mag_data(rm_sec)
                 rm_data.loaded = get_loaded(sec, rm_sec, id, iMAG_FILL)
-                new_mag = alife_create_item(rm_sec, alife_object(se_obj.parent_id))
+                new_mag = se_obj.parent_id == 65535 and alife_create(rm_sec ,se_obj) or alife_create_item(rm_sec, alife_object(se_obj.parent_id))
                 nmid = new_mag.id
                 set_mag_data(nmid, rm_data)
                 alife_release(se_obj)
