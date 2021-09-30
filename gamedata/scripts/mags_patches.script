@@ -60,11 +60,11 @@ function item_parts.disassembly_weapon(obj, obj_d)
 		print_dbg("Found magazine, ejecting")
 		local mag = eject(obj)
 	end
-	create_time_event("mag_redux", "delay_dis", 0.1, wrap_disassembly, self, obj, obj_d)
+	create_time_event("mag_redux", "delay_dis", 0.1, wrap_disassembly, obj, obj_d)
 end
 
-function wrap_disassembly(self_obj, obj, obj_d)
-	DisassemblyWeapon(self_obj, obj, obj_d)
+function wrap_disassembly(obj, obj_d)
+	DisassemblyWeapon(obj, obj_d)
 	return true
 end
 
