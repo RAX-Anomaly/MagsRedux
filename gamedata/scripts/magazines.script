@@ -349,7 +349,7 @@ function eject_magazine(weapon)
 end
 
 function timer_eject_magazine(weapon, id, mag_data)
-	weapon:unload_magazine()
+	weapon:force_unload_magazine(false)
 	if get_config("retain_round") and #mag_data.loaded > 0 then
 		print_dbg("retaining round of type %s in chamber", stack.peek(mag_data.loaded))
 		stack.pop(mag_data.loaded)

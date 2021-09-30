@@ -60,7 +60,12 @@ function item_parts.disassembly_weapon(obj, obj_d)
 		print_dbg("Found magazine, ejecting")
 		local mag = eject(obj)
 	end
-	DisassemblyWeapon(obj, obj_d)
+	create_time_event("mag_redux", "delay_dis", 0.1, wrap_disassembly, self, obj, obj_d)
+end
+
+function wrap_disassembly(self_obj, obj, obj_d)
+	DisassemblyWeapon(self_obj, obj, obj_d)
+	return true
 end
 
 WorkshopUpgrade = ui_workshop.UIWorkshopUpgrade.Upgrade
@@ -77,7 +82,12 @@ function ui_workshop.UIWorkshopUpgrade:Upgrade()
 			local mag = eject(obj)
 		end
 	end
-	WorkshopUpgrade(self)
+	create_time_event("mag_redux", "delay_upgr", 0.1, wrap_upgrade, self)
+end
+
+function wrap_upgrade(self_obj)
+	WorkshopUpgrade(self_obj)
+	return true
 end
 
 WorkshopRepair = ui_workshop.UIWorkshopRepair.Repair
@@ -93,7 +103,12 @@ function ui_workshop.UIWorkshopRepair:Repair()
 			local mag = eject(obj)
 		end
 	end
-	WorkshopRepair(self)
+	create_time_event("mag_redux", "delay_rep", 0.1, wrap_repair, self)
+end
+
+function wrap_repair(self_obj)
+	WorkshopRepair(self_obj)
+	return true
 end
 
 CanRepair = inventory_upgrades.can_repair_item

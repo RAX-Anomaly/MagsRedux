@@ -469,7 +469,8 @@ function validate_wep(id, sec)
 	local wpn_obj = level.object_by_id(id)
 	local mag_data = get_data(id)
 	if not mag_data then return end
-
+	if wpn_obj and wpn_obj:weapon_in_grenade_mode() then return end
+	
 	local w_bt = get_weapon_base_type(id)
 	local m_bt = get_magazine_base_type(mag_data.section)
 	if w_bt ~= m_bt then
