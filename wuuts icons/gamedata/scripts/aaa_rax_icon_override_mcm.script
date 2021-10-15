@@ -354,3 +354,61 @@ function utils_ui.UICellContainer:On_Drag(idx, tg, set)
 		self.hold.ico:SetWndPos( pos )
 	end
 end
+
+
+
+function UICellContainer:FindFreeCell(obj, sec)
+	if (not sec) then
+		if (not obj) then
+			return false
+		end
+		sec = obj and obj:section()
+	end
+	
+	local w =  (icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"inv_grid_width") or SYS_GetParam(2,sec, "inv_grid_width", 1) )
+	local h =  (icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"inv_grid_height") or SYS_GetParam(2,sec, "inv_grid_height", 1))
+
+	-- Avoid icons that don't fit
+	if w > self.cols then
+		return false
+	end
+	-- this isn't supported by icon overide, fortunatly only SortingPlus uses it and I have patched the issue there.
+	--[[ Sorting by kind: when sorting a new kind, always start from last row taken by previous kind
+	if self.sort_method == "kind" then
+		self.rKind.current = item_order[ab_k[sec] ]
+		if (self.rKind.last ~= self.rKind.current) then
+			
+			local cnt = self.line_cnt + 1
+			if (not self.line[cnt]) then
+				self.line[cnt] = self.xml:InitStatic(self.path .. ":line", self.st)
+			end
+			
+			local y = (self.row_end) * (self.grid_size + self.grid_line)
+			self.line[cnt]:SetWndPos( vector2():set(0,y - 2.5) )
+			self.line[cnt]:SetWndSize( vector2():set(self.prof:GetWidth(),6) )
+			self.line[cnt]:Show(true)
+			self.line_cnt = cnt
+			
+			
+			self.rKind.last = self.rKind.current
+			self.rKind.row = self.row_end + 1
+		end
+	end
+	--]]
+	
+	local = self.rKind.row
+	local rows = #self.grid
+	local cols = self.cols + 1 - w
+	self:Print(nil, "FindFreeCell for [%s] (rows: %s, cols: %s, W: %s, H: %s)", sec, rows,cols,w,h)
+	for r=row_s, rows do
+		for c=1,cols do
+			if self:IsFreeRoom(r,c,w,h) then
+				return self:TakeRoom(r,c,w,h)
+			end
+		end
+	end
+	
+	self:Grow()
+	
+	return self:FindFreeCell(obj, sec)
+end
