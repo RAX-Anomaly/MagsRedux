@@ -1,16 +1,15 @@
+  
 
 --[[
 Icon Override
 06JUN2021
 This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
 Author: RavenAscendant
-
 Provide a location to specifiy alternitive item icons that should be less prone to conflicts
 --]]
 
 
-
-
+local ratio = utils_xml.screen_ratio()
 icon_override = ini_file_ex("icon_override\\icon_override.ltx")
 
 function print_dbg( text , ...)
@@ -205,7 +204,10 @@ function utils_ui.UICellItem:Add_Layers(xml, obj, sec, clsid)
 		self:Print(nil, "Show layer (%s) [%s]", ii, icon_layer)
 	end
 end
-
+local clr_icon_1 = GetARGB(255, 255, 255, 255)
+local clr_icon_2 = GetARGB(70, 255, 255, 255)
+local ico_size, rw, rh, _le = 0.7,1,1,50
+local ico_width
 function utils_xml.set_icon(sec, hidden, XML_temp, XML_box, XML_box_small)
 	ico_width = ico_width or (utils_xml.is_widescreen() and 0.8 or 1)
 	
@@ -282,4 +284,73 @@ function utils_xml.set_icon(sec, hidden, XML_temp, XML_box, XML_box_small)
 	end
 end
 
+function utils_ui.UICellContainer:On_Drag(idx, tg, set)
 
+	-- Hold icon should be declared after everything else, so it stays on top
+	-- Also it must be assigned on the base UI because we need x and y to start from absolute screen corner
+	if (not self.hold.ico) then
+		self.hold.ico = self.xml:InitStatic(self.path .. ":cell:pic", self.owner) 
+		self.hold.ico:Show(false)
+	end
+	
+	if (self.disable_drag) then
+		return
+	end
+	
+	-- Drag start / Drop
+	if set then
+		self:Print(nil, "Drag | hold_idx: %s - hold_tg: %s", idx, tg)
+		
+		-- Callback
+		if (not idx) and self.hold.idx and (self.hold.idx ~= self.hover.idx) then -- IF released mouse + drag item is captured + drag item is not hovered item
+			self:Callback( "On_CC_DragDrop", self.ID, self.hold.idx )
+		end
+		
+		-- Useful to prevent some actions for owner when there's a dragged item, by checking on (self.item_in_hold)
+		if self.owner.item_in_hold == self.ID then
+			self.owner.item_in_hold = false
+		end
+		if idx then
+			self.owner.item_in_hold = self.ID
+			
+			-- Hold the scroll and stop moving on dragging
+			self.scroll_pos = self.scroll:GetCurrentScrollPos()
+			
+			-- No point of holding empty cells
+			if (not self.cell[idx]:IsShown()) then
+				return
+			end
+		end
+		
+		self.hold.idx = idx
+		self.hold.tg = tg
+		self.hold.ico:Show(false)
+		return
+	end
+	
+	-- Drag
+	if self.hold.idx and tg - self.hold.tg > 100 then
+		
+		-- Set up drag item icon
+		if (not self.hold.ico:IsShown()) then
+			self:Print(nil, "Drag | set up icon")
+			local sec = self.cell[self.hold.idx].section
+			
+			if sec then
+				self.hold.w = (icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"inv_grid_width") or SYS_GetParam(2,sec, "inv_grid_width") )* self.grid_size * ratio
+				self.hold.h = (icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"inv_grid_height") or SYS_GetParam(2,sec, "inv_grid_height")) * self.grid_size
+				
+				self.hold.ico:InitTexture( utils_xml.get_icons_texture(sec) )
+				self.hold.ico:SetTextureRect(Frect():set( utils_xml.get_item_axis(sec, nil, true) ))
+				self.hold.ico:SetTextureColor( clr_list["drag"] )
+				self.hold.ico:SetStretchTexture(true)
+				self.hold.ico:SetWndSize(vector2():set(self.hold.w , self.hold.h))
+				self.hold.ico:Show(true)
+			end
+		end
+		
+		-- Sync with cursor pos
+		local pos = GetCursorPosition()
+		self.hold.ico:SetWndPos( pos )
+	end
+end
