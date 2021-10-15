@@ -40,8 +40,9 @@ set_item_order()
 function sort_info(asec, bsec)
 	-- A
 	a_sec = asec
-	if (not ab_w[a_sec]) then ab_w[a_sec] = SYS_GetParam(2,a_sec,"inv_grid_width",1) end
-	if (not ab_h[a_sec]) then ab_h[a_sec] = SYS_GetParam(2,a_sec,"inv_grid_height",1) end
+	axis = utils_xml.get_item_axis(a_sec,1)
+	if (not ab_w[a_sec]) then ab_w[a_sec] = axis.w end
+	if (not ab_h[a_sec]) then ab_h[a_sec] = axis.h end
 	if (not ab_k[a_sec]) then
 		ab_k[a_sec] = SYS_GetParam(0,a_sec,"kind","na")
 		if (not item_order[ab_k[a_sec]]) then
@@ -54,8 +55,9 @@ function sort_info(asec, bsec)
 	
 	-- B
 	b_sec = bsec
-	if (not ab_w[b_sec]) then ab_w[b_sec] = SYS_GetParam(2,b_sec,"inv_grid_width",1) end
-	if (not ab_h[b_sec]) then ab_h[b_sec] = SYS_GetParam(2,b_sec,"inv_grid_height",1) end
+	axis = utils_xml.get_item_axis(b_sec,1)
+	if (not ab_w[b_sec]) then ab_w[b_sec] = axis.w end
+	if (not ab_h[b_sec]) then ab_h[b_sec] = = axis.h end
 	if (not ab_k[b_sec]) then
 		ab_k[b_sec] = SYS_GetParam(0,b_sec,"kind","na")
 		if (not item_order[ab_k[b_sec]]) then
