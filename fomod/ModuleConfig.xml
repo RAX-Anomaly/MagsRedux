@@ -53,6 +53,15 @@ Hides the ammo count from HUD. Press a hotkey to check your weapon and see the a
 								<type name="Optional"/> 
 							</typeDescriptor> 
 						</plugin> 
+						<plugin name="Small Icon patch"> 
+							<description>Reverts to old small icons.</description> 
+							<files> 
+								<folder source="wuuts icons\gamedata" destination="gamedata" priority="0" /> 
+							</files> 
+							<typeDescriptor> 
+								<type name="Optional"/> 
+							</typeDescriptor> 
+						</plugin> 
 					</plugins> 
 				</group> 
 			</optionalFileGroups> 
