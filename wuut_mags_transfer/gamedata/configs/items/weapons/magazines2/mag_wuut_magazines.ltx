@@ -1,0 +1,3560 @@
+
+ --:tch_part_con
+
+[mag_wpn_base]:ammo_base
+--fake_ammo								 = true
+--fake_ammo_wpn						     = true
+
+class                                    = II_ATTCH
+--immunities_sect				= sect_identity_immunities
+visual				                                   = dynamics\part\prt_o_retardant_3.ogf
+description			                                   = st_mag_base_descr
+inv_name			                                   = st_mag_base
+inv_name_short		                                   = st_mag_base
+inv_grid_width                           = 1
+inv_grid_height                          = 1
+inv_grid_x                     					       = 22
+inv_grid_y               				               = 1
+inv_weight			                                   = 0.1
+cost                                                   = 110
+repair_type				                               = 
+snd_on_take								 		   	   = outfit
+tier                                                   = 3
+is_mag_wuut = true
+
+
+max_mag_size										   = 0
+can_stack 								 = false
+dont_stack								 = true
+--use_condition                            = true
+
+kind                                     = w_ammo
+icons_texture							 = ui\ui_icon_wuut_magazines
+
+--slot = -1
+
+--box_size = 0
+--k_disp			= 0.45
+--k_hit			= 1.5
+--k_impulse		= 1.3
+--k_ap			= 0.26
+--impair			= 1.35
+--tracer			= off
+--4to1_tracer		= false
+--wm_size         = 0.05
+--k_air_resistance = 1.0
+--k_bullet_speed	= 1.1
+--k_dist                                   = 1
+--buck_shot                                = 1
+
+[ag_ammo_9x18_fmj]
+mag_ammo_class			= ammo_9x18_fmj, ammo_9x18_fmj_bad, ammo_9x18_fmj_verybad, ammo_9x18_pmm, ammo_9x18_pmm_bad, ammo_9x18_pmm_verybad, ammo_9x18_ap, ammo_9x18_ap_bad, ammo_9x18_ap_verybad
+
+[ag_ammo_9x19_fmj]
+mag_ammo_class			= ammo_9x19_fmj, ammo_9x19_fmj_bad, ammo_9x19_fmj_verybad, ammo_9x19_pbp, ammo_9x19_pbp_bad, ammo_9x19_pbp_verybad, ammo_9x19_ap, ammo_9x19_ap_bad, ammo_9x19_ap_verybad
+
+[ag_ammo_11.43x23_fmj]
+mag_ammo_class          = ammo_11.43x23_fmj, ammo_11.43x23_fmj_bad, ammo_11.43x23_fmj_verybad, ammo_11.43x23_hydro, ammo_11.43x23_hydro_bad, ammo_11.43x23_hydro_verybad
+
+[ag_ammo_7.62x25_p]
+mag_ammo_class          = ammo_7.62x25_p, ammo_7.62x25_p_bad, ammo_7.62x25_p_verybad, ammo_7.62x25_ps, ammo_7.62x25_ps_bad, ammo_7.62x25_ps_verybad
+
+[ag_ammo_357_hp_mag]
+mag_ammo_class          = ammo_357_hp_mag, ammo_357_hp_mag_bad, ammo_357_hp_mag_verybad
+
+[ag_ammo_5.7x28_ss190]
+mag_ammo_class          = ammo_5.7x28_ss190, ammo_5.7x28_ss190_bad, ammo_5.7x28_ss190_verybad, ammo_5.7x28_ss195, ammo_5.7x28_ss195_bad, ammo_5.7x28_ss195_verybad
+
+[ag_ammo_9x21_sp10]
+mag_ammo_class          = ammo_9x21_sp10, ammo_9x21_sp10
+
+
+
+		
+[wg_wpn_aps]
+magazine_group 						     = wpn_aps
+[wg_wpn_beretta]
+magazine_group 						     = wpn_beretta
+[wg_wpn_bizon]
+magazine_group 						     = wpn_bizon
+[wg_wpn_colt1911]
+magazine_group 						     = wpn_colt1911, wpn_colt1911_n
+[wg_wpn_colt_kimber] -- colt_kimber
+magazine_group 						     = wpn_colt
+[wg_wpn_cz52]
+magazine_group 						     = wpn_cz52
+[wg_wpn_cz75]
+magazine_group 						     = wpn_cz75
+[wg_wpn_desert_eagle]
+magazine_group 						     = wpn_desert
+[wg_wpn_fn57]
+magazine_group 						     = wpn_fn57
+[wg_wpn_fnp45]
+magazine_group 						     = wpn_fnp45, wpn_fnx45
+[wg_wpn_fort]
+magazine_group 						     = wpn_fort
+[wg_wpn_glock]
+magazine_group 						     = wpn_glock
+[wg_wpn_glock17]
+magazine_group 						     = wpn_glock17, wpn_glock17_m1
+[wg_wpn_gsh18]
+magazine_group 						     = wpn_gsh18
+[wg_wpn_hpsa]
+magazine_group 						     = wpn_hpsa
+[wg_wpn_mp443]
+magazine_group 						     = wpn_mp443
+[wg_wpn_mp5]
+magazine_group 						     = wpn_mp5,wpn_mp5sd
+[wg_wpn_mp7]
+magazine_group 						     = wpn_mp7
+[wg_wpn_oc33]
+magazine_group 						     = wpn_oc33
+[wg_wpn_pb]
+magazine_group 						     = wpn_pb, wpn_pm, wpn_pmm
+[wg_wpn_pl15]
+magazine_group 						     = wpn_pl15
+[wg_wpn_pp2000]
+magazine_group 						     = wpn_pp2000
+[wg_wpn_sig220]
+magazine_group 						     = wpn_sig220, mag_wpn_sig220_n, wpn_sig220_n_upg220
+[wg_wpn_sig226]
+magazine_group 						     = wpn_sig226
+[wg_wpn_sr1m]
+magazine_group 						     = wpn_sr1m
+[wg_wpn_tt33]
+magazine_group 						     = wpn_tt33
+[wg_wpn_ump45]
+magazine_group 						     = wpn_ump45
+[wg_wpn_usp]
+magazine_group 						     = wpn_usp, wpn_usp_tac
+[wg_wpn_vityaz]
+magazine_group 						     = wpn_vityaz
+[wg_wpn_vz61]
+magazine_group 						     = wpn_vz61
+[wg_wpn_walther]
+magazine_group 						     = wpn_walther, wpn_walther_p99
+[wg_wpn_kiparis]
+magazine_group 						     = wpn_kiparis
+
+
+
+-- APS
+[mag_wpn_aps_9x18_fmj]:mag_wpn_base,wg_wpn_aps,ag_ammo_9x18_fmj
+description			                                   = st_mag_aps_9x18_fmj_descr
+inv_name			                                   = st_mag_aps_9x18_fmj
+inv_name_short		                                   = st_mag_aps_9x18_fmj
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 0
+max_mag_size										   = 20
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_27_900x18.ogf
+
+[mag_wpn_aps_9x18_fmj_ready]:mag_wpn_aps_9x18_fmj
+inv_grid_y               				               = 1
+
+;;visual                      = dynamics\magazines\clip_27_900x18.ogf
+
+[mag_wpn_aps_9x19_fmj]:mag_wpn_aps_9x18_fmj,ag_ammo_9x19_fmj
+description			                                   = st_mag_aps_9x19_fmj_descr
+inv_name			                                   = st_mag_aps_9x19_fmj
+inv_name_short		                                   = st_mag_aps_9x19_fmj
+
+;;visual                      = dynamics\magazines\clip_27_900x18.ogf
+
+[mag_wpn_aps_9x19_fmj_ready]:mag_wpn_aps_9x19_fmj
+inv_grid_y               				               = 1
+
+;;visual                      = dynamics\magazines\clip_27_900x18.ogf
+
+-- Beretta 92F
+[mag_wpn_beretta_9x19_fmj]:mag_wpn_base,wg_wpn_beretta,ag_ammo_9x19_fmj
+description			                                   = st_mag_beretta_9x19_fmj_descr
+inv_name			                                   = st_mag_beretta_9x19_fmj
+inv_name_short		                                   = st_mag_beretta_9x19_fmj
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 0
+max_mag_size										   = 15
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_15_900x19.ogf
+
+[mag_wpn_beretta_9x19_fmj_ready]:mag_wpn_beretta_9x19_fmj
+inv_grid_y               				               = 1
+
+;;visual                      = dynamics\magazines\clip_15_900x19.ogf
+
+[mag_wpn_beretta_9x18_fmj]:mag_wpn_beretta_9x19_fmj,ag_ammo_9x18_fmj
+description			                                   = st_mag_beretta_9x18_fmj_descr
+inv_name			                                   = st_mag_beretta_9x18_fmj
+inv_name_short		                                   = st_mag_beretta_9x18_fmj
+
+;;visual                      = dynamics\magazines\clip_15_900x19.ogf
+
+[mag_wpn_beretta_9x18_fmj_ready]:mag_wpn_beretta_9x18_fmj
+inv_grid_y               				               = 1
+
+;;visual                      = dynamics\magazines\clip_15_900x19.ogf
+
+-- Bizon
+[mag_wpn_bizon_9x18_fmj]:mag_wpn_base,wg_wpn_bizon,ag_ammo_9x18_fmj
+description			                                   = st_mag_bizon_9x18_fmj_descr
+inv_name			                                   = st_mag_bizon_9x18_fmj
+inv_name_short		                                   = st_mag_bizon_9x18_fmj
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 0
+inv_grid_width                           			   = 2
+max_mag_size										   = 64
+mag_size											   = large
+;;visual                      = dynamics\magazines\mag_64_900x18.ogf
+
+[mag_wpn_bizon_9x18_fmj_ready]:mag_wpn_bizon_9x18_fmj
+inv_grid_y               				               = 1
+
+;;visual                      = dynamics\magazines\mag_64_900x18.ogf
+
+[mag_wpn_bizon_7.62x25_p]:mag_wpn_bizon_9x18_fmj,ag_ammo_7.62x25_p
+description			                                   = st_mag_bizon_7.62x25_p_descr
+inv_name			                                   = st_mag_bizon_7.62x25_p
+inv_name_short		                                   = st_mag_bizon_7.62x25_p
+
+;;visual                      = dynamics\magazines\mag_64_900x18.ogf
+
+[mag_wpn_bizon_7.62x25_p_ready]:mag_wpn_bizon_7.62x25_p
+inv_grid_y               				               = 1
+
+;;visual                      = dynamics\magazines\mag_64_900x18.ogf
+
+-- Colt 1911
+[mag_wpn_colt1911_11.43x23_fmj]:mag_wpn_base,wg_wpn_colt1911,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_colt1911_11.43x23_fmj_descr
+inv_name			                                   = st_mag_colt1911_11.43x23_fmj
+inv_name_short		                                   = st_mag_colt1911_11.43x23_fmj
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 0
+max_mag_size										   = 7
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_7_1143x23.ogf
+
+[mag_wpn_colt1911_11.43x23_fmj_ready]:mag_wpn_colt1911_11.43x23_fmj
+inv_grid_y               				               = 1
+
+;;visual                      = dynamics\magazines\clip_7_1143x23.ogf
+
+-- Colt 1911 New
+[mag_wpn_colt1911_n_11.43x23_fmj]:mag_wpn_base,wg_wpn_colt1911,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_colt1911_11.43x23_fmj_descr
+inv_name			                                   = st_mag_colt1911_11.43x23_fmj
+inv_name_short		                                   = st_mag_colt1911_11.43x23_fmj
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 0
+max_mag_size										   = 7
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_7_1143x23.ogf
+
+[mag_wpn_colt1911_n_11.43x23_fmj_ready]:mag_wpn_colt1911_n_11.43x23_fmj
+inv_grid_y               				               = 1
+
+
+-- Colt Kimber
+[mag_wpn_colt_11.43x23_fmj]:mag_wpn_base,wg_wpn_colt_kimber,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_colt_kimber_11.43x23_fmj_descr
+inv_name			                                   = st_mag_colt_kimber_11.43x23_fmj
+inv_name_short		                                   = st_mag_colt_kimber_11.43x23_fmj
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 0
+max_mag_size										   = 8
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_7_1143x23.ogf
+
+[mag_wpn_colt_11.43x23_fmj_ready]:mag_wpn_colt_11.43x23_fmj
+inv_grid_y               				               = 1
+
+
+-- CZ 52
+[mag_wpn_cz52_7.62x25_p]:mag_wpn_base,wg_wpn_cz52,ag_ammo_7.62x25_p
+description			                                   = st_mag_cz52_7.62x25_p_descr
+inv_name			                                   = st_mag_cz52_7.62x25_p
+inv_name_short		                                   = st_mag_cz52_7.62x25_p
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 0
+max_mag_size										   = 8
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_8_762x25.ogf
+
+[mag_wpn_cz52_7.62x25_p_ready]:mag_wpn_cz52_7.62x25_p
+inv_grid_y               				               = 1
+
+;;visual                      = dynamics\magazines\clip_8_762x25.ogf
+
+-- CZ 75 and CZ 75 Auto
+[mag_wpn_cz75_9x19_fmj]:mag_wpn_base,wg_wpn_cz75,ag_ammo_9x19_fmj
+description			                                   = st_mag_cz75_9x19_fmj_descr
+inv_name			                                   = st_mag_cz75_9x19_fmj
+inv_name_short		                                   = st_mag_cz75_9x19_fmj
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 0
+max_mag_size										   = 16
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_16_900x19.ogf
+
+[mag_wpn_cz75_9x19_fmj_ready]:mag_wpn_cz75_9x19_fmj
+inv_grid_y               				               = 1
+
+;;visual                      = dynamics\magazines\clip_16_900x19.ogf
+
+[mag_wpn_cz75_9x18_fmj]:mag_wpn_cz75_9x19_fmj,ag_ammo_9x18_fmj
+description			                                   = st_mag_cz75_9x18_fmj_descr
+inv_name			                                   = st_mag_cz75_9x18_fmj
+inv_name_short		                                   = st_mag_cz75_9x18_fmj
+
+;;visual                      = dynamics\magazines\clip_16_900x19.ogf
+
+[mag_wpn_cz75_9x18_fmj_ready]:mag_wpn_cz75_9x18_fmj
+inv_grid_y               				               = 1
+
+;;visual                      = dynamics\magazines\clip_16_900x19.ogf
+
+-- Desert Eagle
+[mag_wpn_desert_357_hp_mag]:mag_wpn_base,wg_wpn_desert_eagle,ag_ammo_357_hp_mag
+description			                                   = st_mag_desert_eagle_357_hp_descr
+inv_name			                                   = st_mag_desert_eagle_357_hp
+inv_name_short		                                   = st_mag_desert_eagle_357_hp
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 0
+max_mag_size										   = 9
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_12_900x18.ogf
+
+[mag_wpn_desert_357_hp_mag_ready]:mag_wpn_desert_357_hp_mag
+inv_grid_y               				               = 1
+;;visual                      = dynamics\magazines\clip_12_900x18.ogf
+
+
+-- FN 57
+[mag_wpn_fn57_5.7x28_ss190]:mag_wpn_base,wg_wpn_fn57,ag_ammo_5.7x28_ss190
+description			                                   = st_mag_fn57_5.7x28_ss190_descr
+inv_name			                                   = st_mag_fn57_5.7x28_ss190
+inv_name_short		                                   = st_mag_fn57_5.7x28_ss190
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 0
+max_mag_size										   = 20
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_20_570x28.ogf
+
+[mag_wpn_fn57_5.7x28_ss190_ready]:mag_wpn_fn57_5.7x28_ss190
+inv_grid_y               				               = 1
+;;visual                      = dynamics\magazines\clip_20_570x28.ogf
+
+
+-- FNP 45
+[mag_wpn_fnp45_11.43x23_fmj]:mag_wpn_base,wg_wpn_fnp45,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_fnp45_11.43x23_fmj_descr
+inv_name			                                   = st_mag_fnp45_11.43x23_fmj
+inv_name_short		                                   = st_mag_fnp45_11.43x23_fmj
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 2
+max_mag_size										   = 15
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_8_1143x23.ogf
+
+[mag_wpn_fnp45_11.43x23_fmj_ready]:mag_wpn_fnp45_11.43x23_fmj
+inv_grid_y               				               = 3
+;;visual                      = dynamics\magazines\clip_8_1143x23.ogf
+
+
+-- FNX 45
+[mag_wpn_fnx45_11.43x23_fmj]:mag_wpn_base,wg_wpn_fnp45,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_fnx45_11.43x23_fmj_descr
+inv_name			                                   = st_mag_fnx45_11.43x23_fmj
+inv_name_short		                                   = st_mag_fnx45_11.43x23_fmj
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 2
+max_mag_size										   = 15
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_8_1143x23.ogf
+
+[mag_wpn_fnx45_11.43x23_fmj_ready]:mag_wpn_fnx45_11.43x23_fmj
+inv_grid_y               				               = 3
+;;visual                      = dynamics\magazines\clip_8_1143x23.ogf
+
+
+-- Fort
+[mag_wpn_fort_9x18_fmj]:mag_wpn_base,wg_wpn_fort,ag_ammo_9x18_fmj
+description			                                   = st_mag_fort_9x18_fmj_descr
+inv_name			                                   = st_mag_fort_9x18_fmj
+inv_name_short		                                   = st_mag_fort_9x18_fmj
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 2
+max_mag_size										   = 12
+mag_size											   = small
+;;visual                      = dynamics\magazines\clip_12_900x18.ogf
+
+
+[mag_wpn_fort_9x18_fmj_ready]:mag_wpn_fort_9x18_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_12_900x18.ogf
+
+[mag_wpn_fort_9x19_fmj]:mag_wpn_fort_9x18_fmj,ag_ammo_9x19_fmj
+description			                                   = st_mag_fort_9x19_fmj_descr
+inv_name			                                   = st_mag_fort_9x19_fmj
+inv_name_short		                                   = st_mag_fort_9x19_fmj
+
+
+[mag_wpn_fort_9x19_fmj_ready]:mag_wpn_fort_9x19_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_13_900x19.ogf
+
+-- Glock
+[mag_wpn_glock_9x19_fmj]:mag_wpn_base,wg_wpn_glock,ag_ammo_9x19_fmj
+description			                                   = st_mag_glock_9x19_fmj_descr
+inv_name			                                   = st_mag_glock_9x19_fmj
+inv_name_short		                                   = st_mag_glock_9x19_fmj
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 2
+max_mag_size										   = 17
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_17_900x19.ogf
+
+[mag_wpn_glock_9x19_fmj_ready]:mag_wpn_glock_9x19_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_17_900x19.ogf
+
+[mag_wpn_glock_9x18_fmj]:mag_wpn_glock_9x19_fmj,ag_ammo_9x18_fmj
+description			                                   = st_mag_glock_9x18_fmj_descr
+inv_name			                                   = st_mag_glock_9x18_fmj
+inv_name_short		                                   = st_mag_glock_9x18_fmj
+
+;;visual                      = dynamics\magazines\clip_17_900x19.ogf
+
+[mag_wpn_glock_9x18_fmj_ready]:mag_wpn_glock_9x18_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_17_900x19.ogf
+
+-- Glock 17
+[mag_wpn_glock17_9x19_fmj]:mag_wpn_base,wg_wpn_glock17,ag_ammo_9x19_fmj
+description			                                   = st_mag_glock_9x19_fmj_descr
+inv_name			                                   = st_mag_glock_9x19_fmj
+inv_name_short		                                   = st_mag_glock_9x19_fmj
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 2
+max_mag_size										   = 17
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_17_900x19.ogf
+
+[mag_wpn_glock17_9x19_fmj_ready]:mag_wpn_glock17_9x19_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_17_900x19.ogf
+
+-- Glock 17 M1
+[mag_wpn_glock17_m1_9x19_fmj]:mag_wpn_base,wg_wpn_glock17,ag_ammo_9x19_fmj
+description			                                   = st_mag_glock_9x19_fmj_descr
+inv_name			                                   = st_mag_glock_9x19_fmj
+inv_name_short		                                   = st_mag_glock_9x19_fmj
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 2
+max_mag_size										   = 17
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_17_900x19.ogf
+
+[mag_wpn_glock17_m1_9x19_fmj_ready]:mag_wpn_glock17_m1_9x19_fmj
+inv_grid_y               				               = 3      
+
+
+-- Gsh-18
+[mag_wpn_gsh18_9x19_fmj]:mag_wpn_base,wg_wpn_gsh18,ag_ammo_9x19_fmj
+description			                                   = st_mag_gsh18_9x19_fmj_descr
+inv_name			                                   = st_mag_gsh18_9x19_fmj
+inv_name_short		                                   = st_mag_gsh18_9x19_fmj
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 2
+max_mag_size										   = 18
+mag_size											   = small
+;;visual                      = dynamics\magazines\clip_18_900x19.ogf
+
+[mag_wpn_gsh18_9x19_fmj_ready]:mag_wpn_gsh18_9x19_fmj
+inv_grid_y               				               = 3
+;;visual                      = dynamics\magazines\clip_18_900x19.ogf
+
+
+-- Browning Hi-Power
+[mag_wpn_hpsa_9x19_fmj]:mag_wpn_base,wg_wpn_hpsa,ag_ammo_9x19_fmj
+description			                                   = st_mag_hpsa_9x19_fmj_descr
+inv_name			                                   = st_mag_hpsa_9x19_fmj
+inv_name_short		                                   = st_mag_hpsa_9x19_fmj
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 2
+max_mag_size										   = 13
+mag_size											   = small
+;;visual                      = dynamics\magazines\clip_13_900x19.ogf
+
+
+[mag_wpn_hpsa_9x19_fmj_ready]:mag_wpn_hpsa_9x19_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_13_900x19.ogf
+
+[mag_wpn_hpsa_9x18_fmj]:mag_wpn_hpsa_9x19_fmj,ag_ammo_9x18_fmj
+description			                                   = st_mag_hpsa_9x18_fmj_descr
+inv_name			                                   = st_mag_hpsa_9x18_fmj
+inv_name_short		                                   = st_mag_hpsa_9x18_fmj
+
+;;visual                      = dynamics\magazines\clip_13_900x19.ogf
+
+[mag_wpn_hpsa_9x18_fmj_ready]:mag_wpn_hpsa_9x18_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_13_900x19.ogf
+
+-- PL-15
+[mag_wpn_pl15_9x19_fmj]:mag_wpn_base,wg_wpn_pl15,ag_ammo_9x19_fmj
+description			                                   = st_mag_pl15_9x19_fmj_descr
+inv_name			                                   = st_mag_pl15_9x19_fmj
+inv_name_short		                                   = st_mag_pl15_9x19_fmj
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 2
+max_mag_size										   = 16
+mag_size											   = small
+;;visual                      = dynamics\magazines\clip_13_900x19.ogf
+
+
+[mag_wpn_pl15_9x19_fmj_ready]:mag_wpn_pl15_9x19_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_13_900x19.ogf
+
+-- MP-443
+[mag_wpn_mp443_9x19_fmj]:mag_wpn_base,wg_wpn_mp443,ag_ammo_9x19_fmj
+description			                                   = st_mag_mp443_9x19_fmj_descr
+inv_name			                                   = st_mag_mp443_9x19_fmj
+inv_name_short		                                   = st_mag_mp443_9x19_fmj
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 2
+max_mag_size										   = 18
+mag_size											   = small
+;;visual                      = dynamics\magazines\clip_18_900x19.ogf
+
+[mag_wpn_mp443_9x19_fmj_ready]:mag_wpn_mp443_9x19_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_18_900x19.ogf
+
+[mag_wpn_mp443_9x18_fmj]:mag_wpn_mp443_9x19_fmj,ag_ammo_9x18_fmj
+description			                                   = st_mag_mp443_9x18_fmj_descr
+inv_name			                                   = st_mag_mp443_9x18_fmj
+inv_name_short		                                   = st_mag_mp443_9x18_fmj
+
+;;visual                      = dynamics\magazines\clip_18_900x19.ogf
+
+[mag_wpn_mp443_9x18_fmj_ready]:mag_wpn_mp443_9x18_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_18_900x19.ogf
+
+-- MP5
+[mag_wpn_mp5_9x19_fmj]:mag_wpn_base,wg_wpn_mp5,ag_ammo_9x19_fmj
+description			                                   = st_mag_mp5_9x19_fmj_descr
+inv_name			                                   = st_mag_mp5_9x19_fmj
+inv_name_short		                                   = st_mag_mp5_9x19_fmj
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 2
+max_mag_size										   = 30
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_mp5_9x19_fmj_ready]:mag_wpn_mp5_9x19_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_mp5_9x18_fmj]:mag_wpn_mp5_9x19_fmj,ag_ammo_9x18_fmj
+description			                                   = st_mag_mp5_9x18_fmj_descr
+inv_name			                                   = st_mag_mp5_9x18_fmj
+inv_name_short		                                   = st_mag_mp5_9x18_fmj
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_mp5_9x18_fmj_ready]:mag_wpn_mp5_9x18_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+-- MP5 .45
+[mag_wpn_mp5_11.43x23_fmj]:mag_wpn_base,wg_wpn_mp5,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_mp5_11.43x23_fmj_descr
+inv_name			                                   = st_mag_mp5_11.43x23_fmj
+inv_name_short		                                   = st_mag_mp5_11.43x23_fmj
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 2
+max_mag_size										   = 30
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\mag_30_1143x23.ogf
+
+[mag_wpn_mp5_11.43x23_fmj_ready]:mag_wpn_mp5_11.43x23_fmj
+inv_grid_y               				               = 3
+;;visual                      = dynamics\magazines\mag_30_1143x23.ogf
+
+
+-- MP5SD
+[mag_wpn_mp5sd_9x19_fmj]:mag_wpn_base,wg_wpn_mp5,ag_ammo_9x19_fmj
+description			                                   = st_mag_mp5sd_9x19_fmj_descr
+inv_name			                                   = st_mag_mp5sd_9x19_fmj
+inv_name_short		                                   = st_mag_mp5sd_9x19_fmj
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 2
+max_mag_size										   = 30
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_mp5sd_9x19_fmj_ready]:mag_wpn_mp5sd_9x19_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_mp5sd_9x18_fmj]:mag_wpn_mp5sd_9x19_fmj,ag_ammo_9x18_fmj
+description			                                   = st_mag_mp5sd_9x18_fmj_descr
+inv_name			                                   = st_mag_mp5sd_9x18_fmj
+inv_name_short		                                   = st_mag_mp5sd_9x18_fmj
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_mp5sd_9x18_fmj_ready]:mag_wpn_mp5sd_9x18_fmj
+inv_grid_y               				               = 3
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+
+-- mp7
+[mag_wpn_mp7_9x19_fmj]:mag_wpn_base,wg_wpn_mp7,ag_ammo_9x19_fmj
+description			                                   = st_mag_mp7_9x19_fmj_descr
+inv_name			                                   = st_mag_mp7_9x19_fmj
+inv_name_short		                                   = st_mag_mp7_9x19_fmj
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 2
+max_mag_size										   = 40
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\mag_32_900x19.ogf
+
+[mag_wpn_mp7_9x19_fmj_ready]:mag_wpn_mp7_9x19_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\mag_32_900x19.ogf
+
+-- OC-33 (OTs-33 Pernach)
+[mag_wpn_oc33_9x18_fmj]:mag_wpn_base,wg_wpn_oc33,ag_ammo_9x18_fmj
+description			                                   = st_mag_oc33_9x18_fmj_descr
+inv_name			                                   = st_mag_oc33_9x18_fmj
+inv_name_short		                                   = st_mag_oc33_9x18_fmj
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 2
+max_mag_size										   = 27
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_27_900x18.ogf
+
+[mag_wpn_oc33_9x18_fmj_ready]:mag_wpn_oc33_9x18_fmj
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_27_900x18.ogf
+
+[mag_wpn_oc33_9x19_fmj]:mag_wpn_oc33_9x18_fmj,ag_ammo_9x19_fmj
+description			                                   = st_mag_oc33_9x19_fmj_descr
+inv_name			                                   = st_mag_oc33_9x19_fmj
+inv_name_short		                                   = st_mag_oc33_9x19_fmj
+
+;;visual                      = dynamics\magazines\clip_27_900x18.ogf
+
+[mag_wpn_oc33_9x19_fmj_ready]:mag_wpn_oc33_9x19_fmj
+inv_grid_y               				               = 3
+;;visual                      = dynamics\magazines\clip_27_900x18.ogf
+
+
+-- PB
+[mag_wpn_pb_9x18_fmj]:mag_wpn_base,wg_wpn_pb,ag_ammo_9x18_fmj
+description			                                   = st_mag_pb_9x18_fmj_descr
+inv_name			                                   = st_mag_pb_9x18_fmj
+inv_name_short		                                   = st_mag_pb_9x18_fmj
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 4
+max_mag_size										   = 8
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_8_900x18.ogf
+
+[mag_wpn_pb_9x18_fmj_ready]:mag_wpn_pb_9x18_fmj
+inv_grid_y               				               = 5
+
+;;visual                      = dynamics\magazines\clip_8_900x18.ogf
+
+-- PM
+[mag_wpn_pm_9x18_fmj]:mag_wpn_base,wg_wpn_pb,ag_ammo_9x18_fmj
+description			                                   = st_mag_pm_9x18_fmj_descr
+inv_name			                                   = st_mag_pm_9x18_fmj
+inv_name_short		                                   = st_mag_pm_9x18_fmj
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 4
+max_mag_size										   = 8
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_8_900x18.ogf
+
+[mag_wpn_pm_9x18_fmj_ready]:mag_wpn_pm_9x18_fmj
+inv_grid_y               				               = 5
+
+;;visual                      = dynamics\magazines\clip_8_900x18.ogf
+
+[mag_wpn_pm_9x19_fmj]:mag_wpn_pm_9x18_fmj,ag_ammo_9x19_fmj
+description			                                   = st_mag_pm_9x19_fmj_descr
+inv_name			                                   = st_mag_pm_9x19_fmj
+inv_name_short		                                   = st_mag_pm_9x19_fmj
+
+;;visual                      = dynamics\magazines\clip_8_900x18.ogf
+
+[mag_wpn_pm_9x19_fmj_ready]:mag_wpn_pm_9x19_fmj
+inv_grid_y               				               = 5
+
+;;visual                      = dynamics\magazines\clip_8_900x18.ogf
+
+-- sr1m
+[mag_wpn_sr1m_9x21_sp10]:mag_wpn_base,wg_wpn_sr1m,ag_ammo_9x21_sp10
+description			                                   = st_mag_sr1m_9x21_sp10_descr
+inv_name			                                   = st_mag_sr1m_9x21_sp10
+inv_name_short		                                   = st_mag_sr1m_9x21_sp10
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 2
+max_mag_size										   = 18
+mag_size											   = small
+;;visual                      = dynamics\magazines\clip_18_900x19.ogf
+
+[mag_wpn_sr1m_9x21_sp10_ready]:mag_wpn_sr1m_9x21_sp10
+inv_grid_y               				               = 3
+
+;;visual                      = dynamics\magazines\clip_18_900x19.ogf
+
+
+-- PMM
+[mag_wpn_pmm_9x18_fmj]:mag_wpn_base,wg_wpn_pb,ag_ammo_9x18_fmj
+description			                                   = st_mag_pmm_9x18_fmj_descr
+inv_name			                                   = st_mag_pmm_9x18_fmj
+inv_name_short		                                   = st_mag_pmm_9x18_fmj
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 4
+max_mag_size										   = 12
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_12_900x18.ogf
+
+[mag_wpn_pmm_9x18_fmj_ready]:mag_wpn_pmm_9x18_fmj
+inv_grid_y               				               = 5
+
+;;visual                      = dynamics\magazines\clip_12_900x18.ogf
+
+[mag_wpn_pmm_9x19_fmj]:mag_wpn_pmm_9x18_fmj,ag_ammo_9x19_fmj
+description			                                   = st_mag_pmm_9x19_fmj_descr
+inv_name			                                   = st_mag_pmm_9x19_fmj
+inv_name_short		                                   = st_mag_pmm_9x19_fmj
+
+;;visual                      = dynamics\magazines\clip_12_900x18.ogf
+
+[mag_wpn_pmm_9x19_fmj_ready]:mag_wpn_pmm_9x19_fmj
+inv_grid_y               				               = 5
+
+;;visual                      = dynamics\magazines\clip_12_900x18.ogf
+
+-- pp2000
+[mag_wpn_pp2000_9x19_fmj]:mag_wpn_base,wg_wpn_pp2000,ag_ammo_9x19_fmj
+description			                                   = st_mag_pp2000_9x19_fmj_descr
+inv_name			                                   = st_mag_pp2000_9x19_fmj
+inv_name_short		                                   = st_mag_pp2000_9x19_fmj
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 4
+max_mag_size										   = 30
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_pp2000_9x19_fmj_ready]:mag_wpn_pp2000_9x19_fmj
+inv_grid_y               				               = 5
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_pp2000_9x18_fmj]:mag_wpn_pp2000_9x19_fmj,ag_ammo_9x18_fmj
+description			                                   = st_mag_pp2000_9x18_fmj_descr
+inv_name			                                   = st_mag_pp2000_9x18_fmj
+inv_name_short		                                   = st_mag_pp2000_9x18_fmj
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_pp2000_9x18_fmj_ready]:mag_wpn_pp2000_9x18_fmj
+inv_grid_y               				               = 5
+
+;;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+-- Sig 220
+[mag_wpn_sig220_11.43x23_fmj]:mag_wpn_base,wg_wpn_sig220,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_sig220_11.43x23_fmj_descr
+inv_name			                                   = st_mag_sig220_11.43x23_fmj
+inv_name_short		                                   = st_mag_sig220_11.43x23_fmj
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 4
+max_mag_size										   = 7
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_7_1143x23.ogf
+
+[mag_wpn_sig220_11.43x23_fmj_ready]:mag_wpn_sig220_11.43x23_fmj
+inv_grid_y               				               = 5
+
+;;visual                      = dynamics\magazines\clip_7_1143x23.ogf
+
+-- Sig 220 New
+[mag_wpn_sig220_n_11.43x23_fmj]:mag_wpn_base,wg_wpn_sig220,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_sig220_11.43x23_fmj_descr
+inv_name			                                   = st_mag_sig220_11.43x23_fmj
+inv_name_short		                                   = st_mag_sig220_11.43x23_fmj
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 4
+max_mag_size										   = 7
+mag_size											   = small
+;;visual                      = dynamics\magazines\clip_7_1143x23.ogf
+
+[mag_wpn_sig220_n_11.43x23_fmj_ready]:mag_wpn_sig220_n_11.43x23_fmj
+inv_grid_y               				               = 5
+;;visual                      = dynamics\magazines\clip_7_1143x23.ogf
+
+[mag_wpn_sig220_n_upg220_11.43x23_fmj]:mag_wpn_base,wg_wpn_sig220,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_sig220_11.43x23_fmj_descr
+inv_name			                                   = st_mag_sig220_11.43x23_fmj
+inv_name_short		                                   = st_mag_sig220_11.43x23_fmj
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 4
+max_mag_size										   = 12
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\clip_8_1143x23.ogf
+
+[mag_wpn_sig220_n_upg220_11.43x23_fmj_ready]:mag_wpn_sig220_n_upg220_11.43x23_fmj
+inv_grid_y               				               = 5
+
+;;visual                      = dynamics\magazines\clip_8_1143x23.ogf
+
+-- Sig 226
+[mag_wpn_sig226_9x19_fmj]:mag_wpn_base,wg_wpn_sig226,ag_ammo_9x19_fmj
+description			                                   = st_mag_sig226_9x19_fmj_descr
+inv_name			                                   = st_mag_sig226_9x19_fmj
+inv_name_short		                                   = st_mag_sig226_9x19_fmj
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 4
+max_mag_size										   = 15
+mag_size											   = small
+;;visual                      = dynamics\magazines\clip_7_1143x23.ogf
+
+[mag_wpn_sig226_9x19_fmj_ready]:mag_wpn_sig226_9x19_fmj
+inv_grid_y               				               = 5
+
+;;visual                      = dynamics\magazines\clip_7_1143x23.ogf
+
+-- TT-33
+[mag_wpn_tt33_7.62x25_p]:mag_wpn_base,wg_wpn_tt33,ag_ammo_7.62x25_p
+description			                                   = st_mag_tt33_7.62x25_p_descr
+inv_name			                                   = st_mag_tt33_7.62x25_p
+inv_name_short		                                   = st_mag_tt33_7.62x25_p
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 4
+max_mag_size										   = 8
+mag_size											   = small
+;;visual                      = dynamics\magazines\clip_8_762x25.ogf
+
+[mag_wpn_tt33_7.62x25_p_ready]:mag_wpn_tt33_7.62x25_p
+inv_grid_y               				               = 5
+;;visual                      = dynamics\magazines\clip_8_762x25.ogf
+
+
+-- ump45
+[mag_wpn_ump45_11.43x23_fmj]:mag_wpn_base,wg_wpn_ump45,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_ump45_11.43x23_fmj_descr
+inv_name			                                   = st_mag_ump45_11.43x23_fmj
+inv_name_short		                                   = st_mag_ump45_11.43x23_fmj
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 4
+max_mag_size										   = 25
+mag_size											   = small
+
+;;visual                      = dynamics\magazines\mag_30_1143x23.ogf
+
+[mag_wpn_ump45_11.43x23_fmj_ready]:mag_wpn_ump45_11.43x23_fmj
+inv_grid_y               				               = 5
+;visual                      = dynamics\magazines\mag_30_1143x23.ogf
+
+
+-- usp 45
+[mag_wpn_usp_11.43x23_fmj]:mag_wpn_base,wg_wpn_usp,ag_ammo_11.43x23_fmj
+description			                                   = st_mag_usp_11.43x23_fmj_descr
+inv_name			                                   = st_mag_usp_11.43x23_fmj
+inv_name_short		                                   = st_mag_usp_11.43x23_fmj
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 4
+max_mag_size										   = 12
+mag_size											   = small
+
+;visual                      = dynamics\magazines\clip_8_1143x23.ogf
+
+[mag_wpn_usp_11.43x23_fmj_ready]:mag_wpn_usp_11.43x23_fmj
+inv_grid_y               				               = 5
+
+;visual                      = dynamics\magazines\clip_8_1143x23.ogf
+
+-- USP TAC 9x19
+[mag_wpn_usp_tac_9x19_fmj]:mag_wpn_usp_11.43x23_fmj,ag_ammo_9x19_fmj
+description			                                   = st_mag_usp_9x19_fmj_descr
+inv_name			                                   = st_mag_usp_9x19_fmj
+inv_name_short		                                   = st_mag_usp_9x19_fmj
+max_mag_size										   = 22
+
+;visual                      = dynamics\magazines\clip_15_900x19.ogf
+
+[mag_wpn_usp_tac_9x19_fmj_ready]:mag_wpn_usp_tac_9x19_fmj
+inv_grid_y               				               = 5
+
+;visual                      = dynamics\magazines\clip_15_900x19.ogf
+
+-- usp 9x19
+[mag_wpn_usp_9x19_fmj]:mag_wpn_usp_11.43x23_fmj,ag_ammo_9x19_fmj
+description			                                   = st_mag_usp_9x19_fmj_descr
+inv_name			                                   = st_mag_usp_9x19_fmj
+inv_name_short		                                   = st_mag_usp_9x19_fmj
+max_mag_size										   = 15
+
+;visual                      = dynamics\magazines\clip_15_900x19.ogf
+
+[mag_wpn_usp_9x19_fmj_ready]:mag_wpn_usp_9x19_fmj
+inv_grid_y               				               = 5
+;visual                      = dynamics\magazines\clip_15_900x19.ogf
+
+
+-- vityaz
+[mag_wpn_vityaz_9x19_fmj]:mag_wpn_base,wg_wpn_vityaz,ag_ammo_9x19_fmj
+description			                                   = st_mag_vityaz_9x19_fmj_descr
+inv_name			                                   = st_mag_vityaz_9x19_fmj
+inv_name_short		                                   = st_mag_vityaz_9x19_fmj
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 4
+max_mag_size										   = 30
+mag_size											   = small
+
+;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_vityaz_9x19_fmj_ready]:mag_wpn_vityaz_9x19_fmj
+inv_grid_y               				               = 5
+
+;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_vityaz_9x18_fmj]:mag_wpn_vityaz_9x19_fmj,ag_ammo_9x18_fmj
+description			                                   = st_mag_vityaz_9x18_fmj_descr
+inv_name			                                   = st_mag_vityaz_9x18_fmj
+inv_name_short		                                   = st_mag_vityaz_9x18_fmj
+
+;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_vityaz_9x18_fmj_ready]:mag_wpn_vityaz_9x18_fmj
+inv_grid_y               				               = 5
+
+;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+-- vz61
+[mag_wpn_vz61_9x19_fmj]:mag_wpn_base,wg_wpn_vz61,ag_ammo_9x19_fmj
+description			                                   = st_mag_vz61_9x19_fmj_descr
+inv_name			                                   = st_mag_vz61_9x19_fmj
+inv_name_short		                                   = st_mag_vz61_9x19_fmj
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 4
+max_mag_size										   = 20
+mag_size											   = small
+
+;visual                      = dynamics\magazines\mag_20_900x19.ogf
+
+[mag_wpn_vz61_9x19_fmj_ready]:mag_wpn_vz61_9x19_fmj
+inv_grid_y               				               = 5
+
+;visual                      = dynamics\magazines\mag_20_900x19.ogf
+
+-- vz61 9x18
+[mag_wpn_vz61_9x18_fmj]:mag_wpn_base,wg_wpn_vz61,ag_ammo_9x18_fmj
+description			                                   = st_mag_vz61_9x18_fmj_descr
+inv_name			                                   = st_mag_vz61_9x18_fmj
+inv_name_short		                                   = st_mag_vz61_9x18_fmj
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 4
+max_mag_size										   = 20
+mag_size											   = small
+
+;visual                      = dynamics\magazines\mag_20_900x19.ogf
+
+[mag_wpn_vz61_9x18_fmj_ready]:mag_wpn_vz61_9x18_fmj
+inv_grid_y               				               = 5
+
+;visual                      = dynamics\magazines\mag_20_900x19.ogf
+
+-- walther
+[mag_wpn_walther_9x19_fmj]:mag_wpn_base,wg_wpn_walther,ag_ammo_9x19_fmj
+description			                                   = st_mag_walther_9x19_fmj_descr
+inv_name			                                   = st_mag_walther_9x19_fmj
+inv_name_short		                                   = st_mag_walther_9x19_fmj
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 6
+max_mag_size										   = 16
+mag_size											   = small
+
+;visual                      = dynamics\magazines\clip_16_900x19.ogf
+
+[mag_wpn_walther_9x19_fmj_ready]:mag_wpn_walther_9x19_fmj
+inv_grid_y               				               = 7
+
+;visual                      = dynamics\magazines\clip_16_900x19.ogf
+
+-- walther p99
+[mag_wpn_walther_p99_9x19_fmj]:mag_wpn_base,wg_wpn_walther,ag_ammo_9x19_fmj
+description			                                   = st_mag_walther_9x19_fmj_descr
+inv_name			                                   = st_mag_walther_9x19_fmj
+inv_name_short		                                   = st_mag_walther_9x19_fmj
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 6
+max_mag_size										   = 16
+mag_size											   = small
+;visual                      = dynamics\magazines\clip_16_900x19.ogf
+
+[mag_wpn_walther_p99_9x19_fmj_ready]:mag_wpn_walther_p99_9x19_fmj
+inv_grid_y               				               = 7
+
+;visual                      = dynamics\magazines\clip_16_900x19.ogf
+
+-- kiparis
+[mag_wpn_kiparis_9x18_fmj]:mag_wpn_base,wg_wpn_kiparis,ag_ammo_9x18_fmj
+description			                                   = st_mag_kiparis_9x18_fmj_descr
+inv_name			                                   = st_mag_kiparis_9x18_fmj
+inv_name_short		                                   = st_mag_kiparis_9x18_fmj
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 6
+max_mag_size										   = 30
+mag_size											   = small
+
+;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_kiparis_9x18_fmj_ready]:mag_wpn_kiparis_9x18_fmj
+inv_grid_y               				               = 7
+
+
+;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_kiparis_9x19_fmj]:mag_wpn_base,wg_wpn_kiparis,ag_ammo_9x19_fmj
+description			                                   = st_mag_kiparis_9x19_fmj_descr
+inv_name			                                   = st_mag_kiparis_9x19_fmj
+inv_name_short		                                   = st_mag_kiparis_9x19_fmj
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 6
+max_mag_size										   = 30
+mag_size											   = small
+
+;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+[mag_wpn_kiparis_9x19_fmj_ready]:mag_wpn_kiparis_9x19_fmj
+inv_grid_y               				               = 7
+
+
+;visual                      = dynamics\magazines\mag_30_900x19.ogf
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[ag_ammo_9x39_pab9]
+mag_ammo_class			= ammo_9x39_pab9, ammo_9x39_pab9_bad, ammo_9x39_pab9_verybad, ammo_9x39_ap, ammo_9x39_ap_bad, ammo_9x39_ap_verybad
+
+[ag_ammo_5.45x39]
+mag_ammo_class          = ammo_5.45x39_fmj, ammo_5.45x39_fmj_bad, ammo_5.45x39_fmj_verybad, ammo_5.45x39_ep, ammo_5.45x39_ep_bad, ammo_5.45x39_ep_verybad, ammo_5.45x39_ap, ammo_5.45x39_ap_bad, ammo_5.45x39_ap_verybad
+
+[ag_ammo_5.56x45]
+mag_ammo_class          = ammo_5.56x45_fmj, ammo_5.56x45_fmj_bad, ammo_5.56x45_fmj_verybad, ammo_5.56x45_ss190, ammo_5.56x45_ss190_bad, ammo_5.56x45_ss190_verybad, ammo_5.56x45_ap, ammo_5.56x45_ap_bad, ammo_5.56x45_ap_verybad
+
+[ag_ammo_7.62x39]
+mag_ammo_class		    = ammo_7.62x39_fmj, ammo_7.62x39_fmj_bad, ammo_7.62x39_fmj_verybad, ammo_7.62x39_ap, ammo_7.62x39_ap_bad, ammo_7.62x39_ap_verybad
+
+[ag_ammo_12.7x55]
+mag_ammo_class          = ammo_12.7x55_fmj, ammo_12.7x55_fmj_bad, ammo_12.7x55_fmj_verybad, ammo_12.7x55_ap, ammo_12.7x55_ap_bad, ammo_12.7x55_ap_verybad
+
+[ag_ammo_7.62x51]
+mag_ammo_class          = ammo_7.62x51_fmj, ammo_7.62x51_fmj_bad, ammo_7.62x51_fmj_verybad, ammo_7.62x51_ap, ammo_7.62x51_ap_bad, ammo_7.62x51_ap_verybad
+
+[ag_ammo_7.92x33]
+mag_ammo_class          = ammo_7.92x33_fmj, ammo_7.92x33_fmj_bad, ammo_7.92x33_fmj_verybad, ammo_7.92x33_ap, ammo_7.92x33_ap_bad, ammo_7.92x33_ap_verybad
+
+[ag_ammo_pkm]
+mag_ammo_class          = ammo_pkm_100, ammo_pkm_100_bad, ammo_pkm_100_verybad, ammo_7.62x54_ap, ammo_7.62x54_ap_bad, ammo_7.62x54_ap_verybad
+
+[ag_ammo_7.62x54]
+mag_ammo_class          = ammo_7.62x54_7h1, ammo_7.62x54_7h1_bad, ammo_7.62x54_7h1_verybad, ammo_7.62x54_ap, ammo_7.62x54_ap_bad, ammo_7.62x54_ap_verybad, ammo_7.62x54_7h14, ammo_7.62x54_7h14_bad, ammo_7.62x54_7h14_verybad
+
+
+[wg_wpn_9a91]
+magazine_group 						     = wpn_9a91
+[wg_wpn_ak74]
+magazine_group 						     = wpn_abakan, wpn_aek, wpn_ak, wpn_ak101, wpn_ak102, wpn_ak103, wpn_ak104, wpn_ak105, wpn_ak105_shakal, wpn_ak105_sp, wpn_ak105_swamp, wpn_ak12, wpn_ak12_custom, wpn_ak12_m1, wpn_ak74, wpn_ak74_pmc, wpn_ak74_rpk, wpn_ak74m, wpn_ak74m_beard, wpn_ak74u, wpn_ak74u_snag, wpn_ak74u_tac, wpn_akm, wpn_akms, wpn_aks, wpn_aks74, wpn_cz805, wpn_rpk, wpn_rpk74, wpn_rpk74_16
+[wg_wpn_ash12]
+magazine_group 						     = wpn_ash12
+[wg_wpn_fal]
+magazine_group 						     = wpn_fal, wpn_fal_aus, wpn_fal_sa58_osw
+[wg_wpn_g3]
+magazine_group 						     = wpn_g3, wpn_g3sg1
+[wg_wpn_hk417]
+magazine_group 						     = wpn_hk417
+[wg_wpn_g43]
+magazine_group 						     = wpn_g43
+[wg_wpn_galil]
+magazine_group 						     = wpn_galil
+[wg_wpn_groza]
+magazine_group 						     = wpn_groza
+[wg_wpn_m16]
+magazine_group 						     = wpn_m16, wpn_m16a2, wpn_m4, wpn_m4a1, wpn_m4_tac, wpn_m4_butcher, wpn_m4_ru556, wpn_sig550, wpn_sig550_sniper, wpn_sig552, wpn_l85, wpn_l85a2, wpn_xm8, wpn_lr300, wpn_g36, wpn_g36k, wpn_hk416, wpn_fnc, wpn_fn2000, wpn_famas3, wpn_aug, wpn_ace21 
+[wg_wpn_m249]
+magazine_group 						     = wpn_m249
+[wg_wpn_mk14]
+magazine_group 						     = wpn_mk14
+[wg_wpn_p90]
+magazine_group 						     = wpn_p90
+[wg_wpn_pkm]
+magazine_group 						     = wpn_pkm, wpn_pkp
+[wg_wpn_ppsh41]
+magazine_group 						     = wpn_ppsh41
+[wg_wpn_rpd]
+magazine_group 						     = wpn_rpd
+[wg_wpn_type63]
+magazine_group 						     = wpn_type63
+[wg_wpn_val]
+magazine_group 						     = wpn_val, wpn_vintorez, wpn_vsk94, wpn_val_tac, wpn_vintorez_m1, wpn_vihr
+
+
+
+-- 9a91
+[mag_wpn_9a91_9x39_pab9]:mag_wpn_base,wg_wpn_9a91,ag_ammo_9x39_pab9
+description			                                   = st_mag_9a91_9x39_pab9_descr
+inv_name			                                   = st_mag_9a91_9x39_pab9
+inv_name_short		                                   = st_mag_9a91_9x39_pab9
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 10
+max_mag_size										   = 20
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_20_9x39_9a91.ogf
+
+[mag_wpn_9a91_9x39_pab9_ready]:mag_wpn_9a91_9x39_pab9
+inv_grid_y               				               = 11
+
+;visual                      = dynamics\magazines\mag_20_9x39_9a91.ogf
+
+-- Abakan
+[mag_wpn_abakan_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_abakan_5.45x39_descr
+inv_name			                                   = st_mag_abakan_5.45x39
+inv_name_short		                                   = st_mag_abakan_5.45x39
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_abakan_5.45x39_fmj_ready]:mag_wpn_abakan_5.45x39_fmj
+inv_grid_y               				               = 11
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+
+-- Galil ACE-21
+[mag_wpn_ace21_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_ace21_5.56x45_descr
+inv_name			                                   = st_mag_ace21_5.56x45
+inv_name_short		                                   = st_mag_ace21_5.56x45
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 10
+max_mag_size										   = 35
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ace21_5.56x45_fmj_ready]:mag_wpn_ace21_5.56x45_fmj
+inv_grid_y               				               = 11
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+-- AEK
+[mag_wpn_aek_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_aek_5.45x39_descr
+inv_name			                                   = st_mag_aek_5.45x39
+inv_name_short		                                   = st_mag_aek_5.45x39
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39black.ogf
+
+[mag_wpn_aek_5.45x39_fmj_ready]:mag_wpn_aek_5.45x39_fmj
+inv_grid_y               				               = 11
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+
+-- AEK 7.62
+[mag_wpn_aek_7.62x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_7.62x39
+description			                                   = st_mag_aek_7.62x39_descr
+inv_name			                                   = st_mag_aek_7.62x39
+inv_name_short		                                   = st_mag_aek_7.62x39
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 22
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_aek_7.62x39_fmj_ready]:mag_wpn_aek_7.62x39_fmj
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+
+-- AK-47 7.62
+[mag_wpn_ak_7.62x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_7.62x39
+description			                                   = st_mag_ak_7.62x39_descr
+inv_name			                                   = st_mag_ak_7.62x39
+inv_name_short		                                   = st_mag_ak_7.62x39
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_ak_7.62x39_fmj_ready]:mag_wpn_ak_7.62x39_fmj
+inv_grid_y               				               = 11
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+
+-- AK 101
+[mag_wpn_ak101_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_ak101_5.56x45_descr
+inv_name			                                   = st_mag_ak101_5.56x45
+inv_name_short		                                   = st_mag_ak101_5.56x45
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak101_5.56x45_fmj_ready]:mag_wpn_ak101_5.56x45_fmj
+inv_grid_y               				               = 11
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+-- AK 102
+[mag_wpn_ak102_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_ak102_5.56x45_descr
+inv_name			                                   = st_mag_ak102_5.56x45
+inv_name_short		                                   = st_mag_ak102_5.56x45
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak102_5.56x45_fmj_ready]:mag_wpn_ak102_5.56x45_fmj
+inv_grid_y               				               = 11
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+-- AK 102 5.45x39
+[mag_wpn_ak102_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak102_5.45x39_descr
+inv_name			                                   = st_mag_ak102_5.45x39
+inv_name_short		                                   = st_mag_ak102_5.45x39
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak102_5.45x39_fmj_ready]:mag_wpn_ak102_5.45x39_fmj
+inv_grid_y               				               = 11
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+
+-- ak103 7.62
+[mag_wpn_ak103_7.62x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_7.62x39
+description			                                   = st_mag_ak103_7.62x39_descr
+inv_name			                                   = st_mag_ak103_7.62x39
+inv_name_short		                                   = st_mag_ak103_7.62x39
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_ak103_7.62x39_fmj_ready]:mag_wpn_ak103_7.62x39_fmj
+inv_grid_y               				               = 11
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+-- ak104 7.62
+[mag_wpn_ak104_7.62x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_7.62x39
+description			                                   = st_mag_ak104_7.62x39_descr
+inv_name			                                   = st_mag_ak104_7.62x39
+inv_name_short		                                   = st_mag_ak104_7.62x39
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_ak104_7.62x39_fmj_ready]:mag_wpn_ak104_7.62x39_fmj
+inv_grid_y               				               = 11
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+-- P72 RECR 7.62
+[mag_wpn_cz805_7.62x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_7.62x39
+description			                                   = st_mag_ak104_7.62x39_descr
+inv_name			                                   = st_mag_ak104_7.62x39
+inv_name_short		                                   = st_mag_ak104_7.62x39
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 10
+max_mag_size										   = 30
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_cz805_7.62x39_fmj_ready]:mag_wpn_cz805_7.62x39_fmj
+inv_grid_y               				               = 11
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+-- AK 105 5.45x39
+[mag_wpn_ak105_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak105_5.45x39_descr
+inv_name			                                   = st_mag_ak105_5.45x39
+inv_name_short		                                   = st_mag_ak105_5.45x39
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak105_5.45x39_fmj_ready]:mag_wpn_ak105_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak105_shakal_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak105_5.45x39_descr
+inv_name			                                   = st_mag_ak105_5.45x39
+inv_name_short		                                   = st_mag_ak105_5.45x39
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 12
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak105_shakal_5.45x39_fmj_ready]:mag_wpn_ak105_shakal_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak105_sp_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak105_5.45x39_descr
+inv_name			                                   = st_mag_ak105_5.45x39
+inv_name_short		                                   = st_mag_ak105_5.45x39
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 12
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak105_sp_5.45x39_fmj_ready]:mag_wpn_ak105_sp_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak105_swamp_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak105_5.45x39_descr
+inv_name			                                   = st_mag_ak105_5.45x39
+inv_name_short		                                   = st_mag_ak105_5.45x39
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 12
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak105_swamp_5.45x39_fmj_ready]:mag_wpn_ak105_swamp_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+-- ak12
+[mag_wpn_ak12_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak12_5.45x39_descr
+inv_name			                                   = st_mag_ak12_5.45x39
+inv_name_short		                                   = st_mag_ak12_5.45x39
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak12_5.45x39_fmj_ready]:mag_wpn_ak12_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+-- ak12 custom
+[mag_wpn_ak12_custom_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak12_5.45x39_descr
+inv_name			                                   = st_mag_ak12_5.45x39
+inv_name_short		                                   = st_mag_ak12_5.45x39
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 12
+max_mag_size										   = 45
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak12_custom_5.45x39_fmj_ready]:mag_wpn_ak12_custom_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+-- ak12 m1
+[mag_wpn_ak12_m1_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak12_5.45x39_descr
+inv_name			                                   = st_mag_ak12_5.45x39
+inv_name_short		                                   = st_mag_ak12_5.45x39
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak12_m1_5.45x39_fmj_ready]:mag_wpn_ak12_m1_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+-- ak12 5.56
+[mag_wpn_ak12_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_ak12_5.56x45_descr
+inv_name			                                   = st_mag_ak12_5.56x45
+inv_name_short		                                   = st_mag_ak12_5.56x45
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak12_5.56x45_fmj_ready]:mag_wpn_ak12_5.56x45_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak12_custom_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_ak12_5.56x45_descr
+inv_name			                                   = st_mag_ak12_5.56x45
+inv_name_short		                                   = st_mag_ak12_5.56x45
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 12
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak12_custom_5.56x45_fmj_ready]:mag_wpn_ak12_custom_5.56x45_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- AK 74
+[mag_wpn_ak74_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak74_5.45x39_descr
+inv_name			                                   = st_mag_ak74_5.45x39
+inv_name_short		                                   = st_mag_ak74_5.45x39
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 22
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74_5.45x39_fmj_ready]:mag_wpn_ak74_5.45x39_fmj
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+
+[mag_wpn_ak74_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_ak74_5.56x45_descr
+inv_name			                                   = st_mag_ak74_5.56x45
+inv_name_short		                                   = st_mag_ak74_5.56x45
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak74_5.56x45_fmj_ready]:mag_wpn_ak74_5.56x45_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak74_pmc_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak74_5.45x39_descr
+inv_name			                                   = st_mag_ak74_5.45x39
+inv_name_short		                                   = st_mag_ak74_5.45x39
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 22
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74_pmc_5.45x39_fmj_ready]:mag_wpn_ak74_pmc_5.45x39_fmj
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74_rpk_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak74_5.45x39_descr
+inv_name			                                   = st_mag_ak74_5.45x39
+inv_name_short		                                   = st_mag_ak74_5.45x39
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 22
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74_rpk_5.45x39_fmj_ready]:mag_wpn_ak74_rpk_5.45x39_fmj
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74_pmc_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_ak74_5.56x45_descr
+inv_name			                                   = st_mag_ak74_5.56x45
+inv_name_short		                                   = st_mag_ak74_5.56x45
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 22
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak74_pmc_5.56x45_fmj_ready]:mag_wpn_ak74_pmc_5.56x45_fmj
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak74_rpk_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_ak74_5.56x45_descr
+inv_name			                                   = st_mag_ak74_5.56x45
+inv_name_short		                                   = st_mag_ak74_5.56x45
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 22
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak74_rpk_5.56x45_fmj_ready]:mag_wpn_ak74_rpk_5.56x45_fmj
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- AK 74m
+[mag_wpn_ak74m_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak74m_5.45x39_descr
+inv_name			                                   = st_mag_ak74m_5.45x39
+inv_name_short		                                   = st_mag_ak74m_5.45x39
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74m_5.45x39_fmj_ready]:mag_wpn_ak74m_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74m_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_ak74m_5.56x45_descr
+inv_name			                                   = st_mag_ak74m_5.56x45
+inv_name_short		                                   = st_mag_ak74m_5.56x45
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak74m_5.56x45_fmj_ready]:mag_wpn_ak74m_5.56x45_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- AK 74m Beard
+[mag_wpn_ak74m_beard_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak74m_5.45x39_descr
+inv_name			                                   = st_mag_ak74m_5.45x39
+inv_name_short		                                   = st_mag_ak74m_5.45x39
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 12
+max_mag_size										   = 45
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak74m_beard_5.45x39_fmj_ready]:mag_wpn_ak74m_beard_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- AK 74m New
+[mag_wpn_ak74m_n_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak74m_5.45x39_descr
+inv_name			                                   = st_mag_ak74m_5.45x39
+inv_name_short		                                   = st_mag_ak74m_5.45x39
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak74m_n_5.45x39_fmj_ready]:mag_wpn_ak74m_n_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- AK 74u
+[mag_wpn_ak74u_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak74u_5.45x39_descr
+inv_name			                                   = st_mag_ak74u_5.45x39
+inv_name_short		                                   = st_mag_ak74u_5.45x39
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 24
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74u_5.45x39_fmj_ready]:mag_wpn_ak74u_5.45x39_fmj
+inv_grid_y               				               = 25
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74u_snag_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak74u_5.45x39_descr
+inv_name			                                   = st_mag_ak74u_5.45x39
+inv_name_short		                                   = st_mag_ak74u_5.45x39
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 24
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74u_snag_5.45x39_fmj_ready]:mag_wpn_ak74u_snag_5.45x39_fmj
+inv_grid_y               				               = 25
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74u_tac_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_ak74u_5.45x39_descr
+inv_name			                                   = st_mag_ak74u_5.45x39
+inv_name_short		                                   = st_mag_ak74u_5.45x39
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 24
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74u_tac_5.45x39_fmj_ready]:mag_wpn_ak74u_tac_5.45x39_fmj
+inv_grid_y               				               = 25
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_ak74u_tac_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_ak74u_5.56x45_descr
+inv_name			                                   = st_mag_ak74u_5.56x45
+inv_name_short		                                   = st_mag_ak74u_5.56x45
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 24
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_ak74u_tac_5.56x45_fmj_ready]:mag_wpn_ak74u_tac_5.56x45_fmj
+inv_grid_y               				               = 25
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- akm 7.62
+[mag_wpn_akm_7.62x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_7.62x39
+description			                                   = st_mag_akm_7.62x39_descr
+inv_name			                                   = st_mag_akm_7.62x39
+inv_name_short		                                   = st_mag_akm_7.62x39
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_akm_7.62x39_fmj_ready]:mag_wpn_akm_7.62x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+-- akms 7.62
+[mag_wpn_akms_7.62x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_7.62x39
+description			                                   = st_mag_akms_7.62x39_descr
+inv_name			                                   = st_mag_akms_7.62x39
+inv_name_short		                                   = st_mag_akms_7.62x39
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_akms_7.62x39_fmj_ready]:mag_wpn_akms_7.62x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+-- AKS
+[mag_wpn_aks_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_aks_5.45x39_descr
+inv_name			                                   = st_mag_aks_5.45x39
+inv_name_short		                                   = st_mag_aks_5.45x39
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_aks_5.45x39_fmj_ready]:mag_wpn_aks_5.45x39_fmj
+inv_grid_y               				               = 13
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_aks_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_aks_5.56x45_descr
+inv_name			                                   = st_mag_aks_5.56x45
+inv_name_short		                                   = st_mag_aks_5.56x45
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_aks_5.56x45_fmj_ready]:mag_wpn_aks_5.56x45_fmj
+inv_grid_y               				               = 13
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+-- aks 7.62
+[mag_wpn_aks_7.62x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_7.62x39
+description			                                   = st_mag_aks_7.62x39_descr
+inv_name			                                   = st_mag_aks_7.62x39
+inv_name_short		                                   = st_mag_aks_7.62x39
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 12
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_aks_7.62x39_fmj_ready]:mag_wpn_aks_7.62x39_fmj
+inv_grid_y               				               = 13
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+
+-- aks74
+[mag_wpn_aks74_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_aks74_5.45x39_descr
+inv_name			                                   = st_mag_aks74_5.45x39
+inv_name_short		                                   = st_mag_aks74_5.45x39
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 22
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_aks74_5.45x39_fmj_ready]:mag_wpn_aks74_5.45x39_fmj
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+
+[mag_wpn_aks74_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_aks74_5.56x45_descr
+inv_name			                                   = st_mag_aks74_5.56x45
+inv_name_short		                                   = st_mag_aks74_5.56x45
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 22
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_aks74_5.56x45_fmj_ready]:mag_wpn_aks74_5.56x45_fmj
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+-- ash12
+[mag_wpn_ash12_12.7x55_fmj]:mag_wpn_base,wg_wpn_ash12,ag_ammo_12.7x55
+description			                                   = st_mag_ash12_12.7x55_descr
+inv_name			                                   = st_mag_ash12_12.7x55
+inv_name_short		                                   = st_mag_ash12_12.7x55
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 14
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+[mag_wpn_ash12_12.7x55_fmj_ready]:mag_wpn_ash12_12.7x55_fmj
+inv_grid_y               				               = 15
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+
+-- aug 5.56
+[mag_wpn_aug_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_aug_5.56x45_descr
+inv_name			                                   = st_mag_aug_5.56x45
+inv_name_short		                                   = st_mag_aug_5.56x45
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 14
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_aug_5.56x45_fmj_ready]:mag_wpn_aug_5.56x45_fmj
+inv_grid_y               				               = 15
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- fal 7.62x51
+[mag_wpn_fal_7.62x51_fmj]:mag_wpn_base,wg_wpn_fal,ag_ammo_7.62x51
+description			                                   = st_mag_fal_7.62x51_descr
+inv_name			                                   = st_mag_fal_7.62x51
+inv_name_short		                                   = st_mag_fal_7.62x51
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 14
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_fal_7.62x51_fmj_ready]:mag_wpn_fal_7.62x51_fmj
+inv_grid_y               				               = 15
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+-- fal aus 7.62x51
+[mag_wpn_fal_aus_7.62x51_fmj]:mag_wpn_base,wg_wpn_fal,ag_ammo_7.62x51
+description			                                   = st_mag_fal_7.62x51_descr
+inv_name			                                   = st_mag_fal_7.62x51
+inv_name_short		                                   = st_mag_fal_7.62x51
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 14
+max_mag_size										   = 20
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_fal_aus_7.62x51_fmj_ready]:mag_wpn_fal_aus_7.62x51_fmj
+inv_grid_y               				               = 15
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+-- fal sa58 osw 7.62x51
+[mag_wpn_fal_sa58_osw_7.62x51_fmj]:mag_wpn_base,wg_wpn_fal,ag_ammo_7.62x51
+description			                                   = st_mag_fal_7.62x51_descr
+inv_name			                                   = st_mag_fal_7.62x51
+inv_name_short		                                   = st_mag_fal_7.62x51
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 14
+max_mag_size										   = 30
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_fal_sa58_osw_7.62x51_fmj_ready]:mag_wpn_fal_sa58_osw_7.62x51_fmj
+inv_grid_y               				               = 15
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+-- famas3 5.56
+[mag_wpn_famas3_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_famas3_5.56x45_descr
+inv_name			                                   = st_mag_famas3_5.56x45
+inv_name_short		                                   = st_mag_famas3_5.56x45
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 14
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_famas3_5.56x45_fmj_ready]:mag_wpn_famas3_5.56x45_fmj
+inv_grid_y               				               = 15
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- fn2000 5.56
+[mag_wpn_fn2000_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_fn2000_5.56x45_descr
+inv_name			                                   = st_mag_fn2000_5.56x45
+inv_name_short		                                   = st_mag_fn2000_5.56x45
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 14
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_fn2000_5.56x45_fmj_ready]:mag_wpn_fn2000_5.56x45_fmj
+inv_grid_y               				               = 15
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- fnc 5.56
+[mag_wpn_fnc_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_fnc_5.56x45_descr
+inv_name			                                   = st_mag_fnc_5.56x45
+inv_name_short		                                   = st_mag_fnc_5.56x45
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 14
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_fnc_5.56x45_fmj_ready]:mag_wpn_fnc_5.56x45_fmj
+inv_grid_y               				               = 15
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- g3 7.62x51
+[mag_wpn_g3_7.62x51_fmj]:mag_wpn_base,wg_wpn_g3,ag_ammo_7.62x51
+description			                                   = st_mag_g3_7.62x51_descr
+inv_name			                                   = st_mag_g3_7.62x51
+inv_name_short		                                   = st_mag_g3_7.62x51
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 14
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_g3_7.62x51_fmj_ready]:mag_wpn_g3_7.62x51_fmj
+inv_grid_y               				               = 15
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+-- g36 5.56
+[mag_wpn_g36_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_g36_5.56x45_descr
+inv_name			                                   = st_mag_g36_5.56x45
+inv_name_short		                                   = st_mag_g36_5.56x45
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 14
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_g36_5.56x45_fmj_ready]:mag_wpn_g36_5.56x45_fmj
+inv_grid_y               				               = 15
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+-- g36k 5.56
+[mag_wpn_g36k_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_g36k_5.56x45_descr
+inv_name			                                   = st_mag_g36k_5.56x45
+inv_name_short		                                   = st_mag_g36k_5.56x45
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 14
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_g36k_5.56x45_fmj_ready]:mag_wpn_g36k_5.56x45_fmj
+inv_grid_y               				               = 15
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+-- g3sg1 7.62x51
+[mag_wpn_g3sg1_7.62x51_fmj]:mag_wpn_base,wg_wpn_g3,ag_ammo_7.62x51
+description			                                   = st_mag_g3sg1_7.62x51_descr
+inv_name			                                   = st_mag_g3sg1_7.62x51
+inv_name_short		                                   = st_mag_g3sg1_7.62x51
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 14
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x25.ogf
+
+[mag_wpn_g3sg1_7.62x51_fmj_ready]:mag_wpn_g3sg1_7.62x51_fmj
+inv_grid_y               				               = 15
+
+;visual                      = dynamics\magazines\mag_20_762x25.ogf
+
+-- g43 7.92x33
+[mag_wpn_g43_7.92x33_fmj]:mag_wpn_base,wg_wpn_g43,ag_ammo_7.92x33
+description			                                   = st_mag_g43_7.92x33_descr
+inv_name			                                   = st_mag_g43_7.92x33
+inv_name_short		                                   = st_mag_g43_7.92x33
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 22
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_g43_7.92x33_fmj_ready]:mag_wpn_g43_7.92x33_fmj
+inv_grid_y               				               = 23
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+-- galil 7.62x51
+[mag_wpn_galil_7.62x51_fmj]:mag_wpn_base,wg_wpn_galil,ag_ammo_7.62x51
+description			                                   = st_mag_galil_7.62x51_descr
+inv_name			                                   = st_mag_galil_7.62x51
+inv_name_short		                                   = st_mag_galil_7.62x51
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 16
+max_mag_size										   = 25
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_galil_7.62x51_fmj_ready]:mag_wpn_galil_7.62x51_fmj
+inv_grid_y               				               = 17
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+-- galil 7.62x39
+[mag_wpn_galil_7.62x39_fmj]:mag_wpn_base,wg_wpn_galil,ag_ammo_7.62x39
+description			                                   = st_mag_galil_7.62x39_descr
+inv_name			                                   = st_mag_galil_7.62x39
+inv_name_short		                                   = st_mag_galil_7.62x39
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 16
+max_mag_size										   = 25
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_galil_7.62x39_fmj_ready]:mag_wpn_galil_7.62x39_fmj
+inv_grid_y               				               = 17
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+-- groza 7.62x39
+[mag_wpn_groza_7.62x39_fmj]:mag_wpn_base,wg_wpn_groza,ag_ammo_7.62x39
+description			                                   = st_mag_groza_7.62x39_descr
+inv_name			                                   = st_mag_groza_7.62x39
+inv_name_short		                                   = st_mag_groza_7.62x39
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 24
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+[mag_wpn_groza_7.62x39_fmj_ready]:mag_wpn_groza_7.62x39_fmj
+inv_grid_y               				               = 25
+
+;visual                      = dynamics\magazines\mag_30_762x39.ogf
+
+-- groza 9x39_pab9
+[mag_wpn_groza_9x39_pab9]:mag_wpn_base,wg_wpn_groza,ag_ammo_9x39_pab9
+description			                                   = st_mag_groza_9x39_pab9_descr
+inv_name			                                   = st_mag_groza_9x39_pab9
+inv_name_short		                                   = st_mag_groza_9x39_pab9
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 16
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_900x39.ogf
+
+[mag_wpn_groza_9x39_pab9_ready]:mag_wpn_groza_9x39_pab9
+inv_grid_y               				               = 17
+
+;visual                      = dynamics\magazines\mag_20_900x39.ogf
+
+-- hk416 5.56
+[mag_wpn_hk416_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_hk416_5.56x45_descr
+inv_name			                                   = st_mag_hk416_5.56x45
+inv_name_short		                                   = st_mag_hk416_5.56x45
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 16
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_hk416_5.56x45_fmj_ready]:mag_wpn_hk416_5.56x45_fmj
+inv_grid_y               				               = 17
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- hk417 7.62x51
+[mag_wpn_hk417_7.62x51_fmj]:mag_wpn_base,wg_wpn_hk417,ag_ammo_7.62x51
+description			                                   = st_mag_hk417_7.62x51_descr
+inv_name			                                   = st_mag_hk417_7.62x51
+inv_name_short		                                   = st_mag_hk417_7.62x51
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 14
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x25.ogf
+
+[mag_wpn_hk417_7.62x51_fmj_ready]:mag_wpn_hk417_7.62x51_fmj
+inv_grid_y               				               = 15
+
+;visual                      = dynamics\magazines\mag_20_762x25.ogf
+
+-- L85
+[mag_wpn_l85_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_l85_5.56x45_descr
+inv_name			                                   = st_mag_l85_5.56x45
+inv_name_short		                                   = st_mag_l85_5.56x45
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 16
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_l85_5.56x45_fmj_ready]:mag_wpn_l85_5.56x45_fmj
+inv_grid_y               				               = 17
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- L85 5.45x39
+[mag_wpn_l85_5.45x39_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.45x39
+description			                                   = st_mag_l85_5.45x39_descr
+inv_name			                                   = st_mag_l85_5.45x39
+inv_name_short		                                   = st_mag_l85_5.45x39
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 16
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_l85_5.45x39_fmj_ready]:mag_wpn_l85_5.45x39_fmj
+inv_grid_y               				               = 17
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+--L85A2
+[mag_wpn_l85a2_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_l85a2_5.56x45_descr
+inv_name			                                   = st_mag_l85a2_5.56x45
+inv_name_short		                                   = st_mag_l85a2_5.56x45
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 16
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_l85a2_5.56x45_fmj_ready]:mag_wpn_l85a2_5.56x45_fmj
+inv_grid_y               				               = 17
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+-- L85A2 5.45x39
+[mag_wpn_l85a2_5.45x39_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.45x39
+description			                                   = st_mag_l85a2_5.45x39_descr
+inv_name			                                   = st_mag_l85a2_5.45x39
+inv_name_short		                                   = st_mag_l85a2_5.45x39
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 16
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+[mag_wpn_l85a2_5.45x39_fmj_ready]:mag_wpn_l85a2_5.45x39_fmj
+inv_grid_y               				               = 17
+
+;visual                      = dynamics\magazines\mag_30_545x39.ogf
+
+--lr300
+[mag_wpn_lr300_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_lr300_5.56x45_descr
+inv_name			                                   = st_mag_lr300_5.56x45
+inv_name_short		                                   = st_mag_lr300_5.56x45
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 16
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_lr300_5.56x45_fmj_ready]:mag_wpn_lr300_5.56x45_fmj
+inv_grid_y               				               = 17
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+--m16
+[mag_wpn_m16_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_m16_5.56x45_descr
+inv_name			                                   = st_mag_m16_5.56x45
+inv_name_short		                                   = st_mag_m16_5.56x45
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 16
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_m16_5.56x45_fmj_ready]:mag_wpn_m16_5.56x45_fmj
+inv_grid_y               				               = 17
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+--m16a2
+[mag_wpn_m16a2_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_m16a2_5.56x45_descr
+inv_name			                                   = st_mag_m16a2_5.56x45
+inv_name_short		                                   = st_mag_m16a2_5.56x45
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 24
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_m16a2_5.56x45_fmj_ready]:mag_wpn_m16a2_5.56x45_fmj
+inv_grid_y               				               = 25
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+--m249
+[mag_wpn_m249_5.56x45_fmj]:mag_wpn_base,wg_wpn_m249,ag_ammo_5.56x45
+description			                                   = st_mag_m249_5.56x45_descr
+inv_name			                                   = st_mag_m249_5.56x45
+inv_name_short		                                   = st_mag_m249_5.56x45
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 16
+inv_grid_width                           			   = 2
+max_mag_size										   = 100
+mag_size											   = large
+
+;visual                      = dynamics\magazines\mag_100_556x45.ogf
+
+[mag_wpn_m249_5.56x45_fmj_ready]:mag_wpn_m249_5.56x45_fmj
+inv_grid_y               				               = 17
+
+;visual                      = dynamics\magazines\mag_100_556x45.ogf
+
+--m4
+[mag_wpn_m4_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_m4_5.56x45_descr
+inv_name			                                   = st_mag_m4_5.56x45
+inv_name_short		                                   = st_mag_m4_5.56x45
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 18
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_m4_5.56x45_fmj_ready]:mag_wpn_m4_5.56x45_fmj
+inv_grid_y               				               = 19
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+--m4 butcher
+[mag_wpn_m4_butcher_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = dr_mag_m4_5.56x45_descr
+inv_name			                                   = dr_mag_m4_5.56x45
+inv_name_short		                                   = dr_mag_m4_5.56x45
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 36
+inv_grid_width                           			   = 2
+max_mag_size										   = 60
+mag_size											   = large
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_m4_butcher_5.56x45_fmj_ready]:mag_wpn_m4_butcher_5.56x45_fmj
+inv_grid_y               				               = 37
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+--m4 tac
+[mag_wpn_m4_tac_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_m4_5.56x45_descr
+inv_name			                                   = st_mag_m4_5.56x45
+inv_name_short		                                   = st_mag_m4_5.56x45
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 18
+max_mag_size										   = 20
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_m4_tac_5.56x45_fmj_ready]:mag_wpn_m4_tac_5.56x45_fmj
+inv_grid_y               				               = 19
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+--m4a1
+[mag_wpn_m4a1_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_m4a1_5.56x45_descr
+inv_name			                                   = st_mag_m4a1_5.56x45
+inv_name_short		                                   = st_mag_m4a1_5.56x45
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 24
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_m4a1_5.56x45_fmj_ready]:mag_wpn_m4a1_5.56x45_fmj
+inv_grid_y               				               = 25
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+--ru556
+[mag_wpn_m4_ru556_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_m4_5.56x45_descr
+inv_name			                                   = st_mag_m4_5.56x45
+inv_name_short		                                   = st_mag_m4_5.56x45
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 24
+max_mag_size										   = 30
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_m4_ru556_5.56x45_fmj_ready]:mag_wpn_m4_ru556_5.56x45_fmj
+inv_grid_y               				               = 25
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+-- mk14 7.62x51
+[mag_wpn_mk14_7.62x51_fmj]:mag_wpn_base,wg_wpn_mk14,ag_ammo_7.62x51
+description			                                   = st_mag_mk14_7.62x51_descr
+inv_name			                                   = st_mag_mk14_7.62x51
+inv_name_short		                                   = st_mag_mk14_7.62x51
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 18
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x25.ogf
+
+[mag_wpn_mk14_7.62x51_fmj_ready]:mag_wpn_mk14_7.62x51_fmj
+inv_grid_y               				               = 19
+;visual                      = dynamics\magazines\mag_20_762x25.ogf
+
+
+-- P90
+[mag_wpn_p90_5.7x28_ss190]:mag_wpn_base,wg_wpn_p90,ag_ammo_5.7x28_ss190
+description			                                   = st_mag_fn57_5.7x28_ss190_descr
+inv_name			                                   = st_mag_fn57_5.7x28_ss190
+inv_name_short		                                   = st_mag_fn57_5.7x28_ss190
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 18
+inv_grid_width                           			   = 2
+max_mag_size										   = 50
+mag_size											   = large
+
+;visual                      = dynamics\magazines\mag_50_570x28.ogf
+
+[mag_wpn_p90_5.7x28_ss190_ready]:mag_wpn_p90_5.7x28_ss190
+inv_grid_y               				               = 19
+
+;visual                      = dynamics\magazines\mag_50_570x28.ogf
+
+-- pkm
+[mag_wpn_pkm_pkm_100]:mag_wpn_base,wg_wpn_pkm,ag_ammo_pkm
+description			                                   = st_mag_pkm_pkm_descr
+inv_name			                                   = st_mag_pkm_pkm
+inv_name_short		                                   = st_mag_pkm_pkm
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 18
+inv_grid_width                           			   = 2
+max_mag_size										   = 100
+mag_size											   = large
+
+;visual                      = dynamics\magazines\box_100_762x54.ogf
+
+[mag_wpn_pkm_pkm_100_ready]:mag_wpn_pkm_pkm_100
+inv_grid_y               				               = 19
+;visual                      = dynamics\magazines\box_100_762x54.ogf
+
+
+-- pkp
+[mag_wpn_pkp_pkm_100]:mag_wpn_base,wg_wpn_pkm,ag_ammo_pkm
+description			                                   = st_mag_pkp_pkm_descr
+inv_name			                                   = st_mag_pkp_pkm
+inv_name_short		                                   = st_mag_pkp_pkm
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 18
+inv_grid_width                           			   = 2
+max_mag_size										   = 100
+mag_size											   = large
+
+;visual                      = dynamics\magazines\box_100_762x54.ogf
+
+[mag_wpn_pkp_pkm_100_ready]:mag_wpn_pkp_pkm_100
+inv_grid_y               				               = 19
+;visual                      = dynamics\magazines\box_100_762x54.ogf
+
+
+-- Ppsh 41
+[mag_wpn_ppsh41_7.62x25_p]:mag_wpn_base,wg_wpn_ppsh41,ag_ammo_7.62x25_p
+description			                                   = st_mag_ppsh41_7.62x25_p_descr
+inv_name			                                   = st_mag_ppsh41_7.62x25_p
+inv_name_short		                                   = st_mag_ppsh41_7.62x25_p
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 20
+max_mag_size										   = 71
+mag_size											   = large
+
+;visual                      = dynamics\magazines\mag_71_762x25.ogf
+
+[mag_wpn_ppsh41_7.62x25_p_ready]:mag_wpn_ppsh41_7.62x25_p
+inv_grid_y               				               = 21
+;visual                      = dynamics\magazines\mag_71_762x25.ogf
+
+
+-- rpd 7.62x39
+[mag_wpn_rpd_7.62x39_fmj]:mag_wpn_base,wg_wpn_rpd,ag_ammo_7.62x39
+description			                                   = st_mag_rpd_7.62x39_descr
+inv_name			                                   = st_mag_rpd_7.62x39
+inv_name_short		                                   = st_mag_rpd_7.62x39
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 20
+inv_grid_width                           			   = 2
+max_mag_size										   = 100
+mag_size											   = large
+
+;visual                      = dynamics\magazines\box_50_762x51.ogf
+
+[mag_wpn_rpd_7.62x39_fmj_ready]:mag_wpn_rpd_7.62x39_fmj
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\box_50_762x51.ogf
+
+-- rpk 7.62x39
+[mag_wpn_rpk_7.62x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_7.62x39
+description			                                   = st_mag_rpk_7.62x39_descr
+inv_name			                                   = st_mag_rpk_7.62x39
+inv_name_short		                                   = st_mag_rpk_7.62x39
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 20
+max_mag_size										   = 40
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_47_762x54.ogf
+
+[mag_wpn_rpk_7.62x39_fmj_ready]:mag_wpn_rpk_7.62x39_fmj
+inv_grid_y               				               = 21
+;visual                      = dynamics\magazines\mag_47_762x54.ogf
+
+
+-- RPK 74
+[mag_wpn_rpk74_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_rpk74_5.45x39_descr
+inv_name			                                   = st_mag_rpk74_5.45x39
+inv_name_short		                                   = st_mag_rpk74_5.45x39
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 20
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_45_545x39.ogf
+
+[mag_wpn_rpk74_5.45x39_fmj_ready]:mag_wpn_rpk74_5.45x39_fmj
+inv_grid_y               				               = 21
+;visual                      = dynamics\magazines\mag_45_545x39.ogf
+
+
+[mag_wpn_rpk74_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_rpk74_5.56x45_descr
+inv_name			                                   = st_mag_rpk74_5.56x45
+inv_name_short		                                   = st_mag_rpk74_5.56x45
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 20
+max_mag_size										   = 45
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_45_545x39.ogf
+
+[mag_wpn_rpk74_5.56x45_fmj_ready]:mag_wpn_rpk74_5.56x45_fmj
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_45_545x39.ogf
+
+-- RPK 74 Ext. Mag
+[mag_wpn_rpk74_16_5.45x39_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.45x39
+description			                                   = st_mag_rpk74_5.45x39_descr
+inv_name			                                   = st_mag_rpk74_5.45x39
+inv_name_short		                                   = st_mag_rpk74_5.45x39
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 20
+max_mag_size										   = 60
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_45_545x39.ogf
+
+[mag_wpn_rpk74_16_5.45x39_fmj_ready]:mag_wpn_rpk74_16_5.45x39_fmj
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_45_545x39.ogf
+
+[mag_wpn_rpk74_16_5.56x45_fmj]:mag_wpn_base,wg_wpn_ak74,ag_ammo_5.56x45
+description			                                   = st_mag_rpk74_5.56x45_descr
+inv_name			                                   = st_mag_rpk74_5.56x45
+inv_name_short		                                   = st_mag_rpk74_5.56x45
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 20
+max_mag_size										   = 60
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_45_545x39.ogf
+
+[mag_wpn_rpk74_16_5.56x45_fmj_ready]:mag_wpn_rpk74_16_5.56x45_fmj
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_45_545x39.ogf
+
+-- Sig 550
+[mag_wpn_sig550_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_sig550_5.56x45_descr
+inv_name			                                   = st_mag_sig550_5.56x45
+inv_name_short		                                   = st_mag_sig550_5.56x45
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 20
+max_mag_size										   = 30
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+[mag_wpn_sig550_5.56x45_fmj_ready]:mag_wpn_sig550_5.56x45_fmj
+inv_grid_y               				               = 21
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_sig550_sniper_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_sig550_5.56x45_descr
+inv_name			                                   = st_mag_sig550_5.56x45
+inv_name_short		                                   = st_mag_sig550_5.56x45
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 20
+max_mag_size										   = 20
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+[mag_wpn_sig550_sniper_5.56x45_fmj_ready]:mag_wpn_sig550_sniper_5.56x45_fmj
+inv_grid_y               				               = 21
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+-- Sig 552
+[mag_wpn_sig552_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_sig552_5.56x45_descr
+inv_name			                                   = st_mag_sig552_5.56x45
+inv_name_short		                                   = st_mag_sig552_5.56x45
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 20
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_sig552_5.56x45_fmj_ready]:mag_wpn_sig552_5.56x45_fmj
+inv_grid_y               				               = 21
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+-- type63 7.62x39
+[mag_wpn_type63_7.62x39_fmj]:mag_wpn_base,wg_wpn_type63,ag_ammo_7.62x39
+description			                                   = st_mag_type63_7.62x39_descr
+inv_name			                                   = st_mag_type63_7.62x39
+inv_name_short		                                   = st_mag_type63_7.62x39
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 20
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_type63_7.62x39_fmj_ready]:mag_wpn_type63_7.62x39_fmj
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+-- type63 7.62x54_7h1
+[mag_wpn_type63_7.62x54_7h1]:mag_wpn_base,wg_wpn_type63,ag_ammo_7.62x54
+description			                                   = st_mag_type63_7.62x54_descr
+inv_name			                                   = st_mag_type63_7.62x54
+inv_name_short		                                   = st_mag_type63_7.62x54
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 20
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_type63_7.62x54_7h1_ready]:mag_wpn_type63_7.62x54_7h1
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+-- val
+[mag_wpn_val_9x39_pab9]:mag_wpn_base,wg_wpn_val,ag_ammo_9x39_pab9
+description			                                   = st_mag_val_9x39_pab9_descr
+inv_name			                                   = st_mag_val_9x39_pab9
+inv_name_short		                                   = st_mag_val_9x39_pab9
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 20
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_900x39.ogf
+
+[mag_wpn_val_9x39_pab9_ready]:mag_wpn_val_9x39_pab9
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_20_900x39.ogf
+
+-- vihr
+[mag_wpn_vihr_9x39_pab9]:mag_wpn_base,wg_wpn_val,ag_ammo_9x39_pab9
+description			                                   = st_mag_vihr_9x39_pab9_descr
+inv_name			                                   = st_mag_vihr_9x39_pab9
+inv_name_short		                                   = st_mag_vihr_9x39_pab9
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 22
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_9x39_vihr.ogf
+
+[mag_wpn_vihr_9x39_pab9_ready]:mag_wpn_vihr_9x39_pab9
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_30_9x39_vihr.ogf
+
+
+-- vintorez
+[mag_wpn_vintorez_9x39_pab9]:mag_wpn_base,wg_wpn_val,ag_ammo_9x39_pab9
+description			                                   = st_mag_vintorez_9x39_pab9_descr
+inv_name			                                   = st_mag_vintorez_9x39_pab9
+inv_name_short		                                   = st_mag_vintorez_9x39_pab9
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 22
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_900x39.ogf
+
+[mag_wpn_vintorez_9x39_pab9_ready]:mag_wpn_vintorez_9x39_pab9
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_10_900x39.ogf
+
+
+-- vsk94
+[mag_wpn_vsk94_9x39_pab9]:mag_wpn_base,wg_wpn_val,ag_ammo_9x39_pab9
+description			                                   = st_mag_vsk94_9x39_pab9_descr
+inv_name			                                   = st_mag_vsk94_9x39_pab9
+inv_name_short		                                   = st_mag_vsk94_9x39_pab9
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 22
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_9x39_vihr.ogf
+
+[mag_wpn_vsk94_9x39_pab9_ready]:mag_wpn_vsk94_9x39_pab9
+inv_grid_y               				               = 23
+;visual                      = dynamics\magazines\mag_30_9x39_vihr.ogf
+
+
+-- xm8
+[mag_wpn_xm8_5.56x45_fmj]:mag_wpn_base,wg_wpn_m16,ag_ammo_5.56x45
+description			                                   = st_mag_xm8_5.56x45_descr
+inv_name			                                   = st_mag_xm8_5.56x45
+inv_name_short		                                   = st_mag_xm8_5.56x45
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 22
+max_mag_size										   = 30
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+[mag_wpn_xm8_5.56x45_fmj_ready]:mag_wpn_xm8_5.56x45_fmj
+inv_grid_y               				               = 23
+
+
+;visual                      = dynamics\magazines\mag_30_556x45.ogf
+
+
+
+
+
+
+[ag_ammo_magnum_300]
+mag_ammo_class			= ammo_magnum_300, ammo_magnum_300_bad, ammo_magnum_300_verybad
+
+--[ag_ammo_12.7x55]
+--mag_ammo_class          = ammo_12.7x55_fmj, ammo_12.7x55_fmj_bad, ammo_12.7x55_fmj_verybad, ammo_12.7x55_ap, ammo_12.7x55_ap_bad, ammo_12.7x55_ap_verybad
+
+[ag_ammo_gauss]
+mag_ammo_class			= ammo_gauss, ammo_gauss_bad
+
+        
+
+[wg_wpn_l96a1]
+magazine_group 						     = wpn_l96a1, wpn_l96a1m
+[wg_wpn_m24]
+magazine_group 						     = wpn_m24
+[wg_wpn_m82]
+magazine_group 						     = wpn_m82
+[wg_wpn_m98b]
+magazine_group 						     = wpn_m98b
+[wg_wpn_remington700]
+magazine_group 						     = wpn_remington700, wpn_remington700_archangel, wpn_remington700_lapua700, wpn_remington700_magpul_pro, wpn_remington700_mod_x_gen3
+[wg_wpn_scar]
+magazine_group 						     = wpn_scar
+[wg_wpn_sr25]
+magazine_group 						     = wpn_sr25
+[wg_wpn_sv98]
+magazine_group 						     = wpn_sv98
+[wg_wpn_svd]
+magazine_group 						     = wpn_svd, wpn_svu, wpn_svd_m1, wpn_svds, wpn_svds_pmc
+[wg_wpn_dvl]
+magazine_group 						     = wpn_dvl10, wpn_dvl10_m1
+[wg_wpn_sks]
+magazine_group 						     = wpn_sks_tac, wpn_sks_molot, wpn_sks
+[wg_wpn_sksmodern]
+magazine_group 						     = wpn_sks_tac, wpn_sks_molot
+[wg_wpn_svt40]
+magazine_group 						     = wpn_svt40
+[wg_wpn_trg]
+magazine_group 						     = wpn_trg
+[wg_wpn_vssk]
+magazine_group 						     = wpn_vssk
+[wg_wpn_wa2000]
+magazine_group 						     = wpn_wa2000
+[wg_wpn_k98]
+magazine_group 						     = wpn_k98, wpn_k98_mod
+[wg_wpn_gauss]
+magazine_group 						     = wpn_gauss
+
+
+-- l96a1 7.62x51
+[mag_wpn_l96a1_7.62x51_fmj]:mag_wpn_base,wg_wpn_l96a1,ag_ammo_7.62x51
+description			                                   = st_mag_l96a1_7.62x51_descr
+inv_name			                                   = st_mag_l96a1_7.62x51
+inv_name_short		                                   = st_mag_l96a1_7.62x51
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 28
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_762x51.ogf
+
+[mag_wpn_l96a1_7.62x51_fmj_ready]:mag_wpn_l96a1_7.62x51_fmj
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_10_762x51.ogf
+
+-- l96a1 7.62x54
+[mag_wpn_l96a1_pkm_100]:mag_wpn_base,wg_wpn_l96a1,ag_ammo_pkm
+description			                                   = st_mag_l96a1_pkm_descr
+inv_name			                                   = st_mag_l96a1_pkm
+inv_name_short		                                   = st_mag_l96a1_pkm
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 28
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+[mag_wpn_l96a1_pkm_100_ready]:mag_wpn_l96a1_pkm_100
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+-- l96a1m 7.62x54
+[mag_wpn_l96a1m_magnum_300]:mag_wpn_base,wg_wpn_l96a1,ag_ammo_magnum_300
+description			                                   = st_mag_l96a1m_magnum_300_descr
+inv_name			                                   = st_mag_l96a1m_magnum_300
+inv_name_short		                                   = st_mag_l96a1m_magnum_300
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 28
+max_mag_size										   = 5
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_5_1270x99.ogf
+
+[mag_wpn_l96a1m_magnum_300_ready]:mag_wpn_l96a1m_magnum_300
+inv_grid_y               				               = 29
+;visual                      = dynamics\magazines\mag_5_1270x99.ogf
+
+
+-- m24
+[mag_wpn_m24_magnum_300]:mag_wpn_base,wg_wpn_m24,ag_ammo_magnum_300
+description			                                   = st_mag_m24_magnum_300_descr
+inv_name			                                   = st_mag_m24_magnum_300
+inv_name_short		                                   = st_mag_m24_magnum_300
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 28
+max_mag_size										   = 5
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_5_1270x99.ogf
+
+[mag_wpn_m24_magnum_300_ready]:mag_wpn_m24_magnum_300
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_5_1270x99.ogf
+
+-- m82 
+[mag_wpn_m82_12.7x55_fmj]:mag_wpn_base,wg_wpn_m82,ag_ammo_12.7x55
+description			                                   = st_mag_m82_12.7x55_descr
+inv_name			                                   = st_mag_m82_12.7x55
+inv_name_short		                                   = st_mag_m82_12.7x55
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 28
+max_mag_size										   = 10
+mag_size											   = large
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+[mag_wpn_m82_12.7x55_fmj_ready]:mag_wpn_m82_12.7x55_fmj
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+-- m98b 
+[mag_wpn_m98b_magnum_300]:mag_wpn_base,wg_wpn_m98b,ag_ammo_magnum_300
+description			                                   = st_mag_m98b_magnum_300_descr
+inv_name			                                   = st_mag_m98b_magnum_300
+inv_name_short		                                   = st_mag_m98b_magnum_300
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 28
+max_mag_size										   = 10
+mag_size											   = large
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+[mag_wpn_m98b_magnum_300_ready]:mag_wpn_m98b_magnum_300
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+-- remington700 7.62x51
+[mag_wpn_remington700_7.62x51_fmj]:mag_wpn_base,wg_wpn_remington700,ag_ammo_7.62x51
+description			                                   = st_mag_remington700_7.62x51_descr
+inv_name			                                   = st_mag_remington700_7.62x51
+inv_name_short		                                   = st_mag_remington700_7.62x51
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 28
+max_mag_size										   = 5
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_5_762x51.ogf
+
+[mag_wpn_remington700_7.62x51_fmj_ready]:mag_wpn_remington700_7.62x51_fmj
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_5_762x51.ogf
+
+[mag_wpn_remington700_archangel_7.62x51_fmj]:mag_wpn_base,wg_wpn_remington700,ag_ammo_7.62x51
+description			                                   = st_mag_remington700_7.62x51_descr
+inv_name			                                   = st_mag_remington700_7.62x51
+inv_name_short		                                   = st_mag_remington700_7.62x51
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 28
+max_mag_size										   = 20
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_792x57.ogf
+
+[mag_wpn_remington700_archangel_7.62x51_fmj_ready]:mag_wpn_remington700_archangel_7.62x51_fmj
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_10_792x57.ogf
+
+[mag_wpn_remington700_lapua700_magnum_300]:mag_wpn_base,wg_wpn_remington700,ag_ammo_magnum_300
+description			                                   = st_mag_remington700_magnum_300_descr
+inv_name			                                   = st_mag_remington700_magnum_300
+inv_name_short		                                   = st_mag_remington700_magnum_300
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 28
+max_mag_size										   = 5
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_5_1270x99.ogf
+
+[mag_wpn_remington700_lapua700_magnum_300_ready]:mag_wpn_remington700_lapua700_magnum_300
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_5_1270x99.ogf
+
+[mag_wpn_remington700_magpul_pro_7.62x51_fmj]:mag_wpn_base,wg_wpn_remington700,ag_ammo_7.62x51
+description			                                   = st_mag_remington700_7.62x51_descr
+inv_name			                                   = st_mag_remington700_7.62x51
+inv_name_short		                                   = st_mag_remington700_7.62x51
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 28
+max_mag_size										   = 12
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_792x57.ogf
+
+[mag_wpn_remington700_magpul_pro_7.62x51_fmj_ready]:mag_wpn_remington700_magpul_pro_7.62x51_fmj
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_10_792x57.ogf
+
+[mag_wpn_remington700_mod_x_gen3_7.62x51_fmj]:mag_wpn_base,wg_wpn_remington700,ag_ammo_7.62x51
+description			                                   = st_mag_remington700_7.62x51_descr
+inv_name			                                   = st_mag_remington700_7.62x51
+inv_name_short		                                   = st_mag_remington700_7.62x51
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 28
+max_mag_size										   = 12
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_792x57.ogf
+
+[mag_wpn_remington700_mod_x_gen3_7.62x51_fmj_ready]:mag_wpn_remington700_mod_x_gen3_7.62x51_fmj
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_10_792x57.ogf
+
+-- scar 7.62x51
+[mag_wpn_scar_7.62x51_fmj]:mag_wpn_base,wg_wpn_scar,ag_ammo_7.62x51
+description			                                   = st_mag_scar_7.62x51_descr
+inv_name			                                   = st_mag_scar_7.62x51
+inv_name_short		                                   = st_mag_scar_7.62x51
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 28
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_scar_7.62x51_fmj_ready]:mag_wpn_scar_7.62x51_fmj
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+-- sr25 7.62x51
+[mag_wpn_sr25_7.62x51_fmj]:mag_wpn_base,wg_wpn_sr25,ag_ammo_7.62x51
+description			                                   = st_mag_sr25_7.62x51_descr
+inv_name			                                   = st_mag_sr25_7.62x51
+inv_name_short		                                   = st_mag_sr25_7.62x51
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_762x51.ogf
+
+[mag_wpn_sr25_7.62x51_fmj_ready]:mag_wpn_sr25_7.62x51_fmj
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_762x51.ogf
+
+-- DVL 7.62x51
+[mag_wpn_dvl10_7.62x51_fmj]:mag_wpn_base,wg_wpn_dvl,ag_ammo_7.62x51
+description			                                   = st_mag_dvl10_7.62x51_descr
+inv_name			                                   = st_mag_dvl10_7.62x51
+inv_name_short		                                   = st_mag_dvl10_7.62x51
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_762x51.ogf
+
+[mag_wpn_dvl10_7.62x51_fmj_ready]:mag_wpn_dvl10_7.62x51_fmj
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_762x51.ogf
+
+-- DVL M1 7.62x51
+[mag_wpn_dvl10_m1_7.62x51_fmj]:mag_wpn_base,wg_wpn_dvl,ag_ammo_7.62x51
+description			                                   = st_mag_dvl10_7.62x51_descr
+inv_name			                                   = st_mag_dvl10_7.62x51
+inv_name_short		                                   = st_mag_dvl10_7.62x51
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_762x51.ogf
+
+[mag_wpn_dvl10_m1_7.62x51_fmj_ready]:mag_wpn_dvl10_m1_7.62x51_fmj
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_762x51.ogf
+
+-- sv98 7.62x54
+[mag_wpn_sv98_7.62x54_7h1]:mag_wpn_base,wg_wpn_sv98,ag_ammo_7.62x54
+description			                                   = st_mag_sv98_7.62x54_descr
+inv_name			                                   = st_mag_sv98_7.62x54
+inv_name_short		                                   = st_mag_sv98_7.62x54
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+[mag_wpn_sv98_7.62x54_7h1_ready]:mag_wpn_sv98_7.62x54_7h1
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+-- svd 7.62x54
+[mag_wpn_svd_7.62x54_7h1]:mag_wpn_base,wg_wpn_svd,ag_ammo_7.62x54
+description			                                   = st_mag_svd_7.62x54_descr
+inv_name			                                   = st_mag_svd_7.62x54
+inv_name_short		                                   = st_mag_svd_7.62x54
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+[mag_wpn_svd_7.62x54_7h1_ready]:mag_wpn_svd_7.62x54_7h1
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+
+-- svd m1 7.62x54
+[mag_wpn_svd_m1_7.62x54_7h1]:mag_wpn_base,wg_wpn_svd,ag_ammo_7.62x54
+description			                                   = st_mag_svd_7.62x54_descr
+inv_name			                                   = st_mag_svd_7.62x54
+inv_name_short		                                   = st_mag_svd_7.62x54
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+
+[mag_wpn_svd_m1_7.62x54_7h1_ready]:mag_wpn_svd_m1_7.62x54_7h1
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+
+-- svds 7.62x54
+[mag_wpn_svds_7.62x54_7h1]:mag_wpn_base,wg_wpn_svd,ag_ammo_7.62x54
+description			                                   = st_mag_svd_7.62x54_descr
+inv_name			                                   = st_mag_svd_7.62x54
+inv_name_short		                                   = st_mag_svd_7.62x54
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+
+[mag_wpn_svds_7.62x54_7h1_ready]:mag_wpn_svds_7.62x54_7h1
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+
+-- svds 5.56x45
+[mag_wpn_svds_5.56x45_fmj]:mag_wpn_base,wg_wpn_svd,ag_ammo_5.56x45
+description			                                   = st_mag_svd_5.56x45_descr
+inv_name			                                   = st_mag_svd_5.56x45
+inv_name_short		                                   = st_mag_svd_5.56x45
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_556x45.ogf
+
+
+[mag_wpn_svds_5.56x45_fmj_ready]:mag_wpn_svds_5.56x45_fmj
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_556x45.ogf
+
+
+-- svds pmc 7.62x54
+[mag_wpn_svds_pmc_7.62x54_7h1]:mag_wpn_base,wg_wpn_svd,ag_ammo_7.62x54
+description			                                   = st_mag_svd_7.62x54_descr
+inv_name			                                   = st_mag_svd_7.62x54
+inv_name_short		                                   = st_mag_svd_7.62x54
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+
+[mag_wpn_svds_pmc_7.62x54_7h1_ready]:mag_wpn_svds_pmc_7.62x54_7h1
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+
+-- sks 7.62x39
+[mag_wpn_sks_7.62x39_fmj]:mag_wpn_base,wg_wpn_sks,ag_ammo_7.62x39
+description			                                   = st_mag_sks_7.62x39_descr
+inv_name			                                   = st_mag_sks_7.62x39
+inv_name_short		                                   = st_mag_sks_7.62x39
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 20
+max_mag_size										   = 10
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+
+[mag_wpn_sks_7.62x39_fmj_ready]:mag_wpn_sks_7.62x39_fmj
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_10_762x39.ogf
+
+[mag_wpn_sks_7.62x54_7h1]:mag_wpn_base,wg_wpn_sks,ag_ammo_7.62x54
+description			                                   = st_mag_sks_7.62x54_descr
+inv_name			                                   = st_mag_sks_7.62x54
+inv_name_short		                                   = st_mag_sks_7.62x54
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 20
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_sks_7.62x54_7h1_ready]:mag_wpn_sks_7.62x54_7h1
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+-- sks tac 7.62x39
+[mag_wpn_sks_tac_7.62x39_fmj]:mag_wpn_base,wg_wpn_sksmodern,ag_ammo_7.62x39
+description			                                   = st_mag_sks_7.62x39_descr
+inv_name			                                   = st_mag_sks_7.62x39
+inv_name_short		                                   = st_mag_sks_7.62x39
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 20
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_sks_tac_7.62x39_fmj_ready]:mag_wpn_sks_tac_7.62x39_fmj
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_sks_tac_7.62x54_7h1]:mag_wpn_base,wg_wpn_sksmodern,ag_ammo_7.62x54
+description			                                   = st_mag_sks_tac_7.62x54_descr
+inv_name			                                   = st_mag_sks_tac_7.62x54
+inv_name_short		                                   = st_mag_sks_tac_7.62x54
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 20
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_sks_tac_7.62x54_7h1_ready]:mag_wpn_sks_tac_7.62x54_7h1
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+-- sks molot 7.62x39
+[mag_wpn_sks_molot_7.62x39_fmj]:mag_wpn_base,wg_wpn_sksmodern,ag_ammo_7.62x39
+description			                                   = st_mag_sks_7.62x39_descr
+inv_name			                                   = st_mag_sks_7.62x39
+inv_name_short		                                   = st_mag_sks_7.62x39
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 20
+max_mag_size										   = 20
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_sks_molot_7.62x39_fmj_ready]:mag_wpn_sks_molot_7.62x39_fmj
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_sks_molot_7.62x54_7h1]:mag_wpn_base,wg_wpn_sksmodern,ag_ammo_7.62x54
+description			                                   = st_mag_sks_molot_7.62x54_descr
+inv_name			                                   = st_mag_sks_molot_7.62x54
+inv_name_short		                                   = st_mag_sks_molot_7.62x54
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 20
+max_mag_size										   = 20
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+[mag_wpn_sks_molot_7.62x54_7h1_ready]:mag_wpn_sks_molot_7.62x54_7h1
+inv_grid_y               				               = 21
+
+;visual                      = dynamics\magazines\mag_20_762x51.ogf
+
+-- svt40 7.62x54
+[mag_wpn_svt40_7.62x54_7h1]:mag_wpn_base,wg_wpn_svt40,ag_ammo_7.62x54
+description			                                   = st_mag_svt40_7.62x54_descr
+inv_name			                                   = st_mag_svt40_7.62x54
+inv_name_short		                                   = st_mag_svt40_7.62x54
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+[mag_wpn_svt40_7.62x54_7h1_ready]:mag_wpn_svt40_7.62x54_7h1
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+-- svt40 pkm
+[mag_wpn_svt40_pkm_100]:mag_wpn_base,wg_wpn_svt40,ag_ammo_pkm
+description			                                   = st_mag_svt40_pkm_descr
+inv_name			                                   = st_mag_svt40_pkm
+inv_name_short		                                   = st_mag_svt40_pkm
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+[mag_wpn_svt40_pkm_100_ready]:mag_wpn_svt40_pkm_100
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_10_762x54.ogf
+
+-- svt40 7.62x39_fmj
+[mag_wpn_svt40_7.62x39_fmj]:mag_wpn_base,wg_wpn_svt40,ag_ammo_7.62x39
+description			                                   = st_mag_svt40_7.62x39_descr
+inv_name			                                   = st_mag_svt40_7.62x39
+inv_name_short		                                   = st_mag_svt40_7.62x39
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_762x39.ogf
+
+[mag_wpn_svt40_7.62x39_fmj_ready]:mag_wpn_svt40_7.62x39_fmj
+inv_grid_y               				               = 31
+;visual                      = dynamics\magazines\mag_10_762x39.ogf
+
+
+-- svu 7.62x54
+[mag_wpn_svu_7.62x54_7h1]:mag_wpn_base,wg_wpn_svd,ag_ammo_7.62x54
+description			                                   = st_mag_svu_7.62x54_descr
+inv_name			                                   = st_mag_svu_7.62x54
+inv_name_short		                                   = st_mag_svu_7.62x54
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 30
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_762x39.ogf
+
+[mag_wpn_svu_7.62x54_7h1_ready]:mag_wpn_svu_7.62x54_7h1
+inv_grid_y               				               = 31
+;visual                      = dynamics\magazines\mag_10_762x39.ogf
+
+
+-- Sako TRG-42
+[mag_wpn_trg_magnum_300]:mag_wpn_base,wg_wpn_trg,ag_ammo_magnum_300
+description			                                   = st_mag_trg_magnum_300_descr
+inv_name			                                   = st_mag_trg_magnum_300
+inv_name_short		                                   = st_mag_trg_magnum_300
+inv_grid_x                     					       = 5
+inv_grid_y               				               = 30
+max_mag_size										   = 5
+mag_size											   = medium
+
+
+[mag_wpn_trg_magnum_300_ready]:mag_wpn_trg_magnum_300
+inv_grid_y               				               = 31
+
+
+
+-- vssk 
+[mag_wpn_vssk_12.7x55_fmj]:mag_wpn_base,wg_wpn_vssk,ag_ammo_12.7x55
+description			                                   = st_mag_vssk_12.7x55_descr
+inv_name			                                   = st_mag_vssk_12.7x55
+inv_name_short		                                   = st_mag_vssk_12.7x55
+inv_grid_x                     					       = 6
+inv_grid_y               				               = 30
+max_mag_size										   = 5
+mag_size											   = large
+
+;visual                      = dynamics\magazines\mag_5_1270x99.ogf
+
+[mag_wpn_vssk_12.7x55_fmj_ready]:mag_wpn_vssk_12.7x55_fmj
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_5_1270x99.ogf
+
+
+-- wa2000 7.62x51
+[mag_wpn_wa2000_7.62x51_fmj]:mag_wpn_base,wg_wpn_wa2000,ag_ammo_7.62x51
+description			                                   = st_mag_wa2000_7.62x51_descr
+inv_name			                                   = st_mag_wa2000_7.62x51
+inv_name_short		                                   = st_mag_wa2000_7.62x51
+inv_grid_x                     					       = 8
+inv_grid_y               				               = 30
+max_mag_size										   = 6
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_8_762x51.ogf
+
+[mag_wpn_wa2000_7.62x51_fmj_ready]:mag_wpn_wa2000_7.62x51_fmj
+inv_grid_y               				               = 31
+
+;visual                      = dynamics\magazines\mag_8_762x51.ogf
+
+
+[mag_wpn_k98_mod_7.92x33_fmj]:mag_wpn_base,wg_wpn_k98,ag_ammo_7.92x33
+description			                                   = st_mag_k98_7.92x33_descr
+inv_name			                                   = st_mag_k98_7.92x33
+inv_name_short		                                   = st_mag_k98_7.92x33
+inv_grid_x                     					       = 7
+inv_grid_y               				               = 28
+max_mag_size										   = 5
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_5_762x51.ogf
+
+[mag_wpn_k98_mod_7.92x33_fmj_ready]:mag_wpn_k98_mod_7.92x33_fmj
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_5_762x51.ogf
+
+
+[mag_wpn_gauss_gauss]:mag_wpn_base,wg_wpn_gauss,ag_ammo_gauss
+description			                                   = st_mag_gauss_gauss_descr
+inv_name			                                   = st_mag_gauss_gauss
+inv_name_short		                                   = st_mag_gauss_gauss
+inv_grid_x                     					       = 4
+inv_grid_y               				               = 22
+max_mag_size										   = 10
+mag_size											   = large
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+[mag_wpn_gauss_gauss_ready]:mag_wpn_gauss_gauss
+inv_grid_y               				               = 23
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+
+
+
+
+
+[ag_ammo_12x70]
+mag_ammo_class                               = ammo_12x70_buck, ammo_12x70_buck_bad, ammo_12x70_buck_verybad, ammo_12x76_zhekan, ammo_12x76_zhekan_bad, ammo_12x76_zhekan_verybad, ammo_12x76_dart, ammo_12x76_dart_bad, ammo_12x76_dart_verybad, ammo_12x70_buck_self
+
+[ag_ammo_20x70]
+mag_ammo_class                               = ammo_20x70_buck, ammo_20x70_buck
+
+[wg_wpn_saiga12s]
+magazine_group 						     = wpn_saiga12s, wpn_saiga12s_m1, wpn_saiga12s_m2
+[wg_wpn_usas12]
+magazine_group 						     = wpn_usas12
+[wg_wpn_vepr]
+magazine_group 						     = wpn_vepr
+[wg_wpn_toz106]
+magazine_group 						     = wpn_toz106
+[wg_wpn_toz106_m1]
+magazine_group 						     = wpn_toz106_m1
+
+
+
+-- saiga12s 12x70
+[mag_wpn_saiga12s_12x70_buck]:mag_wpn_base,wg_wpn_saiga12s,ag_ammo_12x70
+description			                                   = st_mag_saiga12s_12x70_descr
+inv_name			                                   = st_mag_saiga12s_12x70
+inv_name_short		                                   = st_mag_saiga12s_12x70
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 36
+max_mag_size										   = 10
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_8_12-76.ogf
+
+[mag_wpn_saiga12s_12x70_buck_ready]:mag_wpn_saiga12s_12x70_buck
+inv_grid_y               				               = 37
+
+;visual                      = dynamics\magazines\mag_8_12-76.ogf
+
+[mag_wpn_saiga12s_m1_12x70_buck]:mag_wpn_base,wg_wpn_saiga12s,ag_ammo_12x70
+description			                                   = st_mag_saiga12s_12x70_descr
+inv_name			                                   = st_mag_saiga12s_12x70
+inv_name_short		                                   = st_mag_saiga12s_12x70
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 36
+max_mag_size										   = 6
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_8_12-76.ogf
+
+[mag_wpn_saiga12s_m1_12x70_buck_ready]:mag_wpn_saiga12s_m1_12x70_buck
+inv_grid_y               				               = 37
+
+;visual                      = dynamics\magazines\mag_8_12-76.ogf
+
+[mag_wpn_saiga12s_m2_12x70_buck]:mag_wpn_base,wg_wpn_saiga12s,ag_ammo_12x70
+description			                                   = st_mag_saiga12s_12x70_descr
+inv_name			                                   = st_mag_saiga12s_12x70
+inv_name_short		                                   = st_mag_saiga12s_12x70
+inv_grid_x                     					       = 0
+inv_grid_y               				               = 36
+max_mag_size										   = 6
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_8_12-76.ogf
+
+[mag_wpn_saiga12s_m2_12x70_buck_ready]:mag_wpn_saiga12s_m2_12x70_buck
+inv_grid_y               				               = 37
+
+;visual                      = dynamics\magazines\mag_8_12-76.ogf
+
+-- usas12 12x70
+[mag_wpn_usas12_12x70_buck]:mag_wpn_base,wg_wpn_usas12,ag_ammo_12x70
+description			                                   = st_mag_usas12_12x70_descr
+inv_name			                                   = st_mag_usas12_12x70
+inv_name_short		                                   = st_mag_usas12_12x70
+inv_grid_x                     					       = 1
+inv_grid_y               				               = 36
+inv_grid_width                           			   = 2
+max_mag_size										   = 20
+mag_size											   = large
+
+;visual                      = dynamics\magazines\drum_20_aa12.ogf
+
+[mag_wpn_usas12_12x70_buck_ready]:mag_wpn_usas12_12x70_buck
+inv_grid_y               				               = 37
+
+;visual                      = dynamics\magazines\drum_20_aa12.ogf
+
+-- vepr 12x70
+[mag_wpn_vepr_12x70_buck]:mag_wpn_base,wg_wpn_vepr,ag_ammo_12x70
+description			                                   = st_mag_vepr_12x70_descr
+inv_name			                                   = st_mag_vepr_12x70
+inv_name_short		                                   = st_mag_vepr_12x70
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 36
+max_mag_size										   = 12
+mag_size											   = medium
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+[mag_wpn_vepr_12x70_buck_ready]:mag_wpn_vepr_12x70_buck
+inv_grid_y               				               = 37
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+-- toz106 12x70
+[mag_wpn_toz106_20x70_buck]:mag_wpn_base,wg_wpn_toz106,ag_ammo_20x70
+description			                                   = st_mag_toz_20x70_descr
+inv_name			                                   = st_mag_toz_20x70
+inv_name_short		                                   = st_mag_toz_20x70
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 28
+max_mag_size										   = 2
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+[mag_wpn_toz106_20x70_buck_ready]:mag_wpn_toz106_20x70_buck
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+[mag_wpn_toz106_m1_20x70_buck]:mag_wpn_base,wg_wpn_toz106_m1,ag_ammo_20x70
+description			                                   = st_mag_toz_20x70_descr
+inv_name			                                   = st_mag_toz_20x70
+inv_name_short		                                   = st_mag_toz_20x70
+inv_grid_x                     					       = 2
+inv_grid_y               				               = 28
+max_mag_size										   = 4
+mag_size											   = medium
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+[mag_wpn_toz106_m1_20x70_buck_ready]:mag_wpn_toz106_m1_20x70_buck
+inv_grid_y               				               = 29
+
+;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+-- unusd icons
+
+-- inv_grid_x                     					   = 3
+-- inv_grid_y               				           = 36
+-- max_mag_size										   = 4
+-- mag_size											   = medium
+-- ;visual                      = dynamics\magazines\mag_10_1270x99.ogf
+
+-- inv_grid_y               				               = 37
+
+
+
+
+
+
+
+
+
+
+
+
+

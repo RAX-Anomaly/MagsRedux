@@ -35,31 +35,31 @@ function null_function()
     return false
 end
 
--- aliases--
-gc = game.translate_string
-
-if magazine_binder then
-    print_dbg = magazine_binder.print_dbg
-    get_data = magazine_binder.get_data
-    set_data = magazine_binder.set_data
-    is_supported_weapon = magazine_binder.is_supported_weapon
-    is_jammed_weapon = magazines.is_jammed_weapon
-    print_dbg("MagsRedux installed. Working in integrated mode.")
-else
-    print_dbg = ac_print_dbg -- Use own print function.
-    get_data = null_function -- Should not be called, just in case.
-    set_data = null_function -- Should not be called, just in case.
-    is_supported_weapon = null_function -- Always returns false, meaning none of the weapons are supported, fall back on vanilla ammo handling.
-    is_jammed_weapon = null_function -- Sadly, standalone mode does not report weapon jams for now.
-    print_dbg("MagsRedux not found. Working in standalone mode.")
-end
-
 function l_round(value)
     local min = math.floor(value + 0.5)
     return min
 end
 
 function on_game_start()
+    -- aliases--
+    gc = game.translate_string
+
+    if magazine_binder then
+        print_dbg = magazine_binder.print_dbg
+        get_data = magazine_binder.get_data
+        set_data = magazine_binder.set_data
+        is_supported_weapon = magazine_binder.is_supported_weapon
+        is_jammed_weapon = magazines.is_jammed_weapon
+        print_dbg("MagsRedux installed. Working in integrated mode.")
+    else
+        print_dbg = ac_print_dbg -- Use own print function.
+        get_data = null_function -- Should not be called, just in case.
+        set_data = null_function -- Should not be called, just in case.
+        is_supported_weapon = null_function -- Always returns false, meaning none of the weapons are supported, fall back on vanilla ammo handling.
+        is_jammed_weapon = null_function -- Sadly, standalone mode does not report weapon jams for now.
+        print_dbg("MagsRedux not found. Working in standalone mode.")
+    end
+
     RegisterScriptCallback("on_key_press", on_key_press)
     RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
     RegisterScriptCallback("on_option_change", on_option_change)
@@ -68,15 +68,18 @@ end
 -- Script Callbacks --
 
 function on_mcm_load()
+    -- LuaFormatter off
     ch_options = {
         id = "rax_ammo_check",
         sh = true,
         gr = {
             {id = "ammo_check", type = "slide", link = "ui_options_slider_player", text = "ui_mm_title_rax_ammo_check", size = {512, 50}, spacing = 20},
-            {id = "usecolor", type = "check", val = 1, def = false}, {id = "hidecounter", type = "check", val = 1, def = true},
+            {id = "usecolor", type = "check", val = 1, def = false},
+            {id = "hidecounter", type = "check", val = 1, def = true},
             {id = "hideicon", type = "check", val = 1, def = true}
         }
     }
+    -- LuaFormatter on
     return ch_options
 end
 
@@ -140,7 +143,7 @@ function checkAmmo()
     local top_round = nil
 
     if (is_jammed_weapon(weapon)) then
-        message = game.translate_string("st_ac_jammed")
+        message = gc("st_ac_jammed")
         clr = use_clr and clr00_Red or nil
     elseif currentAmmo == 0 then
         if is_supported_weapon(sec) and get_data(weaponId) == nil then
@@ -155,6 +158,7 @@ function checkAmmo()
 
         if is_supported_weapon(sec) then
             local mag_data = get_data(weaponId)
+            if not mag_data then return end
             print_dbg("checking for section %s", mag_data.section)
             max_ammo = SYS_GetParam(2, mag_data.section, "max_mag_size")
             top_round = stack.peek(mag_data.loaded)
@@ -168,7 +172,7 @@ function checkAmmo()
         local curAmmoPerc = currentAmmo / max_ammo
 
         if (curAmmoPerc > 1) then
-            message = game.translate_string("st_ac_overfull")
+            message = gc("st_ac_overfull")
             clr = utils_xml.get_color("d_purple", true) -- always colored this is an error.
         elseif (currentAmmo == 1 and SYS_GetParam(2, sec, "ammo_mag_size", 0) == 2) then
             message = gc("st_ac_just_one")

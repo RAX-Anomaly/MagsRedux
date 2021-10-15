@@ -1,0 +1,74 @@
+
+function move(npc_id, obj, mode, bag_from)
+    if IsAmmo(obj) and mode == "loot" then
+		CreateTimeEvent("box", "box_agg", 0, box_aggregate, obj)
+		-- item_weapon.ammo_aggregation(obj)
+	end
+end
+
+function box_aggregate(obj, npc)
+    -- printf("Putting %s into box", obj:section())
+    local parent = obj:parent()
+	if not parent then 
+        -- printf("No parent")
+        return true 
+    end
+
+	local section = obj:section()
+	local size = obj:ammo_get_count()
+	local box_size = obj:ammo_box_size()
+	
+	if (size == box_size) then 
+		return true
+	end
+
+	local ammos = {}
+	
+    function collect(temp, item)
+		if (section == item:section() and item:id() ~= obj:id() and item:ammo_get_count() < box_size) then
+			ammos[#ammos+1] = item:id()
+			size = size + item:ammo_get_count()
+		end
+	end
+
+	-- collect ammos except this one; we use it for remainder
+	local se_parent = alife_object(parent:id())
+    if se_parent:clsid() == clsid.inventory_box_s then
+        -- printf("Box aggregation")
+        parent:iterate_inventory_box(collect)
+    else
+        -- printf("Corpse aggregation")
+        parent:iterate_inventory(collect)
+    end
+	
+	-- didn't find any others
+	if (size == obj:ammo_get_count()) then 
+		return true
+	end
+
+	local fill = math.floor(size/box_size)
+	local remainder = size - (box_size*fill)
+	if (remainder > 0) then 
+		obj:ammo_set_count(remainder)
+	else 
+		ammos[#ammos+1] = obj:id()
+	end
+	
+	for i=1,#ammos do 
+		local item = level.object_by_id(ammos[i])
+		if (item) then
+			if (fill > 0) then
+				item:ammo_set_count(box_size)
+				fill = fill - 1
+			else
+				-- npc:drop_item(item)
+				alife_release_id(ammos[i])
+			end
+		end
+	end
+    return true
+end
+
+function on_game_start()
+	RegisterScriptCallback("ActorMenu_on_item_after_move", move)
+end

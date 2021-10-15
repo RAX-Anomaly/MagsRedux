@@ -4,11 +4,13 @@
 gc						 	= game.translate_string
 get_data 					= magazine_binder.get_data
 set_data 					= magazine_binder.set_data
+prep_weapon 				= magazines.prep_weapon
 is_supported_weapon 		= magazine_binder.is_supported_weapon
 get_magazine_caliber 		= magazine_binder.get_magazine_caliber
 is_magazine					= magazine_binder.is_magazine
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
 weapon_improved_magazine	= magazine_binder.weapon_improved_magazine
+create_mag_data             = magazine_binder.create_mag_data
 print_dbg                   = magazines.print_dbg
 
 local ini_loadouts = ini_file("items\\settings\\npc_mag_loadouts.ltx")
@@ -55,19 +57,11 @@ local function get_mag_prop(rank, prop)
     return ini_loadouts:r_float_ex(rank.."_mag_loadout", prop)
 end
 
-function create_mag_data(id, sec)
-    local mag_data = {}
-    mag_data.loaded = {}
-    mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
-    mag_data.section = sec
-    set_data(id, mag_data)
-    return mag_data
-end
-
 -- called on each created magazine, autofill with the appropriate crap
 function random_pop_mag(mag_id, mag_sec, ammo_table, rank, quality)
-    local amount = math.random(get_mag_prop(rank, "mag_fill_max"))
+    local amount = math.random(0, get_mag_prop(rank, "mag_fill_max"))
     local mag_data = get_data(mag_id) or create_mag_data(mag_id, mag_sec)
+    empty_table(mag_data.loaded)
     local to_fill = math.floor((amount/100) * SYS_GetParam(2, mag_sec, "max_mag_size"))
 	-- also pick the appropriate ammo
 	local good_chance = get_mag_prop(rank, "mag_good_chance") * quality
@@ -88,7 +82,6 @@ function npc_on_death(npc, who)
     function itr_inv(temp, item)
         local sec = item:section()
 		if IsWeapon(nil,item:clsid()) and not npc:marked_dropped(item) and is_supported_weapon(item) then
-
             -- spawn mags for one primary, one secondary
             local is_sidearm = false
             if IsPistol(item) then
@@ -97,20 +90,16 @@ function npc_on_death(npc, who)
             if (found_primary and not is_sidearm) or (found_secondary and is_sidearm) then return end
 
             -- reduce ammo in loaded weapon
-            local mag_data = get_data(item:id())
-            if mag_data then
-                for i=1, math.random(#mag_data.loaded - 5) do
-                    stack.pop(mag_data.loaded)
-                end
-                set_data(item:id(), mag_data)
-            end
+            local id = item:id()
+            local mag_data = get_data(id)
             
             local mags_to_spawn = math.random(0, get_mag_prop(rank, "max_mags"))
-            local mag_sec = weapon_default_magazine(sec)
             local improved_mag_sec = weapon_improved_magazine(sec)
+            local mag_sec = weapon_default_magazine(sec)
             local mag_good_chance = get_mag_prop(rank, "mag_good_chance")
             local ammo_table = get_magazine_caliber(mag_sec)
             local quality = magazines_mcm.get_config("lootquality") or 1
+
             print_dbg("Spawning %s mags for %s", mags_to_spawn, sec)
             for i=1,mags_to_spawn do
                 -- todo roll for upgraded mag
@@ -136,6 +125,39 @@ function npc_on_death(npc, who)
         end
     end
     npc:iterate_inventory(itr_inv, npc)
+end
+
+SetWepCondition = death_manager.set_weapon_drop_condition
+function death_manager.set_weapon_drop_condition(npc, itm)
+
+    SetWepCondition(npc, itm)
+
+    local death_dropped = se_load_var(npc:id(), npc:name(), "death_dropped")
+	if (death_dropped) then
+		return
+	end
+
+	if (IsWeapon(nil,itm:clsid()) and not npc:marked_dropped(itm) and is_supported_weapon(itm)) then
+        local id = itm:id()
+        if not is_supported_weapon(itm) then
+            set_data(id, nil)
+            return
+        end
+        local sec = itm:section()
+        local mag_data = get_data(id)
+        if mag_data then
+            local mag_sec = weapon_default_magazine(sec)
+            if not mag_data.section then mag_data.section = mag_sec end
+            local ammo_table = get_magazine_caliber(mag_sec)
+            local rank = ranks.get_obj_rank_name(npc)
+            local quality = magazines_mcm.get_config("lootquality") or 1
+            print_dbg("Resetting mag data for weapon %s (%s), using mag %s", id, itm:section(), mag_data.section)
+            itm:unload_magazine()
+            set_data(id, false)
+            random_pop_mag(id, mag_data.section, ammo_table, rank, quality)
+            prep_weapon(itm, false)
+        end
+    end
 end
 
 function on_game_start()

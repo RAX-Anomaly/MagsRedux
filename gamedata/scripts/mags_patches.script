@@ -3,6 +3,7 @@
 gc						 	= game.translate_string
 get_data 					= magazine_binder.get_data
 set_data 					= magazine_binder.set_data
+dump_data					= magazine_binder.dump_data
 is_supported_weapon 		= magazine_binder.is_supported_weapon
 get_magazine_caliber 		= magazine_binder.get_magazine_caliber
 is_compatible 				= magazine_binder.is_compatible
@@ -18,6 +19,10 @@ weapon_default_magazine		= magazine_binder.weapon_default_magazine
 print_dbg					= magazines.print_dbg
 has_loadout_slots			= magazine_binder.has_loadout_slots
 get_loadout_slots			= magazine_binder.get_loadout_slots
+create_mag_data             = magazine_binder.create_mag_data
+validate_mag				= magazine_binder.validate_mag
+validate_wep             	= magazine_binder.validate_wep
+create_time_event			= magazines.create_time_event
 
 
 
@@ -38,29 +43,12 @@ function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 	obj = self:CheckItem(obj,"Cond_Unload")
 	
 	local sec = obj:section()
-	if IsWeapon(obj) and(obj:weapon_in_grenade_mode() or get_data(obj:id()) == nil) and (not IsItem("fake_ammo_wpn",sec)) then
+	local mag_data = get_data(obj:id())
+	if IsWeapon(obj) and (obj:weapon_in_grenade_mode() or mag_data == nil or mag_data == false) and (not IsItem("fake_ammo_wpn",sec)) then
 		return obj:get_ammo_in_magazine() > 0
 	end
 	return false
 end
-
---
---[[ monkey patches for ready mag quest status
-
-function ui_inventory.UIInventory:Cond_Quest(obj, bag)
-	obj = self:CheckItem(obj,"Cond_NotQuest")
-	
-	return (SYS_GetParam(1,obj:section(),"quest_item") == true) or is_carried_mag(obj:id()) and true or false --lets give it a pure bool
-end
-
-function ui_inventory.UIInventory:Cond_NotQuest(obj, bag)
-	obj = self:CheckItem(obj,"Cond_NotQuest")
-	
-	return (SYS_GetParam(1,obj:section(),"quest_item") ~= true) or is_carried_mag(obj:id()) and true or false
-end
---]]
--- still in need to updating to new functions
-
 
 -- raven's merge
 -- utility functions related to magazines that shouldn't clutter main mags script
@@ -72,7 +60,12 @@ function item_parts.disassembly_weapon(obj, obj_d)
 		print_dbg("Found magazine, ejecting")
 		local mag = eject(obj)
 	end
+	create_time_event("mag_redux", "delay_dis", 0.1, wrap_disassembly, obj, obj_d)
+end
+
+function wrap_disassembly(obj, obj_d)
 	DisassemblyWeapon(obj, obj_d)
+	return true
 end
 
 WorkshopUpgrade = ui_workshop.UIWorkshopUpgrade.Upgrade
@@ -89,7 +82,12 @@ function ui_workshop.UIWorkshopUpgrade:Upgrade()
 			local mag = eject(obj)
 		end
 	end
-	WorkshopUpgrade(self)
+	create_time_event("mag_redux", "delay_upgr", 0.1, wrap_upgrade, self)
+end
+
+function wrap_upgrade(self_obj)
+	WorkshopUpgrade(self_obj)
+	return true
 end
 
 WorkshopRepair = ui_workshop.UIWorkshopRepair.Repair
@@ -105,7 +103,12 @@ function ui_workshop.UIWorkshopRepair:Repair()
 			local mag = eject(obj)
 		end
 	end
-	WorkshopRepair(self)
+	create_time_event("mag_redux", "delay_rep", 0.1, wrap_repair, self)
+end
+
+function wrap_repair(self_obj)
+	WorkshopRepair(self_obj)
+	return true
 end
 
 CanRepair = inventory_upgrades.can_repair_item
@@ -172,6 +175,7 @@ function ui_item.build_desc_header(obj, sec, str)
 	
 
 	if obj and magazines and IsWeapon(obj) and not IsAmmo(obj) and is_supported_weapon(obj) then
+		validate_wep(obj:id(), obj:section())
 		local mag_data = get_data(obj:id())
 		if mag_data then
 			_str = _str .. " " .. clr_g .. gc("st_dot") .. " ".. gc("st_mag_loaded") .. " " .. clr_2 .. ui_item.get_sec_name(mag_data.section) .. "\\n"
@@ -214,12 +218,16 @@ function ui_item.build_desc_footer(obj, sec, str)
 	local _str = ""
 	local _str2 = original_build_desc_footer(obj, sec, str)
 	if obj and magazines and is_magazine(obj) then
+		validate_mag(obj:id(), obj:section())
 		local magInfo = get_mag_info(obj)
-				
+		if magInfo.slot_size then
+			_str = _str .. "\\n \\n".. gc('st_mag_size') .. " " .. gc('st_mag_size_'..magInfo.slot_size) 
+		end
+		
 		local weaponTitle
 		local ammoCountTitle = gc('st_mag_ammo_loaded_count')
 
-		_str = _str .. " \\n \\n" .. ammoCountTitle .. " " .. clr_g .. magInfo.total_ammo  .. clr_2 .. " / " .. clr_g .. magInfo.mag_size .. " \\n"
+		_str = _str .. "\\n \\n" .. ammoCountTitle .. " " .. clr_g .. magInfo.total_ammo  .. clr_2 .. " / " .. clr_g .. magInfo.mag_size .. " \\n"
 
 		if magInfo.total_ammo > 0 then
 			_str = _str .. " \\n"
@@ -250,95 +258,36 @@ local string_gsub   = string.gsub
 -------------------------------
 -- SCOPES
 -------------------------------
-local scopes_table = utils_data.collect_sections(ini_sys, {"addons_table"})
 
+CloneWep = _G.alife_clone_weapon
+function _G.alife_clone_weapon(se_obj, section, parent_id)
+	local old_id = se_obj.id
+	local old_data = get_data(old_id)
+	local new_wep = CloneWep(se_obj, section, parent_id)
+	print_dbg("transferring data from %s to %s", old_id, new_wep.id)
+	dump_data(old_data)
+	set_data(new_wep.id, old_data)
+	set_data(old_id, nil)
+	return new_wep
+end
+AttachScope = item_weapon.attach_scope
 function item_weapon.attach_scope(item, weapon)
 	-- Return if the addon or weapon aren't valid.
 	if not (item and weapon) then 
 		return 
 	end 
-	
-	-- An addon has already been attached or none can be used.
-	local parent_section = ini_sys:r_string_ex(weapon:section(),"parent_section")
-	if (not parent_section or weapon:section() ~= parent_section) then return end
-	
-	-- Modified weapon does not exist and as such can't be used.
-	local child_section = (parent_section .. "_" .. item:section())
-	if not (ini_sys:section_exist(child_section)) then return end
-	
-	-- Determine whether the addon is valid for the weapon selected.
-	if not (check_scope(item:section(), weapon:section())) then
-		return
-	end
-	
-	-- Create objects for the 'before' and 'after' attachment weapons.
-	local old_id = weapon:id()
-	local dataOld = get_data(old_id)
-	-- wuut: copy over the custom data, needed for the mag addon
-	local old_weapon = alife_object(old_id)
-	local new_weapon = old_weapon and alife_clone_weapon(old_weapon, child_section)
-	if new_weapon then
-	
-		set_data(new_weapon.id, dataOld)
-		set_data(old_id, nil)
-		alife_release(item)
-	end
+	if magazines.action_in_progress() then return end
+	AttachScope(item, weapon)
 end
--- LOCAL FUNCTIONS REEEEEEEEE
-function check_scope(addon_sect, weapon_sect)
-	local valid_addons = parse_list(ini_sys, weapon_sect, "scopes")
-	for k, v in pairs(valid_addons) do
-		if (v == addon_sect) then
-			return true
-		end
-	end
-	return false
-end
-
+DetachScope = item_weapon.detach_scope
 function item_weapon.detach_scope(weapon)
-
-	
 	-- Return if the weapon is not valid.
 	if not (weapon) then
 		return
 	end
 	
-	-- An addon has not been attached or none can be detached.
-	local parent_section = ini_sys:r_string_ex(weapon:section(),"parent_section")
-	if (not parent_section or weapon:section() == parent_section) then return end
-	
-	-- Get weapon owner
-	local old_weapon = alife_object(weapon:id())
-	local owner = old_weapon and old_weapon.parent_id and get_object_by_id(old_weapon.parent_id)
-	if (not owner) then
-		printf("~ item_weapon.detach_scope | weapon owner not found")
-		return
-	end
-	
-	
-	-- Determine which addon is attached to the weapon.
-	-- Create the item in the actor's inventory when found.
-	for k, v in pairs(scopes_table) do
-		if (string.find(weapon:section(), k)) then
-			--give_object_to_actor(k)
-			alife_create_item(k, owner)
-			break
-		end
-	end
-	
-	-- Create objects for the 'before' and 'after' detachment weapons.
-	local dataOld = get_data(old_weapon.id)
-	local new_weapon = old_weapon and alife_clone_weapon(old_weapon, parent_section)
-	if (new_weapon) then
-	
-		-- Transfer parts states
-		-- item_parts.copy_parts_con(old_weapon.id, new_weapon.id)
-		-- item_parts.clear_parts_con(old_weapon.id)
-		
-		-- wuut: move over the old mag data
-		set_data(new_weapon.id, dataOld)
-		set_data(old_weapon.id, nil)
-	end
+	if magazines.action_in_progress() then return end
+	DetachScope(weapon)
 end
 
 NewGameEquipment = itms_manager.new_game_equippment
@@ -402,8 +351,7 @@ function item_backpack.actor_on_item_use(obj)
 					end			
 					return false
 				end
-				disable_info("sleep_active")
-				CreateTimeEvent(0,"actor_backpack",0,transfer_items,se_obj.id)
+				create_time_event(0,"actor_backpack",0,transfer_items,se_obj.id)
 			end
 		else
 			actor_menu.set_msg(1, game.translate_string("st_stash_no_backpack_found"),4)
@@ -503,11 +451,11 @@ function xr_effects.bar_arena_teleport(actor, npc)
 						AC_ID)
 		if string.find(v, "outfit") then
 			disable_info("sleep_active")
-			CreateTimeEvent("Mag_redux", "equip_outfit"..se.id, 0.1, equip_outfit, se.id)
+			create_time_event("Mag_redux", "equip_outfit"..se.id, 0.1, equip_outfit, se.id)
 		end
 		if string.find(v, "mag_") then
 			disable_info("sleep_active")
-			CreateTimeEvent("Mag_redux", "fill_mag"..se.id, 0.1, fill_mag, se.id, SYS_GetParam(2, v, "max_mag_size"), mag_to_ammo[v])
+			create_time_event("Mag_redux", "fill_mag"..se.id, 0.1, fill_mag, se.id, v, SYS_GetParam(2, v, "max_mag_size"), mag_to_ammo[v])
 		end
 		se_save_var( se.id, se:name(), "unpatched", true )
 	end
@@ -519,8 +467,12 @@ function equip_outfit(id)
 	return true
 end
 
-function fill_mag(id, amount, ammo_type)
+function fill_mag(id, sec, amount, ammo_type)
 	local mag_data = get_data(id)
+	if not mag_data then
+		print_dbg("mag_data not initialized yet for %s, creating now")
+		mag_data = create_mag_data(id, sec)
+	end
 	for i=1,amount do
 		stack.push(mag_data.loaded, ammo_type)
 	end
@@ -760,12 +712,12 @@ function UIWheelAmmoWuut:SwitchNextAmmo()
 				local magazine = magazines.find_magazine(wpn, ammo_map[new_type])
 				if magazines.get_mag_data(wpn:id()) ~= nil then
 					print_dbg("Weapon already has magazine, ejecting first")
-					magazines.eject_magazine(wpn)
+					eject(wpn)
 				end
 				local pre_table = magazines.count_ammo(wpn)
 				wpn:switch_state(7)
 				disable_info("sleep_active")
-				CreateTimeEvent("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
+				create_time_event("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
 
 			else
 				wpn:unload_magazine(true)
@@ -788,12 +740,12 @@ function UIWheelAmmoWuut:OnAmmo(n)
 				local magazine = magazines.find_magazine(wpn, ammo_map[n])
 				if magazines.get_mag_data(wpn:id()) ~= nil then
 					print_dbg("Weapon already has magazine, ejecting first")
-					magazines.eject_magazine(wpn)
+					eject(wpn)
 				end
 				local pre_table = magazines.count_ammo(wpn)
 				wpn:switch_state(7)
 				disable_info("sleep_active")
-				CreateTimeEvent("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
+				create_time_event("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
 			else
 			
 				wpn:unload_magazine(true)

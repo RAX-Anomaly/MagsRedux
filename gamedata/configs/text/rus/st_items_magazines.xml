@@ -93,12 +93,12 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_bizon_9x19_fmj">
-		<text>Модифицированный PP Bizon калибр 9x19</text>
+	<string id="st_mag_bizon_7.62x25_p">
+		<text>Модифицированный PP Bizon калибр 7.62x25</text>
 	</string>
-	<string id="st_mag_bizon_9x19_fmj_descr">
+	<string id="st_mag_bizon_7.62x25_p_descr">
 		<text>
-		Модифицированный PP Bizon калибр 9x19.
+		Модифицированный PP Bizon калибр 7.62x25.
 		</text>
 	</string>
 
@@ -505,6 +505,15 @@ Pistols and MP's
 	<string id="st_mag_kiparis_9x18_fmj_descr">
 		<text>
 		Стандартный магазин для Kiparis калибр 9x18.
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x19_fmj">
+		<text>Модифицированный Kiparis калибр 9x19</text>
+	</string>
+	<string id="st_mag_kiparis_9x19_fmj_descr">
+		<text>
+		Модифицированный Kiparis калибр 9x19.
 		</text>
 	</string>
 
