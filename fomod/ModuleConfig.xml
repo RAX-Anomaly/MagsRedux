@@ -38,7 +38,7 @@ Hides the ammo count from HUD. Press a hotkey to check your weapon and see the a
 						<plugin name="EFT reposition patch"> 
 							<description>Compatibility patch. Only install if you're also using EFT reposition.</description> 
 							<files> 
-								<folder source="eft reposition wpo patch\gamedata" destination="gamedata" priority="0" /> 
+								<folder source="eft reposition patch\gamedata" destination="gamedata" priority="0" /> 
 							</files> 
 							<typeDescriptor> 
 								<type name="Optional"/> 
