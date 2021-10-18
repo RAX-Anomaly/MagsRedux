@@ -1,7 +1,7 @@
 --[[
 Small tweak to item sorting to favor readymags>magazines>everythihng else
 --]]
-if aaa_rax_icon_override then end --force load order.
+if aaa_rax_icon_override_mcm then end --force load order.
 
 is_magazine					= magazine_binder.is_magazine
 is_carried_mag				= magazine_binder.is_carried_mag
