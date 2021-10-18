@@ -240,8 +240,10 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 		return true
 	end
 	local mag_data = get_mag_data(id)
+	local ejected
 	if mag_data then
-		eject_magazine(weapon)
+		ejected = eject_magazine(weapon)
+		print_dbg("Ejected id %s", ejected)
 	end
 
 	if weapon:get_state() == 0 then
@@ -252,6 +254,10 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 		refund_ammo(weapon, pre_table)
 		load_timeout[id] = nil
 		weapon:switch_state(0)
+		if ejected and not is_carried_mag(ejected) then
+			print_dbg("Toggling %s", ejected)
+			toggle_carried_mag(ejected)
+		end
 		return true
 	end
 	return false
@@ -345,6 +351,7 @@ function eject_magazine(weapon)
 		end
 		set_mag_data(id, false)
 		dump_data(mag_data)
+		return se_mag.id
 	end
 end
 
