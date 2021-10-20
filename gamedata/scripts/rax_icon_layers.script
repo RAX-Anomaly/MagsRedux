@@ -9,7 +9,7 @@ function pr(txt, ...)
     --  printf("RAXPH: "..txt, ...)
 end
 
-
+if aaa_rax_icon_override_mcm then end --force load order
 
 local ratio = utils_xml.screen_ratio()
 local icon_layers = {}
