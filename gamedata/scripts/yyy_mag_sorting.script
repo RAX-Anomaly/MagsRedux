@@ -57,7 +57,7 @@ function sort_info(asec, bsec)
 	b_sec = bsec
 	axis = utils_xml.get_item_axis(b_sec,1)
 	if (not ab_w[b_sec]) then ab_w[b_sec] = axis.w end
-	if (not ab_h[b_sec]) then ab_h[b_sec] = = axis.h end
+	if (not ab_h[b_sec]) then ab_h[b_sec] = axis.h end
 	if (not ab_k[b_sec]) then
 		ab_k[b_sec] = SYS_GetParam(0,b_sec,"kind","na")
 		if (not item_order[ab_k[b_sec]]) then
