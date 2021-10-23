@@ -414,12 +414,14 @@ function count_magazines(weapon)
 	return mag_inv
 end
 
+
+
 function actor_on_weapon_reload(actor, weapon, ammo_total)
 	
 	local weapon = db.actor:active_item()
 	local id = weapon:id()
-	-- cancel reload only if we have a valid mag
-	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() then return end
+	-- cancel reload only if we have a valid mag, do not allow reloads again while reloading in progress
+	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or weapon:get_state() == 7 then return end
 
 	if is_jammed_weapon(weapon) then
 		weapon_unjammed(weapon)
@@ -430,6 +432,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 		end
 		return
 	end
+
 	-- find appropriate magazine
 	local mag = find_magazine(weapon)
 		-- do the reload
@@ -642,19 +645,20 @@ function on_key_press(key)
 		local bind = dik_to_bind(key)
 		if bind == key_bindings.kWPN_RELOAD then
 			local current_weapon = db.actor:item_in_slot(db.actor:active_slot())
-			if not block_reload_spam and current_weapon and is_supported_weapon(current_weapon) then
+			if current_weapon and is_supported_weapon(current_weapon) then
 				actor_on_weapon_reload(db.actor, current_weapon)
-				block_reload_spam = true
-				create_time_event("mag_redux","unblock_spam", 1, unblock_spam)
+				-- block_reload_spam = true
+				-- create_time_event("mag_redux","unblock_spam", 1, unblock_spam)
 			end
 		end
 	end
 end
 
-function unblock_spam()
-	block_reload_spam = false
-	return true
-end
+-- no longer explicitly required due to state check in reload func
+-- function unblock_spam()
+-- 	block_reload_spam = false
+-- 	return true
+-- end
 
 function unload_ammo(obj)
 	if is_magazine(obj) then
