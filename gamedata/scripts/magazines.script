@@ -28,6 +28,7 @@ get_config					= magazines_mcm.get_config
 
 -- global flag to interrupt reloads (set on key press and stuff)
 local interrupt_reload = false
+local interrupt_loading = false
 local jammed_guns = {}
 local load_timeout = {}
 ACTION_IN_PROGRESS = false
@@ -53,6 +54,10 @@ function action_in_progress()
 	return ACTION_IN_PROGRESS
 end
 
+function do_interrupt_reload()
+	interrupt_reload = true
+end
+
 function create_time_event(ev_id,act_id,timer,f,...)
 	disable_info("sleep_active")
 	CreateTimeEvent(ev_id,act_id,timer,f,...)
@@ -61,7 +66,6 @@ end
 --------------------------------------
 -- SECTION mag un/loading functions --
 --------------------------------------
-
 
 -- Get the time delay between loading/unloading rounds from/to magazine
 --
@@ -160,7 +164,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 			-- start loading loop
 		    local capacity = SYS_GetParam(2, weapon_sec, "max_mag_size")  or 20
 			print_dbg("start loading loop")
-			interrupt_reload = false
+			interrupt_loading = false
 			if get_config("fast_loading") and is_box_mode then
 				fast_load_magazine(weapon, item)
 			else
@@ -232,7 +236,7 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 	
 	local inventory = GetActorMenu()
 	local active_id = db.actor:active_item() and db.actor:active_item():id() or 0 
-	if (interrupt_reload and inventory:IsShown()) or tg > load_timeout[id] + 50000 or (active_id ~= id) then
+	if interrupt_reload or tg > load_timeout[id] + 50000 or (active_id ~= id) then
 		load_timeout[id] = nil
 		ACTION_IN_PROGRESS = false
 		interrupt_reload = false	
@@ -414,8 +418,6 @@ function count_magazines(weapon)
 	return mag_inv
 end
 
-
-
 function actor_on_weapon_reload(actor, weapon, ammo_total)
 	
 	local weapon = db.actor:active_item()
@@ -445,7 +447,6 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	
 	local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)
-	interrupt_reload = true
 	ACTION_IN_PROGRESS = true
 	local first_round = get_sec_chambered(weapon)
 	create_time_event("Mag_redux", "delay_weapon"..id, 0.1, delay_load_weapon, weapon, mag, pre_table, first_round)
@@ -468,7 +469,6 @@ function unjam_weapon(weapon)
 	local new_weapon = alife_clone_weapon(old_weapon)
 	weapon_unjammed(weapon)
 	print_dbg("New weapon should have %s ammo", data and #data.loaded or "no")
-	interrupt_reload = true
 	create_time_event("Mag_redux", "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon.id, data, slot)
 end
 
@@ -508,12 +508,10 @@ function load_magazine(magazine, capacity, delay)
 	if tg < last_time + delay then return false end
 	last_time = tg
 
-	-- Pepsifan04
-	-- added 'optional' delay to avoid calling get_mag_time on each iteration
-	print_dbg("Try load magazine, interrupt_reload state: %s", interrupt_reload)
-	if interrupt_reload or ext_ammo_box == nil then 
+	print_dbg("Try load magazine, interrupt_loading state: %s", interrupt_loading)
+	if interrupt_loading or ext_ammo_box == nil then 
 		print_dbg("ending load prematurely. is ammo box nil? %s", ext_ammo_box == nil)
-		interrupt_reload = false
+		interrupt_loading = false
 		inventory_refresh()
 		last_time = 0
 		return true
@@ -558,9 +556,9 @@ function unload_magazine(magazine, delay)
 	local id = magazine:id()
 	local mag_data = get_mag_data(id)
 	local mag_parent = db.actor--magazine:parent() and magazine:parent():id() or 0
-	if not mag_data or #mag_data.loaded == 0 or interrupt_reload then
+	if not mag_data or #mag_data.loaded == 0 or interrupt_loading then
 		print_dbg("ending unload prematurely.")
-		interrupt_reload = false
+		interrupt_loading = false
 		inventory_refresh()
 		-- create_time_event("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
 		last_time = 0
@@ -637,9 +635,9 @@ function fast_unload_magazine(magazine)
 end
 
 function on_key_press(key)
-	if not interrupt_reload then
+	if not interrupt_loading then
 		print_dbg("Interrupting reload")
-		interrupt_reload = true
+		interrupt_loading = true
 	end
 	if key then
 		local bind = dik_to_bind(key)
@@ -675,7 +673,7 @@ function func_unload_ammo(obj)
 		local id = obj:id()
 		local mag_data = get_mag_data(id)
 		if mag_data and #mag_data.loaded > 0 then
-			interrupt_reload = false
+			interrupt_loading = false
 			if parent_is_box(obj)  then--get_config("fast_loading") and parent_is_box(obj) then
 				fast_unload_magazine(obj)
 			else
