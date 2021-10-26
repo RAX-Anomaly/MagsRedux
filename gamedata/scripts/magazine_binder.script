@@ -275,7 +275,8 @@ function validate_loadout()
 end
 
 function room_in_pouch(id)
-    local s = mags_storage[id].size
+    local s = mags_storage[id] and mags_storage[id].size or false
+	if not s then return false end
     for i, mag in pairs(carried_mags) do -- safety purge of esccaped mags
         local itm = level.object_by_id(i)
         if  not (itm and utils_item.in_actor_inv(itm)) then
