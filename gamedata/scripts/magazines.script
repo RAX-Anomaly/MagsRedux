@@ -367,8 +367,15 @@ function timer_eject_magazine(weapon, id, mag_data)
 		weapon:set_ammo_elapsed(1)
 	end
 	set_mag_data(id, mag_data)
-	if #mag_data.loaded > 0 and weapon_in_slot(weapon) then
-		toggle_carried_mag(id)
+	local ejection_type = tonumber(get_config("ejection"))
+	print_dbg("ejection type is %s", ejection_type)
+	if weapon_in_slot(weapon) then
+		if #mag_data.loaded > 0 or ejection_type == 0 then
+			toggle_carried_mag(id)
+		-- elseif ejection_type == 2 then
+		-- 	 local mag_obj = level.object_by_id(id)
+		-- 	 db.actor:drop_item(mag_obj)
+		end
 	end
 	return true
 end

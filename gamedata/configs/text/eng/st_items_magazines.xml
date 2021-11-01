@@ -142,6 +142,24 @@
 	<string id="ui_mcm_magazines_fast_loading_desc">
 		<text>If enabled, loading and unloading rounds in stashes will be instant, like in Escape from Tarkov.</text>
 	</string>
+	<string id="ui_mcm_magazines_ejection">
+		<text>Empty mag unload behavior</text>
+	</string>
+	<string id="ui_mcm_magazines_ejection_desc">
+		<text>Controls where empty magazines go.</text>
+	</string>
+	<string id="ui_mcm_lst_ground">
+		<text>Throw on ground</text>
+	</string>
+
+	<string id="ui_mcm_lst_ruck">
+		<text>Put in backpack</text>
+	</string>
+
+	<string id="ui_mcm_lst_loadout">
+		<text>Put in loadout</text>
+	</string>
+
 	<!--MAGAZINES-->
 
 	<string id="st_dot">
