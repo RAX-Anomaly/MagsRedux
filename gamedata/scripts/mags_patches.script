@@ -36,7 +36,16 @@ end
 
 rax_stacking_control.register(is_magazine, stack_rule)
 
+mousebase = utils_ui.UICellContainer.On_Mouse1
 
+function utils_ui.UICellContainer:On_Mouse1(idx)
+    mousebase(self, idx)
+
+    if self.owner.holding_ctrl then
+        magazine_binder.toggle_carried_mag(self.cell[idx].ID)
+        magazines.inventory_refresh()
+    end
+end
 
 
 function ui_inventory.UIInventory:Cond_Unload(obj, bag)
