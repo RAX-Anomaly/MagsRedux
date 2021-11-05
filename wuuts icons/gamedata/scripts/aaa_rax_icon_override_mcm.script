@@ -171,8 +171,8 @@ function utils_ui.UICellItem:Create_Layer(ele, base, sec_m, sec_l, str_x, str_y,
 	local grid_size = self.grid_size
 	local x = str_x and (icon_override:section_exist(sec_m) and icon_override:r_float_ex(sec_m,str_x) or SYS_GetParam(2,sec_m, str_x)) or 0 
 	local y = str_y and (icon_override:section_exist(sec_m) and icon_override:r_float_ex(sec_m,str_y) or SYS_GetParam(2,sec_m, str_y)) or 0
-	local w = icon_override:section_exist(sec_l) and icon_override:r_float_ex(sec_l,"inv_grid_width") or SYS_GetParam(2,sec_l, "inv_grid_width",1) * grid_size
-	local h = icon_override:section_exist(sec_l) and icon_override:r_float_ex(sec_l,"inv_grid_height") or SYS_GetParam(2,sec_l, "inv_grid_height",1) * grid_size
+	local w = (icon_override:section_exist(sec_l) and icon_override:r_float_ex(sec_l,"inv_grid_width") or SYS_GetParam(2,sec_l, "inv_grid_width",1)) * grid_size
+	local h = (icon_override:section_exist(sec_l) and icon_override:r_float_ex(sec_l,"inv_grid_height") or SYS_GetParam(2,sec_l, "inv_grid_height",1)) * grid_size
 	local scale = str_scale and (icon_override:section_exist(sec_m) and icon_override:r_float_ex(sec_m,str_scale) or SYS_GetParam(2,sec_m, str_scale)) or 1
 	local scale_pos = scale * (grid_size/50)
 

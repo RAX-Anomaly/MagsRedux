@@ -202,6 +202,12 @@ function load_weapon(weapon, magazine, first_round)
 	if ACTION_IN_PROGRESS then return end
 	if is_magazine(magazine) and IsWeapon(weapon) and is_compatible(weapon, magazine) then
 		local wep_id = weapon:id()
+		local existing_mag = get_mag_data(wep_id)
+		if existing_mag then
+			print_dbg("Cancel loading. Another mag already in wpn: %s", existing_mag.section or "<unknown>")
+			return
+		end
+
 		local mag_id = magazine:id()
 		ammo_maps[wep_id] = nil -- nil this here to protect against weapon caliber changes or id recycling.
 		

@@ -9,8 +9,9 @@ function pr(txt, ...)
     --  printf("RAXPH: "..txt, ...)
 end
 
-if aaa_rax_icon_override_mcm then end --force load order
 
+local iconor = aaa_rax_icon_override_mcm and true or false
+local icon_override = iconor and aaa_rax_icon_override_mcm.icon_override
 local ratio = utils_xml.screen_ratio()
 local icon_layers = {}
 
@@ -29,6 +30,7 @@ end
 
 function refresh(mode) --safer way to refresh inventory, mode == 1  refreshes sorting.
 	local inventory = GetActorMenu()
+	inventory:UnHighlight_All()
 	if mode == 1 then
 		local sort = nil
 		for i=1,#inventory.sort_btn do
@@ -71,7 +73,7 @@ function utils_ui.UICellItem:Add_Layers(xml, obj, sec, clsid)
 	base_layers(self, xml, obj, sec, clsid)
 
 	local ii = 1
-	while (SYS_GetParam(0, sec, (ii).."icon_layer") ~= nil) do --get ii up to next avail layer.
+	while ((iconor and icon_override:section_exist(sec) and icon_override:r_string_ex(sec,(ii).."icon_layer")) or SYS_GetParam(0, sec, (ii).."icon_layer") ~= nil) do --get ii up to next avail layer.
 		ii = ii + 1
 	end
 	if (not self.layer) then
@@ -113,7 +115,7 @@ function add_icon_layer(self,ele, base, sec_m, tbl)
 	local scale = tbl.icon_layer_scale or 1
 	local scale_pos = scale * (grid_size/50)
 
-	local rot = ele:GetHeading() > 0
+	local rot =  ele:GetHeading() > 0
 	local x_s = x * ratio * scale_pos
 	local y_s = y * scale_pos
 	local w_s = w * ratio * scale
@@ -132,11 +134,11 @@ function add_icon_layer(self,ele, base, sec_m, tbl)
 		x_s = x_st + (y * ratio * scale_pos)
 		y_s = y_st - (x * scale_pos) 
 		w_s = w * scale
-		h_s = h * ratio * scale
-		w_off = (h_s * (1/ratio))/2
+		h_s = h * scale
+		w_off = (h_s - h_s *ratio/2)
 		h_off = -w_s/2
 	end
-	
+
 	ele:InitTexture( utils_xml.get_icons_texture(sec_l) )
 	ele:SetTextureRect(Frect():set( utils_xml.get_item_axis(sec_l, nil, true) ))
 	ele:SetStretchTexture(true)
@@ -157,7 +159,7 @@ function add_texture_layer(self,ele, base, sec_m, tbl)
 	local scale = 1
 	local scale_pos = scale * (grid_size/50)
 
-	local rot = ele:GetHeading() > 0
+	local rot =  ele:GetHeading() > 0
 	local x_s = x * ratio * scale_pos
 	local y_s = y * scale_pos
 	local w_s = w * ratio * scale
@@ -176,8 +178,8 @@ function add_texture_layer(self,ele, base, sec_m, tbl)
 		x_s = x_st + (y * ratio * scale_pos)
 		y_s = y_st - (x * scale_pos) 
 		w_s = w * scale
-		h_s = h * ratio * scale
-		w_off = (h_s * (1/ratio))/2
+		h_s = h * scale
+		w_off = (h_s - h_s *ratio/2)
 		h_off = -w_s/2
 	end
 	
