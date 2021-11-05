@@ -144,6 +144,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 	if not ((from_slot == EDDListType.iDeadBodyBag and to_slot == EDDListType.iDeadBodyBag) or (from_slot == EDDListType.iActorBag  and (to_slot == EDDListType.iActorBag or to_slot == EDDListType.iActorSlot))) then
         return
     end
+	local active_id = db.actor:active_item() and db.actor:active_item():id() or 0 
 	local item_id = item:id()
 	local item_sec = item:section()
 	local weapon_id = weapon:id()
@@ -181,7 +182,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		if weapon:weapon_in_grenade_mode() then return end
 		-- init loading of weapon
 		print_dbg("Begin loading mag %s into weapon %s", item:section(), weapon:section())
-		if to_slot == EDDListType.iActorSlot then
+		if to_slot == EDDListType.iActorSlot and weapon_id == active_id then
 			local pre_table = count_ammo(weapon)
 			weapon:switch_state(7)
 			ACTION_IN_PROGRESS = true		
