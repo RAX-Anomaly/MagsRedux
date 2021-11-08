@@ -190,6 +190,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 			local first_round = get_sec_chambered(weapon)
 			create_time_event("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table, first_round)
 		else
+			eject_magazine(weapon)
 			load_weapon(weapon, item)
 		end
 	end
