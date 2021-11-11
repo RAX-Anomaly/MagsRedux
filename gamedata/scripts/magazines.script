@@ -792,10 +792,7 @@ function prep_weapon(weapon, feed_next)
 		end
 		local round = stack.peek(mag_data.loaded)
 		if round ~= nil and ammo_map[round] then
-			-- as a stopgap, if weapon already has one in chamber, don't set the ammo type
-			if true then
-				weapon:set_ammo_type(ammo_map[round]-1)
-			end
+			weapon:set_ammo_type(ammo_map[round]-1)
 			weapon:unload_magazine()
 			weapon:set_ammo_elapsed(count)
 			print_dbg("chambering round of type %s, there are %s rounds loaded, ammo in mag is %s", round, count, weapon:get_ammo_in_magazine())

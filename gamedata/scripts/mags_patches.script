@@ -752,6 +752,7 @@ function UIWheelAmmoWuut:OnAmmo(n)
 				local pre_table = magazines.count_ammo(wpn)
 				
 				print_dbg("Mag swap - loaded ammo is %s", wpn:get_ammo_in_magazine())
+				local first_round = nil
 				if magazines_mcm.get_config("retain_round") and wpn:get_ammo_in_magazine() > 0 then
 					first_round = get_sec_chambered(wpn)
 					print_dbg("Mag swap - chambered round is %s", first_round)
