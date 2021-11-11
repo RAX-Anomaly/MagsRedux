@@ -23,6 +23,7 @@ create_mag_data             = magazine_binder.create_mag_data
 validate_mag				= magazine_binder.validate_mag
 validate_wep             	= magazine_binder.validate_wep
 create_time_event			= magazines.create_time_event
+get_sec_chambered			= magazines.get_sec_chambered
 
 
 
@@ -717,7 +718,13 @@ function UIWheelAmmoWuut:SwitchNextAmmo()
 				local pre_table = magazines.count_ammo(wpn)
 				wpn:switch_state(7)
 				disable_info("sleep_active")
-				create_time_event("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
+				local first_round = nil
+				print_dbg("Mag swap - loaded ammo is %s", weapon:get_ammo_in_magazine())
+				if magazines_mcm.get_config("retain_round") and weapon:get_ammo_in_magazine() > 0 then
+					first_round = get_sec_chambered(weapon)
+					print_dbg("Mag swap - chambered round is %s", first_round)
+				end
+				create_time_event("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table, first_round)
 
 			else
 				wpn:unload_magazine(true)
@@ -743,9 +750,16 @@ function UIWheelAmmoWuut:OnAmmo(n)
 					eject(wpn)
 				end
 				local pre_table = magazines.count_ammo(wpn)
+				
+				print_dbg("Mag swap - loaded ammo is %s", wpn:get_ammo_in_magazine())
+				if magazines_mcm.get_config("retain_round") and wpn:get_ammo_in_magazine() > 0 then
+					first_round = get_sec_chambered(wpn)
+					print_dbg("Mag swap - chambered round is %s", first_round)
+				end
+				
 				wpn:switch_state(7)
 				disable_info("sleep_active")
-				create_time_event("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table)
+				create_time_event("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table, first_round)
 			else
 			
 				wpn:unload_magazine(true)
