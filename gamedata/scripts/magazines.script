@@ -355,6 +355,14 @@ function eject_magazine(weapon)
 	local id = weapon:id()
 	local mag_data = get_mag_data(id)
 	if mag_data then
+		
+		weapon:force_unload_magazine(false)
+		if get_config("retain_round") and #mag_data.loaded > 0 then
+			print_dbg("retaining round of type %s in chamber", stack.peek(mag_data.loaded))
+			stack.pop(mag_data.loaded)
+			weapon:set_ammo_elapsed(1)
+		end
+		
 		se_mag = alife_create_item(mag_data.section, weapon:parent())
 		if se_mag then
 			CreateTimeEvent("mag_redux", "timer_eject", 0, timer_eject_magazine, weapon, se_mag.id, mag_data)
@@ -368,21 +376,13 @@ function eject_magazine(weapon)
 end
 
 function timer_eject_magazine(weapon, id, mag_data)
-	weapon:force_unload_magazine(false)
-	if get_config("retain_round") and #mag_data.loaded > 0 then
-		print_dbg("retaining round of type %s in chamber", stack.peek(mag_data.loaded))
-		stack.pop(mag_data.loaded)
-		weapon:set_ammo_elapsed(1)
-	end
+
 	set_mag_data(id, mag_data)
 	local ejection_type = tonumber(get_config("ejection"))
 	print_dbg("ejection type is %s", ejection_type)
 	if weapon_in_slot(weapon) then
 		if #mag_data.loaded > 0 or ejection_type == 0 then
 			toggle_carried_mag(id)
-		-- elseif ejection_type == 2 then
-		-- 	 local mag_obj = level.object_by_id(id)
-		-- 	 db.actor:drop_item(mag_obj)
 		end
 	end
 	return true
@@ -783,6 +783,8 @@ function prep_weapon(weapon, feed_next)
 	local id = weapon:id()
 	local mag_data = get_mag_data(id)
 	local ammo_map = get_ammo_map(id) --cacheing function should keep this from being too laggy, got to look out for the potatos
+
+
 	if mag_data then
 		local count = #mag_data.loaded
 		if feed_next then
