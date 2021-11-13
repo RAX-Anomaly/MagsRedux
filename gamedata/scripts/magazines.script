@@ -440,6 +440,12 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	-- cancel reload only if we have a valid mag, do not allow reloads again while reloading in progress
 	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or weapon:get_state() == 7 then return end
 
+	-- wpo edge case to handle denial of reload on unjam
+	if arti_jamming and arti_jamming.get_jammed(id) then
+		weapon:switch_state(2)
+		return
+	end
+
 	if is_jammed_weapon(weapon) then
 		weapon_unjammed(weapon)
 		local hud_section = SYS_GetParam(0, weapon:section(), "hud")
@@ -769,6 +775,10 @@ function weapon_unjammed(weapon)
 end
 
 function weapon_jammed(weapon)
+	if arti_jamming then 
+		print_dbg("WPO detected, not jamming")
+		return
+	end
 	print_dbg("Logging jammed weapon %s", weapon:id())
 	jammed_guns[weapon:id()] = true
 end
