@@ -47,7 +47,7 @@ function utils_ui.UICellContainer:On_Mouse1(idx)
 end
 
 function wrap_toggle(id)
-	if magazine_binder.toggle_carried_mag(id) ~= nil then
+	if is_magazine(id) and toggle_carried_mag(id) ~= nil then
 		magazines.inventory_refresh()
 	end
 	return true
