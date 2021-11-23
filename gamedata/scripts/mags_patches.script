@@ -42,11 +42,15 @@ function utils_ui.UICellContainer:On_Mouse1(idx)
     mousebase(self, idx)
 
     if self.owner.holding_ctrl then
-        magazine_binder.toggle_carried_mag(self.cell[idx].ID)
-        magazines.inventory_refresh()
+		create_time_event("mag_redux", "delay_toggle", 0, wrap_toggle, self.cell[idx].ID)
     end
 end
 
+function wrap_toggle(id)
+	magazine_binder.toggle_carried_mag(id)
+	magazines.inventory_refresh()
+	return true
+end
 
 function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 	obj = self:CheckItem(obj,"Cond_Unload")
