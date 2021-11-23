@@ -195,10 +195,12 @@ function toggle_carried_mag(id)
 --	print_dbg("tcm1")
 	if carried_mags[id] then
 		carried_mags[id] = nil
+		return false
 			--print_dbg("tcm2")
 
 	elseif room_in_pouch(id) then
 		carried_mags[id] = mags_storage[id]
+		return true
 			--print_dbg("tcm3"..tostring(carried_mags[id] and carried_mags[id].section))
 	end
 end
