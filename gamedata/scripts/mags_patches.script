@@ -37,8 +37,22 @@ end
 
 rax_stacking_control.register(is_magazine, stack_rule)
 
+mousebase = utils_ui.UICellContainer.On_Mouse1
 
+function utils_ui.UICellContainer:On_Mouse1(idx)
+    mousebase(self, idx)
 
+    if self.owner.holding_ctrl then
+		create_time_event("mag_redux", "delay_toggle", 0, wrap_toggle, self.cell[idx].ID)
+    end
+end
+
+function wrap_toggle(id)
+	if is_magazine(id) and toggle_carried_mag(id) ~= nil then
+		magazines.inventory_refresh()
+	end
+	return true
+end
 
 function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 	obj = self:CheckItem(obj,"Cond_Unload")
