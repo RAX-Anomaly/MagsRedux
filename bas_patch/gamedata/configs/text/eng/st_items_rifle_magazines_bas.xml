@@ -33,6 +33,32 @@ Pistols and MP's
 		</text>
 	</string>
 	
+	
+	
+	
+	
+	<string id="st_mag_toz106_20x70_zhekan_fmj">
+		<text>Standard 20x70 TOZ 106 Magazine</text>
+	</string>
+	<string id="st_mag_toz106_20x70_zhekan_descr">
+		<text>
+		Standard TOZ 106 Magazine with a capacity of 2 Slug shells.
+		</text>
+	</string>
+	
+	<string id="st_mag_etoz106_20x70_zhekan_fmj">
+		<text>Extended 20x70 TOZ 106 Magazine</text>
+	</string>
+	<string id="st_mag_etoz106_20x70_zhekan_descr">
+		<text>
+		Extended TOZ 106 Magazine with a capacity of 4 Slug shells.
+		</text>
+	</string>
+	
+	
+	
+	
+	
 	<string id="st_mag_dvl_7.62x51">
 		<text>Standard 7.62x51 DVL10 Magazine</text>
 	</string>

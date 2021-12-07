@@ -14,7 +14,6 @@ inv_weight			                                   = 0.14
 cost                                                   = 450
 
 base_type											   = toz106_20x70
-
 retool_group                                           = toz_zhekan
 
 [mag_bas_toz106m1]:tch_mag_base
@@ -31,5 +30,4 @@ inv_weight			                                   = 0.16
 cost                                                   = 750
 
 base_type											   = toz106_20x70
-
 retool_group                                           = toz_zhekan
