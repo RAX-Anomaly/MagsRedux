@@ -610,7 +610,7 @@ function utils_ui.UICellContainer:FindFreeCell(obj, sec)
 end
 
 
-function item_artifact.UIBelt:Refresh()
+function item_artefact.UIBelt:Refresh()
 	local cnt = 0
 	
 	self:Clear()
@@ -656,7 +656,16 @@ function item_artifact.UIBelt:Refresh()
 	self.dialog:Show(cnt > 0)
 end
 
-
+local upgr_chk = {
+	["weapon"] = {
+		{ x = 1724 , y = 802 , w = 167 , h = 159 }
+	},
+	["outfit"] = {
+		{ x = 716 , y = 824 , w = 198 , h = 129 },
+		{ x = 814 , y = 579 , w = 159 , h = 137 },
+		{ x = 90 , y = 818 , w = 185 , h = 140 }
+	},
+}
 function utils_xml.set_upgr_icon(obj, sec, XML_box, XML_temp)
 	ico_width = ico_width or utils_xml.screen_ratio()
 	
@@ -665,7 +674,7 @@ function utils_xml.set_upgr_icon(obj, sec, XML_box, XML_temp)
 	local upgr_w = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_width") or ini_sys:r_float_ex(sec,"upgr_icon_width")
 	local upgr_h = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_height") or ini_sys:r_float_ex(sec,"upgr_icon_height")
 	if not (upgr_x and upgr_y and upgr_w and upgr_h) then
-		set_icon(sec, nil, XML_temp, XML_box)
+		utils_xml.set_icon(sec, nil, XML_temp, XML_box)
 		return
 	end
 	
@@ -694,7 +703,7 @@ function utils_xml.set_upgr_icon(obj, sec, XML_box, XML_temp)
 		end
 	end
 	if use_ico then
-		set_icon(sec, nil, XML_temp, XML_box)
+		utils_xml.set_icon(sec, nil, XML_temp, XML_box)
 		return
 	end
 	
