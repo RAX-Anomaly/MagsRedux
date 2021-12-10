@@ -18,11 +18,14 @@ local ratio = utils_xml.screen_ratio()
 icon_override = ini_file_ex("icon_override\\icon_override.ltx")
 
 function print_dbg( text , ...)
-	if true then
+	if false then
 		printf( "RAX: | %s |  "..text ,time_global(), ...)
 	end
 end
-
+local clr_icon_1 = GetARGB(255, 255, 255, 255)
+local clr_icon_2 = GetARGB(70, 255, 255, 255)
+local ico_size, rw, rh, _le = 0.7,1,1,50
+local ico_width
 
 local clr_list = {
 	["def"]         = GetARGB(255, 255, 255, 255),
@@ -85,6 +88,118 @@ function utils_xml.get_item_axis(section, grid_size, unpacked)
 	end
 	return { x1=x1, y1=y1, x2=x2, y2=y2, w=w, h=h }
 end
+
+local upgr_chk = {
+	["weapon"] = {
+		{ x = 1724 , y = 802 , w = 167 , h = 159 }
+	},
+	["outfit"] = {
+		{ x = 716 , y = 824 , w = 198 , h = 129 },
+		{ x = 814 , y = 579 , w = 159 , h = 137 },
+		{ x = 90 , y = 818 , w = 185 , h = 140 }
+	},
+}
+
+function utils_xml.set_upgr_icon(obj, sec, XML_box, XML_temp)
+	ico_width = ico_width or utils_xml.screen_ratio()
+	local upgr_x = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_x") or ini_sys:r_float_ex(sec,"upgr_icon_x")
+	local upgr_y = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_y") or ini_sys:r_float_ex(sec,"upgr_icon_y")
+	local upgr_w = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_width") or ini_sys:r_float_ex(sec,"upgr_icon_width")
+	local upgr_h = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_height") or ini_sys:r_float_ex(sec,"upgr_icon_height")
+	if not (upgr_x and upgr_y and upgr_w and upgr_h) then
+		utils_xml.set_icon(sec, nil, XML_temp, XML_box)
+		return
+	end
+	
+	-- Get upgrade dds
+	local overide_path = icon_override:section_exist(sec) and icon_override:r_string_ex(sec,"upgr_icon_path")
+	local upgr_path = ini_sys:r_string_ex(sec,"upgr_icon_path")
+	upgr_path = overide_path or upgr_path or IsWeapon(obj) and "ui\\ui_actor_weapons" or "ui\\ui_actor_armor"
+	
+	-- Decide if it should use normal icon instead
+	local use_ico = false
+	local t = {}
+	if not overide_path then
+		if IsWeapon(obj) then
+			for i=1,#upgr_chk["weapon"] do
+				t = upgr_chk["weapon"][i]
+				if (t.x == upgr_x) and (t.y == upgr_y) and (t.w == upgr_w) and (t.h == upgr_h) then
+					use_ico = true
+					break
+				end
+			end
+		elseif IsOutfit(obj) then
+			for i=1,#upgr_chk["outfit"] do
+				t = upgr_chk["outfit"][i]
+				if (t.x == upgr_x) and (t.y == upgr_y) and (t.w == upgr_w) and (t.h == upgr_h) then
+					use_ico = true
+					break
+				end
+			end
+		end
+	end
+	if use_ico then
+		utils_xml.set_icon(sec, nil, XML_temp, XML_box)
+		return
+	end
+	
+	
+	local ico = {}
+	ico.x1 = upgr_x
+	ico.y1 = upgr_y
+	ico.x2 = upgr_x + upgr_w
+	ico.y2 = upgr_y + upgr_h
+	ico.w = upgr_w
+	ico.h = upgr_h
+	
+	
+	XML_box:InitTexture(upgr_path)
+	XML_box:SetTextureRect(Frect():set(ico.x1, ico.y1, ico.x2, ico.y2))
+	XML_box:SetStretchTexture(true)
+	XML_box:Show(true)
+	
+	local pos = XML_temp:GetWndPos()
+	local _w = XML_temp:GetWidth()
+	local _h = XML_temp:GetHeight()
+	
+	local ratio = ico.w/ico.h
+	local h, w
+	ico.w = ico.w * ico_size * ico_width
+	ico.h = ico.h * ico_size
+	
+	for i=1,2 do
+		local w_t, h_t = 0, 0
+		local resize = false
+		if (ico.w > _w) then -- if icon width is bigger than frame width
+			w_t = ico.w - _w
+			resize = true	
+		end 
+		if (ico.h > _h) then -- if icon height is bigger than frame height
+			h_t = ico.h - _h 
+			resize = true	
+		end 
+		
+		if resize then -- resize is required
+			if (w_t >= h_t) then -- if icon width is the big number (or square), use it as a base for resizing
+				w = _w
+				h = w / ratio
+			elseif (w_t < h_t) then -- if icon width is the big number, use it as a base for resizing
+				h = _h
+				w = h * ratio
+			end
+		else -- no resize
+			w = ico.w
+			h = ico.h
+		end
+	end
+	
+	local offset_x = (_w - w)/2
+	local offset_y = (_h - h)/2
+	XML_box:SetWndSize(vector2():set(w , h))
+	XML_box:SetWndPos(vector2():set(pos.x + offset_x , pos.y + offset_y))
+end
+
+
 
 --utils_ui.get_item_axis = utils_xml.get_item_axis
 local sync_element          = utils_xml.sync_element
@@ -656,110 +771,32 @@ function item_artefact.UIBelt:Refresh()
 	self.dialog:Show(cnt > 0)
 end
 
-local upgr_chk = {
-	["weapon"] = {
-		{ x = 1724 , y = 802 , w = 167 , h = 159 }
-	},
-	["outfit"] = {
-		{ x = 716 , y = 824 , w = 198 , h = 129 },
-		{ x = 814 , y = 579 , w = 159 , h = 137 },
-		{ x = 90 , y = 818 , w = 185 , h = 140 }
-	},
-}
-function utils_xml.set_upgr_icon(obj, sec, XML_box, XML_temp)
-	ico_width = ico_width or utils_xml.screen_ratio()
+function ui_inventory.UIInventory:RMode_InitItemIcon(obj)
+	self:Print(nil, "RMode_InitItemIcon | %s", obj and obj:name())
+	if (not obj) then
+		self.npc_up_item:Show(false)
+		return
+	end
 	
-	local upgr_x = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_x") or ini_sys:r_float_ex(sec,"upgr_icon_x")
-	local upgr_y = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_y") or ini_sys:r_float_ex(sec,"upgr_icon_y")
-	local upgr_w = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_width") or ini_sys:r_float_ex(sec,"upgr_icon_width")
-	local upgr_h = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_height") or ini_sys:r_float_ex(sec,"upgr_icon_height")
-	if not (upgr_x and upgr_y and upgr_w and upgr_h) then
-		utils_xml.set_icon(sec, nil, XML_temp, XML_box)
+	local sec = obj:section()
+	
+	
+	local x = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_x") or ini_sys:r_float_ex(sec,"upgr_icon_x")
+	local  y = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_y") or ini_sys:r_float_ex(sec,"upgr_icon_y")
+	local w = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_width") or ini_sys:r_float_ex(sec,"upgr_icon_width")
+	local h = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_height") or ini_sys:r_float_ex(sec,"upgr_icon_height")
+	if not (x and y and w and h) then
+		self.npc_up_item:Show(false)
 		return
 	end
 	
 	-- Get upgrade dds
-	local upgr_path = icon_override:section_exist(sec) and icon_override:r_float_ex(sec,"upgr_icon_path") or ini_sys:r_string_ex(sec,"upgr_icon_path")
-	upgr_path = upgr_path or IsWeapon(obj) and "ui\\ui_actor_weapons" or "ui\\ui_actor_armor"
+	local path = icon_override:section_exist(sec) and icon_override:r_string_ex(sec,"upgr_icon_path") or SYS_GetParam(0,sec,"upgr_icon_path") or (IsWeapon(obj) and "ui\\ui_actor_weapons") or "ui\\ui_actor_armor"
 	
-	-- Decide if it should use normal icon instead
-	local use_ico = false
-	local t = {}
-	if IsWeapon(obj) then
-		for i=1,#upgr_chk["weapon"] do
-			t = upgr_chk["weapon"][i]
-			if (t.x == upgr_x) and (t.y == upgr_y) and (t.w == upgr_w) and (t.h == upgr_h) then
-				use_ico = true
-				break
-			end
-		end
-	elseif IsOutfit(obj) then
-		for i=1,#upgr_chk["outfit"] do
-			t = upgr_chk["outfit"][i]
-			if (t.x == upgr_x) and (t.y == upgr_y) and (t.w == upgr_w) and (t.h == upgr_h) then
-				use_ico = true
-				break
-			end
-		end
-	end
-	if use_ico then
-		utils_xml.set_icon(sec, nil, XML_temp, XML_box)
-		return
-	end
-	
-	
-	local ico = {}
-	ico.x1 = upgr_x
-	ico.y1 = upgr_y
-	ico.x2 = upgr_x + upgr_w
-	ico.y2 = upgr_y + upgr_h
-	ico.w = upgr_w
-	ico.h = upgr_h
-	
-	
-	XML_box:InitTexture(upgr_path)
-	XML_box:SetTextureRect(Frect():set(ico.x1, ico.y1, ico.x2, ico.y2))
-	XML_box:SetStretchTexture(true)
-	XML_box:Show(true)
-	
-	local pos = XML_temp:GetWndPos()
-	local _w = XML_temp:GetWidth()
-	local _h = XML_temp:GetHeight()
-	
-	local ratio = ico.w/ico.h
-	local h, w
-	ico.w = ico.w * ico_size * ico_width
-	ico.h = ico.h * ico_size
-	
-	for i=1,2 do
-		local w_t, h_t = 0, 0
-		local resize = false
-		if (ico.w > _w) then -- if icon width is bigger than frame width
-			w_t = ico.w - _w
-			resize = true	
-		end 
-		if (ico.h > _h) then -- if icon height is bigger than frame height
-			h_t = ico.h - _h 
-			resize = true	
-		end 
-		
-		if resize then -- resize is required
-			if (w_t >= h_t) then -- if icon width is the big number (or square), use it as a base for resizing
-				w = _w
-				h = w / ratio
-			elseif (w_t < h_t) then -- if icon width is the big number, use it as a base for resizing
-				h = _h
-				w = h * ratio
-			end
-		else -- no resize
-			w = ico.w
-			h = ico.h
-		end
-	end
-	
-	local offset_x = (_w - w)/2
-	local offset_y = (_h - h)/2
-	XML_box:SetWndSize(vector2():set(w , h))
-	XML_box:SetWndPos(vector2():set(pos.x + offset_x , pos.y + offset_y))
+	self.npc_up_item:InitTexture(path)
+	self.npc_up_item:SetTextureRect(Frect():set(x, y, x + w, y + h))
+	self.npc_up_item:SetWndSize(vector2():set( w * ratio , h ))
+	self.npc_up_item:SetStretchTexture(true)
+	self.npc_up_item:Show(true)
 end
 
