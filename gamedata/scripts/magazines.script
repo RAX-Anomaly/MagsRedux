@@ -441,7 +441,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or weapon:get_state() == 7 then return end
 
 	-- wpo edge case to handle denial of reload on unjam
-	if arti_jamming and arti_jamming.get_jammed(id) then
+	if arti_jamming and arti_jamming.get_jammed and arti_jamming.get_jammed(id) then
 		weapon:switch_state(2)
 		return
 	end
@@ -483,24 +483,28 @@ function unjam_weapon(weapon)
 	local id = weapon:id()
 	local data = get_mag_data(id)
 	local slot = db.actor:active_slot()
-	actor_effects.use_weapon(0)
+	db.actor:hide_weapon()
 	local ammo_loaded = weapon:get_ammo_in_magazine()
 	-- local fire_queue = 0 -- this shit complicated do later
 	local old_weapon = alife_object(id)
 	local new_weapon = alife_clone_weapon(old_weapon)
 	weapon_unjammed(weapon)
 	print_dbg("New weapon should have %s ammo", data and #data.loaded or "no")
-	create_time_event("Mag_redux", "unjam_weapon", 0.5, unjam_weapon_timer, new_weapon.id, data, slot)
+	create_time_event("Mag_redux", "unjam_weapon", 0, unjam_weapon_timer, new_weapon.id, data, slot)
 end
 
 function unjam_weapon_timer(weapon_id, data, slot)
+	
+	local current_weapon = db.actor:active_item()
+	if current_weapon then return false end
+	
 	utils_obj.play_sound("handgun_unjam")
 	local weapon = level.object_by_id(weapon_id)
 	set_mag_data(weapon_id, nil)
 	set_mag_data(weapon_id, data)
 	prep_weapon(weapon, false)
 	db.actor:move_to_slot(weapon, slot)
-	actor_effects.use_weapon(1)
+	db.actor:restore_weapon()
 	return true
 end
 -----------------------------------------
