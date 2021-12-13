@@ -581,7 +581,8 @@ function unload_magazine(magazine, delay)
 	-- added 'optional' delay to avoid calling get_mag_time on each iteration
 	local id = magazine:id()
 	local mag_data = get_mag_data(id)
-	local mag_parent = magazine:parent() and magazine:parent() or db.actor
+	-- note to self: create_ammo does not trigger item on move callback, hence cannot unload into corpse or box
+	local mag_parent = db.actor--magazine:parent() and magazine:parent() or db.actor
 	print_dbg("Magazine parent is %s", mag_parent:id())
 	if not mag_data or #mag_data.loaded == 0 or interrupt_loading then
 		print_dbg("ending unload prematurely interrupt_loading=%s", interrupt_loading)
