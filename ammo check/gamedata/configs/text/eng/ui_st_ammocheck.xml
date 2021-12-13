@@ -4,6 +4,9 @@
     <string id="st_ac_overfull">
         <text>Overfilled</text>
     </string>
+    <string id="st_ac_plus1">
+        <text>Full + 1 in the chamber</text>
+    </string>
     <string id="st_ac_just_one">
         <text>Just one</text>
     </string>

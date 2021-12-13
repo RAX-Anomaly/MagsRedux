@@ -312,6 +312,7 @@ function count_ammo(weapon)
 	end)
 	return ammo_table
 end
+
 -- Refund ammo.
 function refund_ammo(weapon, pre_ammo_table)
 	if rax_inventory_highlights_mcm  then -- yes i am adding a compatablity patch with my own mod. 
@@ -365,7 +366,7 @@ function eject_magazine(weapon)
 		
 		se_mag = alife_create_item(mag_data.section, weapon:parent())
 		if se_mag then
-			CreateTimeEvent("mag_redux", "timer_eject", 0, timer_eject_magazine, weapon, se_mag.id, mag_data)
+			create_time_event("mag_redux", "timer_eject", 0, timer_eject_magazine, weapon, se_mag.id, mag_data)
 		else
 			print_dbg("Could not create magazine %s", mag_data.section)
 		end
@@ -580,9 +581,10 @@ function unload_magazine(magazine, delay)
 	-- added 'optional' delay to avoid calling get_mag_time on each iteration
 	local id = magazine:id()
 	local mag_data = get_mag_data(id)
-	local mag_parent = db.actor--magazine:parent() and magazine:parent():id() or 0
+	local mag_parent = magazine:parent() and magazine:parent() or db.actor
+	print_dbg("Magazine parent is %s", mag_parent:id())
 	if not mag_data or #mag_data.loaded == 0 or interrupt_loading then
-		print_dbg("ending unload prematurely.")
+		print_dbg("ending unload prematurely interrupt_loading=%s", interrupt_loading)
 		interrupt_loading = false
 		inventory_refresh()
 		-- create_time_event("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
@@ -654,7 +656,7 @@ function fast_unload_magazine(magazine)
 	set_mag_data(magazine:id(), mag_data)
 	local to_spawn = magazine:parent() ~= nil and magazine:parent() or db.actor
 	for k,v in pairs(ammo_to_make) do
-		create_ammo(k, to_spawn:position(), to_spawn:level_vertex_id(), 	to_spawn:game_vertex_id(), to_spawn:id(), v)
+		create_ammo(k, to_spawn:position(), to_spawn:level_vertex_id(), to_spawn:game_vertex_id(), to_spawn:id(), v)
 	end
 	timed_refresh()
 end
@@ -670,8 +672,6 @@ function on_key_press(key)
 			local current_weapon = db.actor:item_in_slot(db.actor:active_slot())
 			if current_weapon and is_supported_weapon(current_weapon) then
 				actor_on_weapon_reload(db.actor, current_weapon)
-				-- block_reload_spam = true
-				-- create_time_event("mag_redux","unblock_spam", 1, unblock_spam)
 			end
 		end
 	end
@@ -873,6 +873,7 @@ end
 function on_game_start()
 	RegisterScriptCallback("ActorMenu_on_item_before_move", ActorMenu_on_item_before_move)
 	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
+	-- RegisterScriptCallback("on_key_release", on_key_release)
 	RegisterScriptCallback("on_key_press", on_key_press)
 	RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
 	-- RegisterScriptCallback("actor_on_weapon_reload", actor_on_weapon_reload)
