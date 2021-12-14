@@ -171,7 +171,10 @@ function checkAmmo()
         end
         local curAmmoPerc = currentAmmo / max_ammo
 
-        if (curAmmoPerc > 1) then
+        if currentAmmo == max_ammo + 1 then
+            message = gc("st_ac_plus1")
+            clr = use_clr and clr03_Amber
+        elseif (curAmmoPerc > 1) then
             message = gc("st_ac_overfull")
             clr = utils_xml.get_color("d_purple", true) -- always colored this is an error.
         elseif (currentAmmo == 1 and SYS_GetParam(2, sec, "ammo_mag_size", 0) == 2) then

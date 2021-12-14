@@ -1,0 +1,48 @@
+-- This file determines the behavior of your ammo check.
+-- Default: Hold USE to check ammo.
+
+print_dbg = magazine_binder and magazine_binder.print_dbg or ammo_check_mcm.ac_print_dbg
+
+NEUTRAL = 0
+PENDING = 1
+READY = 2
+local check_state = NEUTRAL
+function on_key_press(key)
+    local bind = dik_to_bind(key)
+    print_dbg("Pressed key %s", bind)
+    if (bind == key_bindings.kUSE) then
+        print_dbg("setting ammo check")
+        check_state = PENDING
+        CreateTimeEvent("ammo_check", "check_ammo", 0.3, set_check)
+    end
+end
+
+function set_check()
+    if check_state == PENDING then check_state = READY end
+    print_dbg("do check has been set to %s", check_state)
+    return true
+end
+
+function on_key_release(key)
+    local bind = dik_to_bind(key)
+    print_dbg("Released key %s", bind)
+    if (bind == key_bindings.kUSE) then
+        if check_state == PENDING or check_state == NEUTRAL then
+            print_dbg("State is %s, returning", check_state)
+            check_state = NEUTRAL
+            return
+        end
+        check_state = NEUTRAL
+        print_dbg("Performing ammo check")
+        local success, err = pcall(ammo_check_mcm.checkAmmo)
+
+        if not success then
+            print_dbg("Error: %s", err)
+        end
+    end
+end
+
+function on_game_start()
+    RegisterScriptCallback("on_key_press",on_key_press)
+    RegisterScriptCallback("on_key_release",on_key_release)
+end

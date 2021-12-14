@@ -1,0 +1,19 @@
+-- This file determines the behavior of your ammo check.
+-- Default: Use custom key 25 to check ammo.
+
+print_dbg = magazine_binder and magazine_binder.print_dbg or ammo_check_mcm.ac_print_dbg
+
+function on_key_press(key)
+    local bind = dik_to_bind(key)
+    if (bind == key_bindings.kCUSTOM25) then
+        local success, err = pcall(ammo_check_mcm.checkAmmo)
+
+        if not success then
+            print_dbg("Error: %s", err)
+        end
+    end
+end
+
+function on_game_start()
+    RegisterScriptCallback("on_key_press",on_key_press)
+end
