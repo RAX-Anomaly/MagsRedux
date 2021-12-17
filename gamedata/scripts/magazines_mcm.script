@@ -12,7 +12,8 @@ local defaults = {
     retain_round    		= false,
     ejection        		= 0,
     mag_loadtime_factor		= 1,
-    mag_unloadtime_factor	= 1
+    mag_unloadtime_factor	= 1,
+    mag_unequip_trs         = 1
 }
 
 local colors = {--alpha value will be reset to match slider
@@ -46,6 +47,7 @@ function on_mcm_load()
             {id = "fast_loading", type = "check", val = 1, def=false},	
             {id = "retain_round", type = "check", val = 1, def=false},	
             {id = "ejection" ,type= "list" ,val= 0  ,def= "orange" ,content= {{0,"loadout"},{1,"ruck"}}},		
+            {id = "mag_unequip_trs", type = "track", val = 2, min=0,max=100,step=1, def = 1},
             {id = "debug", type = "check", val = 1, def=false},
         }
     }

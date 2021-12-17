@@ -160,10 +160,16 @@
 		<text>Put in loadout</text>
 	</string>
 
+	<string id="ui_mcm_magazines_mag_unequip_trs">
+		<text>Deactivation treshold %</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_unequip_trs_desc">
+		<text>Enabled when "Put in backpack" or "Throw on ground" is selected \nMagazines that are full below this % will be deactivated.</text>
+	</string>
 	<!--MAGAZINES-->
 
 	<string id="st_dot">
-		<text>•</text>
+		<text>ï¿½</text>
 	</string>
 	<string id="st_mag_bonus">
 		<text>(Outfit:%s + Extra:%s)<!--alt:> (%s + %s)<--></text>

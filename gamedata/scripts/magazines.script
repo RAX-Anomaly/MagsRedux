@@ -382,7 +382,9 @@ function timer_eject_magazine(weapon, id, mag_data)
 	local ejection_type = tonumber(get_config("ejection"))
 	print_dbg("ejection type is %s", ejection_type)
 	if weapon_in_slot(weapon) then
-		if #mag_data.loaded > 0 or ejection_type == 0 then
+		local capacity = SYS_GetParam(2, mag_data.section, "max_mag_size") or 20
+		local ammo_percent=#mag_data.loaded/capacity
+		if ammo_percent > (get_config('mag_unequip_trs')/100) or ejection_type == 0 then
 			toggle_carried_mag(id)
 		end
 	end
