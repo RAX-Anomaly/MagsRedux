@@ -25,7 +25,7 @@ Warning: After you install this, your save games will no longer be compatible wi
 Hides the ammo count from HUD. Press a hotkey to check your weapon and see the approximate amount of rounds remaining in the magazine.</description> 
 							<image path="fomod\images\amochek.png" /> 
 							<files> 
-								<folder source="ammo check\gamedata" destination="gamedata" priority="0" /> 
+								<folder source="ammo_check\gamedata" destination="gamedata" priority="0" /> 
 							</files> 
 							<typeDescriptor> 
 								<type name="Optional"/> 
@@ -35,10 +35,10 @@ Hides the ammo count from HUD. Press a hotkey to check your weapon and see the a
 				</group> 
 				<group name="Patches" type="SelectAny"> 
 					<plugins order="Explicit"> 
-						<plugin name="EFT reposition patch"> 
-							<description>Compatibility patch. Only install if you're also using EFT reposition.</description> 
+						<plugin name="Position patch"> 
+							<description>Compatibility patch. Only install if you're also using Position and View by CEMENT or old version EFT reposition.</description> 
 							<files> 
-								<folder source="eft reposition patch\gamedata" destination="gamedata" priority="0" /> 
+								<folder source="position_and_view_CEMENT_patch\gamedata" destination="gamedata" priority="0" /> 
 							</files> 
 							<typeDescriptor> 
 								<type name="Optional"/> 
@@ -56,7 +56,7 @@ Hides the ammo count from HUD. Press a hotkey to check your weapon and see the a
 						<plugin name="Small Icon patch"> 
 							<description>Reverts to old small icons.</description> 
 							<files> 
-								<folder source="wuuts icons\gamedata" destination="gamedata" priority="0" /> 
+								<folder source="wuuts_icons\gamedata" destination="gamedata" priority="0" /> 
 							</files> 
 							<typeDescriptor> 
 								<type name="Optional"/> 
