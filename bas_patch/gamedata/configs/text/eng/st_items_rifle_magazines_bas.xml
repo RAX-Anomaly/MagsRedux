@@ -68,10 +68,10 @@ Pistols and MP's
 		</text>
 	</string>
 		
-	<string id="st_mag_remington700_7.62x51">
+	<string id="st_mag_basremington700_7.62x51_descr">
 		<text>Extended 7.62x51 Remington 700 Magazine</text>
 	</string>
-	<string id="st_mag_remington700_7.62x51_descr">
+	<string id="st_mag_basremington700_7.62x51">
 		<text>
 		Extended Remington 700 Magazine with a capacity of 12 rounds.
 		</text>
