@@ -160,6 +160,12 @@
 		<text>Put in loadout</text>
 	</string>
 
+	<string id="ui_mcm_magazines_mag_unequip_trs">
+		<text>Treat as empty %</text>
+	</string>
+	<string id="ui_mcm_magazines_mag_unequip_trs_desc">
+		<text>Used for "Put in backpack" or "Throw on ground" option \nMagazines below this % will be treated as empty.</text>
+	</string>
 	<!--MAGAZINES-->
 
 	<string id="st_dot">
