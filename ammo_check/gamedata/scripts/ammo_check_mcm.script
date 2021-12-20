@@ -60,7 +60,6 @@ function on_game_start()
         print_dbg("MagsRedux not found. Working in standalone mode.")
     end
 
-    RegisterScriptCallback("on_key_press", on_key_press)
     RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
     RegisterScriptCallback("on_option_change", on_option_change)
 end
@@ -101,17 +100,6 @@ function on_option_change()
     pos = ActorMenu.get_maingame().m_ui_hud_states.m_ui_weapon_icon:GetWndPos()
     pos.x = ((hide_ammo_icon and pos.x > 0) or ((not hide_ammo_icon) and pos.x < 0)) and (-1 * pos.x) or pos.x
     ActorMenu.get_maingame().m_ui_hud_states.m_ui_weapon_icon:SetWndPos(pos)
-end
-
-function on_key_press(key)
-    local bind = dik_to_bind(key)
-    if (bind == key_bindings.kCUSTOM25) then
-        local success, err = pcall(checkAmmo)
-
-        if not success then
-            print_dbg("Error: %s", err)
-        end
-    end
 end
 
 -- Main function --
