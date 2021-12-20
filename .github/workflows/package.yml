@@ -29,7 +29,7 @@ jobs:
         run: echo "::set-output name=today::$(date +'%Y.%m.%d')"
 
       - name: Zip folder
-        run: zip -r $RELEASE_NAME.zip gamedata README *.txt fomod "ammo check" "bas_patch" "eft reposition patch" "wuuts icons" 
+        run: zip -r $RELEASE_NAME.zip gamedata README *.txt fomod "ammo_check" "bas_patch" "position_and_view_CEMENT_patch" "wuuts_icons" 
         env: 
           RELEASE_NAME: ${{ github.event.repository.name }}.${{ steps.date.outputs.today }}
       
