@@ -366,7 +366,7 @@ function eject_magazine(weapon)
 		
 		se_mag = alife_create_item(mag_data.section, weapon:parent())
 		if se_mag then
-			create_time_event("mag_redux", "timer_eject", 0, timer_eject_magazine, weapon, se_mag.id, mag_data)
+			create_time_event("mag_redux", "timer_eject_"..id, 0, timer_eject_magazine, weapon, se_mag.id, mag_data)
 		else
 			print_dbg("Could not create magazine %s", mag_data.section)
 		end
