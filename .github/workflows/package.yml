@@ -23,10 +23,16 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - name: Get current date
         id: date
         run: echo "::set-output name=today::$(date +'%Y.%m.%d')"
+        
+      - name: Install trader dependencies
+        id: trade_dep
+        run: cp -r anomaly-dependencies/trader_autoinject/gamedata .
 
       - name: Zip folder
         run: zip -r $RELEASE_NAME.zip gamedata README *.txt fomod "ammo_check" "bas_patch" "position_and_view_CEMENT_patch" "wuuts_icons" 
