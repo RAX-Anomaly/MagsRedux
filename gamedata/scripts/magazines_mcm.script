@@ -46,7 +46,7 @@ function on_mcm_load()
             {id = "ammo_icon", type = "check", val = 1, def=true},			
             {id = "fast_loading", type = "check", val = 1, def=false},	
             {id = "retain_round", type = "check", val = 1, def=false},	
-            {id = "ejection" ,type= "list" ,val= 0  ,def= "orange" ,content= {{0,"loadout"},{1,"ruck"}}},		
+            {id = "ejection" ,type= "list" ,val= 2  ,def= 1 ,content= {{0,"loadout"},{1,"ruck"}}},		
             {id = "mag_unequip_trs", type = "track", val = 2, min=0,max=100,step=1, def = 1},
             {id = "debug", type = "check", val = 1, def=false},
         }
