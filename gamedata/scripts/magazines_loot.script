@@ -12,7 +12,14 @@ weapon_default_magazine		= magazine_binder.weapon_default_magazine
 weapon_improved_magazine	= magazine_binder.weapon_improved_magazine
 create_mag_data             = magazine_binder.create_mag_data
 print_dbg                   = magazines.print_dbg
+get_weapon_base_type		= magazine_binder.get_weapon_base_type
+get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
+get_mag_info                = magazine_binder.get_mag_info
 
+
+local math_random           = math.random
+local string_format         = string.format
+local print_table           = utils_data.print_table
 local ini_loadouts = ini_file("items\\settings\\npc_mag_loadouts.ltx")
 
 local mag_timer_global = nil
@@ -22,7 +29,10 @@ local tm = {}
 TraderAuto = trader_autoinject.update
 function trader_autoinject.update(npc)
     TraderAuto(npc)
-    stock_mags(npc)
+    CreateTimeEvent("restock_mags" .. npc:id(), "restock_mags" .. npc:id(), 0.01, function() 
+        stock_mags(npc) 
+        return true 
+    end)
 end
 
 -- function to resupply mags based on what weapons are in stock
@@ -37,10 +47,25 @@ function stock_mags(npc)
         local sec = item:section()
         if not IsAmmo(item) and IsWeapon(item) and is_supported_weapon(item) then
             local default_mag = weapon_default_magazine(item)
-            if to_spawn[default_mag] then
-                to_spawn[default_mag] = to_spawn[default_mag] + 1
+            local default_capacity = SYS_GetParam(2, default_mag, "max_mag_size")
+            local default_load_delay = SYS_GetParam(2, default_mag, "load_delay")
+            local mags = get_mags_for_basetype(get_weapon_base_type(item))
+            if mags then
+                print_dbg("Mags [%s]", sec)
+                for _, mag in pairs(mags) do
+                    local load_delay = SYS_GetParam(2, mag, "load_delay")
+                    local capacity = SYS_GetParam(2, mag, "max_mag_size")
+    
+                    if mag ~= default_mag and (capacity > default_capacity or load_delay < default_load_delay) then
+                        print_dbg("Mag %s is improved", mag)
+                        to_spawn[mag] = to_spawn[mag] and to_spawn[mag] + math_random(0, 1) or math_random(1, 2)
+                    else
+                        print_dbg("Mag %s is normal", mag)
+                        to_spawn[mag] = to_spawn[mag] and to_spawn[mag] + 1 or 3
+                    end
+                end
             else
-                to_spawn[default_mag] = 3
+                print_dbg("Weapon has broken basetype [%s]", sec)
             end
         end
     end
