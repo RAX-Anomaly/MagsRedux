@@ -214,4 +214,39 @@
 		<text>Loaded rounds:</text>
 	</string>
 
+	<string id="article_mags">
+		<text>Anomaly Magazines</text>
+	</string>
+	<string id="article_mags_text">
+		<text>
+			%c[pda_green]Mags Redux%c[ui_gray_1]\n \n
+			\nWelcome to using Mags Redux. This guide will cover most of the features and changes you can expect when using this mod.
+			\nFor users of the old Anomaly Magazines (from Wuut) you can expect little difference in gameplay. Most of the functionality is the same.\n \n
+			
+			%c[pda_green]I. How to load and fire weapons%c[ui_gray_1]\n
+			\n• Weapons that would logically use magazines in real life require the usage of magazines.
+			\n   • Weapons that do not will behave as in vanilla (shotguns, some bolt rifles, revolvers)
+			\n• Ammo must be manually loaded into magazines. The magazine description will indicate what sort of ammo is compatible. To load ammo, drag the ammo item onto the magazine. This will initiate a loading procedure, which will one by one load rounds in.
+			\n   • To cancel this procedure, click anywhere.
+			\n• To put a magazine into loadout, right click the magazine. There will be an option 'add to loadout'. The magazine background will change color and an icon will be added: this means the magazine has been added to your equipment loadout.
+			\n   • From here, if you are holding an eligible weapon, reloading your weapon will utilize the magazine in your loadout.
+			\n   • The mod will attempt to automatically select the magazine that a) has the largest size and b) has a top round equal to your ammo type.
+			\n• Magazines can also be manually inserted and ejected. Right click a weapon to find the option to eject the magazine. 
+			\n• Ammo wheel can be used to swap magazines. Magazines are categorized by the top round.\n \n
+			
+			%c[pda_green]II. Where to find magazines%c[ui_gray_1]\n
+			\n• Vendors that stock guns will stock magazines. Magazines may also be sold to them for a pittance.
+			\n• NPCs will have a couple magazines for their weapon, with a little ammo.
+			\n   • NPCs, specifically high-rank NPCs, have a small chance of dropping improved magazines. These magazines load faster, have higher capacities, or both.\n\n
+
+			
+			%c[pda_green]III. Explanation of MCM options.%c[ui_gray_1]\n
+			\n• Loot quality: Affects quantity of dropped mags, fill amount, and chance for improved magazines.
+			\n• Load/unload time factor: Multiplier on the bullet load/unload speed in magazines.
+			\n• Fast loading: Enables instant un/loading of magazines IN STASH ONLY.
+			\n• One in the chamber: Preserves a chambered round when switching mags, just like real life. 
+		</text>
+	</string>
+
+
 </string_table>

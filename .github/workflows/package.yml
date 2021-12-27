@@ -32,7 +32,9 @@ jobs:
         
       - name: Install trader dependencies
         id: trade_dep
-        run: cp -r anomaly-dependencies/trader_autoinject/gamedata .
+        run: |
+          cp -r anomaly-dependencies/trader_autoinject/gamedata .
+          cp -r anomaly-dependencies/encyclopedia/gamedata .
 
       - name: Zip folder
         run: zip -r $RELEASE_NAME.zip gamedata README *.txt fomod "ammo_check" "bas_patch" "position_and_view_CEMENT_patch" "wuuts_icons" 
