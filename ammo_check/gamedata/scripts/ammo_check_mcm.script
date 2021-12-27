@@ -149,7 +149,7 @@ function checkAmmo()
             if not mag_data then return end
             print_dbg("checking for section %s", mag_data.section)
             max_ammo = SYS_GetParam(2, mag_data.section, "max_mag_size")
-            top_round = stack.peek(mag_data.loaded)
+            top_round = magazines_mcm.get_config("retain_round") and mag_data.loaded[#mag_data.loaded - 1] or stack.peek(mag_data.loaded)
         else
             local ammo_type = weapon:get_ammo_type()
             local ammo_table = utils_item.get_ammo(nil, weaponId)
