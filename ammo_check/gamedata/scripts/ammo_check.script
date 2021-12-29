@@ -9,7 +9,6 @@ READY = 2
 local check_state = NEUTRAL
 function on_key_press(key)
     local bind = dik_to_bind(key)
-    print_dbg("Pressed key %s", bind)
     if (bind == key_bindings.kUSE) then
         print_dbg("setting ammo check")
         check_state = PENDING
@@ -25,7 +24,6 @@ end
 
 function on_key_release(key)
     local bind = dik_to_bind(key)
-    print_dbg("Released key %s", bind)
     if (bind == key_bindings.kUSE) then
         if check_state == PENDING or check_state == NEUTRAL then
             print_dbg("State is %s, returning", check_state)
@@ -33,7 +31,6 @@ function on_key_release(key)
             return
         end
         check_state = NEUTRAL
-        print_dbg("Performing ammo check")
         local success, err = pcall(ammo_check_mcm.checkAmmo)
 
         if not success then

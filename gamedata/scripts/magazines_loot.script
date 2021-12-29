@@ -90,8 +90,16 @@ function random_pop_mag(mag_id, mag_sec, ammo_table, rank, quality)
     local to_fill = math.floor((amount/100) * SYS_GetParam(2, mag_sec, "max_mag_size"))
 	-- also pick the appropriate ammo
 	local good_chance = get_mag_prop(rank, "mag_good_chance") * quality
-	local ammo_to_pick = 3*math.floor(math.random(#ammo_table - 1) / 3) + 1 + (math.random(100) < good_chance and 0 or 1)
-    print_dbg("Filling mag %s to %s with %s", mag_sec, to_fill, ammo_table[ammo_to_pick])
+
+    -- add validation for existence of a single ammo type (e.g. 9x21 sp10)
+    -- This should really be refactored to categorize bad ammo in the ammo table instead of relying on the index
+    local ammo_to_pick = 1
+    if #ammo_table > 1 then
+        ammo_to_pick = 3*math.floor(math.random(#ammo_table - 1) / 3) + 1 + (math.random(100) < good_chance and 0 or 1)
+    else
+        to_fill = math.floor(to_fill/2)
+    end
+    print_dbg("Filling mag %s to %s with %s (num %s)", mag_sec, to_fill, ammo_table[ammo_to_pick], ammo_to_pick)
 	for i=1,to_fill do
 		stack.push(mag_data.loaded, ammo_table[ammo_to_pick])
 	end
@@ -183,6 +191,11 @@ function death_manager.set_weapon_drop_condition(npc, itm)
             prep_weapon(itm, false)
         end
     end
+end
+
+-- Given a list of ammo rank them based on if they are bad or not
+function rank_ammo(list)
+
 end
 
 function on_game_start()
