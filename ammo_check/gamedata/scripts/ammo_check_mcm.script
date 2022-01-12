@@ -1,7 +1,9 @@
 -- settings--
-use_clr = false
-hide_counter = true
-hide_ammo_icon = true
+local use_clr = false
+local hide_counter = true
+local hide_ammo_icon = true
+local busy_hands_fix = false
+local mcm_key = DIK_keys.DIK_T
 
 -- locals --
 local clr00_Red = GetARGB(0xff, 0xff, 0x00, 0x00)
@@ -27,13 +29,56 @@ local messages = {
     {m = "st_ac_full", c = clr06_White} -- full
 }
 
-function ac_print_dbg(msg, ...)
-    printf("![AC] " .. msg, ...)
+local dbg_log
+function print_dbg(msg, ...)
+	if not mcm_log then
+		printf("![AC] " .. msg, ...)
+	elseif not ui_mcm.MCM_DEBUG then -- use MCM's debug log setting 
+		return
+	else
+		if not dbg_log then
+			dbg_log = mcm_log.new("![AC]")
+			dbg_log.enabled = true
+		end
+		if dbg_log then dbg_log:log(msg, ...) end
+	end
 end
 
 function null_function()
     return false
 end
+
+
+
+
+local mcm_keybinds = ui_mcm and ui_mcm.key_hold
+local modifier = 0
+local mode = 0
+
+local modes = {
+    [0] = { ["call"] = {"on_key_press", "on_key_hold"}, ["function"] = function(key) ui_mcm.simple_press("rax_ammo_check", key, check_Ammo) end },
+    [1] = { ["call"] = {"on_key_press", "on_key_hold"}, ["function"] = function(key) if ui_mcm.double_tap("rax_ammo_check", key) then check_Ammo() end end },
+    [2] = { ["call"] = {"on_key_hold", "on_key_press"}, ["function"] = function(key) if ui_mcm.key_hold("rax_ammo_check", key) then check_Ammo() end end }
+}
+
+function on_key_press(key)
+	if key ~= mcm_key then return end
+    if not mcm_keybinds then 
+        key_function() 
+        return 
+    end
+	if ui_mcm.get_mod_key(modifier) then
+		modes[mode]["function"](key)
+	end
+end
+
+function on_key_hold(key)
+    if key ~= mcm_key then return end
+	if ui_mcm.get_mod_key(modifier) then
+		modes[mode]["function"](key)
+	end
+end
+
 
 function l_round(value)
     local min = math.floor(value + 0.5)
@@ -45,14 +90,12 @@ function on_game_start()
     gc = game.translate_string
 
     if magazine_binder then
-        print_dbg = magazine_binder.print_dbg
         get_data = magazine_binder.get_data
         set_data = magazine_binder.set_data
         is_supported_weapon = magazine_binder.is_supported_weapon
         is_jammed_weapon = magazines.is_jammed_weapon
         print_dbg("MagsRedux installed. Working in integrated mode.")
     else
-        print_dbg = ac_print_dbg -- Use own print function.
         get_data = null_function -- Should not be called, just in case.
         set_data = null_function -- Should not be called, just in case.
         is_supported_weapon = null_function -- Always returns false, meaning none of the weapons are supported, fall back on vanilla ammo handling.
@@ -62,6 +105,9 @@ function on_game_start()
 
     RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
     RegisterScriptCallback("on_option_change", on_option_change)
+	RegisterScriptCallback("on_option_change", on_option_change)
+    RegisterScriptCallback("on_key_press", on_key_press)
+
 end
 
 -- Script Callbacks --
@@ -75,7 +121,14 @@ function on_mcm_load()
             {id = "ammo_check", type = "slide", link = "ui_options_slider_player", text = "ui_mm_title_rax_ammo_check", size = {512, 50}, spacing = 20},
             {id = "usecolor", type = "check", val = 1, def = false},
             {id = "hidecounter", type = "check", val = 1, def = true},
-            {id = "hideicon", type = "check", val = 1, def = true}
+            {id = "hideicon", type = "check", val = 1, def = true},
+            {id = "busy_hands_fix", type = "check", val = 1, def = false},
+			{ id = "keybind"             , type = "key_bind"          , val = 2, def = DIK_keys.DIK_F },
+	        {id = "modifier", type = ui_mcm.kb_mod_radio, val = 2, def = 0, hint = "mcm_kb_modifier" , content= { {0,"mcm_kb_mod_none"} , {1,"mcm_kb_mod_shift"} ,{3,"mcm_kb_mod_alt"}}}, --I removed control from the list, note the values of the other options were unchanged.
+            {id = "mode", type = ui_mcm.kb_mod_radio, val = 2, def = 2, hint = "mcm_kb_mode" , content= { {0,"mcm_kb_mode_press"} , {1,"mcm_kb_mode_dtap"} , {2,"mcm_kb_mode_hold"}}},
+
+            { id = "desc_mcm"    	 	        , type = "desc"     , text= "ui_mcm_rax_ammo_check_update_mcm", clr = {255, 175 ,0 ,0}, precondition = {function() return not mcm_keybinds end} },
+
         }
     }
     -- LuaFormatter on
@@ -91,8 +144,17 @@ function on_option_change()
         hide_counter = ui_mcm.get("rax_ammo_check/hidecounter")
         use_clr = ui_mcm.get("rax_ammo_check/usecolor")
         hide_ammo_icon = ui_mcm.get("rax_ammo_check/hideicon")
-    end
+        busy_hands_fix = ui_mcm.get("rax_ammo_check/busy_hands_fix")
+		if mcm_keybinds then
+			mcm_key = ui_mcm.get("rax_ammo_check/keybind")
+			mode = ui_mcm.get("rax_ammo_check/mode")
+			modifier = ui_mcm.get("rax_ammo_check/modifier")
+			RegisterScriptCallback(modes[mode]["call"][1], this[modes[mode]["call"][1]])
+			UnregisterScriptCallback(modes[mode]["call"][2], this[modes[mode]["call"][2]])
 
+		end
+    end
+	
     pos = ActorMenu.get_maingame().m_ui_hud_states.m_ui_weapon_cur_ammo:GetWndPos()
     pos.x = ((hide_counter and pos.x > 0) or ((not hide_counter) and pos.x < 0)) and (-1 * pos.x) or pos.x
     ActorMenu.get_maingame().m_ui_hud_states.m_ui_weapon_cur_ammo:SetWndPos(pos)
@@ -103,7 +165,11 @@ function on_option_change()
 end
 
 -- Main function --
-function checkAmmo()
+function checkAmmo() end --crash prevention for dirty updates.
+
+
+
+function check_Ammo()
     local weapon = db.actor:active_item()
 
     -- ends if no weapon is in hand etc.
@@ -180,11 +246,15 @@ function checkAmmo()
         end
     end
 
-    db.actor:hide_weapon()
+	if not busy_hands_fix then
+		db.actor:hide_weapon()
+	end
     disable_info("sleep_active")
     CreateTimeEvent("ammo_check", "restore Weapon", 1.5, function()
         actor_menu.set_msg(1, message, 2, clr)
-        db.actor:restore_weapon()
+        if not busy_hands_fix then
+			db.actor:restore_weapon()
+		end
         return true
     end)
 end
