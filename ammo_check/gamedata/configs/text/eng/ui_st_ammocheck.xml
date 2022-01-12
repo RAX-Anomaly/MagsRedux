@@ -44,10 +44,6 @@
         <text>left</text>
     </string>
 
-    <string id="kb_check_ammo">
-        <text>Check Ammo</text>
-    </string>
-
 	
     <string id="ui_mcm_menu_rax_ammo_check">
         <text>Ammo Check</text>
@@ -81,7 +77,7 @@
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_keybind_desc">
-		<text>This key bind can be configured to require aditional modifier keys to mitigate conflicts.</text>
+		<text>This key bind can be configured to require additional modifier keys to mitigate conflicts.</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_update_mcm">
