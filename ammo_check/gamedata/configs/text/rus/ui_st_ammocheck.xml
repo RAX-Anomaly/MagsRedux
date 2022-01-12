@@ -3,12 +3,14 @@
 	<!-- Ammo_Check Messages -->
 	
 	<string id="st_ac_overfull">
-		<text>Избыточная мощность</text>
+		<text>Переполнен</text>
 	</string>
+    <string id="st_ac_plus1">
+        <text>Полный + 1</text>
+    </string>
 	<string id="st_ac_just_one">
 		<text>Только один</text>
 	</string> 
-
 	<string id="st_ac_full">
 		<text>Полный магазин</text>
 	</string>
@@ -19,7 +21,7 @@
 		<text>Больше половины</text>
 	</string>
 	<string id="st_ac_about_half">
-		<text>Половина магазина</text>
+		<text>Около половины</text>
 	</string>
 	<string id="st_ac_less_half">
 		<text>Меньше половины</text>
@@ -44,7 +46,7 @@
 	</string>
 
 	<string id="kb_check_ammo">
-		<text>Проверить обойму патронов</text>
+		<text>Проверить обойму</text>
 	</string>
 
     <string id="ui_mcm_menu_rax_ammo_check">
@@ -74,11 +76,11 @@
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_keybind">
-		<text>Ключ проверки патронов.</text>
+		<text>Клавиша проверки патронов.</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_keybind_desc">
-		<text>Эту привязку клавиш можно настроить так, чтобы для смягчения конфликтов требовались дополнительные клавиши-модификаторы.</text>
+		<text>Эту клавишу можно настроить так, чтобы требовалось нажатие дополнительных клавиш, чтобы избежать конфликтов.</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_update_mcm">
