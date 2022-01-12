@@ -3,10 +3,10 @@
 	<!-- Ammo_Check Messages -->
 	
 	<string id="st_ac_overfull">
-		<text>Overfilled</text>
+		<text>Избыточная мощность</text>
 	</string>
 	<string id="st_ac_just_one">
-		<text>Just one</text>
+		<text>Только один</text>
 	</string> 
 
 	<string id="st_ac_full">
@@ -48,24 +48,42 @@
 	</string>
 
     <string id="ui_mcm_menu_rax_ammo_check">
-        <text>Ammo Check</text>
+        <text>Проверка боеприпасов</text>
     </string>
     <string id="ui_mm_title_rax_ammo_check">
-        <text>Ammo Check</text>
+        <text>Проверка боеприпасов</text>
     </string>
 
 	<string id="ui_mcm_rax_ammo_check_usecolor">
-		<text>Color messages.</text>
+		<text>Цветные сообщения.</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_hidecounter">
-		<text>Hide Ammo Counter.</text>
+		<text>Скрыть счетчик боеприпасов.</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_hideicon">
-		<text>Hide Ammo Icon.</text>
+		<text>Скрыть значок боеприпасов.</text>
 	</string>
 
+	<string id="ui_mcm_rax_ammo_check_busy_hands_fix">
+		<text>Исправление занятых рук.</text>
+	</string>
+	<string id="ui_mcm_rax_ammo_check_busy_hands_fix_desc">
+		<text>Установите этот флажок, если «анимация» проверки боеприпасов застревает. Вероятно, происходит при установке FDDA</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_keybind">
+		<text>Ключ проверки патронов.</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_keybind_desc">
+		<text>Эту привязку клавиш можно настроить так, чтобы для смягчения конфликтов требовались дополнительные клавиши-модификаторы.</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_update_mcm">
+		<text>Обновите MCM, чтобы изменить привязку клавиш здесь. Ключ по умолчанию T.</text>
+	</string>
 
 
 
