@@ -64,7 +64,7 @@ local modes = {
 function on_key_press(key)
 	if key ~= mcm_key then return end
     if not mcm_keybinds then 
-        key_function() 
+        check_Ammo() 
         return 
     end
 	if ui_mcm.get_mod_key(modifier) then
