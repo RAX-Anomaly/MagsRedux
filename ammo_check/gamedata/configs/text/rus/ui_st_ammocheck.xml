@@ -3,90 +3,88 @@
 	<!-- Ammo_Check Messages -->
 	
 	<string id="st_ac_overfull">
-		<text>ГЏГҐГ°ГҐГЇГ®Г«Г­ГҐГ­</text>
+		<text>Переполнен</text>
 	</string>
-    <string id="st_ac_plus1">
-        <text>ГЏГ®Г«Г­Г»Г© + 1</text>
+     <string id="st_ac_plus1">
+        <text>Полный + 1</text>
     </string>
-	<string id="st_ac_just_one">
-		<text>Г’Г®Г«ГјГЄГ® Г®Г¤ГЁГ­</text>
+    <string id="st_ac_just_one">
+		<text>Только один</text>
 	</string> 
 	<string id="st_ac_full">
-		<text>ГЏГ®Г«Г­Г»Г©</text>
+		<text>Полный</text>
 	</string>
 	<string id="st_ac_nearly_full">
-		<text>ГЏГ®Г·ГІГЁ ГЇГ®Г«Г­Г»Г©</text>
+		<text>Почти полный</text>
 	</string>
 	<string id="st_ac_more_half">
-		<text>ГЃГ®Г«ГјГёГҐ ГЇГ®Г«Г®ГўГЁГ­Г»</text>
+		<text>Больше половины</text>
 	</string>
 	<string id="st_ac_about_half">
-		<text>ГЋГЄГ®Г«Г® ГЇГ®Г«Г®ГўГЁГ­Г»</text>
+		<text>Около половины</text>
 	</string>
 	<string id="st_ac_less_half">
-		<text>ГЊГҐГ­ГјГёГҐ ГЇГ®Г«Г®ГўГЁГ­Г»</text>
+		<text>Меньше половины</text>
 	</string>
 	<string id="st_ac_near_empty">
-		<text>ГЏГ®Г·ГІГЁ ГЇГіГ±ГІГ®Г©</text>
+		<text>Почти пустой</text>
 	</string>
 	<string id="st_ac_empty">
-		<text>ГЏГіГ±ГІГ®Г©</text>
+		<text>Пустой</text>
 	</string>
 	<string id="st_ac_jammed">
-		<text>ГЋГ°ГіГ¦ГЁГҐ Г§Г ГЄГ«ГЁГ­ГЁГ«Г®</text>
+		<text>Оружие заклинило</text>
 	</string>
 	<string id="st_ac_noMag">
-		<text>ГЊГ ГЈГ Г§ГЁГ­ Г­ГҐ Г§Г Г°ГїГ¦ГҐГ­</text>
+		<text>Магазин не заряжен</text>
 	</string>
 	<string id="st_ac_ammoLeft">
-		<text>Г®Г±ГІГ Г«Г®Г±Гј</text>
+		<text>осталось</text>
 	</string>
 	<string id="st_ac_noAmmo">
-		<text>ГќГІГ® Г­ГҐ ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГІ ГЇГ ГІГ°Г®Г­Г»!</text>
+		<text>Это не использует патроны!</text>
 	</string>
 
 	<string id="kb_check_ammo">
-
-		<text>ГЏГ°Г®ГўГҐГ°ГЁГІГј Г®ГЎГ®Г©Г¬Гі</text>
-
+		<text>Проверить магазин</text>
 	</string>
 
     <string id="ui_mcm_menu_rax_ammo_check">
-        <text>ГЏГ°Г®ГўГҐГ°ГЄГ  ГЇГ ГІГ°Г®Г­Г®Гў</text>
+        <text>Проверка патронов</text>
     </string>
     <string id="ui_mm_title_rax_ammo_check">
-        <text>ГЏГ°Г®ГўГҐГ°ГЄГ  ГЇГ ГІГ°Г®Г­Г®Гў</text>
+        <text>Проверка патронов</text>
     </string>
 
 	<string id="ui_mcm_rax_ammo_check_usecolor">
-		<text>Г–ГўГҐГІГ­Г»ГҐ Г±Г®Г®ГЎГ№ГҐГ­ГЁГї.</text>
+		<text>Цветные сообщения.</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_hidecounter">
-		<text>Г‘ГЄГ°Г»ГІГј Г±Г·ГҐГІГ·ГЁГЄ ГЇГ ГІГ°Г®Г­Г®Гў.</text>
+		<text>Скрыть счетчик патронов.</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_hideicon">
-		<text>Г‘ГЄГ°Г»ГІГј Г§Г­Г Г·Г®ГЄ ГЇГ ГІГ°Г®Г­Г®Гў.</text>
+		<text>Скрыть значок патронов.</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_busy_hands_fix">
-		<text>Г€Г±ГЇГ°Г ГўГ«ГҐГ­ГЁГҐ Г§Г Г­ГїГІГ»Гµ Г°ГіГЄ.</text>
+		<text>Исправление занятых рук.</text>
 	</string>
 	<string id="ui_mcm_rax_ammo_check_busy_hands_fix_desc">
-		<text>Г“Г±ГІГ Г­Г®ГўГЁГІГҐ ГЅГІГ®ГІ ГґГ«Г Г¦Г®ГЄ, ГҐГ±Г«ГЁ В«Г Г­ГЁГ¬Г Г¶ГЁГїВ» ГЇГ°Г®ГўГҐГ°ГЄГЁ ГЇГ ГІГ°Г®Г­Г®Гў Г§Г Г±ГІГ°ГҐГўГ ГҐГІ. Г‚ГҐГ°Г®ГїГІГ­Г®, ГЇГ°Г®ГЁГ±ГµГ®Г¤ГЁГІ ГЇГ°ГЁ ГіГ±ГІГ Г­Г®ГўГЄГҐ FDDA</text>
+		<text>Установите этот флажок, если «анимация» проверки патронов застревает. Вероятно, происходит при установке FDDA</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_keybind">
-		<text>ГЉГ«Г ГўГЁГёГ  ГЇГ°Г®ГўГҐГ°ГЄГЁ ГЇГ ГІГ°Г®Г­Г®Гў.</text>
+		<text>Клавиша проверки патронов</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_keybind_desc">
-		<text>ГќГІГі ГЄГ«Г ГўГЁГёГі Г¬Г®Г¦Г­Г® Г­Г Г±ГІГ°Г®ГЁГІГј ГІГ ГЄ, Г·ГІГ®ГЎГ» ГІГ°ГҐГЎГ®ГўГ Г«Г®Г±Гј Г­Г Г¦Г ГІГЁГҐ Г¤Г®ГЇГ®Г«Г­ГЁГІГҐГ«ГјГ­Г»Гµ ГЄГ«Г ГўГЁГё, Г·ГІГ®ГЎГ» ГЁГ§ГЎГҐГ¦Г ГІГј ГЄГ®Г­ГґГ«ГЁГЄГІГ®Гў.</text>
+		<text>Для этой клавиши можно назначить дополнительные клавиши-модификаторы для избежания конфликтов.</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_update_mcm">
-		<text>ГЋГЎГ­Г®ГўГЁГІГҐ MCM, Г·ГІГ®ГЎГ» ГЁГ§Г¬ГҐГ­ГЁГІГј ГЇГ°ГЁГўГїГ§ГЄГі ГЄГ«Г ГўГЁГё. ГЉГ«Г ГўГЁГёГ  ГЇГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ T.</text>
+		<text>Обновите MCM, чтобы изменить привязку клавиш. Клавиша по умолчанию T.</text>
 	</string>
 
 
