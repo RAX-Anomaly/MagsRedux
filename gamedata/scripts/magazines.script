@@ -534,6 +534,7 @@ function load_magazine(magazine, capacity, delay)
 
 	local tg = time_global()
 	if tg < last_time + delay then return false end
+	if IsMoveState("mcAnyMove") and tg < last_time + (3 * delay) then return false end
 	last_time = tg
 
 	print_dbg("Try load magazine, interrupt_loading state: %s", interrupt_loading)
@@ -577,6 +578,8 @@ function unload_magazine(magazine, delay)
 	
 	local tg = time_global()
 	if tg < last_time + delay then return false end
+	if IsMoveState("mcAnyMove") and tg < last_time + (3 * delay) then return false end
+
 	last_time = tg
 
 	-- Pepsifan04
@@ -664,8 +667,16 @@ function fast_unload_magazine(magazine)
 	timed_refresh()
 end
 
+local direction_keys = {
+	[key_bindings.kFWD] = true,
+	[key_bindings.kBACK] = true,
+	[key_bindings.kL_STRAFE] = true,
+	[key_bindings.kR_STRAFE] = true
+}
 function on_key_press(key)
-	if not interrupt_loading then
+	-- do not interrupt if directional key pressed
+	local bind = dik_to_bind(key)
+	if not interrupt_loading and not direction_keys[bind] then
 		print_dbg("Interrupting reload")
 		interrupt_loading = true
 	end
