@@ -182,7 +182,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		if weapon:weapon_in_grenade_mode() then return end
 		-- init loading of weapon
 		print_dbg("Begin loading mag %s into weapon %s", item:section(), weapon:section())
-		if to_slot == EDDListType.iActorSlot and weapon_id == active_id then
+		if weapon_id == active_id then
 			local pre_table = count_ammo(weapon)
 			weapon:switch_state(7)
 			ACTION_IN_PROGRESS = true		
@@ -234,6 +234,7 @@ function load_weapon(weapon, magazine, first_round)
 	end
 end
 
+local last_ejected
 function delay_load_weapon(weapon, magazine, pre_table, first_round)
 	local tg = time_global()
 	-- extra timer stuff so we don't let the time event linger
@@ -249,13 +250,13 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 		ACTION_IN_PROGRESS = false
 		interrupt_reload = false	
 		weapon:switch_state(2)
+		last_ejected = nil
 		return true
 	end
 	local mag_data = get_mag_data(id)
-	local ejected
 	if mag_data then
-		ejected = eject_magazine(weapon)
-		print_dbg("Ejected id %s", ejected)
+		last_ejected = eject_magazine(weapon)
+		print_dbg("Ejected id %s. Is carried? %s", last_ejected, is_carried_mag(last_ejected))
 	end
 
 	if weapon:get_state() == 0 then
@@ -265,11 +266,12 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 		load_weapon(weapon, magazine, first_round)
 		refund_ammo(weapon, pre_table)
 		load_timeout[id] = nil
-		weapon:switch_state(0)
-		if ejected and not is_carried_mag(ejected) then
-			print_dbg("Toggling %s", ejected)
-			toggle_carried_mag(ejected)
+		if last_ejected and not is_carried_mag(last_ejected) then
+			print_dbg("Toggling %s", last_ejected)
+			toggle_carried_mag(last_ejected)
 		end
+		last_ejected = nil
+		weapon:switch_state(0)
 		return true
 	end
 	return false
