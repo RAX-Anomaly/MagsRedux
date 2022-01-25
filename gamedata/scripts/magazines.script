@@ -266,7 +266,7 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 		load_weapon(weapon, magazine, first_round)
 		refund_ammo(weapon, pre_table)
 		load_timeout[id] = nil
-		if last_ejected and not is_carried_mag(last_ejected) then
+		if last_ejected and not is_carried_mag(last_ejected) and retain_magazine(last_ejected) then
 			print_dbg("Toggling %s", last_ejected)
 			toggle_carried_mag(last_ejected)
 		end
@@ -350,6 +350,20 @@ function weapon_in_slot(weapon)
 	return carried_weapons[weapon:id()]
 end
 
+-- Determine if this magazine should be retained in loadout, based on MCM options.
+function retain_magazine(id, ejection)
+	ejection = ejection or tonumber(get_config("ejection"))
+	if ejection == 0 then return true end
+
+	local mag_data = get_mag_data(id)
+	if mag_data then
+		local capacity = SYS_GetParam(2, mag_data.section, "max_mag_size") or 20
+		local ammo_percent = #mag_data.loaded/capacity
+		if ammo_percent > (get_config('mag_unequip_trs')/100) then return true end
+	end
+	return false
+end
+
 function eject_magazine(weapon)
 	if rax_inventory_highlights_mcm then 
 		rax_inventory_highlights_mcm.temp_disable() --don't flag this magazine as new.
@@ -383,11 +397,11 @@ function timer_eject_magazine(weapon, id, mag_data)
 	set_mag_data(id, mag_data)
 	local ejection_type = tonumber(get_config("ejection"))
 	print_dbg("ejection type is %s", ejection_type)
-	if weapon_in_slot(weapon) then
-		local capacity = SYS_GetParam(2, mag_data.section, "max_mag_size") or 20
-		local ammo_percent=#mag_data.loaded/capacity
-		if ammo_percent > (get_config('mag_unequip_trs')/100) or ejection_type == 0 then
-			toggle_carried_mag(id)
+	if weapon_in_slot(weapon) and retain_magazine(id, ejection_type) then
+		toggle_carried_mag(id)
+	else
+		if ejection_type == 2 then
+			db.actor:drop_item(level.object_by_id(id))
 		end
 	end
 	return true
