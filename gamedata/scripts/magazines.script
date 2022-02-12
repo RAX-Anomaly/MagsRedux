@@ -36,6 +36,11 @@ block_reload_spam = false
 
 -- due to changing how mag loading works (1 big event vs. several events) we need this here to persist which box we are taking ammo from
 local ext_ammo_box = nil
+
+-- Unload on hover
+-- local unload_key_modifier = get_config("unload_key_mod")
+local unload_key_modifier = "kJUMP"
+local unload_flag = false
 ------------------------
 -- SECTION debug info --
 ------------------------
@@ -527,6 +532,27 @@ function find_next_box(ammo_section, id)
 	return item_to_get
 end
 
+-- local inv = ui_inventory.UIInventory.__init
+-- ui_inventory.UIInventory.__init = function(self)
+--     inv(self)
+--     self.properties["load_fmj"] = { index= #self.properties+1, name_func= "ammo_name", mode= {"inventory"}, cont= {"actor_bag"}, precondition1= {"available_ammo"}, action= {"mouse2_load"} },
+--     self.properties["load_ep"]  = { index= #self.properties+1, name_func= "ammo_name", mode= {"inventory"}, cont= {"actor_bag"}, precondition1= {"available_ammo"}, action= {"mouse2_load"} },
+--     self.properties["load_fmj"] = { index= #self.properties+1, name_func= "ammo_name", mode= {"inventory"}, cont= {"actor_bag"}, precondition1= {"available_ammo"}, action= {"mouse2_load"} }
+-- end
+--
+-- function ammo_name(obj)
+--     return get_item_name_debug(obj:section())
+-- end
+--
+-- function available_ammo(obj)
+--     for k,v in pairs(count_ammo()) do
+--         printf("key %s, value %s", k,v)
+--     end
+-- end
+--
+-- function mouse2_load(obj)
+--     printf("loading mag with %s",obj)
+-- end
 
 local last_time = 0
 -- position is ammo type as number
@@ -673,9 +699,37 @@ local direction_keys = {
 	[key_bindings.kL_STRAFE] = true,
 	[key_bindings.kR_STRAFE] = true
 }
+
+local cc = ui_inventory.UIInventory.On_CC_Hover
+ui_inventory.UIInventory.On_CC_Hover = function(self, cont, idx)
+    cc(self, cont, idx)
+
+    if unload_flag == true then
+        local mag = self.CC[cont]:GetObj(idx)
+        func_unload_ammo(mag)
+    end
+
+end
+
+function on_key_release(key)
+        local bind = dik_to_bind(key)
+
+        local bind = dik_to_bind(key)
+        if key_bindings[unload_key_modifier] == bind then
+            unload_flag = false
+        end
+end
+
 function on_key_press(key)
-	-- do not interrupt if directional key pressed
-	local bind = dik_to_bind(key)
+        if not key then return end
+
+        local bind = dik_to_bind(key)
+        -- flag for unload on hover
+        if key_bindings[unload_key_modifier] == bind then
+            unload_flag = true
+            return
+        end
+
 	if not interrupt_loading and not direction_keys[bind] then
 		print_dbg("Interrupting reload")
 		interrupt_loading = true
@@ -696,7 +750,6 @@ end
 -- 	block_reload_spam = false
 -- 	return true
 -- end
-
 function unload_ammo(obj)
 	if is_magazine(obj) then
 		local id = obj:id()
@@ -888,6 +941,7 @@ function on_game_start()
 	RegisterScriptCallback("ActorMenu_on_item_before_move", ActorMenu_on_item_before_move)
 	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
 	RegisterScriptCallback("on_key_press", on_key_press)
+	RegisterScriptCallback("on_key_release", on_key_release)
 	RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
 	RegisterScriptCallback("actor_on_weapon_jammed", weapon_jammed)
 	RegisterScriptCallback("ActorMenu_on_item_drag_drop", on_item_drag_dropped)
