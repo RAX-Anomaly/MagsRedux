@@ -41,6 +41,8 @@ local ext_ammo_box = nil
 -- local unload_key_modifier = get_config("unload_key_mod")
 local unload_key_modifier = "kJUMP"
 local unload_flag = false
+local old_key_modifier = "kWPN_RELOAD"
+local old_flag = false
 ------------------------
 -- SECTION debug info --
 ------------------------
@@ -158,6 +160,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		return
 	end
 	
+
 	local is_box_mode = (parent_is_box(item) and from_slot == EDDListType.iDeadBodyBag) and true or false
 
 	-- bullet to mag
@@ -532,27 +535,82 @@ function find_next_box(ammo_section, id)
 	return item_to_get
 end
 
--- local inv = ui_inventory.UIInventory.__init
--- ui_inventory.UIInventory.__init = function(self)
---     inv(self)
---     self.properties["load_fmj"] = { index= #self.properties+1, name_func= "ammo_name", mode= {"inventory"}, cont= {"actor_bag"}, precondition1= {"available_ammo"}, action= {"mouse2_load"} },
---     self.properties["load_ep"]  = { index= #self.properties+1, name_func= "ammo_name", mode= {"inventory"}, cont= {"actor_bag"}, precondition1= {"available_ammo"}, action= {"mouse2_load"} },
---     self.properties["load_fmj"] = { index= #self.properties+1, name_func= "ammo_name", mode= {"inventory"}, cont= {"actor_bag"}, precondition1= {"available_ammo"}, action= {"mouse2_load"} }
--- end
---
--- function ammo_name(obj)
---     return get_item_name_debug(obj:section())
--- end
---
--- function available_ammo(obj)
---     for k,v in pairs(count_ammo()) do
---         printf("key %s, value %s", k,v)
---     end
--- end
---
--- function mouse2_load(obj)
---     printf("loading mag with %s",obj)
--- end
+local inv = ui_inventory.UIInventory.__init
+ui_inventory.UIInventory.__init = function(self)
+	inv(self)
+	self.properties["load_fmj"] = { index= size_table(self.properties)+1, name_func= {"Name_Ammo", 1}, mode_func= {"Mode_Load"}, precondition1= {"Name_Ammo", 1}, action= {"Mouse_Load", 1} }
+	self.properties["load_ep"] = { index= size_table(self.properties)+1, name_func= {"Name_Ammo", 2}, mode_func= {"Mode_Load"}, precondition1= {"Name_Ammo", 2}, action= {"Mouse_Load", 2} }
+	self.properties["load_ap"] = { index= size_table(self.properties)+1, name_func= {"Name_Ammo", 3}, mode_func= {"Mode_Load"}, precondition1= {"Name_Ammo", 3}, action= {"Mouse_Load", 3} }
+	for _,props in pairs(self.properties) do
+		if props.mode then t2k_table(props.mode) end
+		if props.cont then t2k_table(props.cont) end
+	end
+end
+
+function mouse_get_ammo(mag,idx)
+	--[[
+		Ammo is returned is this order :
+		- first type
+		- first type bad
+		- first type verybad
+		- second type
+
+		So to get the type of ammo we want we take our index (fmj: 1, ep:2, ap:3)
+		and multiply it by three so we get 3,6 and 9.
+		Problem is theses idx correspond to verybad ammo, so we substract 1
+		to get bad ammo and two to get normal ammo
+		
+		Notes : Not all ammo have three type but afaik they are sorted
+		by pen/how good they are in ascending order. So first option will
+		always be the worst and the last the best.
+	]]--
+	local ammo_idx = old_flag == true and 1 or 2
+	return get_magazine_caliber(mag:section())[idx*3-ammo_idx]
+end
+
+ui_inventory.UIInventory.Name_Ammo = function(self, obj, bag, temp, i)
+
+	local mag  = self:CheckItem(obj,"Name_Ammo" .. i)
+	local ammo_sec = mouse_get_ammo(mag, i)
+	local inv = bag == "actor_bag" and db.actor or mag:parent()
+
+	-- Ammo section naming pattern is 'ammo_ammo-name_type_bad/verybad'
+	-- So here we get the type
+	local ammo_type = str_explode(ammo_sec,'_')[3]
+	
+	local old_str = old_flag == true and "old " or ""
+	
+	if not is_empty(utils_item.collect_amount(inv, ammo_sec, 0)) then
+		-- e.i "Load old FMJ ammo", "Load AP ammo"
+		return "Load " .. old_str .. ammo_type:upper() .. " ammo"
+	else
+		return false
+	end
+end
+
+ui_inventory.UIInventory.Mode_Load = function(self)
+	return  self.mode == "inventory" or self.mode == "loot" and true or false
+end
+
+ui_inventory.UIInventory.Mouse_Load = function(self, obj, bag, temp, i)
+
+	local mag = self:CheckItem(obj,"Mouse_Load" .. i)
+	local ammo_sec = mouse_get_ammo(mag, i)
+	local delay = get_mag_time(mag:section(), false)
+	local capacity = SYS_GetParam(2, mag:section(), "max_mag_size")  or 20
+
+	local ammo_obj = nil
+	local function itr(temp, obj)
+		if (obj:section() == ammo_sec) then ammo_obj = obj end
+	end
+	local inv = bag == "actor_bag" and db.actor or mag:parent()
+	inv:iterate_inventory(itr, nil)
+	ext_ammo_box = ammo_obj
+
+	interrupt_loading = false
+	RemoveTimeEvent("Mag_redux", "load_mag"..mag:id())
+	create_time_event("Mag_redux", "load_mag"..mag:id(), 0.1, load_magazine, mag, capacity, delay * 1000)
+end
 
 local last_time = 0
 -- position is ammo type as number
@@ -702,33 +760,42 @@ local direction_keys = {
 
 local cc = ui_inventory.UIInventory.On_CC_Hover
 ui_inventory.UIInventory.On_CC_Hover = function(self, cont, idx)
-    cc(self, cont, idx)
+	cc(self, cont, idx)
 
-    if unload_flag == true then
-        local mag = self.CC[cont]:GetObj(idx)
-        func_unload_ammo(mag)
-    end
+	if unload_flag == true then
+		local mag = self.CC[cont]:GetObj(idx)
+		func_unload_ammo(mag)
+	end
 
 end
 
 function on_key_release(key)
         local bind = dik_to_bind(key)
 
-        local bind = dik_to_bind(key)
         if key_bindings[unload_key_modifier] == bind then
             unload_flag = false
+        end
+        if key_bindings[old_key_modifier] == bind then
+            old_flag = false
         end
 end
 
 function on_key_press(key)
-        if not key then return end
+	if not key then return end
+	local bind = dik_to_bind(key)
 
-        local bind = dik_to_bind(key)
-        -- flag for unload on hover
-        if key_bindings[unload_key_modifier] == bind then
-            unload_flag = true
-            return
-        end
+	if ui_inventory.GUI and ui_inventory.GUI:IsShown() then
+		-- flag for unload on hover
+		if key_bindings[unload_key_modifier] == bind then
+			unload_flag = true
+			return
+		end
+		-- flag for old ammo_loading
+		if key_bindings[old_key_modifier] == bind then
+			old_flag = true
+			return
+		end
+	end
 
 	if not interrupt_loading and not direction_keys[bind] then
 		print_dbg("Interrupting reload")
