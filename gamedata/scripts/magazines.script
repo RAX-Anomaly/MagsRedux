@@ -43,6 +43,9 @@ local unload_key_modifier = "kJUMP"
 local unload_flag = false
 local old_key_modifier = "kWPN_RELOAD"
 local old_flag = false
+
+-- global table to keep track of selected ammos on right click
+local inv_ammo = {}
 ------------------------
 -- SECTION debug info --
 ------------------------
@@ -538,13 +541,30 @@ end
 local inv = ui_inventory.UIInventory.__init
 ui_inventory.UIInventory.__init = function(self)
 	inv(self)
-	self.properties["load_fmj"] = { index= size_table(self.properties)+1, name_func= {"Name_Ammo", 1}, mode_func= {"Mode_Load"}, precondition1= {"Name_Ammo", 1}, action= {"Mouse_Load", 1} }
-	self.properties["load_ep"] = { index= size_table(self.properties)+1, name_func= {"Name_Ammo", 2}, mode_func= {"Mode_Load"}, precondition1= {"Name_Ammo", 2}, action= {"Mouse_Load", 2} }
-	self.properties["load_ap"] = { index= size_table(self.properties)+1, name_func= {"Name_Ammo", 3}, mode_func= {"Mode_Load"}, precondition1= {"Name_Ammo", 3}, action= {"Mouse_Load", 3} }
-	for _,props in pairs(self.properties) do
-		if props.mode then t2k_table(props.mode) end
-		if props.cont then t2k_table(props.cont) end
-	end
+	self.properties["load_fmj"] = {
+		index= size_table(self.properties)+1,
+		name_func= {"Name_Ammo", 1},
+		mode= t2k_table({"inventory", "loot"}),
+		cont= t2k_table({"actor_equ","actor_bag","npc_bag"}),
+		precondition1= {"Name_Ammo", 1},
+		action= {"Mouse_Load", 1}
+	}
+	self.properties["load_ep"] = {
+		index= size_table(self.properties)+1,
+		name_func= {"Name_Ammo", 2},
+		mode= t2k_table({"inventory", "loot"}),
+		cont= t2k_table({"actor_equ","actor_bag","npc_bag"}),
+		precondition1= {"Name_Ammo", 2},
+		action= {"Mouse_Load", 2}
+	}
+	self.properties["load_ap"] = {
+		index= size_table(self.properties)+1,
+		name_func= {"Name_Ammo", 3},
+		mode= t2k_table({"inventory", "loot"}),
+		cont= t2k_table({"actor_equ","actor_bag","npc_bag"}),
+		precondition1= {"Name_Ammo", 3},
+		action= {"Mouse_Load", 3}
+	}
 end
 
 function mouse_get_ammo(mag,idx)
@@ -571,45 +591,81 @@ end
 ui_inventory.UIInventory.Name_Ammo = function(self, obj, bag, temp, i)
 
 	local mag  = self:CheckItem(obj,"Name_Ammo" .. i)
+	if not isMagazine(mag) then return end
+
+	-- If mag is already full, return
+	local capacity = SYS_GetParam(2, mag:section(), "max_mag_size")  or 20
+	if #get_mag_data(mag:id()).loaded >= capacity then return end
+
 	local ammo_sec = mouse_get_ammo(mag, i)
-	local inv = bag == "actor_bag" and db.actor or mag:parent()
-
-	-- Ammo section naming pattern is 'ammo_ammo-name_type_bad/verybad'
-	-- So here we get the type
-	local ammo_type = str_explode(ammo_sec,'_')[3]
-	
-	local old_str = old_flag == true and "old " or ""
-	
-	if not is_empty(utils_item.collect_amount(inv, ammo_sec, 0)) then
-		-- e.i "Load old FMJ ammo", "Load AP ammo"
-		return "Load " .. old_str .. ammo_type:upper() .. " ammo"
-	else
-		return false
+	if not ammo_sec then
+		print_dbg("No ammo could be found for %s", mag:section())
+		return
 	end
-end
 
-ui_inventory.UIInventory.Mode_Load = function(self)
-	return  self.mode == "inventory" or self.mode == "loot" and true or false
+	-- Check if ammo is present in inventory
+	local inv = mag:parent()
+	local inv_obj = false
+	if inv:is_inventory_box() then
+		function itr(temp, obj)
+			if obj:section() == ammo_sec then
+				inv_obj = true
+				return
+			end
+		end
+		inv:iterate_inventory_box(itr, nil)
+	else
+		inv_obj = not is_empty(utils_item.collect_amount(inv, ammo_sec, 0))
+	end
+	if inv_obj == true then
+		inv_ammo[i] = ammo_sec
+		-- Ammo section naming pattern is 'ammo_ammo-name_type_bad/verybad'
+		-- So here we get the type
+		local splitted_sec = str_explode(ammo_sec,'_')
+		local ammo_name = splitted_sec[2]
+		local ammo_type = splitted_sec[3]
+		local old_str = old_flag == true and "old " or ""
+		-- e.i "Load old FMJ ammo", "Load AP ammo"
+		return string.format("load %s%s %s", old_str, ammo_name, ammo_type:upper())
+	else
+		-- If no ammo is in inventory, retry with old ammo
+		if old_flag == true then return end
+
+		old_flag = true
+		local name_str = self.Name_Ammo(self, obj, bag, temp, i)
+		old_flag = false
+		if name_str then return name_str end
+	end
 end
 
 ui_inventory.UIInventory.Mouse_Load = function(self, obj, bag, temp, i)
 
 	local mag = self:CheckItem(obj,"Mouse_Load" .. i)
-	local ammo_sec = mouse_get_ammo(mag, i)
-	local delay = get_mag_time(mag:section(), false)
-	local capacity = SYS_GetParam(2, mag:section(), "max_mag_size")  or 20
+	local ammo_sec = inv_ammo[i]
+	inv_ammo = {}
+	if not ammo_sec then
+		print_dbg("Something weird happended... %s doesn't have ammo for it", mag:section())
+		return
+	end
 
+	-- Collect ammo object
 	local ammo_obj = nil
 	local function itr(temp, obj)
 		if (obj:section() == ammo_sec) then ammo_obj = obj end
 	end
-	local inv = bag == "actor_bag" and db.actor or mag:parent()
-	inv:iterate_inventory(itr, nil)
+	local inv = mag:parent()
+	if inv:is_inventory_box() then
+		inv:iterate_inventory_box(itr, nil)
+	else
+		inv:iterate_inventory(itr, nil)
+	end
 	ext_ammo_box = ammo_obj
 
+	local delay = get_mag_time(mag:section(), false)
+	local capacity = SYS_GetParam(2, mag:section(), "max_mag_size")  or 20
 	interrupt_loading = false
-	RemoveTimeEvent("Mag_redux", "load_mag"..mag:id())
-	create_time_event("Mag_redux", "load_mag"..mag:id(), 0.1, load_magazine, mag, capacity, delay * 1000)
+	RemoveTimeEvent("mag_redux", "load_mag"..mag:id())
+	create_time_event("mag_redux", "load_mag"..mag:id(), 0.1, load_magazine, mag, capacity, delay * 1000)
 end
 
 local last_time = 0
@@ -770,14 +826,17 @@ ui_inventory.UIInventory.On_CC_Hover = function(self, cont, idx)
 end
 
 function on_key_release(key)
-        local bind = dik_to_bind(key)
+	if not key then return end
+	local bind = dik_to_bind(key)
 
-        if key_bindings[unload_key_modifier] == bind then
-            unload_flag = false
-        end
-        if key_bindings[old_key_modifier] == bind then
-            old_flag = false
-        end
+	if key_bindings[unload_key_modifier] == bind then
+		unload_flag = false
+		return
+	end
+	if key_bindings[old_key_modifier] == bind then
+		old_flag = false
+		return
+	end
 end
 
 function on_key_press(key)
