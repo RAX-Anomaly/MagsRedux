@@ -1,4 +1,4 @@
-----------------------------------------------------------------
+
 -- Refactored magazines by Arti and Raven. Most of this code is cribbed from wuut_mags original, but cleaned up significantly.
 ----------------------------------------------------------------
 
@@ -39,9 +39,9 @@ local ext_ammo_box = nil
 
 -- Unload on hover
 -- local unload_key_modifier = get_config("unload_key_mod")
-local unload_key_modifier = "kJUMP"
+local unload_key_modifier = get_config("unload_key_modifier")
 local unload_flag = false
-local old_key_modifier = "kWPN_RELOAD"
+local old_key_modifier = get_config("old_key_modifier")
 local old_flag = false
 
 -- global table to keep track of selected ammos on right click
@@ -150,42 +150,23 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 
 	print_dbg("on_item_drag_dropped " .. item:section() .. " on " .. weapon:section() .. " to_slot " .. to_slot)
 
-	-- Check capability
-	if not ((from_slot == EDDListType.iDeadBodyBag and to_slot == EDDListType.iDeadBodyBag) or (from_slot == EDDListType.iActorBag  and (to_slot == EDDListType.iActorBag or to_slot == EDDListType.iActorSlot))) then
+	-- Only allow drag and dropping in the same inventory e.i ammo and mag in stash/player inventory/dead npc
+	if not ((from_slot == EDDListType.iDeadBodyBag and to_slot == EDDListType.iDeadBodyBag) or
+		(from_slot == EDDListType.iActorBag  and (to_slot == EDDListType.iActorBag or
+		to_slot == EDDListType.iActorSlot))) then
         return
     end
-	local active_id = db.actor:active_item() and db.actor:active_item():id() or 0 
-	local item_id = item:id()
-	local item_sec = item:section()
+
 	local weapon_id = weapon:id()
-	local weapon_sec = weapon:section()
-	if(item_id == weapon_id) then
-		return
-	end
+	if item:id()  == weapon_id then return end
 	
-
-	local is_box_mode = (parent_is_box(item) and from_slot == EDDListType.iDeadBodyBag) and true or false
-
 	-- bullet to mag
 	if(IsAmmo(item) and is_magazine(weapon)) then
 		-- check compatibility, then fire (heh) the loading loop
 		local ammos = invert_table(get_magazine_caliber(weapon))
-		local ammo_sec = item_sec
 		print_dbg("Checking compat for ammo sec %s", ammo_sec)
-		if ammos[ammo_sec] ~= nil then
-			-- start loading loop
-		    local capacity = SYS_GetParam(2, weapon_sec, "max_mag_size")  or 20
-			print_dbg("start loading loop")
-			interrupt_loading = false
-			if get_config("fast_loading") and is_box_mode then
-				fast_load_magazine(weapon, item)
-			else
-				local delay = get_mag_time(weapon_sec, false)
-				print_dbg("Start load magazine at speed %s", delay)
-				ext_ammo_box = item
-				RemoveTimeEvent("Mag_redux", "load_mag"..weapon_id)
-				create_time_event("Mag_redux", "load_mag"..weapon_id, 0.1, load_magazine, weapon, capacity, delay * 1000)
-			end
+		if ammos[item:section()] ~= nil then
+			func_load_magazine(weapon, item)
 		end
 	end
 	-- mag to weapon
@@ -193,6 +174,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		if weapon:weapon_in_grenade_mode() then return end
 		-- init loading of weapon
 		print_dbg("Begin loading mag %s into weapon %s", item:section(), weapon:section())
+		local active_id = db.actor:active_item() and db.actor:active_item():id() or 0
 		if to_slot == EDDListType.iActorSlot and weapon_id == active_id then
 			local pre_table = count_ammo(weapon)
 			weapon:switch_state(7)
@@ -541,30 +523,38 @@ end
 local inv = ui_inventory.UIInventory.__init
 ui_inventory.UIInventory.__init = function(self)
 	inv(self)
+	local init_index = size_table(self.properties)+1
 	self.properties["load_fmj"] = {
-		index= size_table(self.properties)+1,
+		index= init_index,
 		name_func= {"Name_Ammo", 1},
-		mode= t2k_table({"inventory", "loot"}),
-		cont= t2k_table({"actor_equ","actor_bag","npc_bag"}),
+		mode= {"inventory", "loot"},
+		cont= {"actor_equ","actor_bag","npc_bag"},
 		precondition1= {"Name_Ammo", 1},
 		action= {"Mouse_Load", 1}
 	}
 	self.properties["load_ep"] = {
 		index= size_table(self.properties)+1,
 		name_func= {"Name_Ammo", 2},
-		mode= t2k_table({"inventory", "loot"}),
-		cont= t2k_table({"actor_equ","actor_bag","npc_bag"}),
+		mode= {"inventory", "loot"},
+		cont= {"actor_equ","actor_bag","npc_bag"},
 		precondition1= {"Name_Ammo", 2},
 		action= {"Mouse_Load", 2}
 	}
+	local final_index = size_table(self.properties)+1
 	self.properties["load_ap"] = {
-		index= size_table(self.properties)+1,
+		index= final_index,
 		name_func= {"Name_Ammo", 3},
-		mode= t2k_table({"inventory", "loot"}),
-		cont= t2k_table({"actor_equ","actor_bag","npc_bag"}),
+		mode= {"inventory", "loot"},
+		cont= {"actor_equ","actor_bag","npc_bag"},
 		precondition1= {"Name_Ammo", 3},
 		action= {"Mouse_Load", 3}
 	}
+	for _,prop in pairs(self.properties) do
+		if prop.index >= init_index and prop.index <= final_index then
+			if prop.mode then t2k_table(prop.mode) end
+			if prop.cont then t2k_table(prop.cont) end
+		end
+	end
 end
 
 function mouse_get_ammo(mag,idx)
@@ -643,15 +633,14 @@ ui_inventory.UIInventory.Mouse_Load = function(self, obj, bag, temp, i)
 	local mag = self:CheckItem(obj,"Mouse_Load" .. i)
 	local ammo_sec = inv_ammo[i]
 	inv_ammo = {}
-	if not ammo_sec then
-		print_dbg("Something weird happended... %s doesn't have ammo for it", mag:section())
-		return
-	end
 
 	-- Collect ammo object
 	local ammo_obj = nil
 	local function itr(temp, obj)
-		if (obj:section() == ammo_sec) then ammo_obj = obj end
+		if (obj:section() == ammo_sec) then
+			ammo_obj = obj
+			return
+		end
 	end
 	local inv = mag:parent()
 	if inv:is_inventory_box() then
@@ -659,13 +648,31 @@ ui_inventory.UIInventory.Mouse_Load = function(self, obj, bag, temp, i)
 	else
 		inv:iterate_inventory(itr, nil)
 	end
-	ext_ammo_box = ammo_obj
+	if not ammo_obj then
+		print_dbg("Something weird happended... %s doesn't have ammo for it", mag:section())
+		return
+	end
+	func_load_magazine(mag, ammo_obj)
+end
 
-	local delay = get_mag_time(mag:section(), false)
-	local capacity = SYS_GetParam(2, mag:section(), "max_mag_size")  or 20
+function func_load_magazine(mag, ammo)
+	print_dbg("start loading loop")
 	interrupt_loading = false
-	RemoveTimeEvent("mag_redux", "load_mag"..mag:id())
-	create_time_event("mag_redux", "load_mag"..mag:id(), 0.1, load_magazine, mag, capacity, delay * 1000)
+	local mag_sec = mag:section()
+	local mag_id = mag:id()
+	local capacity = SYS_GetParam(2, mag_sec, "max_mag_size")  or 20
+	ext_ammo_box = ammo
+
+	local is_box_mode = parent_is_box(ammo)
+	if get_config("fast_loading") and is_box_mode then
+		fast_load_magazine(mag)
+	else
+		local delay = get_mag_time(mag_sec, false)
+		local mag_id = mag_id
+		print_dbg("Start load magazine at speed %s", delay)
+		RemoveTimeEvent("Mag_redux", "load_mag"..mag_id)
+		create_time_event("Mag_redux", "load_mag"..mag_id, 0.1, load_magazine, mag, capacity, delay * 1000)
+	end
 end
 
 local last_time = 0
@@ -752,12 +759,12 @@ function unload_magazine(magazine, delay)
 	end
 end
 
-function fast_load_magazine(magazine, box)
+function fast_load_magazine(magazine)
 	local mag_data = get_mag_data(magazine:id())
 	print_dbg("begin fastload")
 	dump_data(mag_data)
-	local ammo_sec = box:section()
-	local parent = box:parent()
+	local ammo_sec = ext_ammo_box:section()
+	local parent = magazine:parent()
 	local ammo_to_load = SYS_GetParam(2, magazine:section(), "max_mag_size") - #mag_data.loaded
 	local boxes_to_load = {}
 	local count_so_far = 0
@@ -827,13 +834,12 @@ end
 
 function on_key_release(key)
 	if not key then return end
-	local bind = dik_to_bind(key)
 
-	if key_bindings[unload_key_modifier] == bind then
+	if unload_key_modifier == key then
 		unload_flag = false
 		return
 	end
-	if key_bindings[old_key_modifier] == bind then
+	if old_key_modifier == key then
 		old_flag = false
 		return
 	end
@@ -841,21 +847,21 @@ end
 
 function on_key_press(key)
 	if not key then return end
-	local bind = dik_to_bind(key)
 
 	if ui_inventory.GUI and ui_inventory.GUI:IsShown() then
 		-- flag for unload on hover
-		if key_bindings[unload_key_modifier] == bind then
+		if unload_key_modifier == key then
 			unload_flag = true
 			return
 		end
 		-- flag for old ammo_loading
-		if key_bindings[old_key_modifier] == bind then
+		if old_key_modifier == key then
 			old_flag = true
 			return
 		end
 	end
 
+	local bind = dik_to_bind(key)
 	if not interrupt_loading and not direction_keys[bind] then
 		print_dbg("Interrupting reload")
 		interrupt_loading = true
@@ -1063,6 +1069,11 @@ local function se_item_on_unregister(se_obj, typ)
 	ammo_maps[id] = nil
 end
 
+function on_option_change()
+	unload_key_modifier = get_config("unload_key_modifier")
+	old_key_modifier = get_config("old_key_modifier")
+end
+
 function on_game_start()
 	RegisterScriptCallback("ActorMenu_on_item_before_move", ActorMenu_on_item_before_move)
 	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
@@ -1072,5 +1083,6 @@ function on_game_start()
 	RegisterScriptCallback("actor_on_weapon_jammed", weapon_jammed)
 	RegisterScriptCallback("ActorMenu_on_item_drag_drop", on_item_drag_dropped)
 	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
+	RegisterScriptCallback("on_option_change",on_option_change)
 
 end 

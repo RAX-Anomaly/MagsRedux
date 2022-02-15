@@ -142,6 +142,20 @@
 	<string id="ui_mcm_magazines_fast_loading_desc">
 		<text>If enabled, loading and unloading rounds in stashes will be instant, like in Escape from Tarkov.</text>
 	</string>
+	<string id="ui_mcm_magazines_unload_key_modifier">
+		<text>Unload on hover keybind</text>
+	</string>
+
+	<string id="ui_mcm_magazines_unload_key_modifier_desc">
+		<text>When this keybind is pressed hovering over magazines will unload them</text>
+	</string>
+	<string id="ui_mcm_magazines_old_key_modifier">
+		<text>Old ammo select keybind</text>
+	</string>
+
+	<string id="ui_mcm_magazines_old_key_modifier_desc">
+		<text>When this keybind is pressed, right clicking on mags, will only show old ammo</text>
+	</string>
 	<string id="ui_mcm_magazines_ejection">
 		<text>Empty mag unload behavior</text>
 	</string>

@@ -13,7 +13,9 @@ local defaults = {
     ejection        		= 0,
     mag_loadtime_factor		= 1,
     mag_unloadtime_factor	= 1,
-    mag_unequip_trs         = 1
+    mag_unequip_trs         = 1,
+    unload_key_modifier = DIK_keys.DIK_CAPITAL,
+    old_key_modifier = DIK_keys.DIK_R
 }
 
 local colors = {--alpha value will be reset to match slider
@@ -48,7 +50,9 @@ function on_mcm_load()
             {id = "retain_round", type = "check", val = 1, def=false},	
             {id = "ejection" ,type= "list" ,val= 2  ,def= 1 ,content= {{0,"loadout"},{1,"ruck"}}},		
             {id = "mag_unequip_trs", type = "track", val = 2, min=0,max=100,step=1, def = 1},
-            {id = "debug", type = "check", val = 1, def=false},
+	    { id = "unload_key_modifier"             , type = "key_bind"          , val = 2, def = DIK_keys.DIK_CAPITAL },
+	    { id = "old_key_modifier"             , type = "key_bind"          , val = 2, def = DIK_keys.DIK_R },
+	    {id = "debug", type = "check", val = 1, def=false},
         }
     }
     return op
