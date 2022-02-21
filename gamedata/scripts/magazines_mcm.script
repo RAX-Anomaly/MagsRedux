@@ -13,7 +13,8 @@ local defaults = {
     ejection        		= 0,
     mag_loadtime_factor		= 1,
     mag_unloadtime_factor	= 1,
-    mag_unequip_trs         = 1
+    mag_unequip_trs         = 1,
+	three_hands				= false,
 }
 
 local colors = {--alpha value will be reset to match slider
@@ -46,8 +47,10 @@ function on_mcm_load()
             {id = "ammo_icon", type = "check", val = 1, def=true},			
             {id = "fast_loading", type = "check", val = 1, def=false},	
             {id = "retain_round", type = "check", val = 1, def=false},	
-            {id = "ejection" ,type= "list" ,val= 2, def= 1, content= {{0,"loadout"},{1,"ruck"},{2,"ground"}}},		
             {id = "mag_unequip_trs", type = "track", val = 2, min=0,max=100,step=1, def = 1},
+            {id = "ejection" ,type= "list" ,val= 2, def= 1, content= {{0,"loadout"},{1,"ruck"},{2,"ground"}}},
+			{ id= "rant"    	 	,type= "desc"     ,text= "ui_mcm_desc_mcm2"			 ,clr= {255, 225, 0, 0}	},
+            {id = "three_hands", type = "check", val = 1, def=false},
             {id = "debug", type = "check", val = 1, def=false},
         }
     }

@@ -166,6 +166,29 @@
 	<string id="ui_mcm_magazines_mag_unequip_trs_desc">
 		<text>Used for "Put in backpack" or "Throw on ground" option \nMagazines below this % will be treated as empty.</text>
 	</string>
+	<string id="ui_mcm_magazines_rant">
+	<text>An explanation of how combat reloading (reloading with inventory closed) works:\n\n
+
+	Your load out is a set of pockets/loops on your vest. For this example you have 4 pockets and you have 4 mags in your load out, one in each pocket, and a fifth mag in the gun.\n
+	You go to reload, your gun is in one hand, you grab the magazine in the gun with the other and remove it. You now have a gun in one hand and a magazine in the other. All four pockets have a magazine in them so you can't put the magazine in your hand into a pocket and you can't take a magazine out of a pocket because both of your hands are full. What do you do?\n
+	Shove the magazine in your hand into your drop-pouch, or backpack since we don’t simulate a drop-pouch.\n
+	Now you have a free hand, you take a magazine from a loadout pocket and put it into the gun. leaving you with one empty loadout pocket. Reload complete.\n
+	If you start the process with a free pocket in your loadout the mag from the gun gets put into that pocket. Unless it is empty, then by default it goes into your bag. This can be changed so that empty magazines are placed into loadout slots or dropped to the ground.\n\n
+
+	If you have the inventory open then it is not a combat reload and an additional attempt to place the magazine into your load out is performed because it is assumed you can set the gun or magazine down. Also the setting to drop magazines on the ground is ignored when inventory is open.\n
+	However if you think that RavenAscendant is wrong and that during a combat reload your stalker has a magical third hand to hold the magazine that came out of the gun until it can be placed in the freed up loadout slot, or that they would hold it in their teeth/knees/armpit/psionic powers, then there is an option below to enable that behavior.\n\n</text>
+	</string>
+
+	<string id="ui_mcm_magazines_three_hands">
+			<text>Use a third hand to place an ejected magazine back into your loadout after a combat reload.</text>
+	</string>
+
+
+	<string id="ui_mcm_magazines_three_hands_desc">
+			<text>Raven still thinks this is wrong.</text>
+	</string>
+
+
 	<!--MAGAZINES-->
 
 	<string id="st_dot">
