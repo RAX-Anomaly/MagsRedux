@@ -371,7 +371,7 @@ function retain_magazine(id, ejection)
 	if mag_data then
 		local capacity = SYS_GetParam(2, mag_data.section, "max_mag_size") or 20
 		local ammo_percent = #mag_data.loaded/capacity
-		if ammo_percent > (get_config('mag_unequip_trs')/100) then return true end
+		if #mag_data.loaded ~= 0 and ammo_percent > (get_config('mag_unequip_trs')/100) then return true end
 	end
 	return false
 end
@@ -411,10 +411,12 @@ function timer_eject_magazine(weapon, id, mag_data)
 	print_dbg("ejection type is %s", ejection_type)
 	local inv = GetActorMenu()
 	local inv_open = inv and inv:IsShown()
-	if weapon_in_slot(weapon) 
-		if retain_magazine(id, ejection_type) and (inv_open or get_config("three_hands")) then
-			toggle_carried_mag(id)
-		elseif ejection_type == 2 and not inv_open	then
+	if weapon_in_slot(weapon) then
+		if retain_magazine(id, ejection_type) then
+			if(inv_open or get_config("three_hands")) then
+				toggle_carried_mag(id)
+			end
+		elseif ejection_type == 2 and not inv_open then
 			db.actor:drop_item(level.object_by_id(id))
 		end
 	end
