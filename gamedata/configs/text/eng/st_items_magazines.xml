@@ -146,7 +146,7 @@
 		<text>Empty mag unload behavior</text>
 	</string>
 	<string id="ui_mcm_magazines_ejection_desc">
-		<text>Controls where empty magazines go.</text>
+		<text>Controls where empty magazines go. (Throw to ground disabled, pending it ever working right)</text>
 	</string>
 	<string id="ui_mcm_lst_ground">
 		<text>Throw on ground</text>
