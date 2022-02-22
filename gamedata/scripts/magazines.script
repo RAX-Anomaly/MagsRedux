@@ -38,7 +38,6 @@ block_reload_spam = false
 local ext_ammo_box = nil
 
 -- Unload on hover
--- local unload_key_modifier = get_config("unload_key_mod")
 local unload_key_modifier = get_config("unload_key_modifier")
 local unload_flag = false
 local old_key_modifier = get_config("old_key_modifier")
@@ -609,14 +608,10 @@ ui_inventory.UIInventory.Name_Ammo = function(self, obj, bag, temp, i)
 	end
 	if inv_obj == true then
 		inv_ammo[i] = ammo_sec
-		-- Ammo section naming pattern is 'ammo_ammo-name_type_bad/verybad'
-		-- So here we get the type
-		local splitted_sec = str_explode(ammo_sec,'_')
-		local ammo_name = splitted_sec[2]
-		local ammo_type = splitted_sec[3]
-		local old_str = old_flag == true and "old " or ""
+
+		local old_str = old_flag == true and "(old)" or ""
 		-- e.i "Load old FMJ ammo", "Load AP ammo"
-		return string.format("load %s%s %s", old_str, ammo_name, ammo_type:upper())
+		return string.format("load %s %s", game.translate_string(ini_sys:r_string_ex(ammo_sec,"inv_name_short")), old_str)
 	else
 		-- If no ammo is in inventory, retry with old ammo
 		if old_flag == true then return end
@@ -821,12 +816,9 @@ local direction_keys = {
 	[key_bindings.kR_STRAFE] = true
 }
 
-local cc = ui_inventory.UIInventory.On_CC_Hover
-ui_inventory.UIInventory.On_CC_Hover = function(self, cont, idx)
-	cc(self, cont, idx)
-
+function on_hover(mag)
+	if not isMagazine(mag) then return end
 	if unload_flag == true then
-		local mag = self.CC[cont]:GetObj(idx)
 		func_unload_ammo(mag)
 	end
 
@@ -1084,5 +1076,6 @@ function on_game_start()
 	RegisterScriptCallback("ActorMenu_on_item_drag_drop", on_item_drag_dropped)
 	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
 	RegisterScriptCallback("on_option_change",on_option_change)
+	RegisterScriptCallback("ActorMenu_on_item_focus_receive",on_hover)
 
 end 
