@@ -176,7 +176,6 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 			-- start loading loop
 		    local capacity = SYS_GetParam(2, weapon_sec, "max_mag_size")  or 20
 			print_dbg("start loading loop")
-			action_state = ACTI
 			if get_config("fast_loading") and is_box_mode then
 				fast_load_magazine(weapon, item)
 			else
