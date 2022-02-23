@@ -46,7 +46,7 @@ function on_mcm_load()
             {id = "show_hud", type = "check", val = 1, def=true},			
             {id = "icon_text", type = "check", val = 1, def=true},			
             {id = "ammo_icon", type = "check", val = 1, def=true},			
-            {id = "fast_loading", type = "check", val = 1, def=false},	
+            {id= "fast_loading", type="radio_h", content ={ {0,"magazines_fast_loading_off"}, {1,"magazines_fast_loading_standard"}, {2,"magazines_fast_loading_alt"}}, val=2, def=0 },
             {id = "retain_round", type = "check", val = 1, def=false},	
             {id = "ejection" ,type= "list" ,val= 2  ,def= 1 ,content= {{0,"loadout"},{1,"ruck"}}},		
             {id = "mag_unequip_trs", type = "track", val = 2, min=0,max=100,step=1, def = 1},

@@ -59,6 +59,10 @@ function parent_is_box(obj)
 	return false
 end
 
+function stash_is_open()
+	return ui_inventory.GUI and ui_inventory.GUI.mode == "loot" and ui_inventory.GUI.npc_is_box
+end
+
 function action_in_progress()
 	return ACTION_IN_PROGRESS
 end
@@ -157,14 +161,21 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
     end
 
 	local weapon_id = weapon:id()
-	if item:id()  == weapon_id then return end
-	
+
+	local weapon_sec = weapon:section()
+	if(item_id == weapon_id) then
+		return
+	end
+
+	local is_fast_load = get_config("fast_loading") == 1 and (parent_is_box(item) and from_slot == EDDListType.iDeadBodyBag) or get_config("fast_loading") == 2 and stash_is_open() or false
+
 	-- bullet to mag
 	if(IsAmmo(item) and is_magazine(weapon)) then
 		-- check compatibility, then fire (heh) the loading loop
 		local ammos = invert_table(get_magazine_caliber(weapon))
 		print_dbg("Checking compat for ammo sec %s", ammo_sec)
-		if ammos[item:section()] ~= nil then
+
+	if ammos[item:section()] ~= nil then
 			func_load_magazine(weapon, item)
 		end
 	end
@@ -769,7 +780,13 @@ function fast_load_magazine(magazine)
 			count_so_far = count_so_far + item:ammo_get_count()
 		end
 	end
-	parent:iterate_inventory_box(itr_box)
+
+	if parent:is_inventory_box() then
+		parent:iterate_inventory_box(itr_box)
+	else
+		parent:iterate_inventory(itr_box)
+	end
+
 	for k,v in pairs(boxes_to_load) do
 		local ammo_box = level.object_by_id(k)
 		local loaded = ammo_box:ammo_get_count() > ammo_to_load and ammo_to_load or ammo_box:ammo_get_count()
@@ -890,8 +907,8 @@ function func_unload_ammo(obj)
 		local mag_data = get_mag_data(id)
 		if mag_data and #mag_data.loaded > 0 then
 			interrupt_loading = false
-			if parent_is_box(obj)  then--get_config("fast_loading") and parent_is_box(obj) then
-				fast_unload_magazine(obj)
+			if get_config("fast_loading") == 1 and parent_is_box(obj) or get_config("fast_loading") == 2 and stash_is_open() or false then
+				fast_unload_magazine(obj)fast_unload_magazine(obj)
 			else
 				local delay = get_mag_time(obj:section(), true)	
 				print_dbg("Start unload magazine at speed %s", delay)

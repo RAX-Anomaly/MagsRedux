@@ -136,11 +136,19 @@
 	<string id="ui_mcm_magazines_retain_round_desc">
 		<text>If enabled, weapons retain a round in the chamber when magazines are ejected.</text>
 	</string>
-	<string id="ui_mcm_magazines_fast_loading">
-		<text>Enable Fast Loading in Stashes</text>
-	</string>
 	<string id="ui_mcm_magazines_fast_loading_desc">
-		<text>If enabled, loading and unloading rounds in stashes will be instant, like in Escape from Tarkov.</text>
+		<text>If enabled, loading and unloading rounds in stashes will be instant, like in Escape from Tarkov.\n
+		Standard Mode : Both mags and ammo need to be in the stash inventory\n
+		Alt Mode: Mags and ammo need to be in the same inventory but can be in player's inventory</text>
+	</string>
+	<string id="ui_mcm_lst_magazines_fast_loading_off">
+		<text>Off</text>
+	</string>
+	<string id="ui_mcm_lst_magazines_fast_loading_standard">
+		<text>Standard</text>
+	</string>
+	<string id="ui_mcm_lst_magazines_fast_loading_alt">
+		<text>Alt</text>
 	</string>
 	<string id="ui_mcm_magazines_unload_key_modifier">
 		<text>Unload on hover keybind</text>
