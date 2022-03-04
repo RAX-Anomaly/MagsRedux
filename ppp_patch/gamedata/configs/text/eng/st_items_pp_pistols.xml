@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+    
+<!--
+Pistols and MP's
+-->
+
+	<string id="st_mag_ppp_1911_357_fmj">
+		<text>Coonan .357 Magazine</text>
+	</string>
+	<string id="st_mag_ppp_1911_357_fmj_descr">
+		<text>
+            Variant of the Colt 1911 magazine modified to adapt the much longer .357 Magnum round. Only works with the Coonan .357 handgun, which provides all the stopping power of the .357 Magnum cartridge in a compact package.
+		</text>
+	</string>
+
+	<string id="st_mag_ppp_sig_9x19_fmj">
+		<text>9x19mm SIG Magazine</text>
+	</string>
+	<string id="st_mag_ppp_sig_9x19_fmj_descr">
+		<text>
+            Compact magazine designed to fit the SIG P229 handgun. The P229 is a very rare sight in the Zone, being an extremely modern handgun. More sensible stalkers carry handguns that are just as effective and not nearly as shiny, because minimizing attention is crucial no matter who you are.
+		</text>
+	</string>
+
+    
+	<string id="st_mag_ppp_signimble_45_fmj">
+		<text>.45 SIG P320 Magazine</text>
+	</string>
+	<string id="st_mag_ppp_signimble_45_fmj_descr">
+		<text>
+            Standard magazine fitting the SIG P320 handgun. The P320 is a striker-fired handgun like the Glock and Five-Seven, and more recently has been adapted by the U.S. Army as their standard duty handgun, designation M17. Limited quantities of the RXP variant were smuggled in by Nimble after hearing that certain American clients were making their way into the Zone. This variant of the magazine fits .45 ACP.
+		</text>
+	</string>
+
+	<string id="st_mag_ppp_usp_9x19_fmj">
+		<text>.45 Mark 23 Magazine</text>
+	</string>
+	<string id="st_mag_ppp_usp_9x19_fmj_descr">
+		<text>
+            Oversized magazine from the equivalently hefty Mark 23-SOCOM handgun. Designed as a primary weapon, the Mark-23 is very accurate and stable, but extremely heavy, bulky and impractical as a sidearm, earning it the derisive distinction of being the world's first crew served sidearm. It seems that the rich stalker's appetite for rare guns outmatches his appetite for artifacts.
+		</text>
+	</string>
+
+	<string id="st_ppp_colt1911_45_fmj">
+		<text>Standard .45 S&amp;W Magazine</text>
+	</string>
+	<string id="st_ppp_colt1911_45_fmj_descr">
+		<text>
+            Standard magazine for the Smith &amp; Wesson 645 series of handgun. The 645 is popular as a privately purchased duty sidearm for American detectives and police officers. 
+		</text>
+	</string>
+
+	<string id="st_ppp_colt1911_762x25_fmj">
+		<text>Modified 7.62x25mm Colt Magazine</text>
+	</string>
+	<string id="st_ppp_colt1911_762x25_fmj_descr">
+		<text>
+            A true odditiy, this is a Colt 1911 magazine modified to take the much skinnier 7.62x25 Tokarev cartridge. Only the Russian variants of the 1911 popular among Dutyers are capable of accepting such a modification. The conversion is, in the opinions of most stalkers, nonsensical and impractical, but then again these are the qualities best associated with Duty regardless.
+		</text>
+	</string>
+    
+	<string id="st_ppp_colt1911_919_fmj">
+		<text>Standard 9x19mm S&amp;W Magazine</text>
+	</string>
+	<string id="st_ppp_colt1911_919_fmj_descr">
+		<text>
+            Standard magazine for the Smith &amp; Wesson 659 handgun. THe 659 is effectively the 9mm variant of the 645 handgun, and as such the magazines are mostly identical.
+		</text>
+	</string>
+
+    
+	<string id="st_ppp_glock_45_fmj">
+		<text>Standard .45 Glock 21 Magazine</text>
+	</string>
+	<string id="st_ppp_glock_45_fmj_descr">
+		<text>
+            Standard polymer magazine for the Glock 21. Due to Glock magazines being uniformly standard, this magazine also fits into Glock 17 handguns modified to take .45 ACP. How you were able to convert this magazine from a standard Glock magazine? Well, the Zone contains many secrets.
+		</text>
+	</string>
+    
+</string_table>
