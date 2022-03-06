@@ -84,7 +84,7 @@ Pistols and MP's
 	</string>
 	<string id="st_ppp_colt1911_762x25_fmj_descr">
 		<text>
-            A true odditiy, this is a Colt 1911 magazine modified to take the much skinnier 7.62x25 Tokarev cartridge. Only the Russian variants of the 1911 popular among Dutyers are capable of accepting such a modification. The conversion is, in the opinions of most stalkers, nonsensical and impractical (especially with how prevalent Tokarev pistols are), but then again these are the qualities best associated with Duty regardless.
+            A true odditiy, this is a Colt 1911 magazine modified to take the much skinnier 7.62x25 Tokarev cartridge. Only the Russian variants of the 1911 popular among Dutyers are capable of accepting such a modification. Proponents of the modification argue that the improved controllability of a smaller round combined with the commonality of the ammo make for a much more reliable sidearm, especially with the 1911's robust design. Detractors say that it is an unnecessary and patriotically motivated luxury, especially when cheaper options like the CZ 52 handgun exist.
 		</text>
 	</string>
     
@@ -111,7 +111,7 @@ Pistols and MP's
 	</string>
 	<string id="st_ppp_xd9_9x19_fmj_descr">
 		<text>
-            Standard 9-round magazine for the XD9 handgun. I am getting really tired of writing these descriptions.
+            Standard 9-round magazine for the XD9 handgun. The XD9 is not a remarkable pistol by any measure except for perhaps cost effectiveness.
 		</text>
 	</string>
     
@@ -120,17 +120,9 @@ Pistols and MP's
 	</string>
 	<string id="st_ppp_glock_45_fmj_descr">
 		<text>
-            Standard 10-round polymer magazine for the Glock 21. Due to Glock magazines being uniformly standard, this magazine also fits into Glock 17 handguns modified to take .45 ACP. How you were able to convert this magazine from a standard Glock magazine? Well, the Zone contains many secrets.
+            Standard 13-round polymer magazine for the Glock 21. Due to Glock magazines being uniformly standard, this magazine also fits into Glock 17 handguns modified to take .45 ACP. How you were able to convert this magazine from a standard Glock magazine? Well, the Zone contains many secrets.
 		</text>
 	</string>
-    
-	<string id="st_ppp_mk23_45_fmj">
-		<text>Standard .45 Mk 23 Magazine</text>
-	</string>
-	<string id="st_ppp_mk23_45_fmj_descr">
-		<text>
-            13-round Mk23 magazine, also compatible with the standard USP45 handgun. The excessive weight and poor ergonomics of the Mk. 23 have given it the derisive distinction of being considered the world's first crew-served handgun. 
-		</text>
-	</string>
+
     
 </string_table>
