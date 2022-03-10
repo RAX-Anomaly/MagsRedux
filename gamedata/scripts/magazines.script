@@ -55,6 +55,10 @@ function action_in_progress()
 	return action_state ~= ACTION_NONE
 end
 
+function action_start_reload()
+	action_state = ACTION_RELOAD
+end
+
 function do_interrupt_reload()
 	if action_state == ACTION_RELOAD then
 		action_state = ACTION_NONE
@@ -704,6 +708,7 @@ local direction_keys = {
 	[key_bindings.kFWD] = true,
 	[key_bindings.kBACK] = true,
 	[key_bindings.kL_STRAFE] = true,
+	
 	[key_bindings.kR_STRAFE] = true
 }
 function on_key_press(key)
