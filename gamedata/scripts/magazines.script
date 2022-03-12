@@ -143,7 +143,7 @@ function get_sec_chambered(wpn)
 end
 
 function retain_round(weapon)
-	return get_config("retain_round") and magazine_binder.is_open_bolt_weapon(weapon)
+	return get_config("retain_round") and not magazine_binder.is_open_bolt_weapon(weapon)
 end
 
 local function se_item_on_unregister(se_obj, typ)
@@ -232,7 +232,7 @@ function load_weapon(weapon, magazine, first_round)
 		if mag_data ~= nil then
 			if mag_data.section == "mag_ak_5.56x45_default" then mag_data.section = "mag_ak_5.56x45_modern" end
 			print_dbg("ammo in weapon existing: %s", weapon:get_ammo_in_magazine())
-			if retain_roun(weapon) and  (weapon:get_ammo_in_magazine() > 0 or first_round) then
+			if retain_round(weapon) and  (weapon:get_ammo_in_magazine() > 0 or first_round) then
 				if not first_round then
 					local ammo_map = invert_table(get_ammo_map(wep_id))
 					first_round = ammo_map[weapon:get_ammo_type() + 1]
@@ -295,7 +295,7 @@ end
 function chamber_single_round(ammo, weapon)
 	local mag_data = get_mag_data(weapon:id())
 	print_dbg("do chamber one round")
-	if retain_roun(weapon) and weapon:get_ammo_in_magazine() == 0 and is_supported_weapon(weapon) and mag_data == false then
+	if retain_round(weapon) and weapon:get_ammo_in_magazine() == 0 and is_supported_weapon(weapon) and mag_data == false then
 		local ammo_map = get_ammo_map(weapon:id())
 		local typ = ammo_map[ammo:section()]
 		if not typ then return end
@@ -389,7 +389,7 @@ function eject_magazine(weapon)
 	if mag_data then
 		
 		weapon:force_unload_magazine(false)
-		if retain_roun(weapon) and #mag_data.loaded > 0 then
+		if retain_round(weapon) and #mag_data.loaded > 0 then
 			print_dbg("retaining round of type %s in chamber", stack.peek(mag_data.loaded))
 			stack.pop(mag_data.loaded)
 			weapon:set_ammo_elapsed(1)
