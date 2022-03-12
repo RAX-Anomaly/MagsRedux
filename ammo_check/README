@@ -1,3 +1,0 @@
-By default your ammo check will belong press use. You can change this to another key of your chosing in ammo_check.script.
-
-Installing check_keybind will restore the ammo check key, however you are responsible to ensure there are no conflicts with other mods that add keybinds.

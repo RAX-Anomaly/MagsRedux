@@ -311,7 +311,7 @@ function utils_ui.UICellItem:Create_Layer(ele, base, sec_m, sec_l, str_x, str_y,
 		y_s = y_st - (x * scale_pos) 
 		w_s = w * scale
 		h_s = h * scale
-		w_off = (h_s - h_s *ratio/2)
+		w_off = (h_s/2)
 		h_off = -w_s/2
 	end
 

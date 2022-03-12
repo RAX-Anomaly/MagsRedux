@@ -44,10 +44,6 @@
         <text>left</text>
     </string>
 
-    <string id="kb_check_ammo">
-        <text>Check Ammo</text>
-    </string>
-
 	
     <string id="ui_mcm_menu_rax_ammo_check">
         <text>Ammo Check</text>
@@ -68,5 +64,26 @@
 		<text>Hide Ammo Icon.</text>
 	</string>
 
+
+	<string id="ui_mcm_rax_ammo_check_busy_hands_fix">
+		<text>Busy Hands Fix.</text>
+	</string>
+	<string id="ui_mcm_rax_ammo_check_busy_hands_fix_desc">
+		<text>Check this box if the Ammo Check "animation" gets stuck. Likely to occur  when FDDA is installed</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_keybind">
+		<text>Ammo Check key.</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_keybind_desc">
+		<text>This key bind can be configured to require additional modifier keys to mitigate conflicts.</text>
+	</string>
+
+	<string id="ui_mcm_rax_ammo_check_update_mcm">
+		<text>Update MCM to change key bind here. Key defaults to T.</text>
+	</string>
+
+	
 
 </string_table>
