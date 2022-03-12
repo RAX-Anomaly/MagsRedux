@@ -48,9 +48,6 @@ function null_function()
     return false
 end
 
-
-
-
 local mcm_keybinds = ui_mcm and ui_mcm.key_hold
 local modifier = 0
 local mode = 0
@@ -61,7 +58,21 @@ local modes = {
     [2] = { ["call"] = {"on_key_hold", "on_key_press"}, ["function"] = function(key) if ui_mcm.key_hold("rax_ammo_check", key) then check_Ammo() end end }
 }
 
+local direction_keys = {
+	[key_bindings.kFWD] = true,
+	[key_bindings.kBACK] = true,
+	[key_bindings.kL_STRAFE] = true,
+	[key_bindings.kACCEL] = true,
+	[key_bindings.kR_STRAFE] = true
+}
+local weapon_hidden = false
 function on_key_press(key)
+	-- do not interrupt if directional key pressed
+	local bind = dik_to_bind(key)
+	if weapon_hidden and not direction_keys[bind] then
+		weapon_hidden = false
+	end
+
 	if key ~= mcm_key then return end
     if not mcm_keybinds then 
         check_Ammo() 
@@ -167,8 +178,6 @@ end
 -- Main function --
 function checkAmmo() end --crash prevention for dirty updates.
 
-
-
 function check_Ammo()
     local weapon = db.actor:active_item()
 
@@ -248,9 +257,18 @@ function check_Ammo()
 
 	if not busy_hands_fix then
 		db.actor:hide_weapon()
+        weapon_hidden = true
 	end
     disable_info("sleep_active")
-    CreateTimeEvent("ammo_check", "restore Weapon", 1.5, function()
+    CreateTimeEvent("ammo_check", "restore Weapon", 0, function()
+        if db.actor:active_item() then
+             return false 
+        end
+        if not weapon_hidden then
+            db.actor:restore_weapon() 
+            weapon_hidden = false
+            return true
+        end
         actor_menu.set_msg(1, message, 2, clr)
         if not busy_hands_fix then
 			db.actor:restore_weapon()

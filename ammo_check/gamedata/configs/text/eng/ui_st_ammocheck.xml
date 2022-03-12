@@ -69,7 +69,7 @@
 		<text>Busy Hands Fix.</text>
 	</string>
 	<string id="ui_mcm_rax_ammo_check_busy_hands_fix_desc">
-		<text>Check this box if the Ammo Check "animation" gets stuck. Likely to occur  when FDDA is installed</text>
+		<text>Check this box if the Ammo Check "animation" gets stuck. Likely to occur when FDDA is installed</text>
 	</string>
 
 	<string id="ui_mcm_rax_ammo_check_keybind">
