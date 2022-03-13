@@ -55,6 +55,10 @@ function action_in_progress()
 	return action_state ~= ACTION_NONE
 end
 
+function action_start_reload()
+	action_state = ACTION_RELOAD
+end
+
 function do_interrupt_reload()
 	if action_state == ACTION_RELOAD then
 		action_state = ACTION_NONE
@@ -264,8 +268,13 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 	end
 	local mag_data = get_mag_data(id)
 	if mag_data then
-		last_ejected = eject_magazine(weapon)
-		print_dbg("Ejected id %s. Is carried? %s", last_ejected, is_carried_mag(last_ejected))
+		local has_room = room_in_pouch(magazine:id())
+		local ejected = eject_magazine(weapon)
+		-- if 3hands or the slots aren't full, store the mag
+		if has_room or get_config("three_hands") then
+			last_ejected = ejected
+			print_dbg("Ejected id %s. Is carried? %s", last_ejected, is_carried_mag(last_ejected))
+		end
 	end
 
 	if weapon:get_state() == 0 then
@@ -411,10 +420,8 @@ function timer_eject_magazine(weapon, id, mag_data)
 	local inv = GetActorMenu()
 	local inv_open = inv and inv:IsShown()
 	if weapon_in_slot(weapon) then
-		if retain_magazine(id, ejection_type) then
-			if(inv_open or get_config("three_hands")) then
-				toggle_carried_mag(id)
-			end
+		if retain_magazine(id, ejection_type) or inv_open then
+			toggle_carried_mag(id)
 		elseif ejection_type == 2 and not inv_open then
 			db.actor:drop_item(level.object_by_id(id))
 		end
@@ -704,6 +711,7 @@ local direction_keys = {
 	[key_bindings.kFWD] = true,
 	[key_bindings.kBACK] = true,
 	[key_bindings.kL_STRAFE] = true,
+	
 	[key_bindings.kR_STRAFE] = true
 }
 function on_key_press(key)

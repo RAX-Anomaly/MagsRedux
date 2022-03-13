@@ -738,6 +738,7 @@ function UIWheelAmmoWuut:SwitchNextAmmo()
 					first_round = get_sec_chambered(wpn)
 					print_dbg("Mag swap - chambered round is %s", first_round)
 				end
+				magazines.action_start_reload()
 				create_time_event("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table, first_round)
 
 			else
@@ -774,6 +775,7 @@ function UIWheelAmmoWuut:OnAmmo(n)
 				
 				wpn:switch_state(7)
 				disable_info("sleep_active")
+				magazines.action_start_reload()
 				create_time_event("mag_redux", "delay_weapon"..wpn:id(), 0.1, magazines.delay_load_weapon, wpn, magazine, pre_table, first_round)
 			else
 			
