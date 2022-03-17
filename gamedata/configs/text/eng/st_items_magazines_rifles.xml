@@ -324,6 +324,15 @@ sniper rifles / full size rifles
 		</text>
 	</string>
 	
+	<string id="st_mag_stanag_7.62x51_ext">
+		<text>Extended 7.62x51 STANAG Magazine</text>
+	</string>
+	<string id="st_mag_stanag_7.62x51_ext_descr">
+		<text>
+			Extended STANAG-style Magazine for 7.62x51 NATO rounds. Used in the HK417, SCAR and SR-25. Holds 30 rounds.
+		</text>
+	</string>
+	
 	<string id="st_mag_stanag_fast_7.62x51">
 		<text>Fast-loading 7.62x51 STANAG Magazine</text>
 	</string>
