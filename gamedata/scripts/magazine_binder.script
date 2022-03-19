@@ -45,7 +45,7 @@ function dump_data(data)
 		for k,v in pairs(data.loaded) do
 			s = s .. v .. " "
 		end
-		print_dbg("Mag size: %s. Rounds loaded: %s. Section: %s. Rounds: %s", data.size, #data.loaded, data.section, s)
+		print_dbg("Mag section: %s. Rounds loaded: %s. Rounds: %s", data.section, #data.loaded, s)
 	end
 end
 
@@ -81,7 +81,6 @@ end
 function create_mag_data(id, sec)
     local mag_data = {}
     mag_data.loaded = {}
-    mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
     mag_data.section = sec
     set_data(id, mag_data)
     return mag_data
@@ -92,6 +91,11 @@ function get_mag_property(id,key)
 	return mags_storage[id] and mags_storage[id][key]
 end
 
+function get_size(id, mag_data)
+	mag_data = mag_data or get_data(id)
+	return SYS_GetParam(0, sec, "mag_size") or "small"
+end
+
 function get_total_carried(exact)
 	local carried = {
 		["small"] = 0,
@@ -99,7 +103,8 @@ function get_total_carried(exact)
 		["large"] = 0
 	}
 	for id, mag in pairs(carried_mags) do
-		carried[mag.size] = carried[mag.size] + 1
+		local size = get_size(id)
+		carried[size] = carried[size] + 1
 	end
 	
 
@@ -264,9 +269,10 @@ function validate_loadout()
 	end
     local found = {small = 0, medium = 0, large = 0}
     for id, mag in pairs(carried_mags) do --shed exess favoring shifted mags.
-		if mag.size then
-            found[mag.size] = found[mag.size] + 1
-            if found[mag.size] > loadout_slots[mag.size] then
+		local size = get_size(id)
+		if size then
+            found[size] = found[size] + 1
+            if found[size] > loadout_slots[size] then
                 carried_mags[id] = nil
 				excess = excess - 1
 				if excess == 0 then break end
@@ -277,9 +283,9 @@ function validate_loadout()
 end
 
 function room_in_pouch(id)
-    local s = mags_storage[id] and mags_storage[id].size or false
+    local s = mags_storage[id] and get_size(id) or false
 	if not s then return false end
-    for i, mag in pairs(carried_mags) do -- safety purge of esccaped mags
+    for i, mag in pairs(carried_mags) do -- safety purge of escaped mags
         local itm = level.object_by_id(i)
         if  not (itm and utils_item.in_actor_inv(itm)) then
             carried_mags[i] = nil
@@ -460,7 +466,7 @@ function get_mag_info(magazine)
 	local result = {
 		-- ["compatibleWeapons"] = str_explode(system_ini():r_string_ex(mag:section(), "magazine_group"),","),
 		["mag_size"] = SYS_GetParam(2, sec, "max_mag_size"),
-		["slot_size"] = SYS_GetParam(2, sec, "mag_size"),
+		["slot_size"] = SYS_GetParam(0, sec, "mag_size"),
 		["ammo"] = {},
 		["total_ammo"] = 0,
 		["ammo_type"] = get_magazine_caliber(sec)
@@ -544,7 +550,6 @@ function magazine_binder:update(delta)
     if not mag_data then
         mag_data = {}
         mag_data.loaded = {}
-        mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
         mag_data.section = sec
         set_data(id, mag_data)
     end
