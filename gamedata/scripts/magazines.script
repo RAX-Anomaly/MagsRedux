@@ -718,6 +718,10 @@ local direction_keys = {
 	[key_bindings.kR_STRAFE] = true,
 	[key_bindings.kCROUCH] = true,
 	[key_bindings.kACCEL] = true,
+    [key_bindings.kWPN_FIRE] = true,
+    [key_bindings.kWPN_ZOOM] = true,
+    [key_bindings.kL_LOOKOUT] = true,
+    [key_bindings.kR_LOOKOUT] = true,
 	[7] = true,
 }
 function on_key_press(key)
