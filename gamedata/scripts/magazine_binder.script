@@ -93,7 +93,7 @@ end
 
 function get_size(id, mag_data)
 	mag_data = mag_data or get_data(id)
-	return SYS_GetParam(0, sec, "mag_size") or "small"
+	return SYS_GetParam(0, mag_data.section, "mag_size") or "small"
 end
 
 function get_total_carried(exact)
