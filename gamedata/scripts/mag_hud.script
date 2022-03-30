@@ -7,6 +7,7 @@
 --]]
 
 get_mag_property			= magazine_binder.get_mag_property
+get_size					= magazine_binder.get_size
 is_carried_mag				= magazine_binder.is_carried_mag
 print_dbg					= magazine_binder.print_dbg
 gc						 	= game.translate_string
@@ -158,7 +159,7 @@ function UIMagHUD:Update(force) --Update(true) can be called from weapon reload 
 		id = item:id()
 		if is_carried_mag(id) then
 			local section = get_mag_property(id, "section")
-			local size = get_mag_property(id, "size")
+			local size = get_size(id)
 			local axis = utils_xml.get_item_axis(section,1)
 			local grid_w = axis.w / axis.h
 			local index = self.index[size]

@@ -117,7 +117,6 @@ end
 function build_mag_data(sec)
     mag_data = {}
     mag_data.loaded = {}
-    mag_data.size = SYS_GetParam(0, sec, "mag_size") or "small"
     mag_data.section = sec
 
     return mag_data

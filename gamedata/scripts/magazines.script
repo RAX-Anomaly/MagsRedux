@@ -715,8 +715,14 @@ local direction_keys = {
 	[key_bindings.kFWD] = true,
 	[key_bindings.kBACK] = true,
 	[key_bindings.kL_STRAFE] = true,
-	
-	[key_bindings.kR_STRAFE] = true
+	[key_bindings.kR_STRAFE] = true,
+	[key_bindings.kCROUCH] = true,
+	[key_bindings.kACCEL] = true,
+    [key_bindings.kWPN_FIRE] = true,
+    [key_bindings.kWPN_ZOOM] = true,
+    [key_bindings.kL_LOOKOUT] = true,
+    [key_bindings.kR_LOOKOUT] = true,
+	[7] = true,
 }
 function on_key_press(key)
 	-- do not interrupt if directional key pressed
@@ -735,12 +741,6 @@ function on_key_press(key)
 		end
 	end
 end
-
--- no longer explicitly required due to state check in reload func
--- function unblock_spam()
--- 	block_reload_spam = false
--- 	return true
--- end
 
 function unload_ammo(obj)
 	if is_magazine(obj) then

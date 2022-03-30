@@ -41,7 +41,6 @@ function wep_binder:update(delta)
 		local default_mag = weapon_default_magazine(obj:section())
 		mag_data = {}
 		mag_data.section = default_mag
-		mag_data.size = SYS_GetParam(0, default_mag, "mag_size")
 		mag_data.loaded = {}
 		local ammo_type = obj:get_ammo_type()
 		local mag_cap = SYS_GetParam(2, default_mag, "max_mag_size") or SYS_GetParam(2, obj:section(), "ammo_mag_size") or 999
