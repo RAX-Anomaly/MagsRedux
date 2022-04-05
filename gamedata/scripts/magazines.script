@@ -612,7 +612,7 @@ function load_magazine(magazine, capacity, delay)
 	stack.push(mag_data.loaded, ammo_section)
 	set_mag_data(id, mag_data)
 	print_dbg("Loaded 1 round of type %s. There are %s rounds loaded total", ammo_section, #mag_data.loaded)
-	xr_sound.set_sound_play(AC_ID,"reload_shell")
+	utils_obj.play_sound("magazines\\ammo_load"..math.random(1, 7))
 	inventory_refresh(2)
 	return false
 end

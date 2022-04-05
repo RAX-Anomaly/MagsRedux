@@ -92,7 +92,7 @@ function ui_workshop.UIWorkshopUpgrade:Upgrade()
 	
 	-- For weapons, unload mag and clear ammo cache in case of ammo type upgrades
 	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
-		--artifax fix
+		if obj:weapon_in_grenade_mode() then obj:switch_state(10) end
 		if get_data(obj:id()) ~= nil then
 			local mag = eject(obj)
 		end
@@ -113,7 +113,7 @@ function ui_workshop.UIWorkshopRepair:Repair()
 		return
 	end
 	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
-		--artifax fix
+		if obj:weapon_in_grenade_mode() then obj:switch_state(10) end
 		if get_data(obj:id()) ~= nil then
 			local mag = eject(obj)
 		end
