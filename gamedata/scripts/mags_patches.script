@@ -38,11 +38,12 @@ end
 rax_stacking_control.register(is_magazine, stack_rule)
 
 mousebase = utils_ui.UICellContainer.On_Mouse1
+local d_flag = false
 
 function utils_ui.UICellContainer:On_Mouse1(idx)
     mousebase(self, idx)
 
-    if self.owner.holding_ctrl then
+    if d_flag then
 		create_time_event("mag_redux", "delay_toggle", 0, wrap_toggle, self.cell[idx].ID)
     end
 end
@@ -826,3 +827,19 @@ function UIWheelAmmoWuut:Close()
 	end
 end
 
+function on_key_press(key)
+	if (key == DIK_keys.DIK_LMENU) then
+		d_flag = true
+	end
+end
+
+function on_key_release(key)
+	if (key == DIK_keys.DIK_LMENU) then
+		d_flag = false
+	end
+end
+
+function on_game_start()
+	RegisterScriptCallback("on_key_press", on_key_press)
+	RegisterScriptCallback("on_key_release", on_key_release)
+end
