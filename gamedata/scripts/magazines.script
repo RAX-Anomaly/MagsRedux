@@ -822,7 +822,7 @@ end
 function actor_on_weapon_fired(obj, weapon, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
 	weapon_unjammed(weapon) --this is only needed here for automatic shotguns, because they do not trigger the reload callback.
 
-	if weapon:weapon_in_grenade_mode() then  
+	if not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() then  
 		return
 	end
 	-- printf("Do prepare weapon")
