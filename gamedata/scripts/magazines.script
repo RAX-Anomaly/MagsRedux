@@ -353,7 +353,19 @@ function refund_ammo(weapon, pre_ammo_table)
 	end
 end
 
-function check_eject_magazine(weapon)
+local modes = {
+	["inventory"] = true,
+	["loot"] = true,
+}
+local bags = {
+	["actor_bag"] = true,
+	["actor_equ"] = true,
+	["actor_belt"] = true,
+	["npc_bag"] = true,
+}
+function check_eject_magazine(weapon, bag, mode)
+	-- bag check
+	if not (bags[bag] and modes[mode]) then return end
 	if get_mag_data(weapon:id()) and not weapon:weapon_in_grenade_mode() then
 		if not is_supported_weapon(weapon) then
 			print_dbg("Weapon should not have a magzine. Setting to nil.")
@@ -940,6 +952,9 @@ function on_game_load()
 end
 
 function on_game_start()
+
+	custom_functor_autoinject.add_functor("mags_load", check_eject_magazine, check_eject_magazine, nil, eject_magazine, true)
+
 	RegisterScriptCallback("ActorMenu_on_item_before_move", ActorMenu_on_item_before_move)
 	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
 	RegisterScriptCallback("on_key_press", on_key_press)

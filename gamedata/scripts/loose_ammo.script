@@ -1,0 +1,7 @@
+function actor_on_weapon_reload(wpn,ammo_total)
+    printf("Reload!")
+end
+
+function on_game_start()
+    RegisterScriptCallback("actor_on_weapon_reload",actor_on_weapon_reload )
+end

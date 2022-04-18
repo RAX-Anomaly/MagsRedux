@@ -1,3 +1,8 @@
 [submodule "anomaly-dependencies"]
 	path = anomaly-dependencies
 	url = https://github.com/ahuyn/anomaly-dependencies.git
+	branch = master
+[submodule "anomaly-demonized-scripts"]
+	path = anomaly-demonized-scripts
+	url = https://github.com/themrdemonized/anomaly-demonized-scripts.git
+	branch = master
