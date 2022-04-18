@@ -298,7 +298,7 @@ end
 function build_mag_revers_lookups()
 	local base_types = {}
 	local function itr(section)
-		if not is_magazine(section) or section == "tch_mag_base" then return end
+		if not is_magazine(section) or section == "tch_mag_base" or SYS_GetParam(1, section, "old_mag", false) then return end
 		local basetype 		= SYS_GetParam(0, section, "base_type") or nil
 		local retool_group 	= SYS_GetParam(0, section, "retool_group") or nil
 		local caliber = get_magazine_caliber(section)
