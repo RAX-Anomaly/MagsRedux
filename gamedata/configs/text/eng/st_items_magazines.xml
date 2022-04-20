@@ -137,10 +137,16 @@
 		<text>If enabled, weapons retain a round in the chamber when magazines are ejected.</text>
 	</string>
 	<string id="ui_mcm_magazines_fast_loading">
-		<text>Enable Fast Loading in Stashes</text>
+		<text>Enable Instant Loading in Stashes</text>
 	</string>
 	<string id="ui_mcm_magazines_fast_loading_desc">
 		<text>If enabled, loading and unloading rounds in stashes will be instant, like in Escape from Tarkov.</text>
+	</string>
+	<string id="ui_mcm_magazines_quick_loading">
+		<text>Enable Quick Magazine Loading</text>
+	</string>
+	<string id="ui_mcm_magazines_quick_loading_desc">
+		<text>If enabled, loading rounds in inventory will be faster, doing so one box at a time.</text>
 	</string>
 	<string id="ui_mcm_magazines_ejection">
 		<text>Empty mag unload behavior</text>

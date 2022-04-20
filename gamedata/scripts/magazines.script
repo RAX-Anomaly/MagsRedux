@@ -186,6 +186,8 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 			print_dbg("start loading loop")
 			if get_config("fast_loading") and is_box_mode then
 				fast_load_magazine(weapon, item)
+			elseif get_config("quick_loading") then
+				fast_load_magazine(weapon, item, true)
 			else
 				local delay = get_mag_time(weapon_sec, false)
 				print_dbg("Start load magazine at speed %s", delay)
@@ -656,7 +658,7 @@ function unload_magazine(magazine, delay)
 	end
 end
 
-function fast_load_magazine(magazine, box)
+function fast_load_magazine(magazine, box, load_one)
 	local mag_data = get_mag_data(magazine:id())
 	print_dbg("begin fastload")
 	dump_data(mag_data)
@@ -671,7 +673,13 @@ function fast_load_magazine(magazine, box)
 			count_so_far = count_so_far + item:ammo_get_count()
 		end
 	end
-	parent:iterate_inventory_box(itr_box)
+
+	if load_one then
+		boxes_to_load[box:id()] = true
+	else
+		parent:iterate_inventory_box(itr_box)
+	end
+
 	for k,v in pairs(boxes_to_load) do
 		local ammo_box = level.object_by_id(k)
 		local loaded = ammo_box:ammo_get_count() > ammo_to_load and ammo_to_load or ammo_box:ammo_get_count()
