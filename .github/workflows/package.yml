@@ -30,11 +30,12 @@ jobs:
         id: date
         run: echo "::set-output name=today::$(date +'%Y.%m.%d')"
         
-      - name: Install trader dependencies
-        id: trade_dep
+      - name: Install dependencies
+        id: deps
         run: |
           cp -r anomaly-dependencies/trader_autoinject/gamedata .
           cp -r anomaly-dependencies/encyclopedia/gamedata .
+          cp -r anomaly-demonizd-scripts/custom_functor_autoinject/gamedata .
 
       - name: Zip folder
         run: zip -r $RELEASE_NAME.zip gamedata README *.txt fomod "ammo_check" "bas_patch" "position_and_view_CEMENT_patch" "wuuts_icons" "ppp_patch"

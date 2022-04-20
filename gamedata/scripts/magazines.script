@@ -244,6 +244,7 @@ function load_weapon(weapon, magazine, first_round)
 				print_dbg("extra round of type %s found, adding to mag", first_round)
 				stack.push(mag_data.loaded, first_round)
 			end
+			mag_data.is_weapon = true
 			set_mag_data(wep_id, mag_data)
 			set_mag_data(mag_id, nil)
 			alife_release_id(mag_id)
@@ -284,7 +285,6 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 	if weapon:get_state() == 0 then
 		weapon:unload_magazine()
 		ACTION_IN_PROGRESS = false
-		print_dbg("passing first round %s", first_round)
 		load_weapon(weapon, magazine, first_round)
 		refund_ammo(weapon, pre_table)
 		load_timeout[id] = nil
@@ -429,7 +429,7 @@ function eject_magazine(weapon)
 end
 
 function timer_eject_magazine(weapon, id, mag_data)
-
+	mag_data.is_weapon = false
 	set_mag_data(id, mag_data)
 	local ejection_type = tonumber(get_config("ejection"))
 	print_dbg("ejection type is %s", ejection_type)
