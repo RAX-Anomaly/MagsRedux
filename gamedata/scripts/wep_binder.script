@@ -1,4 +1,4 @@
-
+-- unused, moved to mag binder
 print_dbg                   = magazines.print_dbg
 set_data 					= magazine_binder.set_data
 get_data 					= magazine_binder.get_data
