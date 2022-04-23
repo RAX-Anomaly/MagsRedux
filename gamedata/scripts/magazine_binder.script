@@ -596,7 +596,7 @@ function magazine_binder:update(delta)
 			local capacity = SYS_GetParam(2, sec, "max_mag_size")
 			-- for simplicity we take the weight of each bullet to be the same
 			local cond = 0
-			if mag_data then
+			if mag_data and #mag_data.loaded > 0 then
 				local ammoType = get_magazine_caliber(sec)[1]
 				local box_size = SYS_GetParam(2, ammoType, "box_size") or 1
 				local box_weight = SYS_GetParam(2, ammoType, "inv_weight") or 0

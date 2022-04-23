@@ -363,16 +363,13 @@ local bags = {
 	["actor_belt"] = true,
 	["npc_bag"] = true,
 }
+-- should only fire on weapons!
 function check_eject_magazine(weapon, bag, mode)
 	-- bag check
 	if not (bags[bag] and modes[mode]) then return end
+	if not is_supported_weapon(weapon) then return end
 	if get_mag_data(weapon:id()) and not weapon:weapon_in_grenade_mode() then
-		if not is_supported_weapon(weapon) then
-			print_dbg("Weapon should not have a magzine. Setting to nil.")
-			set_mag_data(weapon:id(), nil)
-		else
-			return gc("st_mag_eject_magazine")
-		end
+		return gc("st_mag_eject_magazine")
 	end
 end
 
@@ -494,8 +491,8 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	
 	local weapon = db.actor:active_item()
 	local id = weapon:id()
-	-- cancel reload only if we have a valid mag, do not allow reloads again while reloading in progress
-	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or weapon:get_state() == 7 then return end
+	-- cancel reload only if we have a valid mag, do not allow reloads unless weapon is neutral
+	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or weapon:get_state() ~= 0 then return end
 
 	-- wpo edge case to handle denial of reload on unjam
 	if arti_jamming and arti_jamming.get_jammed and arti_jamming.get_jammed(id) then
