@@ -306,8 +306,7 @@ function item_weapon.detach_scope(weapon)
 	DetachScope(weapon)
 end
 
-NewGameEquipment = itms_manager.new_game_equippment
-function itms_manager.new_game_equippment()
+function default_mags()
 	local function itr_inv(npc, item)
 		if is_supported_weapon(item) then
 			local default_mag = weapon_default_magazine(item)
@@ -317,9 +316,24 @@ function itms_manager.new_game_equippment()
 		end
 	end
 	db.actor:iterate_inventory(itr_inv)
+end
+
+NewGameEquipment = itms_manager.new_game_equippment
+function itms_manager.new_game_equippment()
+	default_mags()
 	return NewGameEquipment()
 end
 
+AzazelDeath = gamemode_azazel.actor_on_before_death
+function gamemode_azazel.actor_on_before_death(whoID,flags)
+	AzazelDeath(whoID, flags)
+	if not flags.ret_value then
+		create_time_event("mag_redux", "azazel_mags", 0.1, function()
+			default_mags()
+			return true
+		end)
+	end
+end
 -- for quick release					
 function item_backpack.actor_on_item_use(obj)
 	
