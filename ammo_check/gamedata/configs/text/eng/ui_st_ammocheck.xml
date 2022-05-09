@@ -37,6 +37,9 @@
     <string id="st_ac_noMag">
         <text>No Magazine loaded</text>
     </string>
+    <string id="st_ac_grenade">
+        <text>Grenade loaded</text>
+    </string>
     <string id="st_ac_noAmmo">
         <text>This doesn't take ammo!</text>
     </string>
