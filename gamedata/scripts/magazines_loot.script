@@ -171,7 +171,7 @@ function death_manager.set_weapon_drop_condition(npc, itm)
 	end
     
     if not is_supported_weapon(itm) then
-        set_data(id, nil)
+        set_data(itm:id(), nil)
         return
     end
 

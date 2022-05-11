@@ -65,13 +65,14 @@ end
 function get_data(id)
 	tbl = {}
 	if mags_storage[id] then
-		copy_table(tbl, mags_storage[id] )
+		copy_table(tbl, mags_storage[id])
 		return tbl
 	end
 	return mags_storage[id] --could be nil or false want to return either.
 end
 
 function set_data(id, data)
+	if not id then return end
 	mags_storage[id] = data
 	if carried_mags[id] then
 		carried_mags[id] = data
