@@ -396,104 +396,64 @@ local mag_to_ammo = {
 	["mag_ots_9x39_default"] = "ammo_9x39_ap",
 	["mag_g36_5.56x45_default"] = "ammo_5.56x45_ap"
 }
+
+local bar_fights = {
+	["bar_arena_fight_1"] = {
+		"mag_pm_9x18_default",
+		"mag_pm_9x18_default"
+	},
+	["bar_arena_fight_2"] = {
+		"mag_mp5_9x19_default"
+	},
+	["bar_arena_fight_4"] = {
+		"mag_ak_5.45x39_default"
+	},
+	["bar_arena_fight_5"] = {
+		"mag_ak_5.45x39_default",
+		"mag_ak_5.45x39_default"
+	},
+	["bar_arena_fight_6"] = {
+		"mag_ots_9x39_default",
+		"mag_ots_9x39_default",
+		"mag_ots_9x39_default",
+		"ammo_vog-25"
+	},
+	["bar_arena_fight_8"] = {
+		"mag_g36_5.56x45_default",
+		"mag_g36_5.56x45_default"
+	},
+}
 -- MP for bar fights
 BarTele = xr_effects.bar_arena_teleport
 function xr_effects.bar_arena_teleport(actor, npc)
-
-	actor_effects.disable_effects_timer(100)
-
-	--hide_hud_inventory()
-	hide_hud_all()
-
-	local box = get_story_object("bar_arena_inventory_box")
-	if (box) then
-		local function transfer_object_item(item)
-			if is_carried_mag(item:id()) then
-				toggle_carried_mag(item:id())
-			end
-			db.actor:transfer_item(item, box)
+	BarTele(actor, npc)
+	-- equip outfit
+	create_time_event("Mag_redux", "equip_outfit"..se.id, 0, equip_outfit, se.id)
+	-- create mags and equip
+	for info, stuff in pairs(bar_fights) do
+		if has_alife_info(info) then
+			for k, mag in pairs(bar_fights[info]) do
+				local se = alife_create(mag,
+				db.actor:position(),
+				db.actor:level_vertex_id(),
+				db.actor:game_vertex_id(),
+				AC_ID)
+				if is_magazine(mag) then
+					create_time_event("Mag_redux", "fill_mag"..se.id, 0, fill_mag, se.id, mag, SYS_GetParam(2, mag, "max_mag_size"), mag_to_ammo[mag])
+				end
+				se_save_var( se.id, se:name(), "unpatched", true )
+			end	
+			break
 		end
-		db.actor:inventory_for_each(transfer_object_item)
-	end
-
-	local spawn_items = {}
-
-	if	has_alife_info("bar_arena_fight_1") then 
-		table.insert(spawn_items, "novice_outfit")	
-		table.insert(spawn_items, "wpn_pm")
-		table.insert(spawn_items, "mag_pm_9x18_default")
-		table.insert(spawn_items, "mag_pm_9x18_default")
-		--table.insert(spawn_items, "wpn_knife")
-	elseif	has_alife_info("bar_arena_fight_2") then
-		table.insert(spawn_items, "stalker_outfit")	
-		table.insert(spawn_items, "wpn_mp5")
-		table.insert(spawn_items, "mag_mp5_9x19_default")
-		--table.insert(spawn_items, "wpn_knife")		
-	elseif	has_alife_info("bar_arena_fight_3") then
-		table.insert(spawn_items, "stalker_outfit")		
-		table.insert(spawn_items, "wpn_bm16")
-		table.insert(spawn_items, "ammo_12x70_buck")
-		table.insert(spawn_items, "ammo_12x70_buck")
-		--table.insert(spawn_items, "wpn_knife")
-	elseif	has_alife_info("bar_arena_fight_4") then
-		table.insert(spawn_items, "stalker_outfit")		
-		table.insert(spawn_items, "wpn_ak74")
-		table.insert(spawn_items, "mag_ak_5.45x39_default")
-		--table.insert(spawn_items, "wpn_knife")
-		table.insert(spawn_items, "bandage")
-		table.insert(spawn_items, "bandage")
-	elseif	has_alife_info("bar_arena_fight_5") then
-		table.insert(spawn_items, "svoboda_light_outfit")
-		table.insert(spawn_items, "wpn_abakan")
-		table.insert(spawn_items, "mag_ak_5.45x39_default")
-		table.insert(spawn_items, "mag_ak_5.45x39_default")
-		--table.insert(spawn_items, "wpn_knife")
-		table.insert(spawn_items, "bandage")
-		table.insert(spawn_items, "medkit")
-	elseif	has_alife_info("bar_arena_fight_6") then
-		table.insert(spawn_items, "specops_outfit")
-		table.insert(spawn_items, "wpn_groza")
-		table.insert(spawn_items, "ammo_vog-25")
-		table.insert(spawn_items, "mag_ots_9x39_default")
-		table.insert(spawn_items, "mag_ots_9x39_default")
-		table.insert(spawn_items, "mag_ots_9x39_default")
-		--table.insert(spawn_items, "wpn_knife")
-	elseif	has_alife_info("bar_arena_fight_7") then
-		table.insert(spawn_items, "wpn_knife")
-		table.insert(spawn_items, "bandage")
-		table.insert(spawn_items, "grenade_f1")
-		table.insert(spawn_items, "grenade_f1")
-	elseif	has_alife_info("bar_arena_fight_8") then
-		table.insert(spawn_items, "wpn_g36")
-		table.insert(spawn_items, "exo_outfit")
-		table.insert(spawn_items, "mag_g36_5.56x45_default")
-		table.insert(spawn_items, "mag_g36_5.56x45_default")
-		--table.insert(spawn_items, "wpn_knife")
-	end
-
-	local k,v = 0,0
-
-	for k,v in pairs(spawn_items) do
-		local se = alife_create(v,
-						db.actor:position(),
-						db.actor:level_vertex_id(),
-						db.actor:game_vertex_id(),
-						AC_ID)
-		if string.find(v, "outfit") then
-			disable_info("sleep_active")
-			create_time_event("Mag_redux", "equip_outfit"..se.id, 0.1, equip_outfit, se.id)
-		end
-		if string.find(v, "mag_") then
-			disable_info("sleep_active")
-			create_time_event("Mag_redux", "fill_mag"..se.id, 0.1, fill_mag, se.id, v, SYS_GetParam(2, v, "max_mag_size"), mag_to_ammo[v])
-		end
-		se_save_var( se.id, se:name(), "unpatched", true )
 	end
 end
 
-function equip_outfit(id)
-	local outfit = level.object_by_id(id)
-	db.actor:move_to_slot(outfit, 7)
+function equip_outfit()
+	db.actor:iterate_inventory(function(_, item)
+		if IsOutfit(item) then	
+			db.actor:move_to_slot(item, 7)
+		end
+	end)
 	return true
 end
 

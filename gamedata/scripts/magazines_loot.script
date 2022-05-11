@@ -169,13 +169,14 @@ function death_manager.set_weapon_drop_condition(npc, itm)
 	if (death_dropped) then
 		return
 	end
+    
+    if not is_supported_weapon(itm) then
+        set_data(id, nil)
+        return
+    end
 
-	if (IsWeapon(nil,itm:clsid()) and not npc:marked_dropped(itm) and is_supported_weapon(itm)) then
+	if (IsWeapon(nil,itm:clsid()) and not npc:marked_dropped(itm)) then
         local id = itm:id()
-        if not is_supported_weapon(itm) then
-            set_data(id, nil)
-            return
-        end
         local sec = itm:section()
         local mag_data = get_data(id)
         if mag_data then
@@ -191,11 +192,6 @@ function death_manager.set_weapon_drop_condition(npc, itm)
             prep_weapon(itm, false)
         end
     end
-end
-
--- Given a list of ammo rank them based on if they are bad or not
-function rank_ammo(list)
-
 end
 
 function on_game_start()

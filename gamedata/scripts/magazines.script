@@ -246,6 +246,7 @@ function load_weapon(weapon, magazine, first_round)
 				print_dbg("extra round of type %s found, adding to mag", first_round)
 				stack.push(mag_data.loaded, first_round)
 			end
+			mag_data.is_weapon = true
 			set_mag_data(wep_id, mag_data)
 			set_mag_data(mag_id, nil)
 			alife_release_id(mag_id)
@@ -286,7 +287,6 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 	if weapon:get_state() == 0 then
 		weapon:unload_magazine()
 		ACTION_IN_PROGRESS = false
-		print_dbg("passing first round %s", first_round)
 		load_weapon(weapon, magazine, first_round)
 		refund_ammo(weapon, pre_table)
 		load_timeout[id] = nil
@@ -355,14 +355,23 @@ function refund_ammo(weapon, pre_ammo_table)
 	end
 end
 
-function check_eject_magazine(weapon)
+local modes = {
+	["inventory"] = true,
+	["loot"] = true,
+}
+local bags = {
+	["actor_bag"] = true,
+	["actor_equ"] = true,
+	["actor_belt"] = true,
+	["npc_bag"] = true,
+}
+-- should only fire on weapons!
+function check_eject_magazine(weapon, bag, mode)
+	-- bag check
+	if not (bags[bag] and modes[mode]) then return end
+	if not is_supported_weapon(weapon) then return end
 	if get_mag_data(weapon:id()) and not weapon:weapon_in_grenade_mode() then
-		if not is_supported_weapon(weapon) then
-			print_dbg("Weapon should not have a magzine. Setting to nil.")
-			set_mag_data(weapon:id(), nil)
-		else
-			return gc("st_mag_eject_magazine")
-		end
+		return gc("st_mag_eject_magazine")
 	end
 end
 
@@ -419,7 +428,7 @@ function eject_magazine(weapon)
 end
 
 function timer_eject_magazine(weapon, id, mag_data)
-
+	mag_data.is_weapon = false
 	set_mag_data(id, mag_data)
 	local ejection_type = tonumber(get_config("ejection"))
 	print_dbg("ejection type is %s", ejection_type)
@@ -484,8 +493,8 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	
 	local weapon = db.actor:active_item()
 	local id = weapon:id()
-	-- cancel reload only if we have a valid mag, do not allow reloads again while reloading in progress
-	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or weapon:get_state() == 7 then return end
+	-- cancel reload only if we have a valid mag, do not allow reloads unless weapon is neutral
+	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or weapon:get_state() ~= 0 then return end
 
 	-- wpo edge case to handle denial of reload on unjam
 	if arti_jamming and arti_jamming.get_jammed and arti_jamming.get_jammed(id) then
@@ -948,6 +957,9 @@ function on_game_load()
 end
 
 function on_game_start()
+
+	custom_functor_autoinject.add_functor("mags_load", check_eject_magazine, check_eject_magazine, nil, eject_magazine, true)
+
 	RegisterScriptCallback("ActorMenu_on_item_before_move", ActorMenu_on_item_before_move)
 	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
 	RegisterScriptCallback("on_key_press", on_key_press)

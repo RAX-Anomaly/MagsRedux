@@ -259,25 +259,26 @@ function check_Ammo()
     end
 	disable_info("sleep_active")
 	if not busy_hands_fix then
-		db.actor:hide_weapon()
+        local slot = db.actor:active_slot()
+		db.actor:activate_slot(0)
         weapon_hidden = true
-		CreateTimeEvent("ammo_check", "restore Weapon", 0, function()
+		CreateTimeEvent("ammo_check", "restore Weapon", 0, function(slot)
 			if db.actor:active_item() then
 				 return false 
 			end
 			if not weapon_hidden then
-				db.actor:restore_weapon() 
+				db.actor:activate_slot(slot) 
 				weapon_hidden = false
 				return true
 			end
 			actor_menu.set_msg(1, message, 2, clr)
-			db.actor:restore_weapon()
+			db.actor:activate_slot(slot)
 
 			return true
-		end)
+		end
+    , slot)
 	else
 		CreateTimeEvent("ammo_check", "message delay", 1.5, function()
-			
 			actor_menu.set_msg(1, message, 2, clr) 
 			return true
 		end)

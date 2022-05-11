@@ -78,10 +78,11 @@ function set_data(id, data)
 	end
 end
 
-function create_mag_data(id, sec)
+function create_mag_data(id, sec, is_weapon)
     local mag_data = {}
     mag_data.loaded = {}
     mag_data.section = sec
+	mag_data.is_weapon = is_weapon or false
     set_data(id, mag_data)
     return mag_data
 end
@@ -202,7 +203,6 @@ function toggle_carried_mag(id)
 		carried_mags[id] = nil
 		return false
 			--print_dbg("tcm2")
-
 	elseif room_in_pouch(id) then
 		carried_mags[id] = mags_storage[id]
 		return true
@@ -334,8 +334,16 @@ end
 function is_supported_weapon(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
-	
-	return weapons_lookup:section_exist(parent_section(section))
+	local is_valid = weapons_lookup:section_exist(parent_section(section))
+	-- if it's a valid weapon, bind it to the mag binder
+	if obj and is_valid  then
+		local binder = obj:binded_object()
+		if not binder then 
+			print_dbg("Valid weapon %s has no binder, binding to mag binder", obj:section())
+			bind(obj) 
+		end
+	end
+	return is_valid
 end
 
 function is_open_bolt_weapon(val)
@@ -537,43 +545,71 @@ end
 
 -- global flag used to cap condition at 100 for trade
 local freeze = false
--- update the weight and condition based on capacity
+-- only update every half second
+local update_tick = 500
+
 function magazine_binder:update(delta)
 	object_binder.update(self, delta)
+	local tg = time_global()
+	
 	local obj = self.object
 	local id = obj:id()
 	local sec = obj:section()
+    local mag_data = get_data(id)
+
 	if not self.first_update then
 		self.first_update = true
+		self.last_update = tg + update_tick
+		
+		if not mag_data and is_magazine(obj) then
+			mag_data = create_mag_data(id, sec, false)
+		elseif not mag_data and is_supported_weapon(obj) then
+			local default_mag = weapon_default_magazine(sec)
+			mag_data = create_mag_data(id, default_mag, true) 
+			-- also need to do some things to convert existing ammo
+			local ammo_max = SYS_GetParam(2, default_mag, "max_mag_size")
+			local ammo_type = obj:get_ammo_type()
+			local ammo_map = utils_item.get_ammo(section, id) or SYS_GetParam(2, section, "ammo_mag_size") or 999
+			print_dbg("Weapon %s uses mags, assigning default mag %s with %s rounds, type is %s", section, default_mag, ammo_max, ammo_map[ammo_type+1])
+			-- if mag_cap < ammo_loaded then ammo_loaded = mag_cap end
+			for i=1,ammo_max do
+				stack.push(mag_data.loaded, ammo_map[ammo_type+1])
+			end
+			set_data(id, mag_data)
+		end
 	end
-    local mag_data = get_data(id)
-    if not mag_data then
-        mag_data = {}
-        mag_data.loaded = {}
-        mag_data.section = sec
-        set_data(id, mag_data)
-    end
-    if freeze then 
-		obj:set_condition(0.999)
-		return 
-	end
-	local mag_weight = SYS_GetParam(2, sec, "inv_weight")
-    local capacity = SYS_GetParam(2, sec, "max_mag_size")
-    -- for simplicity we take the weight of each bullet to be the same
-    local cond = 0
-    if mag_data then
-		local ammoType = get_magazine_caliber(sec)[1]
-		local box_size = SYS_GetParam(2, ammoType, "box_size") or 1
-		local box_weight = SYS_GetParam(2, ammoType, "inv_weight") or 0
-		local cartridge_weight = box_weight / box_size
-        cond = #mag_data.loaded / capacity
-        mag_weight = mag_weight + (#mag_data.loaded * cartridge_weight)
-    end
-	-- mags_storage[id] = mag_data
-	set_data(id, mag_data)
-    obj:set_weight(mag_weight)
-    obj:set_condition(cond)
 
+	if tg < self.last_update then return end
+	self.last_update = tg + update_tick
+
+	local obj = self.object
+	local id = obj:id()
+	local sec = obj:section()
+    local mag_data = get_data(id)
+
+	-- depending on what is bound, update accordingly
+	if is_magazine(obj) then
+		if freeze then 
+			obj:set_condition(0.999) 
+		else
+			local mag_weight = SYS_GetParam(2, sec, "inv_weight")
+			local capacity = SYS_GetParam(2, sec, "max_mag_size")
+			-- for simplicity we take the weight of each bullet to be the same
+			local cond = 0
+			if mag_data and #mag_data.loaded > 0 then
+				local ammoType = get_magazine_caliber(sec)[1]
+				local box_size = SYS_GetParam(2, ammoType, "box_size") or 1
+				local box_weight = SYS_GetParam(2, ammoType, "inv_weight") or 0
+				local cartridge_weight = box_weight / box_size
+				cond = #mag_data.loaded / capacity
+				mag_weight = mag_weight + (#mag_data.loaded * cartridge_weight)
+			end
+			set_data(id, mag_data)
+			obj:set_weight(mag_weight)
+			obj:set_condition(cond)
+		end
+
+	end
 end
 
 function magazine_binder:reload(section)
