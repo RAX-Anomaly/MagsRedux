@@ -429,7 +429,7 @@ BarTele = xr_effects.bar_arena_teleport
 function xr_effects.bar_arena_teleport(actor, npc)
 	BarTele(actor, npc)
 	-- equip outfit
-	create_time_event("Mag_redux", "equip_outfit"..se.id, 0, equip_outfit, se.id)
+	create_time_event("Mag_redux", "equip_outfit", 0, equip_outfit)
 	-- create mags and equip
 	for info, stuff in pairs(bar_fights) do
 		if has_alife_info(info) then
