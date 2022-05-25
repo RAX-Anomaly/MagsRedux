@@ -16,6 +16,7 @@ get_mag_info				= magazine_binder.get_mag_info
 get_total_carried			= magazine_binder.get_total_carried
 get_loadout_size			= magazine_binder.get_loadout_size
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
+valid_mag_data              = magazine_binder.valid_mag_data
 print_dbg					= magazines.print_dbg
 has_loadout_slots			= magazine_binder.has_loadout_slots
 get_loadout_slots			= magazine_binder.get_loadout_slots
@@ -193,7 +194,7 @@ function ui_item.build_desc_header(obj, sec, str)
 	if obj and magazines and IsWeapon(obj) and not IsAmmo(obj) and is_supported_weapon(obj) then
 		validate_wep(obj:id(), obj:section())
 		local mag_data = get_data(obj:id())
-		if mag_data then
+		if valid_mag_data(mag_data) then
 			_str = _str .. " " .. clr_g .. gc("st_dot") .. " ".. gc("st_mag_loaded") .. " " .. clr_2 .. ui_item.get_sec_name(mag_data.section) .. "\\n"
 		else
 			_str = _str .. " " .. clr_r .. gc("st_dot") .. " " .. gc("st_mag_loaded_none") .. "\\n"

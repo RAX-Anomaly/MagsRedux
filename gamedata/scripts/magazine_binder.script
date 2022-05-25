@@ -489,10 +489,14 @@ function get_mag_info(magazine)
 	return result
 end
 
+function valid_mag_data(mag_data)
+	return (mag_data and mag_data.section ~= "no_mag") and mag_data or nil
+end
+
 function validate_wep(id, sec)
 	local wpn_obj = level.object_by_id(id)
 	local mag_data = get_data(id)
-	if not mag_data then return end
+	if not mag_data or mag_data.section == "no_mag" then return end
 	if wpn_obj and wpn_obj:weapon_in_grenade_mode() then return end
 	
 	local w_bt = get_weapon_base_type(id)
