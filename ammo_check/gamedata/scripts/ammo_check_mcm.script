@@ -214,7 +214,7 @@ function check_Ammo()
         message = currentAmmo == 1 and gc("st_ac_grenade") or gc("st_ac_empty")
         clr = use_clr and clr03_Amber
     elseif currentAmmo == 0 then
-        if is_supported_weapon(sec) and not mag_data then
+        if is_supported_weapon(sec) and mag_data.section == "no_mag" then
             message = gc("st_ac_noMag")
             clr = use_clr and clr00_Red or nil
         else
@@ -225,7 +225,7 @@ function check_Ammo()
         local max_ammo = 0
 
         if is_supported_weapon(sec) then
-            if not mag_data or mag_data.section ~= "no_mag" then return end
+            if not mag_data or mag_data.section == "no_mag" then return end
             print_dbg("checking for section %s", mag_data.section)
             max_ammo = SYS_GetParam(2, mag_data.section, "max_mag_size")
             top_round = magazines_mcm.get_config("retain_round") and mag_data.loaded[#mag_data.loaded - 1] or stack.peek(mag_data.loaded)
