@@ -24,6 +24,7 @@ print_dbg					= magazine_binder.print_dbg
 dump_data					= magazine_binder.dump_data
 get_mags_by_ammo_type		= magazine_binder.get_mags_by_ammo_type
 get_config					= magazines_mcm.get_config
+valid_mag_data              = magazine_binder.valid_mag_data
 
 
 -- actor action state
@@ -225,7 +226,7 @@ function load_weapon(weapon, magazine, first_round)
 	if is_magazine(magazine) and IsWeapon(weapon) and is_compatible(weapon, magazine) then
 		local wep_id = weapon:id()
 		local existing_mag = get_mag_data(wep_id)
-		if existing_mag then
+		if existing_mag and existing_mag.section ~= "no_mag" then
 			print_dbg("Cancel loading. Another mag already in wpn: %s", existing_mag.section or "<unknown>")
 			return
 		end
@@ -235,7 +236,7 @@ function load_weapon(weapon, magazine, first_round)
 		
 		-- check for empty mag and initialize
 		local mag_data = get_mag_data(mag_id)
-		if mag_data ~= nil then
+		if valid_mag_data(mag_data) then
 			if mag_data.section == "mag_ak_5.56x45_default" then mag_data.section = "mag_ak_5.56x45_modern" end
 			print_dbg("ammo in weapon existing: %s", weapon:get_ammo_in_magazine())
 			if retain_round(weapon) and  (weapon:get_ammo_in_magazine() > 0 or first_round) then
@@ -274,7 +275,7 @@ function delay_load_weapon(weapon, magazine, pre_table, first_round)
 		return true
 	end
 	local mag_data = get_mag_data(id)
-	if mag_data then
+	if valid_mag_data(mag_data) then
 		local has_room = room_in_pouch(magazine:id())
 		local ejected = eject_magazine(weapon)
 		-- if 3hands or the slots aren't full, store the mag
@@ -370,7 +371,8 @@ function check_eject_magazine(weapon, bag, mode)
 	-- bag check
 	if not (bags[bag] and modes[mode]) then return end
 	if not is_supported_weapon(weapon) then return end
-	if get_mag_data(weapon:id()) and not weapon:weapon_in_grenade_mode() then
+	local mag_data = get_mag_data(weapon:id()) 
+	if valid_mag_data(mag_data) and not weapon:weapon_in_grenade_mode() then
 		return gc("st_mag_eject_magazine")
 	end
 end
@@ -391,7 +393,7 @@ function retain_magazine(id, ejection)
 	if ejection == 0 then return true end
 
 	local mag_data = get_mag_data(id)
-	if mag_data then
+	if valid_mag_data(mag_data) then
 		local capacity = SYS_GetParam(2, mag_data.section, "max_mag_size") or 20
 		local ammo_percent = #mag_data.loaded/capacity
 		if #mag_data.loaded ~= 0 and ammo_percent > (get_config('mag_unequip_trs')/100) then return true end
@@ -406,8 +408,7 @@ function eject_magazine(weapon)
 	if weapon:weapon_in_grenade_mode() then return end
 	local id = weapon:id()
 	local mag_data = get_mag_data(id)
-	if mag_data then
-		
+	if valid_mag_data(mag_data) then
 		weapon:force_unload_magazine(false)
 		if retain_round(weapon) and #mag_data.loaded > 0 then
 			print_dbg("retaining round of type %s in chamber", stack.peek(mag_data.loaded))
@@ -421,7 +422,11 @@ function eject_magazine(weapon)
 		else
 			print_dbg("Could not create magazine %s", mag_data.section)
 		end
-		set_mag_data(id, false)
+		set_mag_data(id, {
+			section = "no_mag",
+			loaded = {},
+			is_weapon = true,
+		})
 		dump_data(mag_data)
 		return se_mag.id
 	end
@@ -875,7 +880,7 @@ function prep_weapon(weapon, feed_next)
 	local ammo_map = get_ammo_map(id) --cacheing function should keep this from being too laggy, got to look out for the potatos
 
 
-	if mag_data then
+	if valid_mag_data(mag_data) then
 		local count = #mag_data.loaded
 		if feed_next then
 			stack.pop(mag_data.loaded)

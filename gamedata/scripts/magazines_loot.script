@@ -15,6 +15,7 @@ print_dbg                   = magazines.print_dbg
 get_weapon_base_type		= magazine_binder.get_weapon_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
 get_mag_info                = magazine_binder.get_mag_info
+valid_mag_data              = magazine_binder.valid_mag_data
 
 
 local math_random           = math.random
@@ -90,7 +91,7 @@ function random_pop_mag(mag_id, mag_sec, ammo_table, rank, quality)
     local to_fill = math.floor((amount/100) * SYS_GetParam(2, mag_sec, "max_mag_size"))
 	-- also pick the appropriate ammo
 	local good_chance = get_mag_prop(rank, "mag_good_chance") * quality
-
+    good_chance = arti_ballistics and 1 - good_chance or good_chance
     -- add validation for existence of a single ammo type (e.g. 9x21 sp10)
     -- This should really be refactored to categorize bad ammo in the ammo table instead of relying on the index
     local ammo_to_pick = 1
@@ -180,7 +181,7 @@ function death_manager.set_weapon_drop_condition(npc, itm)
         local id = itm:id()
         local sec = itm:section()
         local mag_data = get_data(id)
-        if mag_data then
+        if valid_mag_data(mag_data) then
             local mag_sec = weapon_default_magazine(sec)
             if not mag_data.section then mag_data.section = mag_sec end
             local ammo_table = get_magazine_caliber(mag_sec)
