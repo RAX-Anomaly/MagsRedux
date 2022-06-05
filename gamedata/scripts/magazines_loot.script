@@ -91,7 +91,7 @@ function random_pop_mag(mag_id, mag_sec, ammo_table, rank, quality)
     local to_fill = math.floor((amount/100) * SYS_GetParam(2, mag_sec, "max_mag_size"))
 	-- also pick the appropriate ammo
 	local good_chance = get_mag_prop(rank, "mag_good_chance") * quality
-
+    good_chance = arti_ballistics and 1 - good_chance or good_chance
     -- add validation for existence of a single ammo type (e.g. 9x21 sp10)
     -- This should really be refactored to categorize bad ammo in the ammo table instead of relying on the index
     local ammo_to_pick = 1
