@@ -479,7 +479,7 @@ function get_mag_info(magazine)
 		["total_ammo"] = 0,
 		["ammo_type"] = get_magazine_caliber(sec)
 	}
-	local mag_data = get_data(magazine:id())
+	local mag_data = get_mag_loaded(magazine:id())
 	if mag_data and #mag_data.loaded > 0 then
 		result.total_ammo = #mag_data.loaded
 		for i=1, #mag_data.loaded do
@@ -493,10 +493,14 @@ function valid_mag_data(mag_data)
 	return (mag_data and mag_data.section ~= "no_mag") and mag_data or nil
 end
 
+function get_mag_loaded(id)
+	return valid_mag_data(get_data(id))
+end
+
 function validate_wep(id, sec)
 	local wpn_obj = level.object_by_id(id)
-	local mag_data = get_data(id)
-	if not mag_data or mag_data.section == "no_mag" then return end
+	local mag_data = get_mag_loaded(id)
+	if not mag_data then return end
 	if wpn_obj and wpn_obj:weapon_in_grenade_mode() then return end
 	
 	local w_bt = get_weapon_base_type(id)
@@ -510,7 +514,7 @@ function validate_wep(id, sec)
 end
 
 function validate_mag(id, sec)
-	local mag_data = get_data(id)
+	local mag_data = get_mag_loaded(id)
 	if not mag_data then return end
 
 	if sec ~= mag_data.section then
@@ -559,14 +563,15 @@ function magazine_binder:update(delta)
 	local obj = self.object
 	local id = obj:id()
 	local sec = obj:section()
-    local mag_data = get_data(id)
+    local mag_data = get_mag_loaded(id)
 
 	if not self.first_update then
 		self.first_update = true
 		self.last_update = tg + update_tick
-		
+		-- associate mag data to empty magazine object
 		if not mag_data and is_magazine(obj) then
 			mag_data = create_mag_data(id, sec, false)
+		-- associate mag data to weapon, assigning default mag
 		elseif not mag_data and is_supported_weapon(obj) then
 			local default_mag = weapon_default_magazine(sec)
 			mag_data = create_mag_data(id, default_mag, true) 
@@ -575,7 +580,6 @@ function magazine_binder:update(delta)
 			local ammo_type = obj:get_ammo_type()
 			local ammo_map = utils_item.get_ammo(section, id) or SYS_GetParam(2, section, "ammo_mag_size") or 999
 			print_dbg("Weapon %s uses mags, assigning default mag %s with %s rounds, type is %s", section, default_mag, ammo_max, ammo_map[ammo_type+1])
-			-- if mag_cap < ammo_loaded then ammo_loaded = mag_cap end
 			for i=1,ammo_max do
 				stack.push(mag_data.loaded, ammo_map[ammo_type+1])
 			end
@@ -586,12 +590,7 @@ function magazine_binder:update(delta)
 	if tg < self.last_update then return end
 	self.last_update = tg + update_tick
 
-	local obj = self.object
-	local id = obj:id()
-	local sec = obj:section()
-    local mag_data = get_data(id)
-
-	-- depending on what is bound, update accordingly
+	-- update mag weight and cond
 	if is_magazine(obj) then
 		if freeze then 
 			obj:set_condition(0.999) 

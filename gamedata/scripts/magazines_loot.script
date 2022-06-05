@@ -4,6 +4,7 @@
 gc						 	= game.translate_string
 get_data 					= magazine_binder.get_data
 set_data 					= magazine_binder.set_data
+get_mag_loaded 				= magazine_binder.get_mag_loaded
 prep_weapon 				= magazines.prep_weapon
 is_supported_weapon 		= magazine_binder.is_supported_weapon
 get_magazine_caliber 		= magazine_binder.get_magazine_caliber
@@ -180,8 +181,8 @@ function death_manager.set_weapon_drop_condition(npc, itm)
 	if (IsWeapon(nil,itm:clsid()) and not npc:marked_dropped(itm)) then
         local id = itm:id()
         local sec = itm:section()
-        local mag_data = get_data(id)
-        if valid_mag_data(mag_data) then
+        local mag_data = get_mag_loaded(id)
+        if mag_data then
             local mag_sec = weapon_default_magazine(sec)
             if not mag_data.section then mag_data.section = mag_sec end
             local ammo_table = get_magazine_caliber(mag_sec)

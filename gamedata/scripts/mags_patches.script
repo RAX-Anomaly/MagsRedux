@@ -16,7 +16,7 @@ get_mag_info				= magazine_binder.get_mag_info
 get_total_carried			= magazine_binder.get_total_carried
 get_loadout_size			= magazine_binder.get_loadout_size
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
-valid_mag_data              = magazine_binder.valid_mag_data
+get_mag_loaded              = magazine_binder.get_mag_loaded
 print_dbg					= magazines.print_dbg
 has_loadout_slots			= magazine_binder.has_loadout_slots
 get_loadout_slots			= magazine_binder.get_loadout_slots
@@ -60,8 +60,8 @@ function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 	obj = self:CheckItem(obj,"Cond_Unload")
 	
 	local sec = obj:section()
-	local mag_data = get_data(obj:id())
-	if IsWeapon(obj) and (obj:weapon_in_grenade_mode() or mag_data == nil or mag_data == false) and (not IsItem("fake_ammo_wpn",sec)) then
+	local mag_data = get_mag_loaded(obj:id())
+	if IsWeapon(obj) and (obj:weapon_in_grenade_mode() or not mag_data) and (not IsItem("fake_ammo_wpn",sec)) then
 		return obj:get_ammo_in_magazine() > 0
 	end
 	return false
@@ -73,6 +73,7 @@ end
 DisassemblyWeapon = item_parts.disassembly_weapon
 function item_parts.disassembly_weapon(obj, obj_d) 
 	print_dbg("Interdict disassembly")
+	if obj:weapon_in_grenade_mode() then obj:switch_state(10) end
 	if get_data(obj:id()) ~= nil then
 		print_dbg("Found magazine, ejecting")
 		local mag = eject(obj)
@@ -193,8 +194,8 @@ function ui_item.build_desc_header(obj, sec, str)
 
 	if obj and magazines and IsWeapon(obj) and not IsAmmo(obj) and is_supported_weapon(obj) then
 		validate_wep(obj:id(), obj:section())
-		local mag_data = get_data(obj:id())
-		if valid_mag_data(mag_data) then
+		local mag_data = get_mag_loaded(obj:id())
+		if mag_data then
 			_str = _str .. " " .. clr_g .. gc("st_dot") .. " ".. gc("st_mag_loaded") .. " " .. clr_2 .. ui_item.get_sec_name(mag_data.section) .. "\\n"
 		else
 			_str = _str .. " " .. clr_r .. gc("st_dot") .. " " .. gc("st_mag_loaded_none") .. "\\n"
@@ -459,7 +460,7 @@ function equip_outfit()
 end
 
 function fill_mag(id, sec, amount, ammo_type)
-	local mag_data = get_data(id)
+	local mag_data = get_mag_loaded(id)
 	if not mag_data then
 		print_dbg("mag_data not initialized yet for %s, creating now")
 		mag_data = create_mag_data(id, sec)
