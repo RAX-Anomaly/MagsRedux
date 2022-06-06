@@ -12,10 +12,10 @@ is_carried_mag				= magazine_binder.is_carried_mag
 toggle_carried_mag			= magazine_binder.toggle_carried_mag
 room_in_pouch				= magazine_binder.room_in_pouch
 eject						= magazines.eject_magazine
-get_mag_info				= magazine_binder.get_mag_info
 get_total_carried			= magazine_binder.get_total_carried
 get_loadout_size			= magazine_binder.get_loadout_size
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
+get_mag_loaded              = magazine_binder.get_mag_loaded
 print_dbg					= magazines.print_dbg
 has_loadout_slots			= magazine_binder.has_loadout_slots
 get_loadout_slots			= magazine_binder.get_loadout_slots
@@ -44,23 +44,22 @@ function utils_ui.UICellContainer:On_Mouse1(idx)
     mousebase(self, idx)
 
     if d_flag then
-		create_time_event("mag_redux", "delay_toggle", 0, wrap_toggle, self.cell[idx].ID)
+		create_time_event("mag_redux", "delay_toggle", 0, 
+		function(id)
+			if is_magazine(id) and toggle_carried_mag(id) ~= nil then
+				magazines.inventory_refresh()
+			end
+			return true
+		end, self.cell[idx].ID)
     end
-end
-
-function wrap_toggle(id)
-	if is_magazine(id) and toggle_carried_mag(id) ~= nil then
-		magazines.inventory_refresh()
-	end
-	return true
 end
 
 function ui_inventory.UIInventory:Cond_Unload(obj, bag)
 	obj = self:CheckItem(obj,"Cond_Unload")
 	
 	local sec = obj:section()
-	local mag_data = get_data(obj:id())
-	if IsWeapon(obj) and (obj:weapon_in_grenade_mode() or mag_data == nil or mag_data == false) and (not IsItem("fake_ammo_wpn",sec)) then
+	local mag_data = get_mag_loaded(obj:id())
+	if IsWeapon(obj) and (obj:weapon_in_grenade_mode() or not mag_data) and (not IsItem("fake_ammo_wpn",sec)) then
 		return obj:get_ammo_in_magazine() > 0
 	end
 	return false
@@ -72,7 +71,8 @@ end
 DisassemblyWeapon = item_parts.disassembly_weapon
 function item_parts.disassembly_weapon(obj, obj_d) 
 	print_dbg("Interdict disassembly")
-	if get_data(obj:id()) ~= nil then
+	if obj:weapon_in_grenade_mode() then obj:switch_state(10) end
+	if get_mag_loaded(obj:id()) then
 		print_dbg("Found magazine, ejecting")
 		local mag = eject(obj)
 	end
@@ -94,7 +94,7 @@ function ui_workshop.UIWorkshopUpgrade:Upgrade()
 	-- For weapons, unload mag and clear ammo cache in case of ammo type upgrades
 	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
 		if obj:weapon_in_grenade_mode() then obj:switch_state(10) end
-		if get_data(obj:id()) ~= nil then
+		if get_mag_loaded(obj:id()) then
 			local mag = eject(obj)
 		end
 	end
@@ -115,7 +115,7 @@ function ui_workshop.UIWorkshopRepair:Repair()
 	end
 	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
 		if obj:weapon_in_grenade_mode() then obj:switch_state(10) end
-		if get_data(obj:id()) ~= nil then
+		if get_mag_loaded(obj:id()) then
 			local mag = eject(obj)
 		end
 	end
@@ -142,7 +142,7 @@ function ui_inventory.UIInventory:RMode_UpgradeYes()
 	end
 	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
 		--artifax fix
-		if get_data(obj:id()) ~= nil then
+		if get_mag_loaded(obj:id()) then
 			local mag = eject(obj)
 		end
 	end
@@ -188,11 +188,10 @@ original_build_desc_header = ui_item.build_desc_header
 function ui_item.build_desc_header(obj, sec, str)
 	local _str = ""
 	local _str2 = original_build_desc_header(obj, sec, str)
-	
 
 	if obj and magazines and IsWeapon(obj) and not IsAmmo(obj) and is_supported_weapon(obj) then
 		validate_wep(obj:id(), obj:section())
-		local mag_data = get_data(obj:id())
+		local mag_data = get_mag_loaded(obj:id())
 		if mag_data then
 			_str = _str .. " " .. clr_g .. gc("st_dot") .. " ".. gc("st_mag_loaded") .. " " .. clr_2 .. ui_item.get_sec_name(mag_data.section) .. "\\n"
 		else
@@ -235,29 +234,18 @@ function ui_item.build_desc_footer(obj, sec, str)
 	local _str2 = original_build_desc_footer(obj, sec, str)
 	if obj and magazines and is_magazine(obj) then
 		validate_mag(obj:id(), obj:section())
-		local magInfo = get_mag_info(obj)
-		if magInfo.slot_size then
-			_str = _str .. "\\n \\n".. gc('st_mag_size') .. " " .. gc('st_mag_size_'..magInfo.slot_size) 
-		end
-		
-		local weaponTitle
-		local ammoCountTitle = gc('st_mag_ammo_loaded_count')
+		local mag_data = get_mag_loaded(obj:id())
 
-		_str = _str .. "\\n \\n" .. ammoCountTitle .. " " .. clr_g .. magInfo.total_ammo  .. clr_2 .. " / " .. clr_g .. magInfo.mag_size .. " \\n"
+		_str = _str .. "\\n \\n".. gc('st_mag_size') .. " " .. gc('st_mag_size_'..(SYS_GetParam(0, sec, "mag_size") or "small")) 
+	
+		local mag_capacity = SYS_GetParam(2, sec, "max_mag_size")	
+		local clr = utils_xml.get_color_con(math_floor(100 * #mag_data.loaded/mag_capacity))
+		_str = _str .. "\\n \\n" .. gc('st_mag_ammo_loaded_count') .. " " .. clr .. #mag_data.loaded   .. " / " .. mag_capacity .. clr_2 .. " \\n"
 
-		if magInfo.total_ammo > 0 then
-			_str = _str .. " \\n"
-			
-			local ammoTitle
-			
-			for section, count in pairs(magInfo.ammo) do
-				ammoTitle = ui_item.get_sec_name(section)
-				_str = _str ..'  ' .. clr_g .. count .. '   ' .. clr_2 .. ammoTitle .. " \\n"
-			end			
+		if #mag_data.loaded > 0 then
+			_str = _str .. "\\n" .. gc('st_mag_ammo_top_round') .. " " .. clr_g .. ui_item.get_sec_name(stack.peek(mag_data.loaded))  .. " \\n"	
 		end
 	end
-
-	
 	_str = _str2 .. _str .. " \\n"
 	
 	return _str
@@ -306,8 +294,7 @@ function item_weapon.detach_scope(weapon)
 	DetachScope(weapon)
 end
 
-NewGameEquipment = itms_manager.new_game_equippment
-function itms_manager.new_game_equippment()
+function default_mags()
 	local function itr_inv(npc, item)
 		if is_supported_weapon(item) then
 			local default_mag = weapon_default_magazine(item)
@@ -317,9 +304,24 @@ function itms_manager.new_game_equippment()
 		end
 	end
 	db.actor:iterate_inventory(itr_inv)
+end
+
+NewGameEquipment = itms_manager.new_game_equippment
+function itms_manager.new_game_equippment()
+	default_mags()
 	return NewGameEquipment()
 end
 
+AzazelDeath = gamemode_azazel.actor_on_before_death
+function gamemode_azazel.actor_on_before_death(whoID,flags)
+	AzazelDeath(whoID, flags)
+	if not flags.ret_value then
+		create_time_event("mag_redux", "azazel_mags", 0.1, function()
+			default_mags()
+			return true
+		end)
+	end
+end
 -- for quick release					
 function item_backpack.actor_on_item_use(obj)
 	
@@ -382,109 +384,69 @@ local mag_to_ammo = {
 	["mag_ots_9x39_default"] = "ammo_9x39_ap",
 	["mag_g36_5.56x45_default"] = "ammo_5.56x45_ap"
 }
+
+local bar_fights = {
+	["bar_arena_fight_1"] = {
+		"mag_pm_9x18_default",
+		"mag_pm_9x18_default"
+	},
+	["bar_arena_fight_2"] = {
+		"mag_mp5_9x19_default"
+	},
+	["bar_arena_fight_4"] = {
+		"mag_ak_5.45x39_default"
+	},
+	["bar_arena_fight_5"] = {
+		"mag_ak_5.45x39_default",
+		"mag_ak_5.45x39_default"
+	},
+	["bar_arena_fight_6"] = {
+		"mag_ots_9x39_default",
+		"mag_ots_9x39_default",
+		"mag_ots_9x39_default",
+		"ammo_vog-25"
+	},
+	["bar_arena_fight_8"] = {
+		"mag_g36_5.56x45_default",
+		"mag_g36_5.56x45_default"
+	},
+}
 -- MP for bar fights
 BarTele = xr_effects.bar_arena_teleport
 function xr_effects.bar_arena_teleport(actor, npc)
-
-	actor_effects.disable_effects_timer(100)
-
-	--hide_hud_inventory()
-	hide_hud_all()
-
-	local box = get_story_object("bar_arena_inventory_box")
-	if (box) then
-		local function transfer_object_item(item)
-			if is_carried_mag(item:id()) then
-				toggle_carried_mag(item:id())
-			end
-			db.actor:transfer_item(item, box)
+	BarTele(actor, npc)
+	-- equip outfit
+	create_time_event("Mag_redux", "equip_outfit", 0, equip_outfit)
+	-- create mags and equip
+	for info, stuff in pairs(bar_fights) do
+		if has_alife_info(info) then
+			for k, mag in pairs(bar_fights[info]) do
+				local se = alife_create(mag,
+				db.actor:position(),
+				db.actor:level_vertex_id(),
+				db.actor:game_vertex_id(),
+				AC_ID)
+				if is_magazine(mag) then
+					create_time_event("Mag_redux", "fill_mag"..se.id, 0, fill_mag, se.id, mag, SYS_GetParam(2, mag, "max_mag_size"), mag_to_ammo[mag])
+				end
+				se_save_var( se.id, se:name(), "unpatched", true )
+			end	
+			break
 		end
-		db.actor:inventory_for_each(transfer_object_item)
-	end
-
-	local spawn_items = {}
-
-	if	has_alife_info("bar_arena_fight_1") then 
-		table.insert(spawn_items, "novice_outfit")	
-		table.insert(spawn_items, "wpn_pm")
-		table.insert(spawn_items, "mag_pm_9x18_default")
-		table.insert(spawn_items, "mag_pm_9x18_default")
-		--table.insert(spawn_items, "wpn_knife")
-	elseif	has_alife_info("bar_arena_fight_2") then
-		table.insert(spawn_items, "stalker_outfit")	
-		table.insert(spawn_items, "wpn_mp5")
-		table.insert(spawn_items, "mag_mp5_9x19_default")
-		--table.insert(spawn_items, "wpn_knife")		
-	elseif	has_alife_info("bar_arena_fight_3") then
-		table.insert(spawn_items, "stalker_outfit")		
-		table.insert(spawn_items, "wpn_bm16")
-		table.insert(spawn_items, "ammo_12x70_buck")
-		table.insert(spawn_items, "ammo_12x70_buck")
-		--table.insert(spawn_items, "wpn_knife")
-	elseif	has_alife_info("bar_arena_fight_4") then
-		table.insert(spawn_items, "stalker_outfit")		
-		table.insert(spawn_items, "wpn_ak74")
-		table.insert(spawn_items, "mag_ak_5.45x39_default")
-		--table.insert(spawn_items, "wpn_knife")
-		table.insert(spawn_items, "bandage")
-		table.insert(spawn_items, "bandage")
-	elseif	has_alife_info("bar_arena_fight_5") then
-		table.insert(spawn_items, "svoboda_light_outfit")
-		table.insert(spawn_items, "wpn_abakan")
-		table.insert(spawn_items, "mag_ak_5.45x39_default")
-		table.insert(spawn_items, "mag_ak_5.45x39_default")
-		--table.insert(spawn_items, "wpn_knife")
-		table.insert(spawn_items, "bandage")
-		table.insert(spawn_items, "medkit")
-	elseif	has_alife_info("bar_arena_fight_6") then
-		table.insert(spawn_items, "specops_outfit")
-		table.insert(spawn_items, "wpn_groza")
-		table.insert(spawn_items, "ammo_vog-25")
-		table.insert(spawn_items, "mag_ots_9x39_default")
-		table.insert(spawn_items, "mag_ots_9x39_default")
-		table.insert(spawn_items, "mag_ots_9x39_default")
-		--table.insert(spawn_items, "wpn_knife")
-	elseif	has_alife_info("bar_arena_fight_7") then
-		table.insert(spawn_items, "wpn_knife")
-		table.insert(spawn_items, "bandage")
-		table.insert(spawn_items, "grenade_f1")
-		table.insert(spawn_items, "grenade_f1")
-	elseif	has_alife_info("bar_arena_fight_8") then
-		table.insert(spawn_items, "wpn_g36")
-		table.insert(spawn_items, "exo_outfit")
-		table.insert(spawn_items, "mag_g36_5.56x45_default")
-		table.insert(spawn_items, "mag_g36_5.56x45_default")
-		--table.insert(spawn_items, "wpn_knife")
-	end
-
-	local k,v = 0,0
-
-	for k,v in pairs(spawn_items) do
-		local se = alife_create(v,
-						db.actor:position(),
-						db.actor:level_vertex_id(),
-						db.actor:game_vertex_id(),
-						AC_ID)
-		if string.find(v, "outfit") then
-			disable_info("sleep_active")
-			create_time_event("Mag_redux", "equip_outfit"..se.id, 0.1, equip_outfit, se.id)
-		end
-		if string.find(v, "mag_") then
-			disable_info("sleep_active")
-			create_time_event("Mag_redux", "fill_mag"..se.id, 0.1, fill_mag, se.id, v, SYS_GetParam(2, v, "max_mag_size"), mag_to_ammo[v])
-		end
-		se_save_var( se.id, se:name(), "unpatched", true )
 	end
 end
 
-function equip_outfit(id)
-	local outfit = level.object_by_id(id)
-	db.actor:move_to_slot(outfit, 7)
+function equip_outfit()
+	db.actor:iterate_inventory(function(_, item)
+		if IsOutfit(item) then	
+			db.actor:move_to_slot(item, 7)
+		end
+	end)
 	return true
 end
 
 function fill_mag(id, sec, amount, ammo_type)
-	local mag_data = get_data(id)
+	local mag_data = get_mag_loaded(id)
 	if not mag_data then
 		print_dbg("mag_data not initialized yet for %s, creating now")
 		mag_data = create_mag_data(id, sec)

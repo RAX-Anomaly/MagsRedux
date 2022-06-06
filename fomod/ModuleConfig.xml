@@ -35,19 +35,19 @@ Hides the ammo count from HUD. Press a hotkey to check your weapon and see the a
 				</group> 
 				<group name="Patches" type="SelectAny"> 
 					<plugins order="Explicit"> 
-						<plugin name="Position patch"> 
-							<description>Compatibility patch. Only install if you're also using Position and View by CEMENT or old version EFT reposition.</description> 
+						<plugin name="PPP patch"> 
+							<description>Compatibility patch. Only install if you're also using Pretty Pepegas Pack.</description> 
 							<files> 
-								<folder source="position_and_view_CEMENT_patch\gamedata" destination="gamedata" priority="0" /> 
+								<folder source="ppp_patch\gamedata" destination="gamedata" priority="0" /> 
 							</files> 
 							<typeDescriptor> 
 								<type name="Optional"/> 
 							</typeDescriptor> 
 						</plugin> 
-						<plugin name="PPP patch"> 
-							<description>Compatibility patch. Only install if you're also using Pretty Pepegas Pack.</description> 
+						<plugin name="AUG patch"> 
+							<description>Compatibility patch. Only install if you're also using AUGmented pack.</description> 
 							<files> 
-								<folder source="ppp_patch\gamedata" destination="gamedata" priority="0" /> 
+								<folder source="aug_patch\gamedata" destination="gamedata" priority="0" /> 
 							</files> 
 							<typeDescriptor> 
 								<type name="Optional"/> 

@@ -103,6 +103,7 @@ function on_game_start()
     if magazine_binder then
         get_data = magazine_binder.get_data
         set_data = magazine_binder.set_data
+        get_mag_loaded = magazine_binder.get_mag_loaded
         is_supported_weapon = magazine_binder.is_supported_weapon
         is_jammed_weapon = magazines.is_jammed_weapon
         print_dbg("MagsRedux installed. Working in integrated mode.")
@@ -110,6 +111,7 @@ function on_game_start()
         get_data = null_function -- Should not be called, just in case.
         set_data = null_function -- Should not be called, just in case.
         is_supported_weapon = null_function -- Always returns false, meaning none of the weapons are supported, fall back on vanilla ammo handling.
+        get_mag_loaded = null_function
         is_jammed_weapon = null_function -- Sadly, standalone mode does not report weapon jams for now.
         print_dbg("MagsRedux not found. Working in standalone mode.")
     end
@@ -192,7 +194,7 @@ function check_Ammo()
     local clr = nil
 
     local currentState = weapon:get_state()
-    if currentState ~= 0 then
+    if not (currentState == 0 or weapon:weapon_in_grenade_mode()) then
         return
     end
 
@@ -205,11 +207,16 @@ function check_Ammo()
     local sec = weapon:section()
     local top_round = nil
 
+    local mag_data = get_mag_loaded(weaponId)
+
     if (is_jammed_weapon(weapon)) then
         message = gc("st_ac_jammed")
         clr = use_clr and clr00_Red or nil
+    elseif weapon:weapon_in_grenade_mode() then
+        message = currentAmmo == 1 and gc("st_ac_grenade") or gc("st_ac_empty")
+        clr = use_clr and clr03_Amber
     elseif currentAmmo == 0 then
-        if is_supported_weapon(sec) and get_data(weaponId) == nil then
+        if is_supported_weapon(sec) and not mag_data then
             message = gc("st_ac_noMag")
             clr = use_clr and clr00_Red or nil
         else
@@ -219,9 +226,11 @@ function check_Ammo()
     else
         local max_ammo = 0
 
-        if is_supported_weapon(sec) then
-            local mag_data = get_data(weaponId)
-            if not mag_data then return end
+        if not mag_data and is_supported_weapon(sec) then
+            -- some random crap to force it to say oitc
+            currentAmmo = 1
+            max_ammo = 10
+        elseif is_supported_weapon(sec) then
             print_dbg("checking for section %s", mag_data.section)
             max_ammo = SYS_GetParam(2, mag_data.section, "max_mag_size")
             top_round = magazines_mcm.get_config("retain_round") and mag_data.loaded[#mag_data.loaded - 1] or stack.peek(mag_data.loaded)
@@ -243,6 +252,9 @@ function check_Ammo()
         elseif (currentAmmo == 1 and SYS_GetParam(2, sec, "ammo_mag_size", 0) == 2) then
             message = gc("st_ac_just_one")
             clr = use_clr and clr03_Amber
+        elseif currentAmmo == 1 and not mag_data and is_supported_weapon(sec) then
+            message = gc("st_ac_oitc")
+            clr = use_clr and clr03_Amber
         else
             idx = l_round((curAmmoPerc * 10) + .5) -- gives an interger value n for the decile of curAmmoPerc and 11 for full.
             print_dbg("IDX is %s %s %s %s", idx, curAmmoPerc, currentAmmo, max_ammo)
@@ -256,25 +268,26 @@ function check_Ammo()
     end
 	disable_info("sleep_active")
 	if not busy_hands_fix then
-		db.actor:hide_weapon()
+        local slot = db.actor:active_slot()
+		db.actor:activate_slot(0)
         weapon_hidden = true
-		CreateTimeEvent("ammo_check", "restore Weapon", 0, function()
+		CreateTimeEvent("ammo_check", "restore Weapon", 0, function(slot)
 			if db.actor:active_item() then
 				 return false 
 			end
 			if not weapon_hidden then
-				db.actor:restore_weapon() 
+				db.actor:activate_slot(slot) 
 				weapon_hidden = false
 				return true
 			end
 			actor_menu.set_msg(1, message, 2, clr)
-			db.actor:restore_weapon()
+			db.actor:activate_slot(slot)
 
 			return true
-		end)
+		end
+    , slot)
 	else
 		CreateTimeEvent("ammo_check", "message delay", 1.5, function()
-			
 			actor_menu.set_msg(1, message, 2, clr) 
 			return true
 		end)
