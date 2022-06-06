@@ -15,14 +15,11 @@ create_mag_data             = magazine_binder.create_mag_data
 print_dbg                   = magazines.print_dbg
 get_weapon_base_type		= magazine_binder.get_weapon_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
-<<<<<<< HEAD
 get_mag_info                = magazine_binder.get_mag_info
 validate_mag                = magazine_binder.validate_mag
 validate_wep                = magazine_binder.validate_wep
-=======
 valid_mag_data              = magazine_binder.valid_mag_data
 get_config                  = magazines_mcm.get_config
->>>>>>> aedaae078dd72c9ce8f4994bb98c8b8663e6863a
 
 
 math_floor                  = math.floor
