@@ -469,30 +469,11 @@ function is_compatible(weapon, magazine) --both called functions do type correct
     return weapon_base == magazine_base
 end
 
-function get_mag_info(magazine)
-	local sec = magazine:section()
-	local result = {
-		-- ["compatibleWeapons"] = str_explode(system_ini():r_string_ex(mag:section(), "magazine_group"),","),
-		["mag_size"] = SYS_GetParam(2, sec, "max_mag_size"),
-		["slot_size"] = SYS_GetParam(0, sec, "mag_size"),
-		["ammo"] = {},
-		["total_ammo"] = 0,
-		["ammo_type"] = get_magazine_caliber(sec)
-	}
-	local mag_data = get_mag_loaded(magazine:id())
-	if mag_data and #mag_data.loaded > 0 then
-		result.total_ammo = #mag_data.loaded
-		for i=1, #mag_data.loaded do
-			result.ammo[mag_data.loaded[i]] = (result.ammo[mag_data.loaded[i]] or 0) + 1
-		end
-	end
-	return result
-end
-
 function valid_mag_data(mag_data)
 	return (mag_data and mag_data.section ~= "no_mag") and mag_data or nil
 end
 
+-- get mag data with validation for fake mag items
 function get_mag_loaded(id)
 	return valid_mag_data(get_data(id))
 end
@@ -541,7 +522,6 @@ end
 
 -- class
 function bind(obj)
-     print_dbg("bound object "..obj:section())
     obj:bind_object(magazine_binder(obj))
 end
 
@@ -689,8 +669,6 @@ function actor_on_first_update()
 	past_first_update = true
 	validate_loadout()
 end
-
-
 
 function actor_item_to_slot(obj)
 	if past_first_update and has_loadout_slots(obj) then

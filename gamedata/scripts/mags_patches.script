@@ -12,7 +12,6 @@ is_carried_mag				= magazine_binder.is_carried_mag
 toggle_carried_mag			= magazine_binder.toggle_carried_mag
 room_in_pouch				= magazine_binder.room_in_pouch
 eject						= magazines.eject_magazine
-get_mag_info				= magazine_binder.get_mag_info
 get_total_carried			= magazine_binder.get_total_carried
 get_loadout_size			= magazine_binder.get_loadout_size
 weapon_default_magazine		= magazine_binder.weapon_default_magazine
@@ -45,15 +44,14 @@ function utils_ui.UICellContainer:On_Mouse1(idx)
     mousebase(self, idx)
 
     if d_flag then
-		create_time_event("mag_redux", "delay_toggle", 0, wrap_toggle, self.cell[idx].ID)
+		create_time_event("mag_redux", "delay_toggle", 0, 
+		function(id)
+			if is_magazine(id) and toggle_carried_mag(id) ~= nil then
+				magazines.inventory_refresh()
+			end
+			return true
+		end, self.cell[idx].ID)
     end
-end
-
-function wrap_toggle(id)
-	if is_magazine(id) and toggle_carried_mag(id) ~= nil then
-		magazines.inventory_refresh()
-	end
-	return true
 end
 
 function ui_inventory.UIInventory:Cond_Unload(obj, bag)
@@ -74,7 +72,7 @@ DisassemblyWeapon = item_parts.disassembly_weapon
 function item_parts.disassembly_weapon(obj, obj_d) 
 	print_dbg("Interdict disassembly")
 	if obj:weapon_in_grenade_mode() then obj:switch_state(10) end
-	if get_data(obj:id()) ~= nil then
+	if get_mag_loaded(obj:id()) then
 		print_dbg("Found magazine, ejecting")
 		local mag = eject(obj)
 	end
@@ -96,7 +94,7 @@ function ui_workshop.UIWorkshopUpgrade:Upgrade()
 	-- For weapons, unload mag and clear ammo cache in case of ammo type upgrades
 	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
 		if obj:weapon_in_grenade_mode() then obj:switch_state(10) end
-		if get_data(obj:id()) ~= nil then
+		if get_mag_loaded(obj:id()) then
 			local mag = eject(obj)
 		end
 	end
@@ -117,7 +115,7 @@ function ui_workshop.UIWorkshopRepair:Repair()
 	end
 	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
 		if obj:weapon_in_grenade_mode() then obj:switch_state(10) end
-		if get_data(obj:id()) ~= nil then
+		if get_mag_loaded(obj:id()) then
 			local mag = eject(obj)
 		end
 	end
@@ -144,7 +142,7 @@ function ui_inventory.UIInventory:RMode_UpgradeYes()
 	end
 	if IsWeapon(obj) and (not IsItem("fake_ammo_wpn",obj:section())) then
 		--artifax fix
-		if get_data(obj:id()) ~= nil then
+		if get_mag_loaded(obj:id()) then
 			local mag = eject(obj)
 		end
 	end
@@ -190,7 +188,6 @@ original_build_desc_header = ui_item.build_desc_header
 function ui_item.build_desc_header(obj, sec, str)
 	local _str = ""
 	local _str2 = original_build_desc_header(obj, sec, str)
-	
 
 	if obj and magazines and IsWeapon(obj) and not IsAmmo(obj) and is_supported_weapon(obj) then
 		validate_wep(obj:id(), obj:section())
@@ -237,29 +234,18 @@ function ui_item.build_desc_footer(obj, sec, str)
 	local _str2 = original_build_desc_footer(obj, sec, str)
 	if obj and magazines and is_magazine(obj) then
 		validate_mag(obj:id(), obj:section())
-		local magInfo = get_mag_info(obj)
-		if magInfo.slot_size then
-			_str = _str .. "\\n \\n".. gc('st_mag_size') .. " " .. gc('st_mag_size_'..magInfo.slot_size) 
-		end
-		
-		local weaponTitle
-		local ammoCountTitle = gc('st_mag_ammo_loaded_count')
+		local mag_data = get_mag_loaded(obj:id())
 
-		_str = _str .. "\\n \\n" .. ammoCountTitle .. " " .. clr_g .. magInfo.total_ammo  .. clr_2 .. " / " .. clr_g .. magInfo.mag_size .. " \\n"
+		_str = _str .. "\\n \\n".. gc('st_mag_size') .. " " .. gc('st_mag_size_'..(SYS_GetParam(0, sec, "mag_size") or "small")) 
+	
+		local mag_capacity = SYS_GetParam(2, sec, "max_mag_size")	
+		local clr = utils_xml.get_color_con(math_floor(100 * #mag_data.loaded/mag_capacity))
+		_str = _str .. "\\n \\n" .. gc('st_mag_ammo_loaded_count') .. " " .. clr .. #mag_data.loaded   .. " / " .. mag_capacity .. clr_2 .. " \\n"
 
-		if magInfo.total_ammo > 0 then
-			_str = _str .. " \\n"
-			
-			local ammoTitle
-			
-			for section, count in pairs(magInfo.ammo) do
-				ammoTitle = ui_item.get_sec_name(section)
-				_str = _str ..'  ' .. clr_g .. count .. '   ' .. clr_2 .. ammoTitle .. " \\n"
-			end			
+		if #mag_data.loaded > 0 then
+			_str = _str .. "\\n" .. gc('st_mag_ammo_top_round') .. " " .. clr_g .. ui_item.get_sec_name(stack.peek(mag_data.loaded))  .. " \\n"	
 		end
 	end
-
-	
 	_str = _str2 .. _str .. " \\n"
 	
 	return _str

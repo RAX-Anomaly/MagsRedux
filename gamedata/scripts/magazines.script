@@ -88,17 +88,15 @@ end
 -- **mag_section** *(string)* = section of the mag to get **load_delay** param if **ignore_loaddelay** is false 
 --
 -- **is_unload** *(bool)* = should we get mag unload time
+cache_mag_time = {}
 function get_mag_time(mag_section,is_unload)
-
     is_unload = is_unload or false
-	local default_delay = SYS_GetParam(2, mag_section, "load_delay") or 0.4
-	if get_config('ignore_loaddelay') then
-		local load_factor = get_config('mag_loadtime_factor')
-		local unload_factor = get_config('mag_unloadtime_factor')
-		return default_delay * (is_unload and unload_factor or load_factor)
-	else
-		return default_delay
+	local lookup_key = mag_section .. (is_unload and "_unload" or "_load")
+	if not cache_mag_time[lookup_key] then
+		local default_delay = SYS_GetParam(2, mag_section, "load_delay") or 0.4
+		cache_mag_time[lookup_key] = default_delay * (is_unload and get_config('mag_unloadtime_factor') or get_config('mag_loadtime_factor'))
 	end
+	return cache_mag_time[lookup_key]
 end
 
 function timed_refresh()
@@ -127,6 +125,7 @@ function inventory_refresh(mode) --safer way to refresh inventory, mode == 1  re
 		inventory:UpdateItems()
 	end
 end
+
 local ammo_maps = {} --cacheing. this function will get called a lot in combat.  ammo_maps gets niled in load_weapon should be enough protect against id recycling and weapon rechamper upgrades
 function get_ammo_map(id)
 	if not ammo_maps[id] then
@@ -400,7 +399,7 @@ function eject_magazine(weapon)
 	if rax_inventory_highlights_mcm then 
 		rax_inventory_highlights_mcm.temp_disable() --don't flag this magazine as new.
 	end
-	if weapon:weapon_in_grenade_mode() then return end
+	if weapon:weapon_in_grenade_mode() or not is_supported_weapon(weapon) then return end
 	local id = weapon:id()
 	local mag_data = get_mag_loaded(id)
 	if mag_data then

@@ -227,8 +227,9 @@ function check_Ammo()
         local max_ammo = 0
 
         if not mag_data and is_supported_weapon(sec) then
+            -- some random crap to force it to say oitc
             currentAmmo = 1
-            max_ammo = SYS_GetParam(2, mag_data.section, "max_mag_size")
+            max_ammo = 10
         elseif is_supported_weapon(sec) then
             print_dbg("checking for section %s", mag_data.section)
             max_ammo = SYS_GetParam(2, mag_data.section, "max_mag_size")
