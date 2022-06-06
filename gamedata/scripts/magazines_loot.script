@@ -16,6 +16,7 @@ print_dbg                   = magazines.print_dbg
 get_weapon_base_type		= magazine_binder.get_weapon_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
 valid_mag_data              = magazine_binder.valid_mag_data
+get_config                  = magazines_mcm.get_config
 
 
 local math_random           = math.random
@@ -86,10 +87,10 @@ end
 -- called on each created magazine, autofill with the appropriate crap
 function random_pop_mag(mag_id, mag_sec, ammo_table, rank, quality)
     local amount = math.random(0, get_mag_prop(rank, "mag_fill_max"))
-    amount = clamp(amount * (get_config("deathammo") or 1), 0, 100)
+    amount = clamp(amount * (get_config("deathammo") or 1), 0, 100)/100
     local mag_data = get_data(mag_id) or create_mag_data(mag_id, mag_sec)
     empty_table(mag_data.loaded)
-    local to_fill = math.floor((amount/100) * SYS_GetParam(2, mag_sec, "max_mag_size"))
+    local to_fill = math.floor(amount * SYS_GetParam(2, mag_sec, "max_mag_size"))
 	-- also pick the appropriate ammo
 	local good_chance = get_mag_prop(rank, "mag_good_chance") * quality
     good_chance = arti_ballistics and 1 - good_chance or good_chance
@@ -130,11 +131,10 @@ function npc_on_death(npc, who)
             local improved_mag_sec = weapon_improved_magazine(sec)
             local mag_good_chance = get_mag_prop(rank, "mag_good_chance")
             local ammo_table = get_magazine_caliber(mag_sec)
-            local quality = magazines_mcm.get_config("deathquality") or 1
+            local quality = get_config("deathquality") or 1
 
             print_dbg("Spawning %s mags for %s", mags_to_spawn, sec)
             for i=1,mags_to_spawn do
-                -- todo roll for upgraded mag
                 local to_create = math.floor(quality * math.random(100)) <= mag_good_chance and improved_mag_sec or mag_sec
 
                 print_dbg("Creating magazine %s", to_create)
@@ -157,7 +157,7 @@ SetWepCondition = death_manager.set_weapon_drop_condition
 function death_manager.set_weapon_drop_condition(npc, itm)
 
     SetWepCondition(npc, itm)
-
+    
     local death_dropped = se_load_var(npc:id(), npc:name(), "death_dropped")
 	if (death_dropped) then
 		return
@@ -169,22 +169,17 @@ function death_manager.set_weapon_drop_condition(npc, itm)
         return
     end
 
-	if (is_supported_weapon(wpn) and not npc:marked_dropped(itm)) then
+	if (is_supported_weapon(itm) and not npc:marked_dropped(itm)) then
         local id = itm:id()
         local sec = itm:section()
-        local mag_data = get_mag_loaded(id)
-        if mag_data then
-            local mag_sec = weapon_default_magazine(sec)
-            if not mag_data.section then mag_data.section = mag_sec end
-            local ammo_table = get_magazine_caliber(mag_sec)
-            local rank = ranks.get_obj_rank_name(npc)
-            local quality = magazines_mcm.get_config("lootquality") or 1
-            print_dbg("Resetting mag data for weapon %s (%s), using mag %s", id, itm:section(), mag_data.section)
-            itm:unload_magazine()
-            set_data(id, false)
-            random_pop_mag(id, mag_data.section, ammo_table, rank, quality)
-            prep_weapon(itm, false)
-        end
+        local mag_sec = weapon_default_magazine(sec)
+        local ammo_table = get_magazine_caliber(mag_sec)
+        local rank = ranks.get_obj_rank_name(npc)
+        local quality = get_config("deathquality") or 1
+        print_dbg("Resetting mag data for weapon %s (%s)", id, itm:section())
+        itm:unload_magazine()
+        random_pop_mag(id, mag_sec, ammo_table, rank, quality)
+        prep_weapon(itm, false)
     end
 end
 
