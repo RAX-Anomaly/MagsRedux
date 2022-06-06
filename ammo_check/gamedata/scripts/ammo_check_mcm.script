@@ -103,6 +103,7 @@ function on_game_start()
     if magazine_binder then
         get_data = magazine_binder.get_data
         set_data = magazine_binder.set_data
+        get_mag_loaded = magazine_binder.get_mag_loaded
         is_supported_weapon = magazine_binder.is_supported_weapon
         is_jammed_weapon = magazines.is_jammed_weapon
         print_dbg("MagsRedux installed. Working in integrated mode.")
@@ -110,6 +111,7 @@ function on_game_start()
         get_data = null_function -- Should not be called, just in case.
         set_data = null_function -- Should not be called, just in case.
         is_supported_weapon = null_function -- Always returns false, meaning none of the weapons are supported, fall back on vanilla ammo handling.
+        get_mag_loaded = null_function
         is_jammed_weapon = null_function -- Sadly, standalone mode does not report weapon jams for now.
         print_dbg("MagsRedux not found. Working in standalone mode.")
     end
@@ -205,7 +207,7 @@ function check_Ammo()
     local sec = weapon:section()
     local top_round = nil
 
-    local mag_data = get_data(weaponId)
+    local mag_data = get_mag_loaded(weaponId)
 
     if (is_jammed_weapon(weapon)) then
         message = gc("st_ac_jammed")
@@ -214,7 +216,7 @@ function check_Ammo()
         message = currentAmmo == 1 and gc("st_ac_grenade") or gc("st_ac_empty")
         clr = use_clr and clr03_Amber
     elseif currentAmmo == 0 then
-        if is_supported_weapon(sec) and mag_data.section == "no_mag" then
+        if is_supported_weapon(sec) and not mag_data then
             message = gc("st_ac_noMag")
             clr = use_clr and clr00_Red or nil
         else
@@ -224,8 +226,11 @@ function check_Ammo()
     else
         local max_ammo = 0
 
-        if is_supported_weapon(sec) then
-            if not mag_data or mag_data.section == "no_mag" then return end
+        if not mag_data and is_supported_weapon(sec) then
+            -- some random crap to force it to say oitc
+            currentAmmo = 1
+            max_ammo = 10
+        elseif is_supported_weapon(sec) then
             print_dbg("checking for section %s", mag_data.section)
             max_ammo = SYS_GetParam(2, mag_data.section, "max_mag_size")
             top_round = magazines_mcm.get_config("retain_round") and mag_data.loaded[#mag_data.loaded - 1] or stack.peek(mag_data.loaded)
@@ -246,6 +251,9 @@ function check_Ammo()
             clr = utils_xml.get_color("d_purple", true) -- always colored this is an error.
         elseif (currentAmmo == 1 and SYS_GetParam(2, sec, "ammo_mag_size", 0) == 2) then
             message = gc("st_ac_just_one")
+            clr = use_clr and clr03_Amber
+        elseif currentAmmo == 1 and not mag_data and is_supported_weapon(sec) then
+            message = gc("st_ac_oitc")
             clr = use_clr and clr03_Amber
         else
             idx = l_round((curAmmoPerc * 10) + .5) -- gives an interger value n for the decile of curAmmoPerc and 11 for full.
