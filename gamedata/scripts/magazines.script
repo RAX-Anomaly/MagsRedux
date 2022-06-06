@@ -157,7 +157,8 @@ end
 function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 
 	print_dbg("on_item_drag_dropped " .. item:section() .. " on " .. weapon:section() .. " to_slot " .. to_slot)
-
+	--Only do one thing at a time
+	if action_in_progress() then return end
 	-- Check capability
 	if not ((from_slot == EDDListType.iDeadBodyBag and to_slot == EDDListType.iDeadBodyBag) or (from_slot == EDDListType.iActorBag  and (to_slot == EDDListType.iActorBag or to_slot == EDDListType.iActorSlot))) then
         return
