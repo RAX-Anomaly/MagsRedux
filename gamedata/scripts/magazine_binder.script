@@ -543,7 +543,7 @@ function magazine_binder:update(delta)
 	local obj = self.object
 	local id = obj:id()
 	local sec = obj:section()
-    local mag_data = get_mag_loaded(id)
+    local mag_data = get_data(id)
 
 	if not self.first_update then
 		self.first_update = true
@@ -656,6 +656,15 @@ end
 function load_state(mdata) 
 	mags_storage = mdata.mags_storage or {}
 	carried_mags = mdata.carried_mags or {}
+end
+
+-- attempt to keep mstorage clean
+local function on_register(se_obj, typ)
+	local id = se_obj.id
+	local sec = se_obj:section_name()
+	if mags_storage[id] and not (is_magazine(sec) or is_supported_weapon(sec)) then
+		mags_storage[id] = nil
+	end
 end
 
 local function se_item_on_unregister(se_obj, typ)
