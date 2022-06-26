@@ -283,7 +283,12 @@ function delay_load_weapon(weapon, magazine, pre_table)
 	end
 
 	if weapon:get_state() == 0 then
-		weapon:unload_magazine()
+		local ammo = weapon:get_ammo_in_magazine()
+		if ammo > 1 then
+			weapon:set_ammo_elapsed(1)
+		else
+			weapon:unload_magazine()
+		end
 		ACTION_IN_PROGRESS = false
 		load_weapon(weapon, magazine)
 		refund_ammo(weapon, pre_table)

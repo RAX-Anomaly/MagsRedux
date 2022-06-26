@@ -263,7 +263,7 @@ function check_Ammo()
         end
 
         if curAmmoPerc > 0 and top_round then
-            message = message .. ", " .. gc(SYS_GetParam(0, top_round, "inv_name_short") or SYS_GetParam(0, top_round, "inv_name"))
+            message = message .. ", " .. gc(ui_item.get_sec_short_name(top_round))
         end
     end
 	disable_info("sleep_active")
