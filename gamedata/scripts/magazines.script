@@ -206,7 +206,6 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 			local pre_table = count_ammo(weapon)
 			weapon:switch_state(7)	
 			action_state = ACTION_RELOAD
-			local first_round = get_sec_chambered(weapon)
 			create_time_event("Mag_redux", "delay_weapon"..weapon:id(), 0.1, delay_load_weapon, weapon, item, pre_table)
 		else
 			eject_magazine(weapon)
@@ -254,6 +253,8 @@ function load_weapon(weapon, magazine)
 end
 
 local last_ejected
+-- 0 = no ammo, 1 = one round, checked, 2 = no round, checked
+local save_round = 0
 function delay_load_weapon(weapon, magazine, pre_table)
 	local tg = time_global()
 	-- extra timer stuff so we don't let the time event linger
@@ -261,7 +262,7 @@ function delay_load_weapon(weapon, magazine, pre_table)
 	if not load_timeout[id] then
 		load_timeout[id] = tg
 	end
-	
+
 	local inventory = GetActorMenu()
 	local active_id = db.actor:active_item() and db.actor:active_item():id() or 0 
 	if action_state ~= ACTION_RELOAD or tg > load_timeout[id] + 50000 or (active_id ~= id) then
@@ -269,6 +270,8 @@ function delay_load_weapon(weapon, magazine, pre_table)
 		action_state = ACTION_NONE	
 		weapon:switch_state(2)
 		last_ejected = nil
+		save_round = 0
+		print_dbg("Reload interrupted")
 		return true
 	end
 	local mag_data = get_mag_loaded(id)
@@ -282,13 +285,16 @@ function delay_load_weapon(weapon, magazine, pre_table)
 		end
 	end
 
+	if save_round == 0 then
+		save_round = weapon:get_ammo_in_magazine() > 0 and 1 or 2
+	end
+
 	if weapon:get_state() == 0 then
-		local ammo = weapon:get_ammo_in_magazine()
-		if ammo > 1 then
+		weapon:unload_magazine()
+		if save_round == 1 then
 			weapon:set_ammo_elapsed(1)
-		else
-			weapon:unload_magazine()
 		end
+		save_round = 0
 		ACTION_IN_PROGRESS = false
 		load_weapon(weapon, magazine)
 		refund_ammo(weapon, pre_table)
@@ -349,9 +355,7 @@ function refund_ammo(weapon, pre_ammo_table)
 	local post_ammo_table = count_ammo(weapon)
 	for ammo_type, count in pairs(pre_ammo_table) do
 		local to_refund = count - post_ammo_table[ammo_type]
-		print_dbg("For %s, Pre amount %s, Post amount %s", ammo_type, pre_ammo_table[ammo_type], post_ammo_table[ammo_type])
 		if to_refund > 0 then
-			print_dbg("Refunding %s of %s", to_refund, ammo_type)
 			create_ammo(ammo_type, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, to_refund)
 		end
 	end
@@ -499,7 +503,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	local weapon = db.actor:active_item()
 	local id = weapon:id()
 	-- cancel reload only if we have a valid mag, do not allow reloads unless weapon is neutral
-	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or weapon:get_state() ~= 0 then return end
+	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or weapon:get_state() > 5 then return end
 
 	-- wpo edge case to handle denial of reload on unjam
 	if arti_jamming and arti_jamming.get_jammed and arti_jamming.get_jammed(id) then
@@ -533,8 +537,8 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)
 	action_state = ACTION_RELOAD
-	-- local first_round = get_sec_chambered(weapon)
-	create_time_event("Mag_redux", "delay_weapon"..id, 0.1, delay_load_weapon, weapon, mag, pre_table)
+	print_dbg("Starting loading loop")
+	create_time_event("Mag_redux", "delay_weapon"..id, 0, delay_load_weapon, weapon, mag, pre_table)
 	
 end
 
@@ -754,6 +758,7 @@ function on_key_press(key)
 		if bind == key_bindings.kWPN_RELOAD then
 			local current_weapon = db.actor:item_in_slot(db.actor:active_slot())
 			if current_weapon and is_supported_weapon(current_weapon) then
+				print_dbg("executing reload")
 				actor_on_weapon_reload(db.actor, current_weapon)
 			end
 		end
@@ -882,11 +887,11 @@ function prep_weapon(weapon, feed_next)
 			stack.pop(mag_data.loaded)
 		end
 		local round = stack.peek(mag_data.loaded)
+		print_dbg("chambering round of type %s, there are %s rounds loaded, ammo in mag is %s", round, count, weapon:get_ammo_in_magazine())
 		if round ~= nil and ammo_map[round] then
 			weapon:set_ammo_type(ammo_map[round]-1)
 			weapon:unload_magazine()
 			weapon:set_ammo_elapsed(count)
-			print_dbg("chambering round of type %s, there are %s rounds loaded, ammo in mag is %s", round, count, weapon:get_ammo_in_magazine())
         elseif count ~= 0 then
             weapon:set_ammo_elapsed(1)
             print_dbg("mag has invalid ammo. If gun is not SVT this is a problem with the mag caliber entry")
@@ -955,7 +960,7 @@ function on_game_start()
 
 	RegisterScriptCallback("ActorMenu_on_item_before_move", ActorMenu_on_item_before_move)
 	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
-	RegisterScriptCallback("on_key_press", on_key_press)
+	RegisterScriptCallback("on_before_key_press", on_key_press)
 	RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
 	RegisterScriptCallback("actor_on_weapon_jammed", weapon_jammed)
 	RegisterScriptCallback("on_game_load", on_game_load)
