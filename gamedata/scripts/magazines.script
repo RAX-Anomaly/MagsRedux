@@ -503,7 +503,8 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	local weapon = db.actor:active_item()
 	local id = weapon:id()
 	-- cancel reload only if we have a valid mag, do not allow reloads unless weapon is neutral
-	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or weapon:get_state() > 5 then return end
+	local state = weapon and weapon:get_state()
+	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or not (state == 0 or state == 5) then return end
 
 	-- wpo edge case to handle denial of reload on unjam
 	if arti_jamming and arti_jamming.get_jammed and arti_jamming.get_jammed(id) then
