@@ -9,6 +9,11 @@ local defaults = {
     show_hud				= true,
     icon_text				= true,
     ammo_icon				= true,
+    scale					= 1,
+    ammo_scale				= 1,
+    group_by_ammo			= true,
+    grp_by_bt				= true,
+	
 
     fast_loading        	= false,
     quick_loading        	= false,
@@ -32,7 +37,11 @@ local def_map = {
     show_hud				= "hud",
     icon_text				= "hud",
     ammo_icon				= "hud",
-    
+    scale					= "hud",
+    ammo_scale				= "hud",
+    group_by_ammo			= "hud",
+    grp_by_bt				= "hud",
+   
     fast_loading        	= "gameplay",
     quick_loading        	= "gameplay",
     retain_round    		= "gameplay",
@@ -72,9 +81,14 @@ function on_mcm_load()
         }},
         {id = "hud",sh=true,gr={
             {id= "hudtitle",type= "slide",text="ui_mcm_magazines_hudtitle",link= "ui_options_slider_player",size= {512,50},spacing= 20},
-            {id = "show_hud", type = "check", val = 1, def=true},	
+            {id = "show_hud", type = "check", val = 1, def=true},			
+            {id = "scale", type = "track", val = 2, min=0.1,max=2,step=0.1, def = 1},
+            {id = "grp_by_bt", type = "check", val = 1, def=true},			
+            {id = "group_by_ammo", type = "check", val = 1, def=true},			
             {id = "icon_text", type = "check", val = 1, def=true},			
-            {id = "ammo_icon", type = "check", val = 1, def=true},	
+            {id = "ammo_icon", type = "check", val = 1, def=true},
+			{id = "ammo_scale", type = "track", val = 2, min=0.1,max=2,step=0.1, def = 1},
+
             
         }},
         {id = "gameplay",sh=true,gr={
