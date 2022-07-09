@@ -355,7 +355,7 @@ local function actor_on_first_update()
 	group_by_ammo = magazines_mcm.get_config("scale")
 	grp_by_bt = magazines_mcm.get_config("ammo_scale")
 
-	
+	deactivate_hud()
 	activate_hud()
 end
 
