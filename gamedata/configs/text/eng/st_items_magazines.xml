@@ -112,6 +112,25 @@
 		<text>Blue</text>
 	</string>
 
+	<string id="ui_mcm_magazines_hud_scale">
+		<text>HUD scale</text>
+	</string>
+
+	<string id="ui_mcm_magazines_hud_ammo_scale">
+		<text>Ammo icon scale.</text>
+	</string>
+	<string id="ui_mcm_magazines_hud_grp_by_bt">
+		<text>Group by Weapon.</text>
+	</string>
+	<string id="ui_mcm_magazines_hud_grp_by_bt_desc">
+		<text>If enabled, magazines that work with the same weapon will be grouped together. If disabled only identical magazines will be grouped together.</text>
+	</string>
+	<string id="ui_mcm_magazines_hud_group_by_ammo">
+		<text>Group by Ammo.</text>
+	</string>
+	<string id="ui_mcm_magazines_hud_group_by_ammo_desc">
+		<text>If enabled, magazines will be broken into groups based on their top round.</text>
+	</string>
 	<string id="ui_mcm_magazines_hud_show_hud">
 		<text>Enable Magazine HUD</text>
 	</string>
@@ -122,13 +141,13 @@
 		<text>Enable Ammo Text on Magazine HUD</text>
 	</string>
 	<string id="ui_mcm_magazines_hud_icon_text_desc">
-		<text>If enabled, you will see text on the HUD for the first round in a magazine.</text>
+		<text>If enabled, you will see text on the HUD for the first round in a magazine. Requires Group by Ammo to be enabled.</text>
 	</string>
 	<string id="ui_mcm_magazines_hud_ammo_icon">
 		<text>Enable Ammo Icons on Magazine HUD</text>
 	</string>
 	<string id="ui_mcm_magazines_hud_ammo_icon_desc">
-		<text>If enabled, you will see small ammo icons on the HUD for the first round in a magazine.</text>
+		<text>If enabled, you will see small ammo icons on the HUD for the first round in a magazine. Requires Group by Ammo to be enabled.</text>
 	</string>
 
 	<string id="ui_mcm_magazines_gameplay_retain_round">
