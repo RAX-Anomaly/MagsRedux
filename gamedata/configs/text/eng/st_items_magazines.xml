@@ -125,6 +125,12 @@
 	<string id="ui_mcm_magazines_hud_grp_by_bt_desc">
 		<text>If enabled, magazines that work with the same weapon will be grouped together. If disabled only identical magazines will be grouped together.</text>
 	</string>
+	<string id="ui_mcm_magazines_hud_show_bgrd">
+		<text>Show Background.</text>
+	</string>
+	<string id="ui_mcm_magazines_hud_bgrd">
+		<text>Background Texture.</text>
+	</string>
 	<string id="ui_mcm_magazines_hud_group_by_ammo">
 		<text>Group by Ammo.</text>
 	</string>

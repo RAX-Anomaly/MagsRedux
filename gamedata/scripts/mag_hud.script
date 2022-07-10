@@ -20,6 +20,7 @@ local scale = 1
 local ammo_scale = 1
 local group_by_ammo = true
 local grp_by_bt = true
+local show_bgrd
 
 ----------------------------------
 --	HUD (Indicators)
@@ -97,20 +98,16 @@ function UIMagHUD:__init() super()
 	
 	self.mirrored = true
 	self.bottom = true
-	self.mags = {}
-	self.mags.small = {}
-	self.mags.medium = {}
-	self.mags.large = {}
 	
 	self.ratio  = utils_xml.screen_ratio()
 	self._tmr   = time_global()
 	self.offset = 0
 	self.w = 1
-	self.index = {}
-	self.index.small = 0
-	self.index.medium = 0
-	self.index.large = 0
-	
+
+	self.mags = {}
+	self.mags.small = {}
+	self.mags.medium = {}
+	self.mags.large = {}
 
 	
 	self:InitControls()
@@ -137,18 +134,29 @@ function UIMagHUD:InitControls()
 	adjust_vert(self.pouch.large)
 	self.pouch.large:Show(true)
 	self.dialog:Show(true)
-	
+	self.bkg = {}
+	self.bkg.small = xml:InitStatic("mag", self.pouch.small)
+	local bkg_t = "ui_mags_bkg" .. magazines_mcm.get_config("bgrd")
+	self.bkg.small:InitTexture( bkg_t )
+	self.bkg.medium = xml:InitStatic("mag", self.pouch.medium)
+	self.bkg.medium:InitTexture( bkg_t )
+	self.bkg.large = xml:InitStatic("mag", self.pouch.large)
+	self.bkg.large:InitTexture( bkg_t )
 
 end
 
 function UIMagHUD:Clear()
 	self.dialog:Show(false)
+	self.bkg.small:Show(false)
+	self.bkg.medium:Show(false)
+	self.bkg.large:Show(false)
 	for a, b in pairs(self.mags) do
 			for k, ele in pairs(b) do
 				ele:Show(false)
 			end
 		
 	end
+
 end
 
 function UIMagHUD:Update(force) --Update(true) can be called from weapon reload script to force an immediate update. Will also be called when inventory closes. otherwise a periodic update od once a second happens. that is probably exsesive as long as update is happening on run reload.
@@ -208,10 +216,23 @@ function UIMagHUD:Update(force) --Update(true) can be called from weapon reload 
 			end
 		end
 		local start_x = 1
+		local cell_h = 10
+		local bkg = false
 		for _, mag_cell in ipairs(mag_cell_list) do
 			start_x = mag_cell:SetPos(start_x, self.mirrored)
+			cell_h = mag_cell.cell:GetHeight()
+			bkg = true
 		end
-		
+		if bkg then
+			if self.mirrored then
+				self.bkg[size]:SetWndSize( vector2():set(-1*start_x+5, cell_h))
+				self.bkg[size]:SetWndPos(vector2():set(start_x, 0))
+			else
+				self.bkg[size]:SetWndSize( vector2():set(start_x+5, cell_h))
+				self.bkg[size]:SetWndPos(vector2():set(0, 0))
+			end
+			self.bkg[size]:Show(magazines_mcm.get_config("show_bgrd"))
+		end
 	end
 	if not (main_hud_shown()) then
 		self:Clear()
@@ -246,8 +267,9 @@ function UIMagCell:InitControls()
 	self.cell:TextControl():SetText(self.text)
 
 	self.bkg =  xml:InitStatic("mag", self.cell)
-	self.bkg:InitTexture( "ui\\ui_ingame2_common.dds" )
-	self.bkg:SetTextureRect(Frect():set( 0, 285, 68, 324 ))
+	self.bkg:InitTexture( "ui_mags_bkg" )
+	--self.bkg:InitTexture( "ui\\ui_ingame2_common.dds" )
+	--self.bkg:SetTextureRect(Frect():set( 0, 285, 68, 324 ))
 	self.icos[1] = xml:InitStatic("mag", self.cell)
 	print_dbg("before icos setup")
 	self.icos[1]:SetWndSize( vector2():set((self.axis.w ) * scale,(self.axis.h ) * scale ))
@@ -308,7 +330,7 @@ function UIMagCell:Update(list)
 		self.icos[i]:Show(true)
 	end
 	self.bkg:SetWndSize( vector2():set(self.cell:GetWidth(), self.cell:GetHeight()))
-	self.bkg:Show(true)	
+	self.bkg:Show(false)	
 	--self.ammo:SetWndSize(
 	
 end

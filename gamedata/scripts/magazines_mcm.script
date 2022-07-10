@@ -13,6 +13,8 @@ local defaults = {
     ammo_scale				= 1,
     group_by_ammo			= true,
     grp_by_bt				= true,
+    show_bgrd				= true,
+    bgrd					= 1,
 	
 
     fast_loading        	= false,
@@ -41,6 +43,8 @@ local def_map = {
     ammo_scale				= "hud",
     group_by_ammo			= "hud",
     grp_by_bt				= "hud",
+    show_bgrd				= "hud",
+    bgrd					= "hud",
    
     fast_loading        	= "gameplay",
     quick_loading        	= "gameplay",
@@ -82,12 +86,14 @@ function on_mcm_load()
         {id = "hud",sh=true,gr={
             {id= "hudtitle",type= "slide",text="ui_mcm_magazines_hudtitle",link= "ui_options_slider_player",size= {512,50},spacing= 20},
             {id = "show_hud", type = "check", val = 1, def=true},			
-            {id = "scale", type = "track", val = 2, min=0.1,max=2,step=0.1, def = 1},
+            {id = "scale", type = "track", val = 2, min=0.1,max=2,step=0.05, def = 1},
             {id = "grp_by_bt", type = "check", val = 1, def=true},			
             {id = "group_by_ammo", type = "check", val = 1, def=true},			
             {id = "icon_text", type = "check", val = 1, def=true},			
             {id = "ammo_icon", type = "check", val = 1, def=true},
-			{id = "ammo_scale", type = "track", val = 2, min=0.1,max=2,step=0.1, def = 1},
+			{id = "ammo_scale", type = "track", val = 2, min=0.1,max=2,step=0.05, def = 1},
+            {id = "show_bgrd", type = "check", val = 1, def=true},
+            {id = "bgrd" ,type= "list" ,val= 2, def= 1, content= {{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7},{8,8},{9,9},{10,10},{11,11},{12,12}},no_str = true},
 
             
         }},
