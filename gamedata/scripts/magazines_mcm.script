@@ -3,6 +3,7 @@ local defaults = {
     debug					= false,
     mag_loadtime_factor		= 1,
     mag_unloadtime_factor	= 1,
+    mag_tooltip             = 1,
     empty_mags_stack 		= true,
     sort_inv				= true,
 
@@ -25,6 +26,7 @@ local def_map = {
     debug					= "mgmt",
     mag_loadtime_factor		= "mgmt",
     mag_unloadtime_factor	= "mgmt",
+    mag_tooltip             = "mgmt",
     empty_mags_stack 		= "mgmt",
     sort_inv				= "mgmt",
 
@@ -40,7 +42,6 @@ local def_map = {
     mag_unequip_trs         = "gameplay",
 	three_hands				= "gameplay",
     deathquality			= "gameplay",
-    -- deathmags				= "gameplay",
     deathammo				= "gameplay",
 }
 
@@ -63,8 +64,9 @@ function on_mcm_load()
         {id = "mgmt",sh=true,gr={
             {id= "mgmtitle",type= "slide",text="ui_mcm_magazines_mgmtitle",link= "ui_options_slider_player",size= {512,50},spacing= 20},
             {id = "debug", type = "check", val = 1, def=false},
-            {id = "mag_loadtime_factor", type = "track", val = 2, min=0.05,max=2,step=0.01, def = 1},
-            {id = "mag_unloadtime_factor", type = "track", val = 2, min=0.05,max=2,step=0.01, def = 1},
+            {id = "mag_loadtime_factor", type = "track", val = 2, min=0.4,max=2,step=0.1, def = 1},
+            {id = "mag_unloadtime_factor", type = "track", val = 2, min=0.4,max=2,step=0.1, def = 1},
+            {id= "mag_tooltip" ,type= "list", val= 2  ,def= 1 ,content= {{0,"topround"},  {1,"trcap"}, {2,"full"}}	},
             {id = "empty_mags_stack", type = "check", val = 1, def=true},
             {id = "sort_inv", type = "check", val = 1, def=true},
             {id= "highlight_color" ,type= "list"     ,val= 0  ,def= "orange" ,content= {{"brown","ram_brown"},{"white","ram_white"}, {"blond","ram_blond"} ,   {"blue","ram_blue"}, {"orange","ram_orange"} , {"pink","ram_pink"} }	},

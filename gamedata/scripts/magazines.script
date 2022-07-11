@@ -42,7 +42,7 @@ local ext_ammo_box = nil
 -- SECTION debug info --
 ------------------------
 
-function parent_is_box(obj)
+local function parent_is_box(obj)
 	local parent = obj:parent()
 	if parent:id() == 0 then return false end
 	local se_parent = alife_object(parent:id())
@@ -99,13 +99,16 @@ function get_mag_time(mag_section,is_unload)
 	return cache_mag_time[lookup_key]
 end
 
-function timed_refresh()
-	create_time_event("mag_redux", "timed_refresh", 0, timer_refresh)
+-- check if load/unload delay has been altered and wipe cache
+function on_option_change()
+	empty_table(cache_mag_time)
 end
 
-function timer_refresh()
-	inventory_refresh()
-	return true
+function timed_refresh()
+	create_time_event("mag_redux", "timed_refresh", 0, function()
+		inventory_refresh(2)
+		return true
+	end)
 end
 
 function inventory_refresh(mode) --safer way to refresh inventory, mode == 1  refreshes sorting.
@@ -135,6 +138,7 @@ function get_ammo_map(id)
 	return ammo_maps[id]
 end
 
+-- return the section of the ammo loaded in weapon
 function get_sec_chambered(wpn)
 	local id = wpn:id()
 	local index = wpn:get_ammo_type()
@@ -142,7 +146,6 @@ function get_sec_chambered(wpn)
 		local ammo_map = invert_table(get_ammo_map(id))
 		return ammo_map[index + 1]
 	else return nil end
-		-- print_dbg("there are %s rounds in wep, set first round to %s", weapon:get_ammo_in_magazine(), first_round)
 end
 
 function retain_round(weapon)
@@ -956,7 +959,7 @@ function on_game_load()
 end
 
 function on_game_start()
-
+	on_option_change()
 	custom_functor_autoinject.add_functor("mags_load", check_eject_magazine, check_eject_magazine, nil, eject_magazine, true)
 
 	RegisterScriptCallback("ActorMenu_on_item_before_move", ActorMenu_on_item_before_move)
@@ -967,5 +970,7 @@ function on_game_start()
 	RegisterScriptCallback("on_game_load", on_game_load)
 	RegisterScriptCallback("ActorMenu_on_item_drag_drop", on_item_drag_dropped)
 	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
+    RegisterScriptCallback("on_option_change",on_option_change)
+    on_option_change()
 
 end 
