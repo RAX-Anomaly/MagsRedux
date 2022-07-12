@@ -244,7 +244,9 @@ local function collect_mag_data(mag_data)
 			count = count + 1
 		end
 	end
-	display[#display + 1] = ui_item.get_sec_short_name(last_round) .. ": " .. count
+	if last_round then
+		display[#display + 1] = ui_item.get_sec_short_name(last_round) .. ": " .. count
+	end
 	return display
 end
 
@@ -273,7 +275,7 @@ function ui_item.build_desc_footer(obj, sec, str)
 				_str = _str .. "" .. gc('st_mag_ammo_top_round') .. " " .. clr_g .. ui_item.get_sec_short_name(stack.peek(mag_data.loaded))  .. " \\n"	
 			else
 				collected = collect_mag_data(mag_data)
-				for i=#1,#collected do
+				for i=1,#collected do
 					_str = _str  .. "\\n " .. gc("st_dot").." ".. collected[#collected - i + 1]
 				end
 			end
