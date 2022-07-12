@@ -6,15 +6,21 @@
 	Ready Magazine HUD for Anomaly Magazine rewrite.
 --]]
 
-get_mag_property			= magazine_binder.get_mag_property
-get_size					= magazine_binder.get_size
-is_carried_mag				= magazine_binder.is_carried_mag
-print_dbg					= magazine_binder.print_dbg
-gc						 	= game.translate_string
+local get_mag_property			= magazine_binder.get_mag_property
+local get_size					= magazine_binder.get_size
+local is_carried_mag				= magazine_binder.is_carried_mag
+local print_dbg					= magazine_binder.print_dbg
+local get_magazine_base_type					= magazine_binder.get_magazine_base_type
+local gc						 	= game.translate_string
 
 -- Update rate
 local tg_update_step = 1000 --[ms]
 
+local scale = 1
+local ammo_scale = 1
+local group_by_ammo = true
+local grp_by_bt = true
+local show_bgrd
 
 ----------------------------------
 --	HUD (Indicators)
@@ -73,29 +79,39 @@ function on_console_execute(name)
 	end
 end
 
+local function adjust_vert(ele, bottom)
+	local new_y
+	local pos = ele:GetWndPos()
+	if bottom then
+		new_y = 768 - ((768 - pos.y)*scale)
+	else
+		new_y = pos.y * scale
+	end
+	pos.y = new_y
+	ele:SetWndPos( pos)
+end
+
 -------
 class "UIMagHUD" (CUIScriptWnd)
 
 function UIMagHUD:__init() super()
 	
 	self.mirrored = true
-	self.mags = {}
-	self.mags.small = {}
-	self.mags.medium = {}
-	self.mags.large = {}
+	self.bottom = true
 	
 	self.ratio  = utils_xml.screen_ratio()
 	self._tmr   = time_global()
 	self.offset = 0
 	self.w = 1
-	self.index = {}
-	self.index.small = 0
-	self.index.medium = 0
-	self.index.large = 0
-	
+
+	self.mags = {}
+	self.mags.small = {}
+	self.mags.medium = {}
+	self.mags.large = {}
 
 	
 	self:InitControls()
+	self:Update(true)
 end
 
 function UIMagHUD:__finalize()
@@ -106,31 +122,40 @@ function UIMagHUD:InitControls()
 	xml:ParseFile("mag_hud.xml")
 	
 	self.dialog = xml:InitStatic("pouch", self)
+	adjust_vert(self.dialog, self.bottom)
 	self.pouch = {}
 	self.pouch.small = xml:InitStatic("pouch:small", self.dialog)
+	adjust_vert(self.pouch.small)
 	self.pouch.small:Show(true)
 	self.pouch.medium = xml:InitStatic("pouch:medium", self.dialog)
+	adjust_vert(self.pouch.medium)
 	self.pouch.medium:Show(true)
 	self.pouch.large = xml:InitStatic("pouch:large", self.dialog)
+	adjust_vert(self.pouch.large)
 	self.pouch.large:Show(true)
 	self.dialog:Show(true)
-	
+	self.bkg = {}
+	self.bkg.small = xml:InitStatic("mag", self.pouch.small)
+	local bkg_t = "ui_mags_bkg" .. magazines_mcm.get_config("bgrd")
+	self.bkg.small:InitTexture( bkg_t )
+	self.bkg.medium = xml:InitStatic("mag", self.pouch.medium)
+	self.bkg.medium:InitTexture( bkg_t )
+	self.bkg.large = xml:InitStatic("mag", self.pouch.large)
+	self.bkg.large:InitTexture( bkg_t )
 
 end
 
 function UIMagHUD:Clear()
-
+	self.dialog:Show(false)
+	self.bkg.small:Show(false)
+	self.bkg.medium:Show(false)
+	self.bkg.large:Show(false)
 	for a, b in pairs(self.mags) do
 			for k, ele in pairs(b) do
-				ele.ico:Show(false)
-				ele.bkg:Show(false)
+				ele:Show(false)
 			end
 		
 	end
-
-	self.index.small = 0
-	self.index.medium = 0
-	self.index.large = 0
 
 end
 
@@ -152,83 +177,207 @@ function UIMagHUD:Update(force) --Update(true) can be called from weapon reload 
 	self:Clear()
 	
 	-- Hide HUD when it's occupied by a GUI class
-	if not main_hud_shown() then
+	if not (main_hud_shown() or force) then
 		return
 	end
+
+	local mags = {small = {}, medium = {}, large = {}}
 	function itr(item)
 		id = item:id()
 		if is_carried_mag(id) then
 			local section = get_mag_property(id, "section")
+			local base_type = get_magazine_base_type(id)
 			local size = get_size(id)
-			local axis = utils_xml.get_item_axis(section,1)
-			local grid_w = axis.w / axis.h
-			local index = self.index[size]
-			if self.mirrored then
-				index = self.index[size] + (grid_w and math.ceil(grid_w) or 1) -- keep some semblance of standard spacing.
-				self.index[size] = index 
-			end
-			
-			if not self.mags[size][index] then
-				self.mags[size][index]= {}
-				self.mags[size][index].bkg = xml:InitStatic("mag", self.pouch[size])
-				self.mags[size][index].ico = xml:InitStatic("mag", self.pouch[size])
-				self.mags[size][index].ammo = xml:InitStatic("mini_ico", self.mags[size][index].ico)				
-				scale_ui(self.mags[size][index].ico)
-				scale_ui(self.mags[size][index].bkg)
-				scale_ui(self.mags[size][index].ammo)
-				self.w = self.mags[size][index].ico:GetWidth()
-				self.ammo_w = self.mags[size][index].ammo:GetWidth()
-				 
-				self.mags[size][index].ico:SetWndPos( vector2():set( (self.w + self.offset) * index *(self.mirrored and -1 or 1) , 0 ) )
-				self.mags[size][index].bkg:SetWndPos( vector2():set( (self.w + self.offset) * index *(self.mirrored and -1 or 1) , 0 ) )
-			end
-			local h = self.mags[size][index].ico:GetHeight()
-			self.mags[size][index].ico:SetWndSize( vector2():set( self.w * (grid_w or 1), h))
-			self.mags[size][index].bkg:SetWndSize( vector2():set( self.w * (grid_w and math.ceil(grid_w) or 1), h)) --icon needs to stay square, background needs to stay whole number ratio of h.
-			
 			local loaded = get_mag_property(id, "loaded")
 			local round = stack.peek(loaded)
-			local text = round and magazines_mcm.get_config("icon_text")and gc(SYS_GetParam(0, round, "inv_name_short")) or ""
-			
-			self.mags[size][index].ico:TextControl():SetText(text)
-			self.mags[size][index].ammo:Show(false)
-			if round then
-				local ammo_axis = utils_xml.get_item_axis(round,1)
-				local ammo_grid_w = ammo_axis.w / ammo_axis.h
-				h = self.mags[size][index].ammo:GetHeight()
-
-				self.mags[size][index].ammo:InitTexture( utils_xml.get_icons_texture(round) )
-				self.mags[size][index].ammo:SetTextureRect(Frect():set( utils_xml.get_item_axis(round, nil, true) ))
-				self.mags[size][index].ammo:SetWndSize( vector2():set(self.ammo_w * (ammo_grid_w or 1), h))
-				self.mags[size][index].ammo:Show(magazines_mcm.get_config("ammo_icon"))
-			end
-			self.mags[size][index].ico:InitTexture( utils_xml.get_icons_texture(section) )
-			self.mags[size][index].ico:SetTextureRect(Frect():set( utils_xml.get_item_axis(section, nil, true) ))
-			--self.mags[size][index].bkg:InitTexture( "ui\\ui_actor_hint_wnd.dds" )
-			--self.mags[size][index].bkg:SetTextureRect(Frect():set( 228, 540, 265, 590 ))
-			self.mags[size][index].bkg:InitTexture( "ui\\ui_ingame2_common.dds" )
-			self.mags[size][index].bkg:SetTextureRect(Frect():set( 0, 285, 68, 324 ))
-			self.mags[size][index].ico:Show(true)
-			self.mags[size][index].bkg:Show(true)
-			if not self.mirrored then
-				self.index[size] = index  + (grid_w and math.ceil(grid_w) or 1)
-			end
+			local grp = grp_by_bt and base_type or section
+			--print_dbg("itr bt %s , sec %s , grp %s",base_type, section, grp)
+			local ammo = group_by_ammo and round or "none"
+			mags[size][grp] = mags[size][grp] or {}
+			mags[size][grp][ammo] = mags[size][grp][ammo] or {}
+			mags[size][grp][ammo][#mags[size][grp][ammo]+1] = section
+			--magazine_binder.dbg:log_table(mags[size][grp][ammo],"mags[size][grp][ammo]")
 		end
 	end
 	db.actor:inventory_for_each(itr)
 	
-			
+	for size, mag_cell_list in pairs(self.mags) do
+		for i, mag_cell in ipairs(mag_cell_list) do
+			mags[size][mag_cell.grp] = mags[size][mag_cell.grp] or {}
+			--if mags[size][mag_cell.grp][mag_cell.ammo_sec] then
+				mag_cell:Update( mags[size][mag_cell.grp][mag_cell.ammo_sec] or {})
+			--end
+			mags[size][mag_cell.grp][mag_cell.ammo_sec] = nil
 	
+		end
+		for grp, ammo_list in pairs(mags[size]) do
+			for ammo_sec, list in pairs(ammo_list) do
+				mag_cell_list[#mag_cell_list+1] = UIMagCell(self.pouch[size],grp, list, size, group_by_ammo and ammo_sec or nil)
+			end
+		end
+		local start_x = 1
+		local cell_h = 10
+		local bkg = false
+		for _, mag_cell in ipairs(mag_cell_list) do
+			start_x = mag_cell:SetPos(start_x, self.mirrored)
+			cell_h = mag_cell.cell:GetHeight()
+			bkg = true
+		end
+		if bkg then
+			if self.mirrored then
+				self.bkg[size]:SetWndSize( vector2():set(-1*start_x+5, cell_h))
+				self.bkg[size]:SetWndPos(vector2():set(start_x, 0))
+			else
+				self.bkg[size]:SetWndSize( vector2():set(start_x+5, cell_h))
+				self.bkg[size]:SetWndPos(vector2():set(0, 0))
+			end
+			self.bkg[size]:Show(magazines_mcm.get_config("show_bgrd"))
+		end
+	end
+	if not (main_hud_shown()) then
+		self:Clear()
+		return
+	end
+
+
 	self.dialog:Show(magazines_mcm.get_config("show_hud"))
+end
+
+class "UIMagCell" 
+
+function UIMagCell:__init(owner, grp, list, size, ammo_sec)
+	self.owner = owner
+	self.grp = grp
+	self.count = #list
+	self.list = list
+	self.size = size
+	self.icos = {}
+	self.ammo_sec = ammo_sec or "none"
+	self.text = ammo_sec and magazines_mcm.get_config("icon_text") and gc(SYS_GetParam(0, ammo_sec, "inv_name_short")) or ""
+	self.ammo_icon = self.ammo_sec ~= "none"
+	self.axis = utils_xml.get_item_axis(list[1] or "tch_mag_base")
+	self.small_ico = self.axis.h == 1
+	self.ammo_axis = self.ammo_icon and utils_xml.get_item_axis(self.ammo_sec)
+	self:InitControls()
+end
+
+function UIMagCell:InitControls()
+	self.cell = xml:InitStatic("mag", self.owner)
+	self.cell:SetWndSize( vector2():set((self.axis.w) * scale, (self.small_ico and 1 or 2)*50*scale + 5*scale))
+	self.cell:TextControl():SetText(self.text)
+
+	self.bkg =  xml:InitStatic("mag", self.cell)
+	self.bkg:InitTexture( "ui_mags_bkg" )
+	--self.bkg:InitTexture( "ui\\ui_ingame2_common.dds" )
+	--self.bkg:SetTextureRect(Frect():set( 0, 285, 68, 324 ))
+	self.icos[1] = xml:InitStatic("mag", self.cell)
+	print_dbg("before icos setup")
+	self.icos[1]:SetWndSize( vector2():set((self.axis.w ) * scale,(self.axis.h ) * scale ))
+	self.icos[1]:InitTexture( utils_xml.get_icons_texture(self.list[1] or "tch_mag_base") )
+	self.icos[1]:SetTextureRect(Frect():set( utils_xml.get_item_axis(self.list[1] or "tch_mag_base", nil, true) ))
+	print_dbg("after icos setup")
+
+	self.ammo = xml:InitStatic("mini_ico", self.cell)
+	self.ammo:Show(self.ammo_icon and magazines_mcm.get_config("ammo_icon"))
+	if self.ammo_icon then
+		self.ammo:InitTexture( utils_xml.get_icons_texture(self.ammo_sec) )
+		self.ammo:SetTextureRect(Frect():set( utils_xml.get_item_axis(self.ammo_sec, nil, true) ))
+		self.ammo:SetWndSize( vector2():set((self.ammo_axis.w/2 )*ammo_scale,(self.ammo_axis.h/2 )*ammo_scale ))
+	end
+	adjust_vert(self.ammo)
+	scale_ui(self.cell)
+	scale_ui(self.bkg)
+	scale_ui(self.ammo)
+	scale_ui(self.icos[1])
+	self:Update(list)
+end
+
+function UIMagCell:Update(list)
+	self.list = list or {}
+	print_dbg("Update sec %s, c %s",count, self.grp)
+	self.count = #self.list
+	count = self.count
+	for i=1, count do
+		if not self.icos[i] then self.icos[i] = xml:InitStatic("mag", self.icos[i-1] ) end
+		local axis = utils_xml.get_item_axis(self.list[i])
+		self.icos[i]:SetWndSize( vector2():set((axis.w ) * scale, (axis.h ) * scale))
+		self.icos[i]:InitTexture( utils_xml.get_icons_texture(self.list[i]) )
+		self.icos[i]:SetTextureRect(Frect():set( utils_xml.get_item_axis(self.list[i], nil, true) ))
+		scale_ui(self.icos[i])
+		self.icos[i]:Show(true)
+	end
+	for i= count+1, #self.icos do
+		self.icos[i]:Show(false)
+	end
+	local width = self.icos[1]:GetWidth()
+	local offset = (width / 2)
+	local margin = width
+	if self.size == "small" then
+		offset = width/4
+		margin = width/2
+	elseif self.size == "medium" then
+		offset =(width / 3)
+	end
+	
+	print_dbg("before cell width")
+	self.cell:SetWndSize( vector2():set((count*offset)+margin , (self.small_ico and 1 or 2)*50*scale + 5*scale))
+	print_dbg("before cell pos width:%s", width)
+	self.icos[1]:SetWndPos(  vector2():set(self.cell:GetWidth()/2 - (count*offset+width/2)/2  , 0))
+	self.icos[1]:Show(count>0)
+	print_dbg("icos 1 count:%s show%s cell show %s",self.count,self.icos[1]:IsShown(), self.cell:IsShown() )
+	for i = 2, count do
+		self.icos[i]:SetWndPos(vector2():set(offset, 0))
+		self.icos[i]:Show(true)
+	end
+	self.bkg:SetWndSize( vector2():set(self.cell:GetWidth(), self.cell:GetHeight()))
+	self.bkg:Show(false)	
+	--self.ammo:SetWndSize(
+	
+end
+
+function UIMagCell:SetPos(x, mirrored)
+	if self.count == 0 then
+		self:Show(false)
+		print_dbg("count:%s hideing",self.count)
+
+		return x
+	end
+	local x_cord = x - (mirrored and self.cell:GetWidth() or 0)
+	self.cell:SetWndPos(vector2():set(x_cord, 0))
+	self:Show(true)
+	print_dbg("set pos count:%s show%s cell show %s x_cord %s owner show:%s",self.count,self.icos[1]:IsShown(), self.cell:IsShown(),x_cord,self.owner:IsShown() )
+	return x_cord + (mirrored and 0 or self.cell:GetWidth()) 
+	
+end
+
+function UIMagCell:Show(show)
+	self.cell:Show(show)	
 end
 
 
 ----------------------------------
 --	Callbacks
 ----------------------------------
+local function on_option_change(mcm)
+	--if not mcm then return end
+	scale = magazines_mcm.get_config("scale")
+	ammo_scale = magazines_mcm.get_config("ammo_scale")
+	group_by_ammo = magazines_mcm.get_config("group_by_ammo")
+	grp_by_bt = magazines_mcm.get_config("grp_by_bt")
+	printf("sacle %s", scale)
+	deactivate_hud()
+	activate_hud()
+	
+end
+
 
 local function actor_on_first_update()
-	
+	scale = magazines_mcm.get_config("scale")
+	ammo_scale = magazines_mcm.get_config("ammo_scale")
+	group_by_ammo = magazines_mcm.get_config("scale")
+	grp_by_bt = magazines_mcm.get_config("ammo_scale")
+
+	deactivate_hud()
 	activate_hud()
 end
 
@@ -242,6 +391,7 @@ function on_game_start()
 	RegisterScriptCallback("actor_on_first_update",actor_on_first_update)
 	RegisterScriptCallback("actor_on_update",actor_on_update)
 	RegisterScriptCallback("on_screen_resolution_changed",on_screen_resolution_changed)
+    RegisterScriptCallback("on_option_change",on_option_change)
 end
 
 
