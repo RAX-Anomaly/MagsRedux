@@ -103,10 +103,10 @@ function random_pop_mag(mag_id, mag_sec, ammo_table, rank)
     else
         to_fill = math_floor(to_fill/2)
     end
-    determine_ammo(ammo_to_pick, mag_sec, rank)
-    print_dbg("Filling mag %s to %s with %s (num %s)", mag_sec, to_fill, ammo_table[ammo_to_pick], ammo_to_pick)
+    local ammo_to_use = determine_ammo(ammo_table[ammo_to_pick], mag_sec, rank)
+    print_dbg("Filling mag %s to %s with %s (num %s)", mag_sec, to_fill, ammo_to_use, ammo_to_pick)
 	for i=1,to_fill do
-		stack.push(mag_data.loaded, ammo_table[ammo_to_pick])
+		stack.push(mag_data.loaded, ammo_to_use)
 	end
 	set_data(mag_id, mag_data)
     return true
