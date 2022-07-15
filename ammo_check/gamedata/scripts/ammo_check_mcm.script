@@ -205,10 +205,10 @@ function check_Ammo()
     end
 
     local sec = weapon:section()
-    local top_round = nil
 
     local mag_data = get_mag_loaded(weaponId)
 
+    -- empty/gl use cases
     if (is_jammed_weapon(weapon)) then
         message = gc("st_ac_jammed")
         clr = use_clr and clr00_Red or nil
@@ -224,8 +224,8 @@ function check_Ammo()
             clr = use_clr and clr00_Red or nil
         end
     else
+        local top_round = nil
         local max_ammo = 0
-
         if not mag_data and is_supported_weapon(sec) then
             -- some random crap to force it to say oitc
             currentAmmo = 1
@@ -235,10 +235,7 @@ function check_Ammo()
             max_ammo = SYS_GetParam(2, mag_data.section, "max_mag_size")
             top_round = magazines_mcm.get_config("retain_round") and mag_data.loaded[#mag_data.loaded - 1] or stack.peek(mag_data.loaded)
         else
-            local ammo_type = weapon:get_ammo_type()
-            local ammo_table = utils_item.get_ammo(nil, weaponId)
-            top_round = ammo_table[ammo_type + 1]
-            print_dbg("Top round is %s, index %s, ammo table has %s entries", top_round, ammo_type, #ammo_table)
+            top_round = magazines.get_sec_chambered(weapon)
             max_ammo = SYS_GetParam(2, sec, "ammo_mag_size")
         end
         local curAmmoPerc = currentAmmo / max_ammo
@@ -256,7 +253,7 @@ function check_Ammo()
             message = gc("st_ac_oitc")
             clr = use_clr and clr03_Amber
         else
-            idx = l_round((curAmmoPerc * 10) + .5) -- gives an interger value n for the decile of curAmmoPerc and 11 for full.
+            idx = l_round((curAmmoPerc * 10) + .5) -- gives an integer value n for the decile of curAmmoPerc and 11 for full.
             print_dbg("IDX is %s %s %s %s", idx, curAmmoPerc, currentAmmo, max_ammo)
             message = messages[idx] and gc(messages[idx].m) or "Error!"
             clr = use_clr and messages[idx] and messages[idx].c or nil

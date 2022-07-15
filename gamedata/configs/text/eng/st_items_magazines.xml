@@ -61,6 +61,21 @@
 	<string id="ui_mcm_magazines_mgmt_mag_unloadtime_factor_desc">
 		<text>Multiplier for bullet unload times</text>
 	</string>
+	<string id="ui_mcm_magazines_mgmt_mag_tooltip">
+		<text>Magazine Tooltip Information</text>
+	</string>
+	<string id="ui_mcm_lst_topround">
+		<text>Top Round Only</text>
+	</string>
+	<string id="ui_mcm_lst_trcap">
+		<text>Top Round + Exact Capacity</text>
+	</string>
+	<string id="ui_mcm_lst_full">
+		<text>Complete Information.</text>
+	</string>
+	<string id="ui_mcm_magazines_mgmt_mag_tooltip_desc">
+		<text>Verbosity level for magazine data.</text>
+	</string>
 	<string id="ui_mcm_magazines_mgmt_debug">
 		<text>Enable Debug Logs</text>
 	</string>
@@ -214,10 +229,10 @@
 			<text>Raven still thinks this is wrong.</text>
 	</string>
 	<string id="ui_mcm_magazines_gameplay_deathquality">
-		<text>Loot Quality</text>
+		<text>NPC Mag Quality</text>
 	</string>
 	<string id="ui_mcm_magazines_gameplay_deathquality_desc">
-		<text>Modifier to find improved magazines off corpses.</text>
+		<text>Modifier to find better magazines and ammo off corpses.</text>
 	</string>
 	<string id="ui_mcm_magazines_gameplay_deathmags">
 		<text>NPC Mag Drops</text>
@@ -278,6 +293,9 @@
 	
 	<string id="st_mag_ammo_loaded_count">
 		<text>Loaded rounds:</text>
+	</string>
+	<string id="st_mag_capacity">
+		<text>Magazine capacity:</text>
 	</string>
 	<string id="st_mag_ammo_top_round">
 		<text>Round on top:</text>

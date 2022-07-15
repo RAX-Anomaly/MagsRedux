@@ -24,6 +24,7 @@ validate_mag				= magazine_binder.validate_mag
 validate_wep             	= magazine_binder.validate_wep
 create_time_event			= magazines.create_time_event
 get_sec_chambered			= magazines.get_sec_chambered
+get_config					= magazines_mcm.get_config
 
 
 
@@ -228,6 +229,36 @@ function ui_item.build_desc_header(obj, sec, str)
 	return _str
 end
 
+-- util function for full, compresses mag data into rounds n type
+function collect_mag_data(mag_data, tostr)
+	local display = {}
+	local last_round
+	local count = 0
+	for i=1,#mag_data.loaded do
+		if not last_round then last_round = mag_data.loaded[i] end
+		if last_round ~= mag_data.loaded[i] then
+			if tostr then
+				display[#display + 1] = ui_item.get_sec_short_name(last_round) .. ": " .. count
+				last_round = mag_data.loaded[i]
+			else
+				display[last_round] = count
+			end
+			count = 1
+		else
+			count = count + 1
+		end
+	end
+	if last_round then
+		if tostr then
+			display[#display + 1] = ui_item.get_sec_short_name(last_round) .. ": " .. count
+		else
+			display[last_round] = count
+		end
+	end
+	return display
+end
+
+-- mag data
 original_build_desc_footer = ui_item.build_desc_footer
 function ui_item.build_desc_footer(obj, sec, str)
 	local _str = ""
@@ -235,22 +266,33 @@ function ui_item.build_desc_footer(obj, sec, str)
 	if obj and magazines and is_magazine(obj) then
 		validate_mag(obj:id(), obj:section())
 		local mag_data = get_mag_loaded(obj:id())
-
+		local level = get_config("mag_tooltip")
+		print_dbg("Tooltip level %s", level)
 		_str = _str .. "\\n \\n".. gc('st_mag_size') .. " " .. gc('st_mag_size_'..(SYS_GetParam(0, sec, "mag_size") or "small")) 
 	
 		local mag_capacity = SYS_GetParam(2, sec, "max_mag_size")	
 		local clr = utils_xml.get_color_con(math_floor(100 * #mag_data.loaded/mag_capacity))
-		_str = _str .. "\\n \\n" .. gc('st_mag_ammo_loaded_count') .. " " .. clr .. #mag_data.loaded   .. " / " .. mag_capacity .. clr_2 .. " \\n"
 
+		if level < 1 then
+			_str = _str .. "\\n \\n" .. gc('st_mag_capacity') .. " " .. mag_capacity .. clr_2 .. " \\n"
+		else
+			_str = _str .. "\\n \\n" .. gc('st_mag_ammo_loaded_count') .. " " .. clr .. #mag_data.loaded   .. " / " .. mag_capacity .. clr_2 .. " \\n"
+		end
 		if #mag_data.loaded > 0 then
-			_str = _str .. "\\n" .. gc('st_mag_ammo_top_round') .. " " .. clr_g .. ui_item.get_sec_name(stack.peek(mag_data.loaded))  .. " \\n"	
+			if level < 2 then
+				_str = _str .. "" .. gc('st_mag_ammo_top_round') .. " " .. clr_g .. ui_item.get_sec_short_name(stack.peek(mag_data.loaded))  .. " \\n"	
+			else
+				collected = collect_mag_data(mag_data, true)
+				for i=1,#collected do
+					_str = _str  .. "\\n " .. gc("st_dot").." ".. collected[#collected - i + 1]
+				end
+			end
 		end
 	end
 	_str = _str2 .. _str .. " \\n"
 	
 	return _str
 end
---]]--
 
 
 --patching item_weapon.script includes a full reimplementation of the ammowheel, could use inheritance, but i don't think this method will cause many problems.
