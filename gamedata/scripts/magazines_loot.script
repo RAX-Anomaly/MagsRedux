@@ -17,7 +17,8 @@ get_weapon_base_type		= magazine_binder.get_weapon_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
 valid_mag_data              = magazine_binder.valid_mag_data
 get_config                  = magazines_mcm.get_config
-
+validate_mag                = magazine_binder.validate_mag
+validate_wep                = magazine_binder.validate_wep
 
 local math_random           = math.random
 local math_floor            = math.floor
@@ -187,6 +188,48 @@ function death_manager.set_weapon_drop_condition(npc, itm)
     end
 end
 
+
+-- 1.5.2 feature - determine mag cost based on contents
+function on_get_item_cost(kind, obj, profile, calculated_cost, ret)
+    local id = obj:id()
+    local sec = obj:section()
+    local mag_data = get_mag_loaded(id)
+    if mag_data == nil then return end
+    -- we have mag data - but it can potentially be corrupt. perform validation if needed
+    -- print_dbg("Item %s has mag data", sec)
+    if is_magazine(obj) then 
+        validate_mag(id, sec)
+        local cost_base = obj:cost()
+        -- non stalkers, reduce mag cost
+        if profile.cfg ~= "items\\trade\\trade_generic.ltx" and profile.mode == 1 then
+            cost_base = cost_base * 0.1
+        end
+        local info = mags_patches.collect_mag_data(mag_data)
+        for k,v in pairs(info) do
+            local cost_frac = math_floor(SYS_GetParam(2, k, "cost") / SYS_GetParam(2, k, "box_size")) * v
+            -- print_dbg("Mag %s, cost %s, add cost %s from %s of %s", sec, cost_base, cost_frac, v, k)
+            cost_base = cost_base + cost_frac
+        end
+        ret.new_cost = cost_base * profile.discount
+        print_dbg("Final cost of %s is %s, discount %s", sec, ret.new_cost, profile.discount)
+    elseif is_supported_weapon(obj) and mag_data then 
+        validate_wep(id, sec)
+        local mag_cost = SYS_GetParam(2, mag_data.section, "cost") * profile.discount
+        if profile.cfg ~= "items\\trade\\trade_generic.ltx" and profile.mode == 1 then
+            mag_cost = mag_cost * 0.1
+        end
+        -- print_dbg("Weapon %s, adding mag %s cost %s", sec, mag_data.section, mag_cost)
+        ret.new_cost = calculated_cost + mag_cost
+    else 
+        printf("!!! FRAUD DETECTED !!! Item %s should not have mag data!", sec)
+        set_data(id, nil)
+    end
+end
+
+
 function on_game_start()
+    if utils_item.on_get_item_cost then
+        RegisterScriptCallback("on_get_item_cost", on_get_item_cost)
+    end
 	RegisterScriptCallback("npc_on_death_callback", npc_on_death)
 end
