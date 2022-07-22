@@ -291,7 +291,6 @@ function delay_load_weapon(weapon, magazine, pre_table)
 	if save_round == 0 then
 		save_round = weapon:get_ammo_in_magazine() > 0 and 1 or 2
 	end
-
 	if weapon:get_state() == 0 then
 		weapon:unload_magazine()
 		if save_round == 1 then
@@ -507,7 +506,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	local id = weapon:id()
 	-- cancel reload only if we have a valid mag, do not allow reloads unless weapon is neutral
 	local state = weapon and weapon:get_state()
-	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or not (state == 0 or state == 5) then return end
+	if not weapon or not is_supported_weapon(weapon) or weapon:weapon_in_grenade_mode() or state == 7 then return end
 
 	-- wpo edge case to handle denial of reload on unjam
 	if arti_jamming and arti_jamming.get_jammed and arti_jamming.get_jammed(id) then
@@ -541,8 +540,8 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)
 	action_state = ACTION_RELOAD
-	print_dbg("Starting loading loop")
-	create_time_event("Mag_redux", "delay_weapon"..id, 0, delay_load_weapon, weapon, mag, pre_table)
+	-- note to self - setting delay as 0.1 to fix ghost reload
+	create_time_event("Mag_redux", "delay_weapon"..id, 0.1, delay_load_weapon, weapon, mag, pre_table)
 	
 end
 
@@ -762,7 +761,6 @@ function on_key_press(key)
 		if bind == key_bindings.kWPN_RELOAD then
 			local current_weapon = db.actor:item_in_slot(db.actor:active_slot())
 			if current_weapon and is_supported_weapon(current_weapon) then
-				print_dbg("executing reload")
 				actor_on_weapon_reload(db.actor, current_weapon)
 			end
 		end
@@ -883,7 +881,6 @@ function prep_weapon(weapon, feed_next)
 	local id = weapon:id()
 	local mag_data = get_mag_loaded(id)
 	local ammo_map = get_ammo_map(id) --cacheing function should keep this from being too laggy, got to look out for the potatos
-
 
 	if mag_data then
 		local count = #mag_data.loaded

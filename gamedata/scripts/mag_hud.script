@@ -253,7 +253,7 @@ function UIMagCell:__init(owner, grp, list, size, ammo_sec)
 	self.size = size
 	self.icos = {}
 	self.ammo_sec = ammo_sec or "none"
-	self.text = ammo_sec and magazines_mcm.get_config("icon_text") and gc(SYS_GetParam(0, ammo_sec, "inv_name_short")) or ""
+	self.text = ammo_sec and magazines_mcm.get_config("icon_text") and ui_item.get_sec_short_name(ammo_sec) or ""
 	self.ammo_icon = self.ammo_sec ~= "none"
 	self.axis = utils_xml.get_item_axis(list[1] or "tch_mag_base")
 	self.small_ico = self.axis.h == 1
