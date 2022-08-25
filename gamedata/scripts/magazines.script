@@ -186,9 +186,11 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 		if ammos[ammo_sec] ~= nil then
 			-- start loading loop
 		    local capacity = SYS_GetParam(2, weapon_sec, "max_mag_size") or 20
-			if get_config("fast_loading") and is_box_mode then
+			local behavior = is_box_mode and get_config("loadstash_behavior") or get_config("load_behavior")
+
+			if behavior == 1 then
 				fast_load_magazine(weapon, item)
-			elseif get_config("quick_loading") then
+			elseif behavior == 2 then
 				fast_load_magazine(weapon, item, true)
 			else
 				local delay = get_mag_time(weapon_sec, false)
@@ -778,21 +780,21 @@ function unload_ammo(obj)
 end
 
 function func_unload_ammo(obj)
-	if is_magazine(obj) then
-		local id = obj:id()
-		local mag_data = get_mag_data(id)
-		if mag_data and #mag_data.loaded > 0 then
-			if parent_is_box(obj)  then--get_config("fast_loading") and parent_is_box(obj) then
-				fast_unload_magazine(obj)
-			else
-				local delay = get_mag_time(obj:section(), true)	
-				print_dbg("Start unload magazine at speed %s", delay)
-				action_state = ACTION_LOAD_MAG
-				RemoveTimeEvent("mag_redux", "unload_mag"..id)
-				create_time_event("mag_redux","unload_mag"..id, 0.1, unload_magazine, obj, delay * 1000)
-			end
-		end
+	if not is_magazine(obj) then return end
+	local id = obj:id()
+	local mag_data = get_mag_data(id)
+	if not mag_data or #mag_data.loaded == 0 then return end
+
+	if parent_is_box(obj) or get_config("unload_behavior") == 1 then--get_config("fast_loading") and parent_is_box(obj) then
+		fast_unload_magazine(obj)
+	else
+		local delay = get_mag_time(obj:section(), true)	
+		print_dbg("Start unload magazine at speed %s", delay)
+		action_state = ACTION_LOAD_MAG
+		RemoveTimeEvent("mag_redux", "unload_mag"..id)
+		create_time_event("mag_redux","unload_mag"..id, 0.1, unload_magazine, obj, delay * 1000)
 	end
+
 end
 
 function loadout_precondition(obj)
