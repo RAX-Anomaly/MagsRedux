@@ -47,7 +47,7 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_sigp220_11.43x23_fmj_descr">
 		<text>
-		Standard .45 SigP220 Magazine with a capacity of 12 rounds.
+		Standard .45 SigP220 Magazine with a capacity of 7 rounds.
 		</text>
 	</string>
 	
@@ -56,7 +56,7 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_sigp220_11.43x23_fmjext_descr">
 		<text>
-		Extended .45 SigP220 Magazine with a capacity of 20 rounds.
+		Extended .45 SigP220 Magazine with a capacity of 12 rounds.
 		</text>
 	</string>
 	
