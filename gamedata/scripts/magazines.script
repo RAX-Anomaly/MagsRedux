@@ -116,6 +116,7 @@ function inventory_refresh(mode) --safer way to refresh inventory, mode == 1  re
 		mode = get_config("sort_inv") and 1 or 2
 	end
 	local inventory = GetActorMenu()
+	if actor_menu.get_last_mode() == 0 then return end --don't refresh if UI not open.
 	if mode == 1 then
 		local sort = nil
 		for i=1,#inventory.sort_btn do
