@@ -675,8 +675,11 @@ end
 
 local past_first_update = false
 function actor_on_first_update()
-	past_first_update = true
-	validate_loadout()
+	CreateTimeEvent("mag_binder","firstupdatedelay",1000,function()
+		past_first_update = true
+		validate_loadout()
+		return true
+		end)
 end
 
 function actor_item_to_slot(obj)
