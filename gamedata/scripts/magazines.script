@@ -415,7 +415,12 @@ function eject_magazine(weapon)
 		rax_inventory_highlights_mcm.temp_disable() --don't flag this magazine as new.
 	end
 	if weapon:weapon_in_grenade_mode() or not is_supported_weapon(weapon) then return end
+	
 	local id = weapon:id()
+
+	-- additional validation
+	magazine_binder.validate_wep(id)
+	
 	local mag_data = get_mag_loaded(id)
 	if mag_data then
 		weapon:force_unload_magazine(false)
@@ -746,6 +751,7 @@ local direction_keys = {
 	[key_bindings.kR_STRAFE] = true,
 	[key_bindings.kCROUCH] = true,
 	[key_bindings.kACCEL] = true,
+	[key_bindings.kJUMP] = true,
     [key_bindings.kWPN_FIRE] = true,
     [key_bindings.kWPN_ZOOM] = true,
     [key_bindings.kL_LOOKOUT] = true,
