@@ -675,7 +675,7 @@ end
 
 local past_first_update = false
 function actor_on_first_update()
-	CreateTimeEvent("mag_binder","firstupdatedelay",1000,function()
+	CreateTimeEvent("mag_binder","firstupdatedelay",1,function()
 		past_first_update = true
 		validate_loadout()
 		return true
