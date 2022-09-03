@@ -334,7 +334,8 @@ end
 function is_supported_weapon(val)
 	if not val then return end
 	id, section, obj, se_obj = type_correction(val)
-	local is_valid = weapons_lookup:section_exist(parent_section(section))
+	local is_valid_by_sec = weapons_lookup:section_exist(parent_section(section))
+	local is_valid = (not obj) and is_valid_by_sec or is_valid_by_sec and get_weapon_base_type(obj) and true or false
 	-- if it's a valid weapon, bind it to the mag binder
 	if obj and is_valid then
 		local binder = obj:binded_object()
