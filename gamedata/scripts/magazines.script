@@ -104,8 +104,10 @@ function on_option_change()
 	empty_table(cache_mag_time)
 end
 
+
 function timed_refresh()
-	create_time_event("mag_redux", "timed_refresh", 0, function()
+	ResetTimeEvent("mag_redux", "timed_refresh", 0.5) -- if called while event is still active extend the time to allow the new change to take effect before refreshing.
+	create_time_event("mag_redux", "timed_refresh", 0.5, function() --needs a bit of delay to work consistently.
 		inventory_refresh(2)
 		return true
 	end)
