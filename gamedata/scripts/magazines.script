@@ -696,8 +696,10 @@ function fast_load_magazine(magazine, box, load_one)
 
 	if load_one then
 		boxes_to_load[box:id()] = true
-	else
+	elseif IsInvbox(parent) then
 		parent:iterate_inventory_box(itr_box)
+	else
+		parent:iterate_inventory(itr_box)
 	end
 
 	for k,v in pairs(boxes_to_load) do
