@@ -337,15 +337,19 @@ function item_weapon.detach_scope(weapon)
 end
 
 function default_mags()
+	local ids = {}
 	local function itr_inv(npc, item)
 		if is_supported_weapon(item) then
 			local default_mag = weapon_default_magazine(item)
 			print_dbg("Enjoy your complimentary %s!", default_mag)
-			alife_create_item(default_mag, db.actor)
-			alife_create_item(default_mag, db.actor)
+			id_1 = alife_create_item(default_mag, db.actor)
+			id_2 = alife_create_item(default_mag, db.actor)
+			ids[id_1] = default_mag
+			ids[id_2] = default_mag
 		end
 	end
 	db.actor:iterate_inventory(itr_inv)
+	return ids
 end
 
 NewGameEquipment = itms_manager.new_game_equippment
@@ -359,7 +363,17 @@ function gamemode_azazel.actor_on_before_death(whoID,flags)
 	AzazelDeath(whoID, flags)
 	if not flags.ret_value then
 		create_time_event("mag_redux", "azazel_mags", 0.1, function()
-			default_mags()
+			local ids = default_mags()
+			-- for k,v in pairs(ids) do
+			-- 	local mag_data = get_data(k) or create_mag_data(k, v)
+			-- 	local max_size = SYS_GetParam(2, v, "max_mag_size")
+			-- 	local to_fill = math.random(max_size/3, max_size)
+			-- 	local ammo_table = get_magazine_caliber(v)
+			-- 	for i=1,to_fill do
+					
+			-- 	end
+			-- 	set_data(k, mag_data)
+			-- end
 			return true
 		end)
 	end
