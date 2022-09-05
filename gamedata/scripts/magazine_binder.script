@@ -333,10 +333,14 @@ end
 -- these functions work equally well given an object id, item section, gameobject or server object.
 function is_supported_weapon(val)
 	if not val then return end
-	id, section, obj, se_obj = type_correction(val)
-	local is_valid = weapons_lookup:section_exist(parent_section(section))
+	local id, section, obj, se_obj = type_correction(val)
+	local is_valid_by_sec = weapons_lookup:section_exist(parent_section(section))
+	print_dbg("is_valid_by_sec:%s and obj: %s", is_valid_by_sec, obj and true)
+	if not obj then return is_valid_by_sec end
+	local is_valid = get_weapon_base_type(id) and true or false
+	print_dbg("is_valid:%s and obj: %s", is_valid, obj and true)
 	-- if it's a valid weapon, bind it to the mag binder
-	if obj and is_valid then
+	if  is_valid then
 		local binder = obj:binded_object()
 		if not binder then 
 			print_dbg("Valid weapon %s has no binder, binding to mag binder", obj:section())
@@ -348,14 +352,14 @@ end
 
 function is_open_bolt_weapon(val)
 	if not val then return end
-	id, section, obj, se_obj = type_correction(val)
+	local id, section, obj, se_obj = type_correction(val)
 	
 	return look_up_table:r_value(parent_section(section), "openbolt")
 end
 
 function has_loadout_slots(val)
 	if not val then return end
-	id, section, obj, se_obj = type_correction(val)
+	local  id, section, obj, se_obj = type_correction(val)
 	local in_list = loadout_lookup:section_exist(parent_section(section))
 	--print_dbg("has_loadout_slots %s|%s:%s|%s", section,parent_section(section), in_list, IsItem("outfit", section, obj) )
 	return IsItem("outfit", section, obj) or in_list
@@ -364,7 +368,7 @@ end
 
 function get_retool_section(val)
 	if not val then return end
-	id, section, obj, se_obj = type_correction(val)
+	local id, section, obj, se_obj = type_correction(val)
 	local retool_group 	= SYS_GetParam(0, section, "retool_group") or nil
 	local retool_section = nil
 	if retool_group and mags_by_retool_group[retool_group] and #mags_by_retool_group[retool_group] > 1 then --want to return nil of mag has no retool group or is only memeber
@@ -386,7 +390,7 @@ end
 
 function get_loadout_slots(val, combine, force_outfit)
 	if not val then return 0,0,0 end
-	id, section, obj, se_obj = type_correction(val)
+	local id, section, obj, se_obj = type_correction(val)
 
 	local s,m,l = 0,0,0
 	if look_up_table:section_exist(section) then
@@ -415,14 +419,14 @@ end
 
 function is_magazine(val)
 	if not val then return false end
-	id, section, obj, se_obj = type_correction(val)
+	local id, section, obj, se_obj = type_correction(val)
 	return SYS_GetParam(1, section, "is_mag")
 end
 
 function get_magazine_base_type(val)
 
 	if not val then return end
-	id, section, obj, se_obj = type_correction(val)
+	local id, section, obj, se_obj = type_correction(val)
 
 	return SYS_GetParam(0, section, "base_type")  or nil
 end
@@ -434,24 +438,24 @@ end
 -- check if this weapon takes a magazine, and return the base type. false if it does not
 function get_weapon_base_type(val)
 	if not val then return end
-	id, section, obj, se_obj = type_correction(val)
+	local id, section, obj, se_obj = type_correction(val)
 	id = obj and id or nil --utils_item.get_ammo will not work if given an id of an offline object. nil id if no gameobject exists
 	local ammo =  utils_item.get_ammo(section, id)[1]
 	local parent = parent_section(section)
-	-- print_dbg("for weapon %s, using ammo %s, bt is %s", parent, ammo, is_supported_weapon(section) and look_up_table:r_value(parent, ammo))
+	print_dbg("for weapon %s, using ammo %s, bt is %s", parent, ammo, is_supported_weapon(section) and look_up_table:r_value(parent, ammo))
 	return is_supported_weapon(section) and look_up_table:r_value(parent, ammo) -- base_type is in the ltx based on the first entry in the weapons ammo list.
 end
 
 function weapon_default_magazine(val)
 	if not val then return end
-	id, section, obj, se_obj = type_correction(val)
+	local id, section, obj, se_obj = type_correction(val)
 	
 	return look_up_table:r_value(parent_section(section), "default_mag")
 end 
 
 function weapon_improved_magazine(val)
 	if not val then return end
-	id, section, obj, se_obj = type_correction(val)
+	local id, section, obj, se_obj = type_correction(val)
 	
 	return look_up_table:r_value(parent_section(section), "improved_mag")
     
