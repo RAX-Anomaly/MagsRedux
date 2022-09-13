@@ -3,7 +3,6 @@
 
 
 -- each datum consists of the following:
--- .size = size of the slot S, M, L(this is not super important)
 -- .loaded = this is a stack of rounds loaded in the magazine, each round is int, depending on what kind of round it is
 -- .section = for magazines in weapons, this tracks the type of magazine that is loaded
 local mags_storage = {}
@@ -85,6 +84,23 @@ function create_mag_data(id, sec, is_weapon)
 	mag_data.is_weapon = is_weapon or false
     set_data(id, mag_data)
     return mag_data
+end
+
+-- loops through mag data and check/validate entries
+function clean_data()
+	for id, data in pairs(mags_storage) do
+		local se = alife_object(id)
+		if not se then
+			set_data(id, nil)
+		elseif data.section ~= se:section_name() then
+			-- not a weapon
+			if not weapons_lookup:section_exist(se:section_name()) then
+				set_data(id, nil)
+			elseif valid_mag_data(data) then
+				validate_wep(id, se:section_name())
+			end
+		end
+	end
 end
 
 function get_mag_property(id,key)
@@ -660,6 +676,7 @@ end
 function load_state(mdata) 
 	mags_storage = mdata.mags_storage or {}
 	carried_mags = mdata.carried_mags or {}
+	clean_data()
 end
 
 -- attempt to keep mstorage clean

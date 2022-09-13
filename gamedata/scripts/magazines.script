@@ -555,34 +555,49 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	
 end
 
+local timeout = nil
 function unjam_weapon(weapon)
+	timeout = time_global()
 	local id = weapon:id()
 	local data = get_mag_data(id)
 	local slot = db.actor:active_slot()
 	db.actor:activate_slot(0)
-	local ammo_loaded = weapon:get_ammo_in_magazine()
-	-- local fire_queue = 0 -- this shit complicated do later
-	local old_weapon = alife_object(id)
-	local new_weapon = alife_clone_weapon(old_weapon)
-	set_mag_data(id, nil)
+	local new_id = id
+	local replace = false
+	if not pcall(function(wpn)
+		wpn:cast_Weapon():SetMisfire(false)
+	end, weapon) then
+		-- replace
+		local old_weapon = alife_object(id)
+		local new_weapon = alife_clone_weapon(old_weapon)
+		new_id = new_weapon.id
+		set_mag_data(id, nil)
+		replace = true
+	end
+	
 	weapon_unjammed(weapon)
-	print_dbg("New weapon should have %s ammo", data and #data.loaded or "no")
-	create_time_event("Mag_redux", "unjam_weapon", 0, unjam_weapon_timer, new_weapon.id, data, slot)
+	print_dbg("New weapon should have %s ammo, time global=%s", data and #data.loaded or "no", timeout)
+	create_time_event("Mag_redux", "unjam_weapon", 0, unjam_weapon_timer, new_id, data, slot, replace)
 end
 
-function unjam_weapon_timer(weapon_id, data, slot)
-	
-	local current_weapon = db.actor:active_item()
-	if current_weapon then return false end
-	
-	utils_obj.play_sound("handgun_unjam")
-	local weapon = level.object_by_id(weapon_id)
-	set_mag_data(weapon_id, nil)
-	set_mag_data(weapon_id, data)
-	prep_weapon(weapon, false)
-	db.actor:move_to_slot(weapon, slot)
+function unjam_weapon_timer(weapon_id, data, slot, replace)
+    -- keep rolling while weapon is being drawn, if five seconds total elapse do logic regardless
+    local current_weapon = db.actor:active_item()
+    if (current_weapon and current_weapon:id() ~= weapon_id) or time_global() > timeout + 5000 then return false end
+    print_dbg("Unjamming weapon, timeout=%s", timeout)
+    utils_obj.play_sound("handgun_unjam")
+	if replace then
+		local weapon = level.object_by_id(weapon_id)
+		print_dbg("ujwt weapon:%s", weapon and weapon:name())
+		set_mag_data(weapon_id, nil)
+		set_mag_data(weapon_id, data)
+		prep_weapon(weapon, false)
+		if not current_weapon then
+			db.actor:move_to_slot(weapon, slot)
+		end
+	end
 	db.actor:activate_slot(slot)
-	return true
+    return true
 end
 -----------------------------------------
 -- SECTION rounds un/loading functions --
