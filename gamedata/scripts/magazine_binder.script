@@ -676,7 +676,6 @@ end
 function load_state(mdata) 
 	mags_storage = mdata.mags_storage or {}
 	carried_mags = mdata.carried_mags or {}
-	clean_data()
 end
 
 -- attempt to keep mstorage clean
@@ -699,6 +698,7 @@ function actor_on_first_update()
 	CreateTimeEvent("mag_binder","firstupdatedelay",1,function()
 		past_first_update = true
 		validate_loadout()
+		clean_data()
 		return true
 		end)
 end
