@@ -98,12 +98,15 @@ function clean_data()
 				loaded = {},
 				is_weapon = true,
 			})
-		elseif data.section ~= se:section_name() then
-			-- not a weapon
-			if not weapons_lookup:section_exist(se:section_name()) then
-				set_data(id, nil)
-			elseif valid_mag_data(data) then
-				validate_wep(id, se:section_name())
+		else
+			local wpn_sec = parent_section(se:section_name())
+			if data.section ~= wpn_sec then
+				-- not a weapon
+				if not weapons_lookup:section_exist(wpn_sec) then
+					set_data(id, nil)
+				elseif valid_mag_data(data) then
+					validate_wep(id, wpn_sec)
+				end
 			end
 		end
 	end
