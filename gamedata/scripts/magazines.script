@@ -583,7 +583,7 @@ end
 function unjam_weapon_timer(weapon_id, data, slot, replace)
     -- keep rolling while weapon is being drawn, if five seconds total elapse do logic regardless
     local current_weapon = db.actor:active_item()
-    if (current_weapon and current_weapon:id() ~= weapon_id) or time_global() > timeout + 5000 then return false end
+    if (current_weapon and current_weapon:id() ~= weapon_id) and time_global() < timeout + 5000 then return false end
     print_dbg("Unjamming weapon, timeout=%s", timeout)
     utils_obj.play_sound("handgun_unjam")
 	if replace then
