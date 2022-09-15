@@ -92,6 +92,12 @@ function clean_data()
 		local se = alife_object(id)
 		if not se then
 			set_data(id, nil)
+		elseif data == false then
+			set_data(id, {
+				section = "no_mag",
+				loaded = {},
+				is_weapon = true,
+			})
 		elseif data.section ~= se:section_name() then
 			-- not a weapon
 			if not weapons_lookup:section_exist(se:section_name()) then
