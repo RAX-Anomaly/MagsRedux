@@ -36,6 +36,10 @@ function print_err( text , ...)
 	return nil
 end
 
+local function parent_section(sec)
+	return SYS_GetParam(0, sec, "parent_section", sec) or sec
+end
+
 function dump_data(data)
 	if not data or type(data) ~= "table" then
 		print_dbg("Mag data unavailable: %s (%s)", data, type(data))
@@ -88,28 +92,25 @@ end
 
 -- loops through mag data and check/validate entries
 function clean_data()
-	for id, data in pairs(mags_storage) do
-		local se = alife_object(id)
-		if not se then
-			set_data(id, nil)
-		elseif data == false then
-			set_data(id, {
-				section = "no_mag",
-				loaded = {},
-				is_weapon = true,
-			})
-		else
-			local wpn_sec = parent_section(se:section_name())
-			if data.section ~= wpn_sec then
-				-- not a weapon
-				if not weapons_lookup:section_exist(wpn_sec) then
-					set_data(id, nil)
-				elseif valid_mag_data(data) then
-					validate_wep(id, wpn_sec)
-				end
-			end
-		end
-	end
+    for id, data in pairs(mags_storage) do
+        local se = alife_object(id)
+        local is_mag = se and SYS_GetParam(1, se:section_name(), "is_mag")
+        local is_wpn = se and is_supported_weapon(parent_section(se:section_name()))
+        if not (is_mag or is_wpn) then
+            set_data(id, nil)
+        elseif data == false then
+            set_data(id, {
+                section = "no_mag",
+                loaded = {},
+                is_weapon = true,
+            })
+        elseif is_wpn then
+			print_dbg("Checking wpn %s", se:section_name())
+			validate_wep(id, wpn_sec)
+        else
+            validate_mag(id, se:section_name())
+        end
+    end
 end
 
 function get_mag_property(id,key)
@@ -182,9 +183,6 @@ end
 -- SECTION utility functions --
 -------------------------------
 
-local function parent_section(sec)
-	return SYS_GetParam(0, sec, "parent_section", sec) or sec
-end
 
 local function type_correction(val)
     if not val then return end
