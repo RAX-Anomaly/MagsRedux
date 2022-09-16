@@ -136,9 +136,6 @@ function on_game_start()
     RegisterScriptCallback("on_option_change", on_option_change)
     RegisterScriptCallback("on_option_change", on_option_change)
     RegisterScriptCallback("on_key_press", on_key_press)
-	if GAME_VERSION == "1.5.2" then 
-		RegisterScriptCallback("actor_on_hud_animation_play", actor_on_hud_animation_play)
-	end
 end
 
 -- Script Callbacks --
@@ -193,7 +190,7 @@ end
 -- Main function --
 function checkAmmo() end --crash prevention for dirty updates.
 
-do_ammo_check_anim = 0 -- A sequence counter for ammo check animation - Added by Utjan
+doing_ammo_check_anim = false -- A sequence counter for ammo check animation - Added by Utjan
 local no_mag_check = false -- Set to true to show ammo check animation with no mag - Added by Utjan
 
 function check_Ammo()
@@ -290,18 +287,38 @@ function check_Ammo()
         local slot = db.actor:active_slot()
 		
 		-- Utjan code
-		anm_ammo_check = SYS_GetParam(0, weapon:section() .. "_hud", "anm_ammo_check") -- Look for ammo check animation
-		if anm_ammo_check and GAME_VERSION == "1.5.2" then
-			if do_ammo_check_anim ~= 0 then return end -- If an ammo check is already happening, don't do anything
+		anm_ammo_check = SYS_GetParam(0, weapon:section() .. "_hud", "anm_ammo_check") 
+		if anm_ammo_check then
+			if doing_ammo_check_anim then return end -- If an ammo check is already happening, don't do anything
 			
 			message_delay = 1.5
 			
-			local anm_no_mag_check = SYS_GetParam(0, weapon:section() .. "_hud", "anm_ammo_check_no_mag") -- Look for no-mag ammo check animation
+			local anm_no_mag_check = SYS_GetParam(0, weapon:section() .. "_hud", "anm_ammo_check_no_mag")
 			if no_mag_check and (not anm_no_mag_check) then -- If no mag is loaded or oitc then skip ammo check anim and show the message instantly
 				message_delay = 0 
 			else
-				do_ammo_check_anim = 1
-				weapon:play_hud_motion("anm_idle", true, 0, 1, 0)
+				local anm_check_empty = SYS_GetParam(0, weapon:section() .. "_hud", "anm_ammo_check_empty")
+
+				if no_mag_check and anm_no_mag_check then
+					weapon:play_hud_motion("anm_ammo_check_no_mag", true, 0, 1, 0)
+					local snd_no_mag_check = SYS_GetParam(0, weapon:section() ,"snd_ammo_check_no_mag")
+					if snd_no_mag_check then
+						utils_obj.play_sound(snd_no_mag_check)
+					end
+				elseif anm_check_empty and weapon:get_ammo_in_magazine() == 0 then
+					weapon:play_hud_motion("anm_ammo_check_empty", true, 0, 1, 0)
+					local snd_ammo_check_empty = SYS_GetParam(0, weapon:section() ,"snd_ammo_check_empty")
+					if snd_ammo_check_empty then
+						utils_obj.play_sound(snd_ammo_check_empty)
+					end
+				else
+					weapon:play_hud_motion("anm_ammo_check", true, 0, 1, 0)
+					local snd_ammo_check = SYS_GetParam(0, weapon:section() ,"snd_ammo_check")
+					if snd_ammo_check then
+						utils_obj.play_sound(snd_ammo_check)
+					end
+				end
+				doing_ammo_check_anim = true
 			end
 			
 			CreateTimeEvent("ammo_check", "message delay", message_delay, function()
@@ -309,8 +326,8 @@ function check_Ammo()
 				return true
 			end)
 			CreateTimeEvent("ammo_check", "ammo check reset", message_delay + 1.5, function() 
-				do_ammo_check_anim = 0
-				no_mag_check = nil
+				no_mag_check = false
+				doing_ammo_check_anim = false
 				return true
 			end) 
 		else -- Utjan code end
@@ -352,37 +369,4 @@ function give_news(message)
     if db.actor then
         db.actor:give_game_news("AmmoCheck", message, "ui_inGame2_D_Ohotnik_na_mutantov", 0, 5000, 0)
     end
-end
-
--- Code from here added by Utjan
--- Catches manually played animation to play ammo check animation
-function actor_on_hud_animation_play(anim_table, obj)
-	if anim_table.anm_name == "anm_idle" and do_ammo_check_anim == 1 then -- Catch the manually played idle animation for ammo checking
-		anim_table.anm_speed = 1 -- Assume that the ammo check animation doesn't have a speed set in the ltx
-		
-		local anm_no_mag_check = SYS_GetParam(0, obj:section() .. "_hud", "anm_ammo_check_no_mag")
-		local anm_check_empty = SYS_GetParam(0, obj:section() .. "_hud", "anm_ammo_check_empty")
-		local snd_ammo_check = SYS_GetParam(0, obj:section() ,"snd_ammo_check")
-		local snd_ammo_check_empty = SYS_GetParam(0, obj:section() ,"snd_ammo_check_empty")
-		local snd_no_mag_check = SYS_GetParam(0, obj:section() ,"snd_ammo_check_no_mag")
-		
-		if no_mag_check and anm_no_mag_check then
-			anim_table.anm_name = "anm_ammo_check_no_mag"
-			if snd_no_mag_check then
-				utils_obj.play_sound(snd_no_mag_check)
-			end
-		elseif anm_check_empty and obj:get_ammo_in_magazine() == 0 then
-			anim_table.anm_name = "anm_ammo_check_empty"
-			if snd_ammo_check_empty then
-				utils_obj.play_sound(snd_ammo_check_empty)
-			end
-		else
-			anim_table.anm_name = "anm_ammo_check"
-			if snd_ammo_check then
-				utils_obj.play_sound(snd_ammo_check)
-			end
-		end
-		
-		do_ammo_check_anim = 2
-	end
 end
