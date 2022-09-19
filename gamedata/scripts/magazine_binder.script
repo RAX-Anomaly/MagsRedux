@@ -360,7 +360,7 @@ function is_supported_weapon(val)
 	local is_valid_by_sec = weapons_lookup:section_exist(parent_section(section))
 	print_dbg("is_valid_by_sec:%s and obj: %s", is_valid_by_sec, obj and true)
 	if not obj then return is_valid_by_sec end
-	local is_valid = get_weapon_base_type(id) and true or false
+	local is_valid = is_valid_by_sec and get_weapon_base_type(id) and true or false
 	print_dbg("is_valid:%s and obj: %s", is_valid, obj and true)
 	-- if it's a valid weapon, bind it to the mag binder
 	if  is_valid then
