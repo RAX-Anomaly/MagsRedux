@@ -3,7 +3,6 @@
 
 
 -- each datum consists of the following:
--- .size = size of the slot S, M, L(this is not super important)
 -- .loaded = this is a stack of rounds loaded in the magazine, each round is int, depending on what kind of round it is
 -- .section = for magazines in weapons, this tracks the type of magazine that is loaded
 local mags_storage = {}
@@ -35,6 +34,10 @@ function print_err( text , ...)
 		printe( "ERR: | %s |  "..text ,time_global(), ...)
 	end
 	return nil
+end
+
+local function parent_section(sec)
+	return SYS_GetParam(0, sec, "parent_section", sec) or sec
 end
 
 function dump_data(data)
@@ -85,6 +88,29 @@ function create_mag_data(id, sec, is_weapon)
 	mag_data.is_weapon = is_weapon or false
     set_data(id, mag_data)
     return mag_data
+end
+
+-- loops through mag data and check/validate entries
+function clean_data()
+    for id, data in pairs(mags_storage) do
+        local se = alife_object(id)
+        local is_mag = se and SYS_GetParam(1, se:section_name(), "is_mag")
+        local is_wpn = se and is_supported_weapon(parent_section(se:section_name()))
+        if not (is_mag or is_wpn) then
+            set_data(id, nil)
+        elseif data == false then
+            set_data(id, {
+                section = "no_mag",
+                loaded = {},
+                is_weapon = true,
+            })
+        elseif is_wpn then
+			print_dbg("Checking wpn %s", se:section_name())
+			validate_wep(id, wpn_sec)
+        else
+            validate_mag(id, se:section_name())
+        end
+    end
 end
 
 function get_mag_property(id,key)
@@ -157,9 +183,6 @@ end
 -- SECTION utility functions --
 -------------------------------
 
-local function parent_section(sec)
-	return SYS_GetParam(0, sec, "parent_section", sec) or sec
-end
 
 local function type_correction(val)
     if not val then return end
@@ -682,6 +705,7 @@ function actor_on_first_update()
 	CreateTimeEvent("mag_binder","firstupdatedelay",1,function()
 		past_first_update = true
 		validate_loadout()
+		clean_data()
 		return true
 		end)
 end
