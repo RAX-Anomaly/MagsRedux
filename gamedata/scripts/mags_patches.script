@@ -238,7 +238,7 @@ function collect_mag_data(mag_data, tostr)
 		if not last_round then last_round = mag_data.loaded[i] end
 		if last_round ~= mag_data.loaded[i] then
 			if tostr then
-				display[#display + 1] = ui_item.get_sec_short_name(last_round) .. ": " .. count
+				display[#display + 1] = ui_item.get_sec_name(last_round) .. ": " .. count
 				last_round = mag_data.loaded[i]
 			else
 				display[last_round] = count
@@ -250,7 +250,7 @@ function collect_mag_data(mag_data, tostr)
 	end
 	if last_round then
 		if tostr then
-			display[#display + 1] = ui_item.get_sec_short_name(last_round) .. ": " .. count
+			display[#display + 1] = ui_item.get_sec_name(last_round) .. ": " .. count
 		else
 			display[last_round] = count
 		end
