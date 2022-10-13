@@ -69,6 +69,17 @@ end
 -- raven's merge
 -- utility functions related to magazines that shouldn't clutter main mags script
 -- MP for ejecting mags on upgrade/replacement
+
+local basePS = itms_manager.play_item_sound --stop pickup item sound from playing when we spawn items during actions.
+
+function itms_manager.play_item_sound(...)
+    if not magazines.action_in_progress() then
+        basePS(...)
+    end
+end
+
+
+
 DisassemblyWeapon = item_parts.disassembly_weapon
 function item_parts.disassembly_weapon(obj, obj_d) 
 	print_dbg("Interdict disassembly")
