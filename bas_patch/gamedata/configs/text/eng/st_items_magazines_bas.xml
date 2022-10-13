@@ -175,23 +175,6 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_baskiparis_9x18_81">
-		<text>Extended 9x18 Kiparis Magazine</text>
-	</string>
-	<string id="st_mag_baskiparis_9x18_81_descr">
-		<text>
-		Extended 9x18 Kiparis Magazine with a capacity of 81 rounds.
-		</text>
-	</string>
-	<string id="st_mag_baskiparis_9x19_81">
-		<text>Extended 9x19 Kiparis Magazine</text>
-	</string>
-	<string id="st_mag_baskiparis_9x19_81_descr">
-		<text>
-		Extended 9x19 Kiparis Magazine with a capacity of 81 rounds.
-		</text>
-	</string>
-
 
 	<string id="st_mag_basvz61_9x18_30">
 		<text>Standard 9x18 VZ. 61 Magazine</text>
