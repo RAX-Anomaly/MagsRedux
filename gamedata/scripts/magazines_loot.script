@@ -194,6 +194,7 @@ function on_get_item_cost(kind, obj, profile, calculated_cost, ret)
     local id = obj:id()
     local sec = obj:section()
     local mag_data = get_mag_loaded(id)
+    local calculated_cost = ret.new_cost or calculated_cost -- in case someone adjusted the price of the weapon
     if mag_data == nil then return end
     -- we have mag data - but it can potentially be corrupt. perform validation if needed
     -- print_dbg("Item %s has mag data", sec)
@@ -201,7 +202,7 @@ function on_get_item_cost(kind, obj, profile, calculated_cost, ret)
         validate_mag(id, sec)
         local cost_base = obj:cost()
         -- non stalkers, reduce mag cost
-        if profile.cfg ~= "items\\trade\\trade_generic.ltx" and profile.mode == 1 then
+        if profile.mode == 1 then
             cost_base = cost_base * 0.1
         end
         local info = mags_patches.collect_mag_data(mag_data)
@@ -215,7 +216,7 @@ function on_get_item_cost(kind, obj, profile, calculated_cost, ret)
     elseif is_supported_weapon(obj) and mag_data then 
         validate_wep(id, sec)
         local mag_cost = SYS_GetParam(2, mag_data.section, "cost") * profile.discount
-        if profile.cfg ~= "items\\trade\\trade_generic.ltx" and profile.mode == 1 then
+        if profile.mode == 1 then
             mag_cost = mag_cost * 0.1
         end
         -- print_dbg("Weapon %s, adding mag %s cost %s", sec, mag_data.section, mag_cost)
