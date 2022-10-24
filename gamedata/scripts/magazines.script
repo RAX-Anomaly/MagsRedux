@@ -784,27 +784,17 @@ function fast_unload_magazine(magazine)
 	timed_refresh()
 end
 
-local direction_keys = {
-	[key_bindings.kFWD] = true,
-	[key_bindings.kBACK] = true,
-	[key_bindings.kL_STRAFE] = true,
-	[key_bindings.kR_STRAFE] = true,
-	[key_bindings.kCROUCH] = true,
-	[key_bindings.kACCEL] = true,
-	[key_bindings.kJUMP] = true,
-    [key_bindings.kWPN_FIRE] = true,
-    [key_bindings.kWPN_ZOOM] = true,
-    [key_bindings.kL_LOOKOUT] = true,
-    [key_bindings.kR_LOOKOUT] = true,
-	[7] = true,
+local load_cancel = {
+	[key_bindings.kQUIT] = true,
+	[key_bindings.kINVENTORY] = true
 }
 function on_key_press(key)
 	-- do not interrupt if directional key pressed
 	local bind = dik_to_bind(key)
-	-- if action_state ~= ACTION_NONE and not direction_keys[bind] then
-	-- 	print_dbg("Interrupting reload")
-	-- 	action_state = ACTION_NONE
-	-- end
+	if action_state ~= ACTION_NONE and load_cancel[bind] then
+		print_dbg("Interrupting mag loading")
+		do_interrupt_magload()
+	end
 	if key and bind == key_bindings.kWPN_RELOAD then
 		local current_weapon = db.actor:item_in_slot(db.actor:active_slot())
 		if current_weapon and is_supported_weapon(current_weapon) then
@@ -1014,6 +1004,7 @@ function on_game_start()
 	RegisterScriptCallback("ActorMenu_on_item_drag_drop", on_item_drag_dropped)
 	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
     RegisterScriptCallback("on_option_change",on_option_change)
+	RegisterScriptCallback("actor_on_update", actor_on_update)
     on_option_change()
 
 end 
