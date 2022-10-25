@@ -36,6 +36,8 @@ jobs:
           cp -r anomaly-dependencies/trader_autoinject/gamedata .
           cp -r anomaly-dependencies/encyclopedia/gamedata .
           cp -r anomaly-demonized-scripts/custom_functor_autoinject/gamedata .
+          mkdir ammo_check
+          cp -r AmmoCheck/gamedata ammo_check
 
       - name: Zip folder
         run: zip -r $RELEASE_NAME.zip gamedata README *.txt fomod "ammo_check" "bas_patch" "aug_patch" "wuuts_icons" "ppp_patch"
