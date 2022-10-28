@@ -23,10 +23,10 @@ local defaults = {
     loadstash_behavior    	= 0,
     retain_round    		= false,
     ejection        		= 0,
+	tacload 				= false,
     mag_unequip_trs         = 1,
 	three_hands				= false,
     deathquality			= 1.0,
-    -- deathmags				= 1.0,
     deathammo				= 1.0,
 }
 
@@ -37,7 +37,6 @@ local def_map = {
     mag_tooltip             = "mgmt",
     empty_mags_stack 		= "mgmt",
     sort_inv				= "mgmt",
-
 
     show_hud				= "hud",
     icon_text				= "hud",
@@ -54,6 +53,7 @@ local def_map = {
     loadstash_behavior    	= "gameplay",
     retain_round    		= "gameplay",
     ejection        		= "gameplay",
+    tacload 				= "gameplay",
     mag_unequip_trs         = "gameplay",
 	three_hands				= "gameplay",
     deathquality			= "gameplay",

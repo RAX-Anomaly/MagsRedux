@@ -321,9 +321,10 @@ function _G.alife_clone_weapon(se_obj, section, parent_id)
 	local old_id = se_obj.id
 	local old_data = get_data(old_id)
 	local new_wep = CloneWep(se_obj, section, parent_id)
-	print_dbg("transferring data from %s to %s", old_id, new_wep.id)
-	dump_data(old_data)
-	set_data(new_wep.id, old_data)
+	if new_wep then
+		print_dbg("transferring data from %s to %s", old_id, new_wep.id)
+		set_data(new_wep.id, old_data)
+	end
 	set_data(old_id, nil)
 	return new_wep
 end

@@ -6,3 +6,7 @@
 	path = anomaly-demonized-scripts
 	url = https://github.com/themrdemonized/anomaly-demonized-scripts.git
 	branch = master
+[submodule "AmmoCheck"]
+	path = AmmoCheck
+	url = https://github.com/RAX-Anomaly/AmmoCheck.git
+	branch = master
