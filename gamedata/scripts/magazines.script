@@ -267,6 +267,7 @@ function load_weapon(weapon, magazine)
 			set_mag_data(mag_id, nil)
 			alife_release_id(mag_id)
 			prep_weapon(weapon, false)
+			do_interrupt_reload()
 		end
 	end
 end
@@ -787,11 +788,12 @@ end
 local load_cancel = {
 	[key_bindings.kQUIT] = true,
 	[key_bindings.kINVENTORY] = true
+
 }
 function on_key_press(key)
 	-- do not interrupt if directional key pressed
 	local bind = dik_to_bind(key)
-	if action_state ~= ACTION_NONE and load_cancel[bind] then
+	if action_state ~= ACTION_NONE and (load_cancel[bind] or key == DIK_KEYS.DIK_LALT) then
 		print_dbg("Interrupting mag loading")
 		do_interrupt_magload()
 	end
