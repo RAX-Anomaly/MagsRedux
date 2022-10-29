@@ -793,7 +793,7 @@ local load_cancel = {
 function on_key_press(key)
 	-- do not interrupt if directional key pressed
 	local bind = dik_to_bind(key)
-	if action_state ~= ACTION_NONE and (load_cancel[bind] or key == DIK_KEYS.DIK_LALT) then
+	if action_state ~= ACTION_NONE and (load_cancel[bind] or key == DIK_keys.DIK_LMENU) then
 		print_dbg("Interrupting mag loading")
 		do_interrupt_magload()
 	end
