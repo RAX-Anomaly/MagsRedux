@@ -9,7 +9,7 @@
 local get_mag_property			= magazine_binder.get_mag_property
 local get_size					= magazine_binder.get_size
 local is_carried_mag				= magazine_binder.is_carried_mag
-local print_dbg					= magazine_binder.print_dbg
+local print_dbg					= function (...) return false and magazine_binder.print_dbg(...) end
 local get_magazine_base_type					= magazine_binder.get_magazine_base_type
 local gc						 	= game.translate_string
 
