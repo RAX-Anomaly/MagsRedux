@@ -21,10 +21,43 @@ get_retool_section			= magazine_binder.get_retool_section
 get_weapon_base_type		= magazine_binder.get_weapon_base_type
 get_magazine_base_type		= magazine_binder.get_magazine_base_type
 get_mags_for_basetype		= magazine_binder.get_mags_for_basetype
-print_dbg					= magazine_binder.print_dbg
 dump_data					= magazine_binder.dump_data
 get_mags_by_ammo_type		= magazine_binder.get_mags_by_ammo_type
 get_config					= magazines_mcm.get_config
+
+
+
+local dbg_log
+function print_dbg( text , ...)
+	if (magazines_mcm.get_config("debug") or false) then
+		dbg_log = dbg_log or mcm_log and mcm_log.new("DBG")
+		if dbg_log then
+			dbg_log.enabled = true
+			dbg_log:log( text , ...)
+		else
+			printf( "RAX: | %s |  "..text ,time_global(), ...)
+		end
+	end
+	return nil
+end
+
+local err_log
+function print_err( text , ...)
+	if (magazines_mcm.get_config("debug") or false) then
+		err_log = err_log or mcm_log and mcm_log.new("ERR")
+		if err_log then
+			err_log.enabled = true
+			err_log:log( text , ...)
+		end
+		printe( "ERR: | %s |  "..text ,time_global(), ...)
+	end
+	return nil
+end
+
+
+
+
+
 
 -- actor action state
 local action_state = 0
@@ -170,7 +203,7 @@ end
 
 function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 
-	print_dbg("on_item_drag_dropped " .. item:section() .. " on " .. weapon:section() .. " to_slot " .. to_slot)
+	print_dbg("on_item_drag_dropped " .. item:section() .. " on " .. weapon:section() .. " to_slot " .. (to_slot or "nil"))
 	--Only do one thing at a time
 	if action_in_progress() then 
 		do_interrupt()

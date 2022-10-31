@@ -21,20 +21,13 @@ local loadout_slots = 	{
 						}
 
 
-function print_dbg( text , ...)
-	if (magazines_mcm.get_config("debug") or false) then
-		printf( "RAX: | %s |  "..text ,time_global(), ...)
-	end
-	return nil
-end
+
+function print_dbg(...) magazines.print_dbg(...) end
+function print_err(...) magazines.print_err(...) end
 
 
-function print_err( text , ...)
-	if (magazines_mcm.get_config("debug") or false) then
-		printe( "ERR: | %s |  "..text ,time_global(), ...)
-	end
-	return nil
-end
+
+
 
 local function parent_section(sec)
 	return SYS_GetParam(0, sec, "parent_section", sec) or sec
@@ -358,10 +351,10 @@ function is_supported_weapon(val)
 	if not val then return end
 	local id, section, obj, se_obj = type_correction(val)
 	local is_valid_by_sec = weapons_lookup:section_exist(parent_section(section))
-	print_dbg("is_valid_by_sec:%s and obj: %s", is_valid_by_sec, obj and true)
-	if not obj then return is_valid_by_sec end
+	--print_dbg("is_valid_by_sec:%s and obj: %s", is_valid_by_sec, obj and true)
+	if (not (obj and is_valid_by_sec)) or obj:weapon_in_grenade_mode() then return is_valid_by_sec end
 	local is_valid = is_valid_by_sec and get_weapon_base_type(id) and true or false
-	print_dbg("is_valid:%s and obj: %s", is_valid, obj and true)
+	--print_dbg("is_valid:%s and obj: %s", is_valid, obj and true)
 	-- if it's a valid weapon, bind it to the mag binder
 	if  is_valid then
 		local binder = obj:binded_object()
@@ -459,6 +452,7 @@ function get_magazine_caliber(val)
 end
 
 -- check if this weapon takes a magazine, and return the base type. false if it does not
+
 function get_weapon_base_type(val)
 	if not val then return end
 	local id, section, obj, se_obj = type_correction(val)
