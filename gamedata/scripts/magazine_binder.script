@@ -370,7 +370,7 @@ function is_open_bolt_weapon(val)
 	if not val then return end
 	local id, section, obj, se_obj = type_correction(val)
 	
-	return look_up_table:r_value(parent_section(section), "openbolt")
+	return look_up_table:r_value(parent_section(section), "open_bolt")
 end
 
 function has_loadout_slots(val)
