@@ -729,7 +729,7 @@ function unload_magazine(magazine, delay)
 	local id = magazine:id()
 	local mag_data = get_mag_data(id)
 	-- note to self: create_ammo does not trigger item on move callback, hence cannot unload into corpse or box
-	local mag_parent = db.actor--magazine:parent() and magazine:parent() or db.actor
+	local mag_parent = magazine:parent() and magazine:parent() or db.actor
 	if not mag_data or #mag_data.loaded == 0 or action_state ~= ACTION_LOAD_MAG then
 		print_dbg("ending unload prematurely, state=%s", action_state)
 		do_interrupt()
@@ -744,6 +744,7 @@ function unload_magazine(magazine, delay)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
 		create_ammo(round, mag_parent:position(), mag_parent:level_vertex_id(), mag_parent:game_vertex_id(), mag_parent:id(), 1)
+		item_weapon.ammo_aggregation()
 		utils_obj.play_sound("magazines\\ammo_load"..math.random(1, 7))
 	else
 		print_dbg("Mag empty, returning")
@@ -811,9 +812,13 @@ function fast_unload_magazine(magazine)
 		end
 	end
 	set_mag_data(magazine:id(), mag_data)
-	local to_spawn = db.actor--magazine:parent() ~= nil and magazine:parent() or db.actor
+	local to_spawn = magazine:parent() and magazine:parent() or db.actor
 	for k,v in pairs(ammo_to_make) do
 		create_ammo(k, to_spawn:position(), to_spawn:level_vertex_id(), to_spawn:game_vertex_id(), to_spawn:id(), v)
+		create_time_event("ammo", "agg_"..magazine:id(), 0, function()
+			item_weapon.ammo_aggregation_full(to_spawn)
+			return true
+		end)
 	end
 	timed_refresh()
 end
@@ -962,7 +967,7 @@ function prep_weapon(weapon, feed_next)
 		print_dbg("chambering round of type %s, there are %s rounds loaded, ammo in mag is %s", round, count, weapon:get_ammo_in_magazine())
 		if round ~= nil and ammo_map[round] then
 			weapon:set_ammo_type(ammo_map[round]-1)
-			weapon:unload_magazine()
+			-- weapon:unload_magazine()
 			weapon:set_ammo_elapsed(count)
         elseif count ~= 0 then
             weapon:set_ammo_elapsed(1)
