@@ -729,7 +729,7 @@ function unload_magazine(magazine, delay)
 	local id = magazine:id()
 	local mag_data = get_mag_data(id)
 	-- note to self: create_ammo does not trigger item on move callback, hence cannot unload into corpse or box
-	local mag_parent = magazine:parent() and magazine:parent() or db.actor
+	local mag_parent = db.actor--magazine:parent() and magazine:parent() or db.actor
 	if not mag_data or #mag_data.loaded == 0 or action_state ~= ACTION_LOAD_MAG then
 		print_dbg("ending unload prematurely, state=%s", action_state)
 		do_interrupt()
