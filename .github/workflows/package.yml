@@ -34,6 +34,7 @@ jobs:
         id: deps
         run: |
           cp -r anomaly-dependencies/trader_autoinject/gamedata .
+          cp -r anomaly-dependencies/backpack_stash/gamedata .
           cp -r anomaly-dependencies/encyclopedia/gamedata .
           cp -r anomaly-demonized-scripts/custom_functor_autoinject/gamedata .
           mkdir ammo_check
