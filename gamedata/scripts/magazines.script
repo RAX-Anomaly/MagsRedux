@@ -811,9 +811,13 @@ function fast_unload_magazine(magazine)
 		end
 	end
 	set_mag_data(magazine:id(), mag_data)
-	local to_spawn = db.actor--magazine:parent() ~= nil and magazine:parent() or db.actor
+	local to_spawn = magazine:parent() and magazine:parent() or db.actor
 	for k,v in pairs(ammo_to_make) do
 		create_ammo(k, to_spawn:position(), to_spawn:level_vertex_id(), to_spawn:game_vertex_id(), to_spawn:id(), v)
+		create_time_event("ammo", "agg_"..magazine:id(), 0, function()
+			item_weapon.ammo_aggregation_full(to_spawn)
+			return true
+		end)
 	end
 	timed_refresh()
 end
@@ -962,7 +966,7 @@ function prep_weapon(weapon, feed_next)
 		print_dbg("chambering round of type %s, there are %s rounds loaded, ammo in mag is %s", round, count, weapon:get_ammo_in_magazine())
 		if round ~= nil and ammo_map[round] then
 			weapon:set_ammo_type(ammo_map[round]-1)
-			weapon:unload_magazine()
+			-- weapon:unload_magazine()
 			weapon:set_ammo_elapsed(count)
         elseif count ~= 0 then
             weapon:set_ammo_elapsed(1)
