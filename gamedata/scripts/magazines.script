@@ -71,6 +71,9 @@ local load_timeout = {}
 
 -- due to changing how mag loading works (1 big event vs. several events) we need this here to persist which box we are taking ammo from
 local ext_ammo_box = nil
+
+-- flag to force reload during the animation instead of afterwards
+local force_reload = false
 ------------------------
 -- SECTION debug info --
 ------------------------
@@ -322,6 +325,7 @@ function delay_load_weapon(weapon, magazine, pre_table)
 		load_timeout[id] = nil
 		do_interrupt()
 		weapon:switch_state(2)
+		force_reload = false
 		last_ejected = nil
 		save_round = 0
 		print_dbg("Reload interrupted")
@@ -341,7 +345,7 @@ function delay_load_weapon(weapon, magazine, pre_table)
 	if save_round == 0 then
 		save_round = weapon:get_ammo_in_magazine() > 0 and 1 or 2
 	end
-	if weapon:get_state() == 0 then
+	if weapon:get_state() == 0 or force_reload then
 		weapon:unload_magazine()
 		if save_round == 1 then
 			weapon:set_ammo_elapsed(1)
@@ -355,8 +359,8 @@ function delay_load_weapon(weapon, magazine, pre_table)
 			print_dbg("Toggling %s", last_ejected)
 			toggle_carried_mag(last_ejected)
 		end
+		force_reload = false
 		last_ejected = nil
-		weapon:switch_state(0)
 		return true
 	end
 	return false
@@ -978,6 +982,13 @@ function prep_weapon(weapon, feed_next)
 	set_mag_data(id, mag_data) 
 end
 
+-- Reload mid animation with motion marks
+-- Like vanilla, ignore name and force mag load on first motion mark
+function actor_on_hud_animation_mark(state, mark)
+	if action_in_progress() and state == 7 then
+        force_reload = true
+	end
+end
 
 -----------------------------------------
 -- SECTION UI callbacks -----------------
@@ -1046,6 +1057,7 @@ function on_game_start()
 	RegisterScriptCallback("server_entity_on_unregister",se_item_on_unregister)
     RegisterScriptCallback("on_option_change",on_option_change)
 	RegisterScriptCallback("actor_on_update", actor_on_update)
+	RegisterScriptCallback("actor_on_hud_animation_mark",actor_on_hud_animation_mark)
     on_option_change()
 
 end 
