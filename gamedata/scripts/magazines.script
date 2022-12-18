@@ -308,7 +308,7 @@ end
 local last_ejected
 -- 0 = no ammo, 1 = one round, checked, 2 = no round, checked
 local save_round = 0
-function delay_load_weapon(weapon, magazine, pre_table)
+function delay_load_weapon(weapon, magazine)
 	local tg = time_global()
 	-- extra timer stuff so we don't let the time event linger
 	local id = weapon:id()
@@ -349,7 +349,7 @@ function delay_load_weapon(weapon, magazine, pre_table)
 		save_round = 0
 		ACTION_IN_PROGRESS = false
 		load_weapon(weapon, magazine)
-		refund_ammo(weapon, pre_table)
+		-- refund_ammo(weapon, pre_table)
 		load_timeout[id] = nil
 		if last_ejected and not is_carried_mag(last_ejected) and retain_magazine(last_ejected) then
 			print_dbg("Toggling %s", last_ejected)
@@ -594,7 +594,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 		return 
 	end
 	
-	local pre_table = count_ammo(weapon)
+	-- local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)	
 	action_start_reload()
 	-- note to self - setting delay as 0.1 to fix ghost reload
@@ -827,17 +827,17 @@ local load_cancel = {
 	[key_bindings.kINVENTORY] = true
 
 }
-function on_key_press(key)
+function on_key_press(key, bind, dis, flags)
 	-- do not interrupt if directional key pressed
-	local bind = dik_to_bind(key)
 	if action_state ~= ACTION_NONE and (load_cancel[bind] or key == DIK_keys.DIK_LMENU) then
 		print_dbg("Interrupting mag loading")
 		do_interrupt_magload()
 	end
-	if key and bind == key_bindings.kWPN_RELOAD then
+	if bind == key_bindings.kWPN_RELOAD then
 		local current_weapon = db.actor:item_in_slot(db.actor:active_slot())
 		if current_weapon and is_supported_weapon(current_weapon) then
 			actor_on_weapon_reload(db.actor, current_weapon)
+			flags.ret_value = false
 		end
 	end
 	
@@ -1036,7 +1036,9 @@ function on_game_start()
 
 	RegisterScriptCallback("ActorMenu_on_item_before_move", ActorMenu_on_item_before_move)
 	RegisterScriptCallback("ActorMenu_on_item_focus_receive", ActorMenu_on_item_focus_receive)
-	RegisterScriptCallback("on_key_press", on_key_press)
+	-- RegisterScriptCallback("on_key_press", on_key_press)
+	RegisterScriptCallback("on_before_key_press", on_key_press)
+
 	RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
 	RegisterScriptCallback("actor_on_weapon_jammed", weapon_jammed)
 	RegisterScriptCallback("on_game_load", on_game_load)
