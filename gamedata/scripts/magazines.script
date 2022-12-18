@@ -308,7 +308,7 @@ end
 local last_ejected
 -- 0 = no ammo, 1 = one round, checked, 2 = no round, checked
 local save_round = 0
-function delay_load_weapon(weapon, magazine)
+function delay_load_weapon(weapon, magazine, pre_table)
 	local tg = time_global()
 	-- extra timer stuff so we don't let the time event linger
 	local id = weapon:id()
@@ -349,7 +349,7 @@ function delay_load_weapon(weapon, magazine)
 		save_round = 0
 		ACTION_IN_PROGRESS = false
 		load_weapon(weapon, magazine)
-		-- refund_ammo(weapon, pre_table)
+		refund_ammo(weapon, pre_table)
 		load_timeout[id] = nil
 		if last_ejected and not is_carried_mag(last_ejected) and retain_magazine(last_ejected) then
 			print_dbg("Toggling %s", last_ejected)
@@ -594,7 +594,7 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 		return 
 	end
 	
-	-- local pre_table = count_ammo(weapon)
+	local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)	
 	action_start_reload()
 	-- note to self - setting delay as 0.1 to fix ghost reload
