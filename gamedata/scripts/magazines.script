@@ -353,7 +353,10 @@ function delay_load_weapon(weapon, magazine, pre_table)
 		save_round = 0
 		ACTION_IN_PROGRESS = false
 		load_weapon(weapon, magazine)
-		refund_ammo(weapon, pre_table)
+		create_time_event("Mag_redux", "refund", 0.1, function()
+			refund_ammo(weapon, pre_table)
+			return true
+		end)
 		load_timeout[id] = nil
 		if last_ejected and not is_carried_mag(last_ejected) and retain_magazine(last_ejected) then
 			print_dbg("Toggling %s", last_ejected)
@@ -405,6 +408,7 @@ end
 
 -- Refund ammo.
 function refund_ammo(weapon, pre_ammo_table)
+	print_dbg("Refunding ammo")
 	if rax_inventory_highlights_mcm  then -- yes i am adding a compatablity patch with my own mod. 
 		rax_inventory_highlights_mcm.temp_disable() --don't flag this magazine as new.
 	end
@@ -412,7 +416,8 @@ function refund_ammo(weapon, pre_ammo_table)
 	for ammo_type, count in pairs(pre_ammo_table) do
 		local to_refund = count - post_ammo_table[ammo_type]
 		if to_refund > 0 then
-			create_ammo(ammo_type, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, to_refund)
+			alife_create_item(ammo_type, db.actor, {ammo = to_refund})
+			-- create_ammo(ammo_type, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, to_refund)
 		end
 	end
 end
