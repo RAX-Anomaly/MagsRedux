@@ -492,7 +492,7 @@ function item_weapon.start_ammo_wheel()
 	
 		hide_hud_inventory()
 		
-		if (not GUI) then
+		if (not item_weapon.GUI) then
 			item_weapon.GUI = UIWheelAmmoWuut()
 		end
 	
