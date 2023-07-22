@@ -172,7 +172,7 @@ function inventory_refresh(mode) --safer way to refresh inventory, mode == 1  re
 		end
 		inventory:On_Sort(sort or 1,false)
 	else
-		inventory:UpdateItems()
+		inventory.update_info = true
 	end
 end
 
