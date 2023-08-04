@@ -975,7 +975,7 @@ function prep_weapon(weapon, feed_next)
 		print_dbg("chambering round of type %s, there are %s rounds loaded, ammo in mag is %s", round, count, weapon:get_ammo_in_magazine())
 		if round ~= nil and ammo_map[round] then
 			weapon:set_ammo_type(ammo_map[round]-1)
-			-- weapon:unload_magazine()
+			weapon:set_ammo_elapsed(0)--make the ammo type change stick. 
 			weapon:set_ammo_elapsed(count)
         elseif count ~= 0 then
             weapon:set_ammo_elapsed(1)
