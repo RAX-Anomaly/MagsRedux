@@ -378,8 +378,8 @@ function chamber_single_round(ammo, weapon)
 		local typ = ammo_map[ammo:section()]
 		if not typ then return end
 		print_dbg("chamber single round, ammo is %s, type is %s", ammo:section(), typ - 1)
-		weapon:set_ammo_elapsed(1)
 		weapon:set_ammo_type(typ - 1)
+		weapon:set_ammo_elapsed(1)
 		utils_obj.play_sound("handgun_unjam")
 		if ammo:ammo_get_count() == 1 then
 			alife_release_id(ammo:id())
@@ -976,15 +976,15 @@ function prep_weapon(weapon, feed_next)
 		if round ~= nil and ammo_map[round] then
 			weapon:set_ammo_type(ammo_map[round]-1)
 			weapon:set_ammo_elapsed(count)
-			create_time_event("mag_redux","prep_weapon"..id, 0, function() local x = weapon:get_ammo_in_magazine() weapon:set_ammo_elapsed(0) weapon:set_ammo_elapsed(x) end )
-        elseif count ~= 0 then
-            weapon:set_ammo_elapsed(1)
-            print_dbg("mag has invalid ammo. If gun is not SVT this is a problem with the mag caliber entry")
+			create_time_event("mag_redux","prep_weapon"..id, 0, function() local x = weapon:get_ammo_in_magazine() weapon:set_ammo_elapsed(0) weapon:set_ammo_elapsed(x) return true end )
+ 	       elseif count ~= 0 then
+       		     weapon:set_ammo_elapsed(1)
+      		      print_dbg("mag has invalid ammo. If gun is not SVT this is a problem with the mag caliber entry")
 		else
 			print_dbg("mag empty")
 		end
-	end
 	set_mag_data(id, mag_data) 
+	end
 end
 
 -- Reload mid animation with motion marks
