@@ -975,8 +975,8 @@ function prep_weapon(weapon, feed_next)
 		print_dbg("chambering round of type %s, there are %s rounds loaded, ammo in mag is %s", round, count, weapon:get_ammo_in_magazine())
 		if round ~= nil and ammo_map[round] then
 			weapon:set_ammo_type(ammo_map[round]-1)
-			weapon:set_ammo_elapsed(0)--make the ammo type change stick. 
 			weapon:set_ammo_elapsed(count)
+			create_time_event("mag_redux","prep_weapon"..id, 0, function() local x = weapon:get_ammo_in_magazine() weapon:set_ammo_elapsed(0) weapon:set_ammo_elapsed(x) end )
         elseif count ~= 0 then
             weapon:set_ammo_elapsed(1)
             print_dbg("mag has invalid ammo. If gun is not SVT this is a problem with the mag caliber entry")
