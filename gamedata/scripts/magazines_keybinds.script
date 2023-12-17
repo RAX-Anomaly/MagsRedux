@@ -1,0 +1,43 @@
+-- hotkeys and stuff
+
+-- shift click to unload
+
+function quick_unload(mag, bag)
+    if (bag == "actor_bag" or bag == "npc_bag") then
+        magazines.func_unload_ammo(mag)
+    end
+end
+
+-- ctrl click to add/remove loadout
+function quick_vest(mag, bag)
+    if (bag == "actor_bag") then
+        magazines.loadout_func(mag)
+    end
+end
+
+-- right click top off
+
+-- function topoff()
+--     for k,v in pairs(magazine_binder.get_carried_mags()) do
+--     end
+-- end
+
+
+InventoryClick = ui_inventory.UIInventory.On_CC_Mouse1
+function ui_inventory.UIInventory:On_CC_Mouse1(bag, idx)
+    InventoryClick(self, bag, idx)
+    
+	local obj = self.CC[bag]:GetObj(idx)
+	if (not obj) then
+		self:Print(nil, "Callback On_CC_Mouse1 | no object recieved!", bag, idx)
+		return
+	end
+    if magazine_binder.is_magazine(obj) then
+        if self.holding_ctrl then
+            quick_vest(obj, bag)
+        elseif self.holding_shift then
+            quick_unload(obj, bag)
+        end
+    end
+
+end
