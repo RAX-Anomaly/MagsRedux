@@ -989,8 +989,8 @@ end
 
 -- Reload mid animation with motion marks
 -- Like vanilla, ignore name and force mag load on first motion mark
-function actor_on_hud_animation_mark(state, mark)
-	if action_in_progress() and state == 7 then
+function actor_on_hud_animation_mark(state, mark, hud_item, owner)
+	if action_in_progress() and state == 7 and (owner and owner:id() == AC_ID or false) then
         force_reload = true
 	end
 end
