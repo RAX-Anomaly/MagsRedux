@@ -576,17 +576,13 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 
 	-- wpo edge case to handle denial of reload on unjam
 	if arti_jamming and arti_jamming.get_jammed and arti_jamming.get_jammed(id) then
-		weapon:switch_state(2)
+		--weapon:switch_state(2) -- no need to change state since reload event is suppressed
 		return
 	end
 
 	if is_jammed_weapon(weapon) then
 		weapon_unjammed(weapon)
-		local hud_section = SYS_GetParam(0, weapon:section(), "hud")
-		if SYS_GetParam(0, hud_section, "anm_reload_misfire") == nil then
-			-- actually do the weapon replace logic here
-			unjam_weapon(weapon)
-		end
+		unjam_weapon(weapon)
 		return
 	end
 
@@ -596,16 +592,19 @@ function actor_on_weapon_reload(actor, weapon, ammo_total)
 	if not mag then 
 		print_dbg("No ready mags found, not reloading")
 		do_interrupt()
-		create_time_event("Mag_redux", "cancel_reload"..id, 0.1, function (weapon)
-			weapon:switch_state(2)
-			return true
-		end, weapon)
+--[[		create_time_event("Mag_redux", "cancel_reload"..id, 0.1, function (weapon)
+--			weapon:switch_state(2)
+--			return true
+--		end, weapon)
+no need to change state since reload event is suppressed
+ --]] 
 		return 
 	end
 	
 	local pre_table = count_ammo(weapon)
 	weapon:switch_state(7)	
 	action_start_reload()
+	SendScriptCallback("actor_on_weapon_reload", weapon, 0)
 	-- note to self - setting delay as 0.1 to fix ghost reload
 	create_time_event("Mag_redux", "delay_weapon"..id, 0.1, delay_load_weapon, weapon, mag, pre_table)
 	
@@ -637,7 +636,7 @@ function unjam_weapon(weapon)
 		set_mag_data(id, nil)
 		replace = true
 	end
-	
+	SendScriptCallback("actor_on_weapon_reload", weapon, 0)
 	weapon_unjammed(weapon)
 	print_dbg("New weapon should have %s ammo, time global=%s", data and #data.loaded or "no", timeout)
 	create_time_event("Mag_redux", "unjam_weapon", 0, unjam_weapon_timer, new_id, data, slot, replace)
@@ -843,8 +842,21 @@ function on_key_press(key, bind, dis, flags)
 		do_interrupt_magload()
 	end
 	if bind == key_bindings.kWPN_RELOAD then
+
 		local current_weapon = db.actor:item_in_slot(db.actor:active_slot())
 		if current_weapon and is_supported_weapon(current_weapon) then
+			if is_jammed_weapon(current_weapon) then
+			
+				local hud_section = SYS_GetParam(0, current_weapon:section(), "hud")
+				if SYS_GetParam(0, hud_section, "anm_reload_misfire") ~= nil then
+					weapon_unjammed(current_weapon)
+					return -- let the reload event thru so animation will unjam
+				end
+		
+			end
+
+			
+			
 			actor_on_weapon_reload(db.actor, current_weapon)
 			flags.ret_value = false
 		end
