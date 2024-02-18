@@ -354,7 +354,8 @@ function delay_load_weapon(id, magazine, pre_table)
 		ACTION_IN_PROGRESS = false
 		load_weapon(weapon, magazine)
 		create_time_event("Mag_redux", "refund", 0.1, function()
-			refund_ammo(weapon, pre_table)
+			local wpn = get_object_by_id(id)
+			refund_ammo(wpn, pre_table)
 			return true
 		end)
 		load_timeout[id] = nil
@@ -422,14 +423,14 @@ function refund_ammo(weapon, pre_ammo_table)
 	end
 end
 
-function weapon_in_slot(weapon)
+function weapon_in_slot(id)
 	local carried_weapons = {}
 	for i,_ in pairs(SCANNED_SLOTS) do
 		if db.actor:item_in_slot(i) then
 			carried_weapons[db.actor:item_in_slot(i):id()] = true
 		end
 	end
-	return carried_weapons[weapon:id()]
+	return carried_weapons[id]
 end
 
 -- Determine if this magazine should be retained in loadout, based on MCM options.
@@ -488,7 +489,7 @@ function eject_magazine(weapon)
 		
 		se_mag = alife_create_item(mag_data.section, weapon:parent())
 		if se_mag then
-			create_time_event("mag_redux", "timer_eject_"..id, 0, timer_eject_magazine, weapon, se_mag.id, mag_data)
+			create_time_event("mag_redux", "timer_eject_"..id, 0, timer_eject_magazine, id, se_mag.id, mag_data)
 		else
 			print_dbg("Could not create magazine %s", mag_data.section)
 		end
@@ -502,14 +503,14 @@ function eject_magazine(weapon)
 	end
 end
 
-function timer_eject_magazine(weapon, id, mag_data)
+function timer_eject_magazine(weapon_id, id, mag_data)
 	mag_data.is_weapon = false
 	set_mag_data(id, mag_data)
 	local ejection_type = tonumber(get_config("ejection"))
 	print_dbg("ejection type is %s", ejection_type)
 	local inv = GetActorMenu()
 	local inv_open = inv and inv:IsShown()
-	if weapon_in_slot(weapon) then
+	if weapon_in_slot(weapon_id) then
 		if retain_magazine(id, ejection_type) or inv_open then
 			toggle_carried_mag(id)
 		elseif ejection_type == 2 and not inv_open then
