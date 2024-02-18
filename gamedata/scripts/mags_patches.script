@@ -325,11 +325,11 @@ print_dbg("clone weapon")
 	local old_sec = se_obj:section_name()
 	local curr_base = get_weapon_base_type(se_obj)
 	local ammo =  utils_item.get_ammo(section, se_obj.id)[1]
-	print_dbg("clone weapon1")
+	--print_dbg("clone weapon1")
 	local new_wep = CloneWep(se_obj, section, parent_id)
-	print_dbg("clone weapon2")
+	--print_dbg("clone weapon2")
 	if new_wep then
-		print_dbg("clone weapon3")
+		--print_dbg("clone weapon3")
 		print_dbg("clone weapon  %s to %s", old_sec, section)
 		local same_gun = SYS_GetParam(0, old_sec, "parent_section", old_sec) == SYS_GetParam(0, section, "parent_section", section) --this covers the vanila use of this function for scopes. 
 		if not same_gun then
