@@ -319,7 +319,7 @@ local string_gsub   = string.gsub
 
 CloneWep = _G.alife_clone_weapon
 function _G.alife_clone_weapon(se_obj, section, parent_id)
-print_dbg("clone weapon")
+--print_dbg("clone weapon")
 	local old_id = se_obj.id
 	local old_data = get_data(old_id)
 	local old_sec = se_obj:section_name()
@@ -330,7 +330,7 @@ print_dbg("clone weapon")
 	--print_dbg("clone weapon2")
 	if new_wep then
 		--print_dbg("clone weapon3")
-		print_dbg("clone weapon  %s to %s", old_sec, section)
+		print_dbg("clone weapon  %s:%s to %s:%s", old_sec, old_id, section, new_wep.id )
 		local same_gun = SYS_GetParam(0, old_sec, "parent_section", old_sec) == SYS_GetParam(0, section, "parent_section", section) --this covers the vanila use of this function for scopes. 
 		if not same_gun then
 			local caliber_upg =  curr_base ~= get_weapon_base_type(old_sec) -- detects caliber change upgrade, if old gun had one new gun will have same resulting in same caliber
