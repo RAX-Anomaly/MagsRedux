@@ -320,10 +320,11 @@ local string_gsub   = string.gsub
 CloneWep = _G.alife_clone_weapon
 function _G.alife_clone_weapon(se_obj, section, parent_id)
 --print_dbg("clone weapon")
-	if not se_obj and section then return end
+	if not se_obj then return end
 	local old_id = se_obj.id
 	local old_data = get_data(old_id)
 	local old_sec = se_obj:section_name()
+	section = section or old_sec
 	if not old_data and old_sec then return end
 	local curr_base = get_weapon_base_type(se_obj)
 	local ammo =  utils_item.get_ammo(section, se_obj.id)[1]
