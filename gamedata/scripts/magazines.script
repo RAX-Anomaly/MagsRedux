@@ -354,8 +354,7 @@ function delay_load_weapon(id, magazine, pre_table)
 		ACTION_IN_PROGRESS = false
 		load_weapon(weapon, magazine)
 		create_time_event("Mag_redux", "refund", 0.1, function()
-			local wpn = get_object_by_id(id)
-			refund_ammo(wpn, pre_table)
+			refund_ammo(pre_table)
 			return true
 		end)
 		load_timeout[id] = nil
@@ -393,9 +392,15 @@ end
 -- When weapon is reloaded in any way, it will subtract a box from player inventory. We don't want this to happen - loading should only happen from magazines. Record the prior amount of ammo before reload and refund it afterwards.
 function count_ammo(weapon)
 	local ammo_table = {}
-	local ammo_types = utils_item.get_ammo(weapon:section(), weapon:id())
-	for i=1,#ammo_types do
-		ammo_table[ammo_types[i]] = 0
+	if type(weapon) == "table" then
+		for k, v in pairs(weapon) do
+			ammo_table[k] = 0
+		end
+	else
+		local ammo_types = utils_item.get_ammo(weapon:section(), weapon:id())
+		for i=1,#ammo_types do
+			ammo_table[ammo_types[i]] = 0
+		end
 	end
 
 	db.actor:inventory_for_each(function (item)
@@ -408,12 +413,12 @@ function count_ammo(weapon)
 end
 
 -- Refund ammo.
-function refund_ammo(weapon, pre_ammo_table)
+function refund_ammo(pre_ammo_table)
 	print_dbg("Refunding ammo")
 	if rax_inventory_highlights_mcm  then -- yes i am adding a compatablity patch with my own mod. 
 		rax_inventory_highlights_mcm.temp_disable() --don't flag this magazine as new.
 	end
-	local post_ammo_table = count_ammo(weapon)
+	local post_ammo_table = count_ammo(pre_ammo_table)
 	for ammo_type, count in pairs(pre_ammo_table) do
 		local to_refund = count - post_ammo_table[ammo_type]
 		if to_refund > 0 then

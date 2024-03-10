@@ -320,9 +320,11 @@ local string_gsub   = string.gsub
 CloneWep = _G.alife_clone_weapon
 function _G.alife_clone_weapon(se_obj, section, parent_id)
 --print_dbg("clone weapon")
+	if not se_obj and section then return end
 	local old_id = se_obj.id
 	local old_data = get_data(old_id)
 	local old_sec = se_obj:section_name()
+	if not old_data and old_sec then return end
 	local curr_base = get_weapon_base_type(se_obj)
 	local ammo =  utils_item.get_ammo(section, se_obj.id)[1]
 	--print_dbg("clone weapon1")
@@ -349,7 +351,8 @@ function _G.alife_clone_weapon(se_obj, section, parent_id)
 				loaded = {},
 				is_weapon = true,
 			}) -- new gun gets set to empty
-			local se_mag = alife_create_item(old_data.section, parent_id)
+			local parent = alife_object(parent_id)
+			local se_mag = parent and alife_create_item(old_data.section, parent)
 			if se_mag then
 				old_data.is_weapon = false
 				set_mag_data(se_mag.id, old_data)
