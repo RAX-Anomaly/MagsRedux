@@ -245,7 +245,7 @@ function on_item_drag_dropped(item, weapon, from_slot, to_slot)
 			else
 				local delay = get_mag_time(weapon_sec, false)
 				print_dbg("Start load magazine at speed %s", delay)
-				ext_ammo_box = item
+				ext_ammo_box = item:id()
 				action_start_magload()
 				RemoveTimeEvent("Mag_redux", "load_mag"..weapon_id)
 				create_time_event("Mag_redux", "load_mag"..weapon_id, 0.1, load_magazine, weapon, capacity, delay * 1000)
@@ -684,7 +684,6 @@ function find_next_box(ammo_section, id)
 	return item_to_get
 end
 
-
 local last_time = 0
 -- position is ammo type as number
 function load_magazine(magazine, capacity, delay)
@@ -713,16 +712,16 @@ function load_magazine(magazine, capacity, delay)
 		do_interrupt()
 		return true
 	end
-	local num_bullets = ext_ammo_box:ammo_get_count()
-	local ammo_section = ext_ammo_box:section()
+	ext_ammo_obj = get_object_by_id(ext_ammo_box)
+	local num_bullets = ext_ammo_obj:ammo_get_count()
+	local ammo_section = ext_ammo_obj:section()
 	if num_bullets == 1 then
 		print_dbg("Searching for next box")
-		local ext_id = ext_ammo_box:id()
-		new_ammo_box = find_next_box(ammo_section, ext_id)
-		alife_release_id(ext_id)
-		ext_ammo_box = new_ammo_box
+		new_ammo_box = find_next_box(ammo_section, ext_ammo_box)
+		alife_release_id(ext_ammo_box)
+		ext_ammo_box = new_ammo_box and new_ammo_box:id()
 	else
-		ext_ammo_box:ammo_set_count(num_bullets - 1)
+		ext_ammo_obj:ammo_set_count(num_bullets - 1)
 	end
 	stack.push(mag_data.loaded, ammo_section)
 	set_mag_data(id, mag_data)
@@ -732,7 +731,7 @@ function load_magazine(magazine, capacity, delay)
 	return false
 end
 
-function unload_magazine(magazine, delay)
+function unload_magazine(magazine, delay, boxes)
 	
 	local tg = time_global()
 	if tg < last_time + delay then return false end
@@ -748,7 +747,6 @@ function unload_magazine(magazine, delay)
 		print_dbg("ending unload prematurely, state=%s", action_state)
 		do_interrupt()
 		inventory_refresh()
-		-- create_time_event("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
 		last_time = 0
 		return true
 	end
@@ -758,10 +756,10 @@ function unload_magazine(magazine, delay)
 	if round ~= nil then
 		print_dbg("Unloaded 1 round of type %s. There are %s rounds left.", round, #mag_data.loaded)
 		create_ammo(round, mag_parent:position(), mag_parent:level_vertex_id(), mag_parent:game_vertex_id(), mag_parent:id(), 1)
+
 		utils_obj.play_sound("magazines\\ammo_load"..math.random(1, 7))
 	else
 		print_dbg("Mag empty, returning")
-		-- create_time_event("mag_redux", "box_ammo_aggregation", 0, item_weapon.ammo_aggregation_full, mag_parent:id())
 		inventory_refresh()
 		last_time = 0
 		do_interrupt()
@@ -860,9 +858,6 @@ function on_key_press(key, bind, dis, flags)
 				end
 		
 			end
-
-			
-			
 			actor_on_weapon_reload(db.actor, current_weapon)
 			flags.ret_value = false
 		end
@@ -893,6 +888,7 @@ function func_unload_ammo(obj)
 		print_dbg("Start unload magazine at speed %s", delay)
 		action_start_magload()
 		RemoveTimeEvent("mag_redux", "unload_mag"..id)
+		-- boxes = find_boxes(obj)
 		create_time_event("mag_redux","unload_mag"..id, 0.1, unload_magazine, obj, delay * 1000)
 	end
 
