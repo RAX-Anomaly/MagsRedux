@@ -25,7 +25,7 @@ dump_data					= magazine_binder.dump_data
 get_mags_by_ammo_type		= magazine_binder.get_mags_by_ammo_type
 get_config					= magazines_mcm.get_config
 
-
+local unload_magazine_queue = {}
 
 local dbg_log
 function print_dbg( text , ...)
@@ -862,7 +862,9 @@ function on_key_press(key, bind, dis, flags)
 			flags.ret_value = false
 		end
 	end
-	
+	if key == DIK_keys.DIK_END then
+        unload_all_magazines()
+    end
 end
 
 function unload_ammo(obj)
@@ -1058,6 +1060,46 @@ function on_game_load()
 		args = str_explode(k, ",")
 		RemoveTimeEvent(args[1], args[2])
 	end
+end
+
+function unload_all_magazines()
+    unload_magazine_queue = {}
+    local actor = db.actor
+    actor:iterate_inventory(function(temp, obj)
+        if is_magazine(obj) then
+            local mag_data = get_mag_data(obj:id())
+            if mag_data and #mag_data.loaded > 0 and not is_carried_mag(obj:id()) then
+                table.insert(unload_magazine_queue, obj)
+            end
+        end
+    end)
+    if #unload_magazine_queue > 0 then
+        -- start to unload first mag
+        unload_next_magazine()
+    end
+end
+
+-- function to unload the next mag in queque
+function unload_next_magazine()
+    if #unload_magazine_queue == 0 then
+        -- all mags have been processed, quit exectuion
+        return
+    end
+
+    -- check if an action is in progress
+    if action_state ~= ACTION_NONE then
+        -- wait and retry every half sec
+        create_time_event("mag_redux", "unload_next_magazine", 0.5, unload_next_magazine)
+        return
+    end
+
+    -- get next mag from the queque
+    local obj = table.remove(unload_magazine_queue, 1)
+    if obj then
+        func_unload_ammo(obj)
+        -- wait half sec for next mag
+        create_time_event("mag_redux", "unload_next_magazine", 0.5, unload_next_magazine)
+    end
 end
 
 function on_game_start()
