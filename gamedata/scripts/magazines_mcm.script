@@ -28,6 +28,8 @@ local defaults = {
 	three_hands				= false,
     deathquality			= 1.0,
     deathammo				= 1.0,
+	unload_all_mags_key     = DIK_keys.DIK_END,
+
 }
 
 local def_map = {
@@ -58,6 +60,7 @@ local def_map = {
 	three_hands				= "gameplay",
     deathquality			= "gameplay",
     deathammo				= "gameplay",
+	unload_all_mags_key     = "gameplay",
 }
 
 local colors = {--alpha value will be reset to match slider
@@ -113,6 +116,7 @@ function on_mcm_load()
             {id = "ejection" ,type= "list" ,val= 2, def= 1, content= {{0,"loadout"},{1,"ruck"}}},
 			{ id= "rant", type= "desc", text= "ui_mcm_magazines_rant", clr= {255, 225, 0, 0}},
             {id = "three_hands", type = "check", val = 1, def=false},
+			{ id = "unload_all_mags_key", type = "key_bind", val = 2, def = DIK_keys.DIK_END },
         }},
         }
     }
