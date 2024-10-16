@@ -1089,7 +1089,7 @@ function unload_next_magazine()
     -- check if an action is in progress
     if action_state ~= ACTION_NONE then
         -- wait and retry every half sec
-        create_time_event("mag_redux", "unload_next_magazine", 0.5, unload_next_magazine)
+        create_time_event("mag_redux", "unload_next_magazine", 0.4, unload_next_magazine)
         return
     end
 
@@ -1098,7 +1098,7 @@ function unload_next_magazine()
     if obj then
         func_unload_ammo(obj)
         -- wait half sec for next mag
-        create_time_event("mag_redux", "unload_next_magazine", 0.5, unload_next_magazine)
+        create_time_event("mag_redux", "unload_next_magazine", 0.4, unload_next_magazine)
     end
 end
 
