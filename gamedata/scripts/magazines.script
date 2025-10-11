@@ -276,7 +276,7 @@ end
 
 -- reassign mag data from magazine to weapon
 function load_weapon(weapon, magazine)
-	if ACTION_IN_PROGRESS then return end
+	if action_in_progress() then return end
 	if is_magazine(magazine) and IsWeapon(weapon) and is_compatible(weapon, magazine) then
 		local wep_id = weapon:id()
 		local existing_mag = get_mag_loaded(wep_id)
@@ -351,7 +351,7 @@ function delay_load_weapon(id, magazine, pre_table)
 			weapon:set_ammo_elapsed(1)
 		end
 		save_round = 0
-		ACTION_IN_PROGRESS = false
+		do_interrupt()
 		load_weapon(weapon, magazine)
 		create_time_event("Mag_redux", "refund", 0.1, function()
 			refund_ammo(pre_table)
