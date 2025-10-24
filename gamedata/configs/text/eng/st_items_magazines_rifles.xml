@@ -145,7 +145,7 @@
 	</string>
 	<string id="st_mag_aug_5.56x45_fast_descr">
 		<text>
-			Proprietary PMAG-style magazine holding 30 rounds. Extremely light and designed for the quick loading of rounds.
+			Proprietary AUG magazine holding 30 rounds. Extremely light and designed for the quick loading of rounds.
 		</text>
 	</string>
 
@@ -163,7 +163,7 @@
 	</string>
 	<string id="st_mag_aug_5.56x45_casket_descr">
 		<text>
-			60-round magazine for AUG rifles. You can't find a manufacturer sign anywhere.
+			60-round magazine for AUG rifles. Seems like a modifified STANAG casket magazine.
 		</text>
 	</string>
 
@@ -175,7 +175,34 @@
 		Standard semi-translucent G36 Magazine with capacity for 30 rounds of 5.56x45 ammunition.
 		</text>
 	</string>
-	
+
+	<string id="st_mag_g36_5.56x45_fast">
+		<text>Fast-loading 5.56x45 G36 Magazine</text>
+	</string>
+	<string id="st_mag_g36_5.56x45_fast_descr">
+		<text>
+			Proprietary G36 magazine holding 30 rounds. Extremely light and designed for the quick loading of rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_g36_5.56x45_extended">
+		<text>Extended 5.56x45 G36 Magazine</text>
+	</string>
+	<string id="st_mag_g36_5.56x45_extended_descr">
+		<text>
+			Proprietary extended 40-round polymer magazine compatible with G36 rifles. 
+		</text>
+	</string>
+
+	<string id="st_mag_g36_5.56x45_casket">
+		<text>60-round 5.56x45 G36 Magazine</text>
+	</string>
+	<string id="st_mag_g36_5.56x45_casket_descr">
+		<text>
+			60-round magazine for AUG rifles. Seems like a modifified STANAG casket magazine.
+		</text>
+	</string>
+
 	<string id="st_mag_stanag">
 		<text>Standard 5.56x45 STANAG magazine</text>
 	</string>
@@ -230,6 +257,33 @@
 		</text>
 	</string>
 
+	<string id="st_mag_sig550_5.56x45_fast">
+		<text>Fast-loading 5.56x45 SIG Magazine</text>
+	</string>
+	<string id="st_mag_sig550_5.56x45_fast_descr">
+		<text>
+			Proprietary G36 magazine holding 30 rounds. Extremely light and designed for the quick loading of rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_sig550_5.56x45_extended">
+		<text>Extended 5.56x45 SIG Magazine</text>
+	</string>
+	<string id="st_mag_sig550_5.56x45_extended_descr">
+		<text>
+			Proprietary extended 40-round polymer magazine compatible with G36 rifles. 
+		</text>
+	</string>
+
+	<string id="st_mag_sig550_5.56x45_casket">
+		<text>60-round 5.56x45 SIG Magazine</text>
+	</string>
+	<string id="st_mag_sig550_5.56x45_casket_descr">
+		<text>
+			60-round magazine for AUG rifles. Seems like a modifified STANAG casket magazine.
+		</text>
+	</string>
+
 	<string id="st_mag_sig550_sniper_5.56x45">
 		<text>20-round 5.56x45 SG550-1 Magazine</text>
 	</string>
@@ -238,6 +292,7 @@
 		Swiss-made SG550-1 Magazine holding 20 rounds. Used in the SG550-1 Sniper variant, but is compatible in other rifles of the same family.
 		</text>
 	</string>
+
 	<string id="st_mag_m249_5.56x45">
 		<text>Standard 5.56x45 M249 Box</text>
 	</string>
