@@ -130,6 +130,7 @@
 		30-round magazine for the export AK101 and AK102. This magazine can be tweaked to fit different calibers.
 		</text>
 	</string>
+
 	<string id="st_mag_aug_5.56x45">
 		<text>Standard 5.56x45 AUG Magazine</text>
 	</string>
@@ -138,7 +139,34 @@
 			Proprietary 30-round magazine for the first generation of AUG rifles. Later variants have a magwell that adapts them to use the standard STANAG pattern.
 		</text>
 	</string>
-	
+
+	<string id="st_mag_aug_5.56x45_fast">
+		<text>Fast-loading 5.56x45 AUG Magazine</text>
+	</string>
+	<string id="st_mag_aug_5.56x45_fast_descr">
+		<text>
+			Proprietary PMAG-style magazine holding 30 rounds. Extremely light and designed for the quick loading of rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_aug_5.56x45_extended">
+		<text>Extended 5.56x45 AUG Magazine</text>
+	</string>
+	<string id="st_mag_aug_5.56x45_extended_descr">
+		<text>
+			Proprietary extended 40-round polymer magazine compatible with AUG rifles. 
+		</text>
+	</string>
+
+	<string id="st_mag_aug_5.56x45_casket">
+		<text>60-round 5.56x45 AUG Magazine</text>
+	</string>
+	<string id="st_mag_aug_5.56x45_casket_descr">
+		<text>
+			60-round magazine for AUG rifles. You can't find a manufacturer sign anywhere.
+		</text>
+	</string>
+
 	<string id="st_mag_g36_5.56x45">
 		<text>Standard 5.56x45 G36 Magazine</text>
 	</string>
