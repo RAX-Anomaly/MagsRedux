@@ -413,7 +413,43 @@ sniper rifles / full size rifles
 		Модифицированный магазин на L96A1 калибр 7.62x54.
 		</text>
 	</string>
-	
+
+	<string id="st_mag_sks_7.62x39">
+		<text>Стандартный магазин для СКС калибр 7.62x39</text>
+	</string>
+	<string id="st_mag_sks_7.62x39_descr">
+		<text>
+		Стандартный магазин для СКС вмещающий 20 патронов.
+		</text>
+	</string>
+
+	<string id="st_mag_sksext_7.62x39">
+		<text>Увеличенный магазин для СКС калибр 7.62x39</text>
+	</string>
+	<string id="st_mag_sksext_7.62x39_descr">
+		<text>
+		Увеличенный магазин для СКС вмещающий 30 патронов.
+		</text>
+	</string>
+
+	<string id="st_mag_sks_7.62x54">
+		<text>Стандартный магазин для СКС калибр 7.62x54</text>
+	</string>
+	<string id="st_mag_sks_7.62x54_descr">
+		<text>
+		Стандартный магазин для СКС вмещающий 20 патронов.
+		</text>
+	</string>
+
+	<string id="st_mag_sks_7.62x54ext">
+		<text>Увеличенный магазин для СКС калибр 7.62x54</text>
+	</string>
+	<string id="st_mag_sks_7.62x54ext_descr">
+		<text>
+		Увеличенный магазин для СКС вмещающий 30 патронов.
+		</text>
+	</string>
+
 	<string id="st_mag_sv98_7.62x54">
 		<text>Стандартный магазин для СВ-98 калибр 7.62x54</text>
 	</string>

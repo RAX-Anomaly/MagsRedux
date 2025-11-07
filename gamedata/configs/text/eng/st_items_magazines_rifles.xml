@@ -498,6 +498,42 @@ sniper rifles / full size rifles
 		</text>
 	</string>
 
+	<string id="st_mag_sks_7.62x39">
+		<text>Standard 7.62x39 SKS Magazine</text>
+	</string>
+	<string id="st_mag_sks_7.62x39_descr">
+		<text>
+		Standard SKS Magazine with a capacity of 20 rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_sks_7.62x39_extended">
+		<text>Extended 7.62x39 SKS Magazine</text>
+	</string>
+	<string id="st_mag_sks_7.62x39_extended_descr">
+		<text>
+		Extended 7.62x39 SKS Magazine with a capacity of 30 rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_sks_7.62x54">
+		<text>Standard 7.62x54 SKS Magazine</text>
+	</string>
+	<string id="st_mag_sks_7.62x54_descr">
+		<text>
+		Standard 7.62x54 SKS Magazine with a capacity of 20 rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_sks_7.62x54_extended">
+		<text>Extended 7.62x54 SKS Magazine</text>
+	</string>
+	<string id="st_mag_sks_7.62x54_extended_descr">
+		<text>
+		Extended 7.62x54 SKS Magazine with a capacity of 30 rounds.
+		</text>
+	</string>
+
 	<string id="st_mag_sv98_7.62x54">
 		<text>Standard 7.62x54 SV98 Magazine</text>
 	</string>

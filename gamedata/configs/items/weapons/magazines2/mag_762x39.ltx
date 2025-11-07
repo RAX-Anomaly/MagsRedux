@@ -61,22 +61,6 @@ visual = dynamics\wpn\mags\wpn_black_akmodern3_mag.ogf
 base_type											   = ak_7.62x39
 load_delay                                             = 0.3
 
-[mag_rpk_7.62x39_default]:tch_mag_base
-description			                                   = st_mag_rpk_7.62x39_descr
-inv_name			                                   = st_mag_rpk_7.62x39
-inv_name_short		                                   = st_mag_rpk_7.62x39
-inv_grid_height                                        = 3
-inv_grid_x                     					       = 11
-inv_grid_y               				               = 0
-inv_weight			                                   = 0.46
-cost                                                   = 1765
-max_mag_size                                           = 40
-mag_size											   = medium
-visual = dynamics\wpn\mags\wpn_black_rpkmetal_mag.ogf
-
-base_type											   = ak_7.62x39
-load_delay                                             = 0.3
-
 [mag_rpd_7.62x39_default]:tch_mag_base ;
 description			                                   = st_mag_rpd_7.62x39_descr
 inv_name			                                   = st_mag_rpd_7.62x39
@@ -94,21 +78,53 @@ visual = dynamics\wpn\mags\wpn_rpd_mag.ogf
 
 base_type											   = rpd_7.62x39
 
-[mag_t63_7.62x39_default]:tch_mag_base
-description			                                   = st_mag_type63_7.62x39_descr
-inv_name			                                   = st_mag_type63_7.62x39
-inv_name_short		                                   = st_mag_type63_7.62x39
-
-inv_grid_x                     					       = 3
-inv_grid_y               				               = 27
-max_mag_size										   = 20
+[mag_rpk_7.62x39_default]:tch_mag_base
+description			                                   = st_mag_rpk_7.62x39_descr
+inv_name			                                   = st_mag_rpk_7.62x39
+inv_name_short		                                   = st_mag_rpk_7.62x39
+inv_grid_height                                        = 3
+inv_grid_x                     					       = 11
+inv_grid_y               				               = 0
+inv_weight			                                   = 0.46
+cost                                                   = 1765
+max_mag_size                                           = 40
 mag_size											   = medium
-inv_weight			                                   = 0.3
-cost                                                   = 1002
-visual = dynamics\wpn\mags\wpn_t63_mag.ogf
+visual = dynamics\wpn\mags\wpn_black_rpkmetal_mag.ogf
 
 base_type											   = ak_7.62x39
-retool_group										   = t63_default
+load_delay                                             = 0.3
+
+[mag_sks_7.62x39]:tch_mag_base
+description		= st_mag_sks_7.62x39_descr
+inv_name		= st_mag_sks_7.62x39
+inv_name_short	= st_mag_sks_7.62x39
+inv_grid_height	= 2
+inv_grid_x		= 3
+inv_grid_y		= 15
+max_mag_size	= 20
+mag_size		= medium
+inv_weight		= 0.11
+cost			= 1535
+visual			= dynamics\wpn\mags\wpn_sks_mag.ogf
+
+base_type		= sks_7.62x39
+retool_group	= sks_default
+
+[mag_sks_7.62x39_extended]:tch_mag_base,tch_mag_upgr
+description		= st_mag_sks_7.62x39_extended_descr
+inv_name		= st_mag_sks_7.62x39_extended
+inv_name_short	= st_mag_sks_7.62x39_extended
+inv_grid_height	= 2
+inv_grid_x		= 2
+inv_grid_y		= 15
+max_mag_size	= 30
+mag_size		= medium
+inv_weight		= 0.19
+cost			= 2235
+visual			= dynamics\wpn\mags\wpn_sks_mag.ogf
+
+base_type		= sks_7.62x39
+retool_group	= sks_extended
 
 [mag_svt_7.62x39_alt]:tch_mag_base,tch_mag_alt
 description			                                   = st_mag_svt40_7.62x39_descr
@@ -125,3 +141,19 @@ visual = dynamics\wpn\mags\wpn_svt_mag.ogf
 
 base_type											   = svt_7.62x39
 retool_group										   = svt_default
+
+[mag_t63_7.62x39_default]:tch_mag_base
+description			                                   = st_mag_type63_7.62x39_descr
+inv_name			                                   = st_mag_type63_7.62x39
+inv_name_short		                                   = st_mag_type63_7.62x39
+
+inv_grid_x                     					       = 3
+inv_grid_y               				               = 27
+max_mag_size										   = 20
+mag_size											   = medium
+inv_weight			                                   = 0.3
+cost                                                   = 1002
+visual = dynamics\wpn\mags\wpn_t63_mag.ogf
+
+base_type											   = ak_7.62x39
+retool_group										   = t63_default
