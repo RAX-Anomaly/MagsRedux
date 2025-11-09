@@ -287,6 +287,15 @@ Pistols and MP's
 		</text>
 	</string>
 
+	<string id="st_mag_sig220_11.43x23_fmj_ext">
+		<text>Увеличенный магазин для SIG Sauer P220 калибр .45</text>
+	</string>
+	<string id="st_mag_sig220_11.43x23_fmj_ext_descr">
+		<text>
+		Увеличенный магазин для SIG Sauer P220 вмещающий 12 патронов.
+		</text>
+	</string>
+
 	<string id="st_mag_tt33_7.62x25_p">
 		<text>Стандартный магазин для ТТ-33 калибр 7.62x25</text>
 	</string>

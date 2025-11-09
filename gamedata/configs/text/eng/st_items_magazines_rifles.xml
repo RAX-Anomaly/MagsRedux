@@ -331,46 +331,73 @@
 
 
 	<!-- 9x39 -->
-	<string id="st_mag_val_9x39_pab9">
-		<text>20-round 9x39 AS VAL Magazine</text>
+	<string id="st_mag_val_9x39">
+		<text>Standard 9x39 AS VAL Magazine</text>
 	</string>
-	<string id="st_mag_val_9x39_pab9_descr">
+	<string id="st_mag_val_9x39_descr">
 		<text>
 			Standard 20-round AS VAL magazine, also compatible with SR-3M and VSS rifles. Designation "6L25". 
 		</text>
 	</string>
 
-	<string id="st_mag_vihr_9x39_pab9">
+	<string id="st_mag_val_9x39_extended">
+		<text>Extended 9x39 AS VAL Magazine</text>
+	</string>
+	<string id="st_mag_val_9x39_extended_descr">
+		<text>
+		Extended 9x39 AS VAL Magazine with a capacity of 30 rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_vihr_9x39">
 		<text>30-round 9x39 SR-3M Magazine</text>
 	</string>
-	<string id="st_mag_vihr_9x39_pab9_descr">
+	<string id="st_mag_vihr_9x39_descr">
 		<text>
 		30-round 9x39 magazine that comes standard with the SR-3M "Vihr" rifle. Also compatible with the VSS and AS VAL rifles. Designation "SR3M.130"
 		</text>
 	</string>
 
-	<string id="st_mag_vintorez_9x39_pab9">
-		<text>10-round 9x39 VSS Magazine</text>
+	<string id="st_mag_vintorez_9x39">
+		<text>Standard 9x39 VSS Magazine</text>
 	</string>
-	<string id="st_mag_vintorez_9x39_pab9_descr">
+	<string id="st_mag_vintorez_9x39_descr">
 		<text>
 		Standard 10-round VSS Magazine, also compatible with the AS VAL and SR3M rifles. Designation "6L24".
 		</text>
 	</string>
 
-	<string id="st_mag_vsk94_9x39_pab9">
+	<string id="st_mag_vintorez_9x39_extended20">
+		<text>Extended 9x39 VSS Magazine</text>
+	</string>
+	<string id="st_mag_vintorez_9x39_extended20_descr">
+		<text>
+		Extended 9x39 VSS Magazine with a capacity of 20 rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_vintorez_9x39_extended30">
+		<text>Extended 9x39 VSS Magazine</text>
+	</string>
+	<string id="st_mag_vintorez_9x39_extended30_descr">
+		<text>
+		Extended 9x39 VSS Magazine with a capacity of 30 rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_vsk94_9x39">
 		<text>Standard 9x39 Box Magazine</text>
 	</string>
-	<string id="st_mag_vsk94_9x39_pab9_descr">
+	<string id="st_mag_vsk94_9x39_descr">
 		<text>
 			20-round box magazine used in the 9A-91 and VSK-94 rifles.
 		</text>
 	</string>
 
-	<string id="st_mag_groza_9x39_pab9">
+	<string id="st_mag_groza_9x39">
 		<text>20 round 9x39 Groza Magazine</text>
 	</string>
-	<string id="st_mag_groza_9x39_pab9_descr">
+	<string id="st_mag_groza_9x39_descr">
 		<text>
 			20-round magazine of 9x39 that comes standard with the OTs-14 Groza assault rifle. Design is similar to the AK-style magazines.
 		</text>

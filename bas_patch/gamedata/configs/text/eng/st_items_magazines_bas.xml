@@ -41,25 +41,17 @@ Pistols and MP's
 		Extended 9x19 PL15 Magazine with a capacity of 24 rounds.
 		</text>
 	</string>
-	
-	<string id="st_mag_sigp220_11.43x23_fmj">
+
+<!-- Disabling this to avoid redundancy with the vanilla mag -->
+<!-- 	<string id="st_mag_sigp220_11.43x23_fmj">
 		<text>Standard .45 SigP220 Magazine</text>
 	</string>
 	<string id="st_mag_sigp220_11.43x23_fmj_descr">
 		<text>
 		Standard .45 SigP220 Magazine with a capacity of 7 rounds.
 		</text>
-	</string>
-	
-	<string id="st_mag_sigp220_11.43x23_fmjext">
-		<text>Extended .45 SigP220 Magazine</text>
-	</string>
-	<string id="st_mag_sigp220_11.43x23_fmjext_descr">
-		<text>
-		Extended .45 SigP220 Magazine with a capacity of 12 rounds.
-		</text>
-	</string>
-	
+	</string> -->
+
 	<string id="st_mag_sig226_9x19_fmj">
 		<text>Standard 9x19 SigP226 Magazine</text>
 	</string>

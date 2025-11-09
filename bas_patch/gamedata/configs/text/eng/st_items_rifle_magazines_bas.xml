@@ -103,34 +103,7 @@ Pistols and MP's
 		Standard Kar 98 Magazine with a capacity of 5 rounds.
 		</text>
 	</string>
-	
-	<string id="st_mag_valbas_9x39_pab9">
-		<text>Extended 9x39 AS VAL Magazine</text>
-	</string>
-	<string id="st_mag_valbas_9x39_pab9_descr">
-		<text>
-		Extended 9x39 AS VAL Magazine with a capacity of 30 rounds.
-		</text>
-	</string>
-	
-	<string id="st_mag_basvintorez_9x39_pab9">
-		<text>Extended 9x39 VSS Magazine</text>
-	</string>
-	<string id="st_mag_basvintorez_9x39_pab9_descr">
-		<text>
-		Extended 9x39 VSS Magazine with a capacity of 20 rounds.
-		</text>
-	</string>
-	
-	<string id="st_mag_basextvintorez_9x39_pab9">
-		<text>Extended 9x39 VSS Magazine</text>
-	</string>
-	<string id="st_mag_basextvintorez_9x39_pab9_descr">
-		<text>
-		Extended 9x39 VSS Magazine with a capacity of 30 rounds.
-		</text>
-	</string>
-	
+
 	<string id="st_mag_svd_5.56">
 		<text>Standard 5.56x45 SVD Magazine</text>
 	</string>

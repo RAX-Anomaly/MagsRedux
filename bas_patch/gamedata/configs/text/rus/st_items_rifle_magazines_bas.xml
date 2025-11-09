@@ -103,34 +103,7 @@ Pistols and MP's
 		Стандартный магазин для Kar98 вмещающий 5 патронов.
 		</text>
 	</string>
-	
-	<string id="st_mag_valbas_9x39_pab9">
-		<text>Увеличенный магазин для АС "Вал" калибр 9x39</text>
-	</string>
-	<string id="st_mag_valbas_9x39_pab9_descr">
-		<text>
-		Увеличенный магазин для АС "Вал" вмещающий 30 патронов.
-		</text>
-	</string>
-	
-	<string id="st_mag_basvintorez_9x39_pab9">
-		<text>Увеличенный магазин для ВСС "Винторез" калибр 9x39</text>
-	</string>
-	<string id="st_mag_basvintorez_9x39_pab9_descr">
-		<text>
-		Увеличенный магазин для ВСС "Винторез" вмещающий 20 патронов.
-		</text>
-	</string>
-	
-	<string id="st_mag_basextvintorez_9x39_pab9">
-		<text>Увеличенный магазин для ВСС "Винторез" калибр 9x39</text>
-	</string>
-	<string id="st_mag_basextvintorez_9x39_pab9_descr">
-		<text>
-		Увеличенный магазин для ВСС "Винторез" вмещающий 30 патронов.
-		</text>
-	</string>
-	
+
 	<string id="st_mag_svd_5.56">
 		<text>Стандартный магазин для СВД калибр 5.56x45</text>
 	</string>

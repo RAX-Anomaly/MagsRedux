@@ -246,46 +246,73 @@
 		</text>
 	</string>
 	<!-- 9x39 -->
-	<string id="st_mag_val_9x39_pab9">
+	<string id="st_mag_val_9x39">
 		<text>20-ти зарядный магазин для АС "Вал" калибр 9x39</text>
 	</string>
-	<string id="st_mag_val_9x39_pab9_descr">
+	<string id="st_mag_val_9x39_descr">
 		<text>
 		Стандартный магазин АС "Вал" на 20 патронов. Также совместим с винтовками СР-3М "Вихрь" и ВСС "Винторез". Обозначение: "6Л25"
 		</text>
 	</string>
 
-	<string id="st_mag_vihr_9x39_pab9">
+	<string id="st_mag_val_9x39_extended">
+		<text>Увеличенный магазин для АС "Вал" калибр 9x39</text>
+	</string>
+	<string id="st_mag_val_9x39_extended_descr">
+		<text>
+		Увеличенный магазин для АС "Вал" вмещающий 30 патронов.
+		</text>
+	</string>
+
+	<string id="st_mag_vihr_9x39">
 		<text>30-ти зарядный магазин для СР-3М "Вихрь" калибр 9x39</text>
 	</string>
-	<string id="st_mag_vihr_9x39_pab9_descr">
+	<string id="st_mag_vihr_9x39_descr">
 		<text>
 		30-ти зарядный магазин 9x19. Идет в комплекте с винтовкой СР-3М "Вихрь". Также совместим с винтовками ВСС "Винторез" и АС "Вал". Обозначение: "СР3М.130".
 		</text>
 	</string>
 	
-	<string id="st_mag_vintorez_9x39_pab9">
+	<string id="st_mag_vintorez_9x39">
 		<text>10-ти зарядный магазин для ВСС "Винторез" калибр 9x39</text>
 	</string>
-	<string id="st_mag_vintorez_9x39_pab9_descr">
+	<string id="st_mag_vintorez_9x39_descr">
 		<text>
 		Стандартный магазин ВСС "Винторез" на 10 патронов. Также совместим с винтовками АС "Вал" и СР-3М "Вихрь". Обозначение: "6Л24"
 		</text>
 	</string>
-	
-	<string id="st_mag_vsk94_9x39_pab9">
+
+	<string id="st_mag_vintorez_9x39_extended20">
+		<text>Увеличенный магазин для ВСС "Винторез" калибр 9x39</text>
+	</string>
+	<string id="st_mag_vintorez_9x39_extended20_descr">
+		<text>
+		Увеличенный магазин для ВСС "Винторез" вмещающий 20 патронов.
+		</text>
+	</string>
+
+	<string id="st_mag_vintorez_9x39_extended30">
+		<text>Увеличенный магазин для ВСС "Винторез" калибр 9x39</text>
+	</string>
+	<string id="st_mag_vintorez_9x39_extended30_descr">
+		<text>
+		Увеличенный магазин для ВСС "Винторез" вмещающий 30 патронов.
+		</text>
+	</string>
+
+	<string id="st_mag_vsk94_9x39">
 		<text>Стандартный 9x39 магазин для совместимых</text>
 	</string>
-	<string id="st_mag_vsk94_9x39_pab9_descr">
+	<string id="st_mag_vsk94_9x39_descr">
 		<text>
 		20-ти зарядный магазин для винтовок 9А-91 и ВСК-94.
 		</text>
 	</string>
 	
-	<string id="st_mag_groza_9x39_pab9">
+	<string id="st_mag_groza_9x39">
 		<text>20-ти зарядный магазин для ОЦ-14 "Гроза" калибр 9x39</text>
 	</string>
-	<string id="st_mag_groza_9x39_pab9_descr">
+	<string id="st_mag_groza_9x39_descr">
 		<text>
 		20-ти зарядный магазин идущий в комплекте с ОЦ-14 "Гроза". Дизайн похож на магазины серии АК.
 		</text>

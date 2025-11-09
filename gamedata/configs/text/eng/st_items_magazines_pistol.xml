@@ -283,7 +283,16 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_sig220_11.43x23_fmj_descr">
 		<text>
-			7-round .45 ACP magazine for the SIG P220 handgun. The P220 is popular with bodyguards and security officers, and does a decent job in the Zone.
+			Standard 7-round .45 ACP magazine for the SIG P220 handgun. The P220 is popular with bodyguards and security officers, and does a decent job in the Zone.
+		</text>
+	</string>
+
+	<string id="st_mag_sig220_11.43x23_fmj_ext">
+		<text>Extended .45 ACP SIG Sauer P220 Magazine</text>
+	</string>
+	<string id="st_mag_sig220_11.43x23_fmj_ext_descr">
+		<text>
+		Extended 12-round .45 magazine for the SIG P220 handgun.
 		</text>
 	</string>
 

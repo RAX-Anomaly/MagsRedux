@@ -41,25 +41,17 @@ Pistols and MP's
 		Увеличенный магазин для ПЛ-15 вмещающий 24 патрона.
 		</text>
 	</string>
-	
-	<string id="st_mag_sigp220_11.43x23_fmj">
+
+<!-- Disabling this to avoid redundancy with the vanilla mag -->
+<!-- 	<string id="st_mag_sigp220_11.43x23_fmj">
 		<text>Стандартный магазин для SIG Sauer P220 калибр .45</text>
 	</string>
 	<string id="st_mag_sigp220_11.43x23_fmj_descr">
 		<text>
 		7-ми зарядный магазин для пистолета SIG Sauer P220. Пользуется очень большой популярностью у телохранителей и сотрудников службы безопасности и отлично справляется со своей работой, даже в Зоне.
 		</text>
-	</string>
-	
-	<string id="st_mag_sigp220_11.43x23_fmjext">
-		<text>Увеличенный магазин для SIG Sauer P220 калибр .45</text>
-	</string>
-	<string id="st_mag_sigp220_11.43x23_fmjext_descr">
-		<text>
-		Увеличенный магазин для SIG Sauer P220 вмещающий 12 патронов.
-		</text>
-	</string>
-	
+	</string> -->
+
 	<string id="st_mag_sig226_9x19_fmj">
 		<text>Стандартный магазин для SIG Sauer P226 калибр 9x19</text>
 	</string>
