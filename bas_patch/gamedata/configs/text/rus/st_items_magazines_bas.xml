@@ -96,23 +96,15 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_wp99_9x19_fmj">
+<!-- not used anymore -->
+<!-- 	<string id="st_mag_wp99_9x19_fmj">
 		<text>Стандартный магазин для Walther P99 калибр 9x19</text>
 	</string>
 	<string id="st_mag_wp99_9x19_fmj_descr">
 		<text>
 		Стандартный магазин для Walther P99 вмещающий 16 патронов.
 		</text>
-	</string>
-	
-	<string id="st_mag_wp99_9x19_fmjext">
-		<text>Увеличенный магазин для Walther P99 калибр 9x19</text>
-	</string>
-	<string id="st_mag_wp99_9x19_fmjext_descr">
-		<text>
-		Увеличенный магазин для Walther P99 вмещающий 24 патрона.
-		</text>
-	</string>
+	</string> -->
 
 	<string id="st_mag_p220_9x19_u2p2bas">
 		<text>Стандартный магазин для SIG Sauer P220 "9" калибр 9x19</text>

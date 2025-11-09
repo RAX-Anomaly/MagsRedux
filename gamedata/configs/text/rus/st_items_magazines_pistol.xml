@@ -325,6 +325,15 @@ Pistols and MP's
 		</text>
 	</string>
 
+	<string id="st_mag_walther_9x19_fmj_ext">
+		<text>Увеличенный магазин для Walther P99 калибр 9x19</text>
+	</string>
+	<string id="st_mag_walther_9x19_fmj_ext_descr">
+		<text>
+		Увеличенный магазин для Walther P99 вмещающий 24 патрона.
+		</text>
+	</string>
+
 	<!-- begin smgs -->
 
 	<string id="st_mag_bizon_9x18_fmj">

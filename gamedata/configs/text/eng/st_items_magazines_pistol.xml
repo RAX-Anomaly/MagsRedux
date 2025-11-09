@@ -325,6 +325,15 @@ Pistols and MP's
 		</text>
 	</string>
 
+	<string id="st_mag_walther_9x19_fmj_ext">
+		<text>Extended 9x19 Walther P99 Magazine</text>
+	</string>
+	<string id="st_mag_walther_9x19_fmj_ext_descr">
+		<text>
+		Extended 9x19 Walther P99 Magazine with a capacity of 24 rounds.
+		</text>
+	</string>
+
 	<!-- begin smgs -->
 
 	<string id="st_mag_bizon_9x18_fmj">
