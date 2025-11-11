@@ -63,9 +63,9 @@ base_type											   = vityaz_9x19
 retool_group										   = vityaz_default
 
 [mag_vz61_9x19_default]:tch_mag_base
-description			                                   = st_mag_vz61_9x19_fmj_descr
-inv_name			                                   = st_mag_vz61_9x19_fmj
-inv_name_short		                                   = st_mag_vz61_9x19_fmj
+description			                                   = st_mag_vz61_9x19_default_descr
+inv_name			                                   = st_mag_vz61_9x19_default
+inv_name_short		                                   = st_mag_vz61_9x19_default
 
 inv_grid_x                     					       = 7
 inv_grid_y               				               = 21
@@ -77,6 +77,22 @@ visual = dynamics\wpn\mags\wpn_vz61_mag.ogf
 
 base_type											   = vz61_9x19
 retool_group										   = vz61_default
+
+[mag_vz61_9x19_extended]:tch_mag_base,tch_mag_alt
+description			                                   = st_mag_vz61_9x19_extended_descr
+inv_name			                                   = st_mag_vz61_9x19_extended
+inv_name_short		                                   = st_mag_vz61_9x19_extended
+
+inv_grid_x                     					       = 12
+inv_grid_y               				               = 21
+max_mag_size										   = 30
+mag_size											   = medium
+inv_weight			                                   = 0.14
+cost                                                   = 561
+visual = dynamics\wpn\mags\wpn_vz61_mag.ogf
+
+base_type                                              = vz61_9x19
+retool_group										   = vz61_extended
 
 [mag_pp2000_9x19_default]:tch_mag_base
 description			                                   = st_mag_pp2000_9x19_fmj_descr

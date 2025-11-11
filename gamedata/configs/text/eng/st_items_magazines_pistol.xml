@@ -380,7 +380,6 @@ Pistols and MP's
 		Standard 30-round Kiparis Magazine. The Kiparis is a cheap submachine gun that has its admirers amongst bandit and renegade clans.
 		</text>
 	</string>
-
 	<string id="st_mag_kiparis_9x19_default">
 		<text>Modified 9x19 Kiparis Magazine</text>
 	</string>
@@ -398,7 +397,6 @@ Pistols and MP's
 		Small 9x18 Kiparis Magazine with a capacity of 20 rounds.
 		</text>
 	</string>
-
 	<string id="st_mag_kiparis_9x19_compact">
 		<text>Small 9x19 Kiparis Magazine</text>
 	</string>
@@ -416,7 +414,6 @@ Pistols and MP's
 		Extended 9x18 Kiparis Magazine with a capacity of 40 rounds.
 		</text>
 	</string>
-
 	<string id="st_mag_kiparis_9x19_extended">
 		<text>Extended 9x19 Kiparis Magazine</text>
 	</string>
@@ -426,19 +423,19 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_vityaz_9x19_fmj">
+	<string id="st_mag_vz61_9x19_default">
 		<text>Standard 9x19 Vityaz-SN Magazine</text>
 	</string>
-	<string id="st_mag_vityaz_9x19_fmj_descr">
+	<string id="st_mag_vz61_9x19_default_descr">
 		<text>
 			Standard-issue 30-round 9x19 magazine for the Vityaz-SN. Uncommon weapon in the Zone, as the Ukrainian Military doesn't field this weapon.
 		</text>
 	</string>
 
-	<string id="st_mag_vityaz_9x18_fmj">
+	<string id="st_mag_vz61_9x18_alt">
 		<text>Modified 9x18 Vityaz-SN Magazine</text>
 	</string>
-	<string id="st_mag_vityaz_9x18_fmj_descr">
+	<string id="st_mag_vz61_9x18_alt_descr">
 		<text>
 		Vityaz-SN Magazine modified to accept 9x18 Makarov.
 		</text>
@@ -452,7 +449,6 @@ Pistols and MP's
 		20-round standard issue Vz.61 magazine. A reliable weapon that enjoys immense popularity with the criminal underworld.
 		</text>
 	</string>
-
 	<string id="st_mag_vz61_9x18_fmj">
 		<text>Modified 9x18 vz.61 Magazine</text>
 	</string>
@@ -461,7 +457,24 @@ Pistols and MP's
 			20-round Vz.61 magazine modified slightly to feed 9x18 Makarov rounds.
 		</text>
 	</string>
-	
+
+	<string id="st_mag_vz61_9x18_extended">
+		<text>Standard 9x18 VZ. 61 Magazine</text>
+	</string>
+	<string id="st_mag_vz61_9x18_extended_descr">
+		<text>
+		Standard 9x18 Kiparis Magazine with a capacity of 30 rounds.
+		</text>
+	</string>
+	<string id="st_mag_vz61_9x19_extended">
+		<text>Standard 9x19 VZ. 61 Magazine</text>
+	</string>
+	<string id="st_mag_vz61_9x19_extended_descr">
+		<text>
+		Standard 9x19 Kiparis Magazine with a capacity of 30 rounds.
+		</text>
+	</string>
+
 	<string id="st_mag_p90_5.7x28_ss190">
 		<text>Standard 5.7x28 P90 Magazine</text>
 	</string>
