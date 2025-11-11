@@ -70,21 +70,21 @@ Pistols and MP's
 		</text>
 	</string>
 	
-	<string id="st_mag_usptac_9x19_fmj">
-		<text>Standard 9x19 USP Magazine</text>
+	<string id="st_mag_usp_9x19_extended_22">
+		<text>Extended 9x19 USP Magazine</text>
 	</string>
-	<string id="st_mag_usptac_9x19_fmj_descr">
+	<string id="st_mag_usp_9x19_extended_22_descr">
 		<text>
-		Standard 9x19 USP Magazine with a capacity of 22 rounds.
+		Extended 9x19 USP Magazine with a capacity of 22 rounds.
 		</text>
 	</string>
 	
-	<string id="st_mag_usptac_9x19_fmjext">
-		<text>Extended 9x19 USP Magazine</text>
+	<string id="st_mag_usp_9x19_extended_30">
+		<text>Long 9x19 USP Magazine</text>
 	</string>
-	<string id="st_mag_usptac_9x19_fmjext_descr">
+	<string id="st_mag_usp_9x19_extended_30_descr">
 		<text>
-		Extended 9x19 USP Magazine with a capacity of 30 rounds.
+		Long 9x19 USP Magazine with a capacity of 30 rounds.
 		</text>
 	</string>
 

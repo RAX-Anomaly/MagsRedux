@@ -315,10 +315,10 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_usp_9x19_fmj">
+	<string id="st_mag_usp_9x19_default">
 		<text>Standard 9x19 USP Magazine</text>
 	</string>
-	<string id="st_mag_usp_9x19_fmj_descr">
+	<string id="st_mag_usp_9x19_default_descr">
 		<text>
 			Standard 15-round USP magazine for the 9mm "Match" variants of the USP.
 		</text>

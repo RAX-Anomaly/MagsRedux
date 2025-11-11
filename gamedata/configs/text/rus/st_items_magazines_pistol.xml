@@ -315,10 +315,10 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_usp_9x19_fmj">
+	<string id="st_mag_usp_9x19_default">
 		<text>Стандартный магазин для USP калибр 9x19</text>
 	</string>
-	<string id="st_mag_usp_9x19_fmj_descr">
+	<string id="st_mag_usp_9x19_default_descr">
 		<text>
 		Стандартный 15-ти зарядный магазин для варианта "Match" пистолета USP под калибр 9мм.
 		</text>

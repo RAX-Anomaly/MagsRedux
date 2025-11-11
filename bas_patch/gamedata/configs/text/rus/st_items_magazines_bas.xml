@@ -70,19 +70,19 @@ Pistols and MP's
 		</text>
 	</string>
 	
-	<string id="st_mag_usptac_9x19_fmj">
+	<string id="st_mag_usp_9x19_extended_22">
 		<text>Стандартный магазин для USP Match Tactical калибр 9x19</text>
 	</string>
-	<string id="st_mag_usptac_9x19_fmj_descr">
+	<string id="st_mag_usp_9x19_extended_22_descr">
 		<text>
 		Стандартный магазин для USP Match Tactical вмещающий 22 патрона.
 		</text>
 	</string>
 	
-	<string id="st_mag_usptac_9x19_fmjext">
+	<string id="st_mag_usp_9x19_extended_30">
 		<text>Увеличенный магазин для USP калибр 9x19</text>
 	</string>
-	<string id="st_mag_usptac_9x19_fmjext_descr">
+	<string id="st_mag_usp_9x19_extended_30_descr">
 		<text>
 		Увеличенный магазин для USP вмещающий 30 патронов.
 		</text>
