@@ -372,21 +372,57 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_kiparis_9x18_fmj">
+	<string id="st_mag_kiparis_9x18_default">
 		<text>Standard 9x18 Kiparis Magazine</text>
 	</string>
-	<string id="st_mag_kiparis_9x18_fmj_descr">
+	<string id="st_mag_kiparis_9x18_default_descr">
 		<text>
 		Standard 30-round Kiparis Magazine. The Kiparis is a cheap submachine gun that has its admirers amongst bandit and renegade clans.
 		</text>
 	</string>
 
-	<string id="st_mag_kiparis_9x19_fmj">
+	<string id="st_mag_kiparis_9x19_default">
 		<text>Modified 9x19 Kiparis Magazine</text>
 	</string>
-	<string id="st_mag_kiparis_9x19_fmj_descr">
+	<string id="st_mag_kiparis_9x19_default_descr">
 		<text>
 		Modified 30-round Kiparis Magazine made to accept the 9x19 Parabellum round. The Kiparis is a cheap submachine gun that has its admirers amongst bandit and renegade clans.
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x18_compact">
+		<text>Small 9x18 Kiparis Magazine</text>
+	</string>
+	<string id="st_mag_kiparis_9x18_compact_descr">
+		<text>
+		Small 9x18 Kiparis Magazine with a capacity of 20 rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x19_compact">
+		<text>Small 9x19 Kiparis Magazine</text>
+	</string>
+	<string id="st_mag_kiparis_9x19_compact_descr">
+		<text>
+		Small 9x19 Kiparis Magazine with a capacity of 20 rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x18_extended">
+		<text>Extended 9x18 Kiparis Magazine</text>
+	</string>
+	<string id="st_mag_kiparis_9x18_extended_descr">
+		<text>
+		Extended 9x18 Kiparis Magazine with a capacity of 40 rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x19_extended">
+		<text>Extended 9x19 Kiparis Magazine</text>
+	</string>
+	<string id="st_mag_kiparis_9x19_extended_descr">
+		<text>
+		Extended 9x19 Kiparis Magazine with a capacity of 40 rounds.
 		</text>
 	</string>
 

@@ -107,55 +107,21 @@ Pistols and MP's
 		</text>
 	</string>
 
-  
-	<string id="st_mag_baskiparis_9x18_20">
-		<text>Small 9x18 Kiparis Magazine</text>
-	</string>
-	<string id="st_mag_baskiparis_9x18_20_descr">
-		<text>
-		Small 9x18 Kiparis Magazine with a capacity of 20 rounds.
-		</text>
-	</string>
-	<string id="st_mag_baskiparis_9x19_20">
-		<text>Small 9x19 Kiparis Magazine</text>
-	</string>
-	<string id="st_mag_baskiparis_9x19_20_descr">
-		<text>
-		Small 9x19 Kiparis Magazine with a capacity of 20 rounds.
-		</text>
-	</string>
 
-	<string id="st_mag_baskiparis_9x18_40">
-		<text>Standard 9x18 Kiparis Magazine</text>
+	<string id="st_mag_kiparis_9x18_drum_81">
+		<text>81-round 9x18 Kiparis Drum</text>
 	</string>
-	<string id="st_mag_baskiparis_9x18_40_descr">
+	<string id="st_mag_kiparis_9x18_drum_81_descr">
 		<text>
-		Standard 9x18 Kiparis Magazine with a capacity of 40 rounds.
+		Drum 9x18 Kiparis Magazine with a capacity of 81 rounds.
 		</text>
 	</string>
-	<string id="st_mag_baskiparis_9x19_40">
-		<text>Standard 9x19 Kiparis Magazine</text>
+	<string id="st_mag_kiparis_9x19_drum_81">
+		<text>81-round 9x19 Kiparis Drum</text>
 	</string>
-	<string id="st_mag_baskiparis_9x19_40_descr">
+	<string id="st_mag_kiparis_9x19_drum_81_descr">
 		<text>
-		Standard 9x19 Kiparis Magazine with a capacity of 40 rounds.
-		</text>
-	</string>
-
-	<string id="st_mag_baskiparis_9x18_81">
-		<text>Extended 9x18 Kiparis Magazine</text>
-	</string>
-	<string id="st_mag_baskiparis_9x18_81_descr">
-		<text>
-		Extended 9x18 Kiparis Magazine with a capacity of 81 rounds.
-		</text>
-	</string>
-	<string id="st_mag_baskiparis_9x19_81">
-		<text>Extended 9x19 Kiparis Magazine</text>
-	</string>
-	<string id="st_mag_baskiparis_9x19_81_descr">
-		<text>
-		Extended 9x19 Kiparis Magazine with a capacity of 81 rounds.
+		Drum 9x19 Kiparis Magazine with a capacity of 81 rounds.
 		</text>
 	</string>
 

@@ -372,19 +372,19 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_kiparis_9x18_fmj">
+	<string id="st_mag_kiparis_9x18_default">
 		<text>Стандартный магазин для ОЦ-02 "Кипарис" калибр 9x18</text>
 	</string>
-	<string id="st_mag_kiparis_9x18_fmj_descr">
+	<string id="st_mag_kiparis_9x18_default_descr">
 		<text>
 		Стандартный 30-ти зарядный магазин для ОЦ-02 "Кипарис", дешевый и эргономичный ПП который имеет своих поклонников среди Бандитских группировок, и Ренегатов.
 		</text>
 	</string>
 
-	<string id="st_mag_kiparis_9x19_fmj">
+	<string id="st_mag_kiparis_9x19_default">
 		<text>Модифицированный магазин для ОЦ-02 "Кипарис" калибр 9x19</text>
 	</string>
-	<string id="st_mag_kiparis_9x19_fmj_descr">
+	<string id="st_mag_kiparis_9x19_default_descr">
 		<text>
 		Модифицированный 30-ти зарядный магазин для ОЦ-02 "Кипарис", переделанный под 9x19 Парабеллум, дешевый и эргономичный ПП который имеет своих поклонников среди Бандитских группировок, и Ренегатов.
 		</text>
