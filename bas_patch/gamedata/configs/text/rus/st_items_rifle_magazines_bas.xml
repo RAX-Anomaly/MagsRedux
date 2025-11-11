@@ -67,29 +67,20 @@ Pistols and MP's
 		Стандартный магазин для DVL10 вмещающий 10 патронов.
 		</text>
 	</string>
-		
-	<string id="st_mag_basremington700_7.62x51_descr">
-		<text>Увеличенный магазин для Remington 700 калибр 7.62x51</text>
-	</string>
-	<string id="st_mag_basremington700_7.62x51">
-		<text>
-		Увеличенный магазин для Remington 700 вмещающий 12 патронов.
-		</text>
-	</string>
-	
-	<string id="st_mag_remingtonarchangel_7.62x51">
+
+	<string id="st_mag_remington700_7.62x51_archangel_20">
 		<text>Увеличенный магазин для Remington Archangel Kit калибр 7.62x51</text>
 	</string>
-	<string id="st_mag_remingtonarchangel_7.62x51_descr">
+	<string id="st_mag_remington700_7.62x51_archangel_20_descr">
 		<text>
 		Увеличенный магазин для Remington Archangel Kit вмещающий 20 патронов.
 		</text>
 	</string>
-	
-	<string id="st_mag_remingtonla_300_descr">
+
+	<string id="st_mag_remington700_la_300">
 		<text>Стандартный магазин для Remington 700 калибр .300 Remington</text>
 	</string>
-	<string id="st_mag_remingtonla_300">
+	<string id="st_mag_remington700_la_300_descr">
 		<text>
 		Стандартный магазин для Remington 700 вмещающий 5 патронов.
 		</text>

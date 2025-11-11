@@ -67,29 +67,20 @@ Pistols and MP's
 		Standard DVL10 Magazine with a capacity of 10 rounds.
 		</text>
 	</string>
-		
-	<string id="st_mag_basremington700_7.62x51_descr">
-		<text>Extended 7.62x51 Remington 700 Magazine</text>
-	</string>
-	<string id="st_mag_basremington700_7.62x51">
-		<text>
-		Extended Remington 700 Magazine with a capacity of 12 rounds.
-		</text>
-	</string>
-	
-	<string id="st_mag_remingtonarchangel_7.62x51">
+
+	<string id="st_mag_remington700_7.62x51_archangel_20">
 		<text>Extended 7.62x51 Remington Archangel Kit Magazine</text>
 	</string>
-	<string id="st_mag_remingtonarchangel_7.62x51_descr">
+	<string id="st_mag_remington700_7.62x51_archangel_20_descr">
 		<text>
 		Extended Remington Archangel Kit Magazine with a capacity of 20 rounds.
 		</text>
 	</string>
 	
-	<string id="st_mag_remingtonla_300_descr">
+	<string id="st_mag_remington700_la_300">
 		<text>Standard .300 Remington 700 Magazine</text>
 	</string>
-	<string id="st_mag_remingtonla_300">
+	<string id="st_mag_remington700_la_300_descr">
 		<text>
 		Standard Remington 700 Magazine with a capacity of 5 rounds.
 		</text>

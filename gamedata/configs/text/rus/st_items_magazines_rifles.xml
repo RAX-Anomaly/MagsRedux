@@ -404,12 +404,21 @@ sniper rifles / full size rifles
 		</text>
 	</string>
 
-	<string id="st_mag_remington700_7.62x51">
+	<string id="st_mag_remington700_7.62x51_default">
 		<text>Стандартный магазин для Remington 700 калибр 7.62x51</text>
 	</string>
-	<string id="st_mag_remington700_7.62x51_descr">
+	<string id="st_mag_remington700_7.62x51_default_descr">
 		<text>
 		Стандартный магазин на 5 патронов для Remington 700. Популярное охотничье ружье и неплохо работает в условиях Зоны.
+		</text>
+	</string>
+
+	<string id="st_mag_remington700_7.62x51_extended">
+		<text>Увеличенный магазин для Remington 700 калибр 7.62x51</text>
+	</string>
+	<string id="st_mag_remington700_7.62x51_extended_descr">
+		<text>
+		Увеличенный магазин для Remington 700 вмещающий 12 патронов.
 		</text>
 	</string>
 

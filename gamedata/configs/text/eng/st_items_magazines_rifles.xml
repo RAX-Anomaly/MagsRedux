@@ -489,12 +489,21 @@ sniper rifles / full size rifles
 		</text>
 	</string>
 
-	<string id="st_mag_remington700_7.62x51">
+	<string id="st_mag_remington700_7.62x51_default">
 		<text>Standard 7.62x51 Remington 700 Magazine</text>
 	</string>
-	<string id="st_mag_remington700_7.62x51_descr">
+	<string id="st_mag_remington700_7.62x51_default_descr">
 		<text>
 		Standard 5-round Remington 700 Magazine. The Remington 700 is a popular hunting rifle and fares rather well in the Zone's conditions.
+		</text>
+	</string>
+
+	<string id="st_mag_remington700_7.62x51_extended_12">
+		<text>Extended 7.62x51 Remington 700 Magazine</text>
+	</string>
+	<string id="st_mag_remington700_7.62x51_extended_12_descr">
+		<text>
+		Extended Remington 700 Magazine with a capacity of 12 rounds.
 		</text>
 	</string>
 
