@@ -390,10 +390,10 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_vz61_9x19_default">
+	<string id="st_mag_vityaz_9x19_fmj">
 		<text>Стандартный магазин для ПП-19 "Витязь" калибр 9x19</text>
 	</string>
-	<string id="st_mag_vz61_9x19_default_descr">
+	<string id="st_mag_vityaz_9x19_fmj_descr">
 		<text>
 		Стандартный магазин на 30 патронов для ПП-19 "Витязь". Необычное оружие в зоне, так как украинские военные не берут его на вооружение.
 		</text>
@@ -408,19 +408,19 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_vz61_9x19_fmj">
+	<string id="st_mag_vz61_9x19_default">
 		<text>Стандартный магазин для Scorpion Vz.61 калибр 9x19</text>
 	</string>
-	<string id="st_mag_vz61_9x19_fmj_descr">
+	<string id="st_mag_vz61_9x19_default_descr">
 		<text>
 		20-ти зарядный магазин для Scorpion Vz.61. Надежное оружие, пользующееся огромной популярностью в преступном мире.
 		</text>
 	</string>
 
-	<string id="st_mag_vz61_9x18_fmj">
+	<string id="st_mag_vz61_9x18_alt">
 		<text>Модифицированный магазин для Scorpion Vz.61 калибр 9x18</text>
 	</string>
-	<string id="st_mag_vz61_9x18_fmj_descr">
+	<string id="st_mag_vz61_9x18_alt_descr">
 		<text>
 		20-ти зарядный немного измененный магазин для Scorpion Vz.61 под калибр 9x18.
 		</text>
