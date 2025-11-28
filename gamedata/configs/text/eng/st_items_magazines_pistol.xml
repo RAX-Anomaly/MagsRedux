@@ -283,7 +283,16 @@ Pistols and MP's
 	</string>
 	<string id="st_mag_sig220_11.43x23_fmj_descr">
 		<text>
-			7-round .45 ACP magazine for the SIG P220 handgun. The P220 is popular with bodyguards and security officers, and does a decent job in the Zone.
+			Standard 7-round .45 ACP magazine for the SIG P220 handgun. The P220 is popular with bodyguards and security officers, and does a decent job in the Zone.
+		</text>
+	</string>
+
+	<string id="st_mag_sig220_11.43x23_fmj_ext">
+		<text>Extended .45 ACP SIG Sauer P220 Magazine</text>
+	</string>
+	<string id="st_mag_sig220_11.43x23_fmj_ext_descr">
+		<text>
+		Extended 12-round .45 magazine for the SIG P220 handgun.
 		</text>
 	</string>
 
@@ -306,10 +315,10 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_usp_9x19_fmj">
+	<string id="st_mag_usp_9x19_default">
 		<text>Standard 9x19 USP Magazine</text>
 	</string>
-	<string id="st_mag_usp_9x19_fmj_descr">
+	<string id="st_mag_usp_9x19_default_descr">
 		<text>
 			Standard 15-round USP magazine for the 9mm "Match" variants of the USP.
 		</text>
@@ -322,6 +331,15 @@ Pistols and MP's
 	<string id="st_mag_walther_9x19_fmj_descr">
 		<text>
 		16-round standard issue Walther P99 Magazine for 9x19 Parabellum.
+		</text>
+	</string>
+
+	<string id="st_mag_walther_9x19_fmj_ext">
+		<text>Extended 9x19 Walther P99 Magazine</text>
+	</string>
+	<string id="st_mag_walther_9x19_fmj_ext_descr">
+		<text>
+		Extended 9x19 Walther P99 Magazine with a capacity of 24 rounds.
 		</text>
 	</string>
 
@@ -354,21 +372,55 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_kiparis_9x18_fmj">
+	<string id="st_mag_kiparis_9x18_default">
 		<text>Standard 9x18 Kiparis Magazine</text>
 	</string>
-	<string id="st_mag_kiparis_9x18_fmj_descr">
+	<string id="st_mag_kiparis_9x18_default_descr">
 		<text>
 		Standard 30-round Kiparis Magazine. The Kiparis is a cheap submachine gun that has its admirers amongst bandit and renegade clans.
 		</text>
 	</string>
 
-	<string id="st_mag_kiparis_9x19_fmj">
+	<string id="st_mag_kiparis_9x19_default">
 		<text>Modified 9x19 Kiparis Magazine</text>
 	</string>
-	<string id="st_mag_kiparis_9x19_fmj_descr">
+	<string id="st_mag_kiparis_9x19_default_descr">
 		<text>
 		Modified 30-round Kiparis Magazine made to accept the 9x19 Parabellum round. The Kiparis is a cheap submachine gun that has its admirers amongst bandit and renegade clans.
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x18_compact">
+		<text>Small 9x18 Kiparis Magazine</text>
+	</string>
+	<string id="st_mag_kiparis_9x18_compact_descr">
+		<text>
+		Small 9x18 Kiparis Magazine with a capacity of 20 rounds.
+		</text>
+	</string>
+	<string id="st_mag_kiparis_9x19_compact">
+		<text>Small 9x19 Kiparis Magazine</text>
+	</string>
+	<string id="st_mag_kiparis_9x19_compact_descr">
+		<text>
+		Small 9x19 Kiparis Magazine with a capacity of 20 rounds.
+		</text>
+	</string>
+
+	<string id="st_mag_kiparis_9x18_extended">
+		<text>Extended 9x18 Kiparis Magazine</text>
+	</string>
+	<string id="st_mag_kiparis_9x18_extended_descr">
+		<text>
+		Extended 9x18 Kiparis Magazine with a capacity of 40 rounds.
+		</text>
+	</string>
+	<string id="st_mag_kiparis_9x19_extended">
+		<text>Extended 9x19 Kiparis Magazine</text>
+	</string>
+	<string id="st_mag_kiparis_9x19_extended_descr">
+		<text>
+		Extended 9x19 Kiparis Magazine with a capacity of 40 rounds.
 		</text>
 	</string>
 
@@ -390,24 +442,41 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_vz61_9x19_fmj">
+	<string id="st_mag_vz61_9x19_default">
 		<text>Standard 9x19 vz.61 Magazine</text>
 	</string>
-	<string id="st_mag_vz61_9x19_fmj_descr">
+	<string id="st_mag_vz61_9x19_default_descr">
 		<text>
 		20-round standard issue Vz.61 magazine. A reliable weapon that enjoys immense popularity with the criminal underworld.
 		</text>
 	</string>
 
-	<string id="st_mag_vz61_9x18_fmj">
+	<string id="st_mag_vz61_9x18_alt">
 		<text>Modified 9x18 vz.61 Magazine</text>
 	</string>
-	<string id="st_mag_vz61_9x18_fmj_descr">
+	<string id="st_mag_vz61_9x18_alt_descr">
 		<text>
 			20-round Vz.61 magazine modified slightly to feed 9x18 Makarov rounds.
 		</text>
 	</string>
-	
+
+	<string id="st_mag_vz61_9x18_extended">
+		<text>Standard 9x18 VZ. 61 Magazine</text>
+	</string>
+	<string id="st_mag_vz61_9x18_extended_descr">
+		<text>
+		Standard 9x18 Kiparis Magazine with a capacity of 30 rounds.
+		</text>
+	</string>
+	<string id="st_mag_vz61_9x19_extended">
+		<text>Standard 9x19 VZ. 61 Magazine</text>
+	</string>
+	<string id="st_mag_vz61_9x19_extended_descr">
+		<text>
+		Standard 9x19 Kiparis Magazine with a capacity of 30 rounds.
+		</text>
+	</string>
+
 	<string id="st_mag_p90_5.7x28_ss190">
 		<text>Standard 5.7x28 P90 Magazine</text>
 	</string>
