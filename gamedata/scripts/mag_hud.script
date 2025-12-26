@@ -17,6 +17,7 @@ local gc						 	= game.translate_string
 local tg_update_step = 1000 --[ms]
 
 local scale = 1
+local hud_offset_x = 0
 local ammo_scale = 1
 local group_by_ammo = true
 local grp_by_bt = true
@@ -123,6 +124,9 @@ function UIMagHUD:InitControls()
 	
 	self.dialog = xml:InitStatic("pouch", self)
 	adjust_vert(self.dialog, self.bottom)
+	local pos = self.dialog:GetWndPos()
+    pos.x = hud_offset_x
+    self.dialog:SetWndPos(pos)
 	self.pouch = {}
 	self.pouch.small = xml:InitStatic("pouch:small", self.dialog)
 	adjust_vert(self.pouch.small)
@@ -361,6 +365,7 @@ end
 local function on_option_change(mcm)
 	--if not mcm then return end
 	scale = magazines_mcm.get_config("scale")
+	hud_offset_x = magazines_mcm.get_config("hud_offset_x") or 0
 	ammo_scale = magazines_mcm.get_config("ammo_scale")
 	group_by_ammo = magazines_mcm.get_config("group_by_ammo")
 	grp_by_bt = magazines_mcm.get_config("grp_by_bt")
@@ -373,6 +378,7 @@ end
 
 local function actor_on_first_update()
 	scale = magazines_mcm.get_config("scale")
+	hud_offset_x = magazines_mcm.get_config("hud_offset_x") or 0
 	ammo_scale = magazines_mcm.get_config("ammo_scale")
 	group_by_ammo = magazines_mcm.get_config("scale")
 	grp_by_bt = magazines_mcm.get_config("ammo_scale")
