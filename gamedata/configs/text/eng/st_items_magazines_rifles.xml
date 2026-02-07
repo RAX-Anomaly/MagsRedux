@@ -293,6 +293,42 @@
 		</text>
 	</string>
 
+	<string id="st_mag_famas_5.56x45_default">
+		<text>Standard 5.56x45 FAMAS F1 magazine</text>
+	</string>
+	<string id="st_mag_famas_5.56x45_default_descr">
+		<text>Standard 25-round magazine used by the FAMAS F1. The Famas F1 does not use a STANAG compatible system, creating logistic issues for France when working with other nations, leading to the FAMAS G2 adopting the STANAG system.</text>
+	</string>
+
+	<string id="st_mag_famas_5.56x45_fast">
+		<text>Fast-loading 5.56x45 FAMAS F1 magazine</text>
+	</string>
+	<string id="st_mag_famas_5.56x45_fast_descr">
+		<text>
+		Modern PMAG-style magazine holding 30 rounds, modified for use with the FAMAS F1. Considerably lighter than its steel counterpart, the ergonomic design facilitates quick loading of cartridges.\n
+		It seems the modifications to make it fit a FAMAS F1 magwell were such that it cannot be reverted.
+		</text>
+	</string>
+
+	<string id="st_mag_famas_5.56x45_extended">
+		<text>Extended 5.56x45 FAMAS F1 magazine</text>
+	</string>
+	<string id="st_mag_famas_5.56x45_extended_descr">
+		<text>Extended 40-round polymer STANAG magazine, modified for use with the FAMAS F1.\n
+		It seems the modifications to make it fit a FAMAS F1 magwell were such that it cannot be reverted.
+		</text>
+	</string>
+
+	<string id="st_mag_famas_5.56x45_casket">
+		<text>60-round 5.56x45 FAMAS F1 magazine</text>
+	</string>
+	<string id="st_mag_famas_5.56x45_casket_descr">
+		<text>
+			60-round quad-stack STANAG magazine, modified for use with the FAMAS F1. Offers a lot of firepower, but is extremely heavy and the quad-stack nature makes it difficult to load in rounds quickly.\n
+			It seems the modifications to make it fit a FAMAS F1 magwell were such that it cannot be reverted.
+		</text>
+	</string>
+
 	<string id="st_mag_m249_5.56x45">
 		<text>Standard 5.56x45 M249 Box</text>
 	</string>
