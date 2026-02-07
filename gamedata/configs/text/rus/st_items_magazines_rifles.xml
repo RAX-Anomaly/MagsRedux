@@ -139,6 +139,33 @@
 		</text>
 	</string>
 	
+	<string id="st_mag_aug_5.56x45_fast">
+		<text>Быстрая загрузка 5.56x45 AUG Журнал</text>
+	</string>
+	<string id="st_mag_aug_5.56x45_fast_descr">
+		<text>
+			Журнал AUG с 30 турами. Очень легкий и предназначен для быстрой загрузки раундов.
+		</text>
+	</string>
+
+	<string id="st_mag_aug_5.56x45_extended">
+		<text>Расширенный 5.56x45 AUG Журнал</text>
+	</string>
+	<string id="st_mag_aug_5.56x45_extended_descr">
+		<text>
+			Проприетарный расширенный 40-круглый полимерный журнал, совместимый с винтовками AUG.
+		</text>
+	</string>
+
+	<string id="st_mag_aug_5.56x45_casket">
+		<text>5.56x45 AUG Журнал</text>
+	</string>
+	<string id="st_mag_aug_5.56x45_casket_descr">
+		<text>
+			60-дюймовый журнал для винтовок AUG. Похоже на модифицированный журнал STANAG.
+		</text>
+	</string>
+
 	<string id="st_mag_g36_5.56x45">
 		<text>Стандартный магазин для G36 калибр 5.56x45</text>
 	</string>
@@ -148,6 +175,33 @@
 		</text>
 	</string>
 	
+	<string id="st_mag_g36_5.56x45_fast">
+		<text>5.56x45 G36 Журнал</text>
+	</string>
+	<string id="st_mag_g36_5.56x45_fast_descr">
+		<text>
+			Проприетарный журнал G36 проводит 30 раундов. Очень легкий и предназначен для быстрой загрузки раундов.
+		</text>
+	</string>
+
+	<string id="st_mag_g36_5.56x45_extended">
+		<text>Расширение 5.56x45 G36 Журнал</text>
+	</string>
+	<string id="st_mag_g36_5.56x45_extended_descr">
+		<text>
+			Проприетарный расширенный 40-круглый полимерный журнал, совместимый с винтовками G36.
+		</text>
+	</string>
+
+	<string id="st_mag_g36_5.56x45_casket">
+		<text>5.56x45 G36 Журнал</text>
+	</string>
+	<string id="st_mag_g36_5.56x45_casket_descr">
+		<text>
+			60-дюймовый журнал для винтовок AUG. Похоже на модифицированный журнал STANAG.
+		</text>
+	</string>
+
 	<string id="st_mag_stanag">
 		<text>Стандартный магазин STANAG калибр 5.56x45</text>
 	</string>
@@ -202,6 +256,33 @@
 		</text>
 	</string>
 
+	<string id="st_mag_sig550_5.56x45_fast">
+		<text>5.56x45 SIG Журнал</text>
+	</string>
+	<string id="st_mag_sig550_5.56x45_fast_descr">
+		<text>
+			Проприетарный журнал G36 проводит 30 раундов. Очень легкий и предназначен для быстрой загрузки раундов.
+		</text>
+	</string>
+
+	<string id="st_mag_sig550_5.56x45_extended">
+		<text>Расширенный 5.56x45 SIG Журнал</text>
+	</string>
+	<string id="st_mag_sig550_5.56x45_extended_descr">
+		<text>
+			Проприетарный расширенный 40-круглый полимерный журнал, совместимый с винтовками G36.
+		</text>
+	</string>
+
+	<string id="st_mag_sig550_5.56x45_casket">
+		<text>5.56x45 SIG Журнал</text>
+	</string>
+	<string id="st_mag_sig550_5.56x45_casket_descr">
+		<text>
+			60-дюймовый журнал для винтовок AUG. Похоже на модифицированный журнал STANAG.
+		</text>
+	</string>
+
 	<string id="st_mag_sig550_sniper_5.56x45">
 		<text>20-ти зарядный магазин для SG550-1 калибр 5.56x45</text>
 	</string>
@@ -210,6 +291,43 @@
 		Магазин на 20 патронов для SG550-1 "Снайпер", но так же совместим с другими винтовками того же семейства.
 		</text>
 	</string>
+
+	<string id="st_mag_famas_5.56x45_default">
+		<text>Стандарт 5.56x45 FAMAS Журнал F1</text>
+	</string>
+	<string id="st_mag_famas_5.56x45_default_descr">
+		<text>Standard 25-round magazine used by the FAMAS F1. Famas F1 не использует совместимую систему STANAG, создавая логистические проблемы для Франции при работе с другими странами, что приводит к принятию FAMAS G2 системы STANAG.</text>
+	</string>
+
+	<string id="st_mag_famas_5.56x45_fast">
+		<text>Магазины FAMAS F1</text>
+	</string>
+	<string id="st_mag_famas_5.56x45_fast_descr">
+		<text>
+		Современный журнал PMAG с 30 раундами, модифицированный для использования с FAMAS F1. Гораздо легче, чем его стальной аналог, эргономический дизайн облегчает быструю загрузку картриджей.\n
+		Похоже, что изменения, чтобы сделать его пригодным для мастера FAMAS F1, были такими, что его нельзя вернуть.
+		</text>
+	</string>
+
+	<string id="st_mag_famas_5.56x45_extended">
+		<text>Расширенный 5.56x45 FAMAS Журнал F1</text>
+	</string>
+	<string id="st_mag_famas_5.56x45_extended_descr">
+		<text>Расширенный 40-круговой полимерный журнал STANAG, модифицированный для использования с FAMAS F1.\n
+		Похоже, что изменения, чтобы сделать его пригодным для мастера FAMAS F1, были такими, что его нельзя вернуть.
+		</text>
+	</string>
+
+	<string id="st_mag_famas_5.56x45_casket">
+		<text>60-круг 5.56x45 Журнал FAMAS F1</text>
+	</string>
+	<string id="st_mag_famas_5.56x45_casket_descr">
+		<text>
+		60-круглый квад-стак STANAG журнал, модифицированный для использования с FAMAS F1. Предлагает много огневой мощи, но чрезвычайно тяжелая, и квадростойкая природа затрудняет загрузку в раундах быстро.\n
+		Похоже, что изменения, чтобы сделать его пригодным для мастера FAMAS F1, были такими, что его нельзя вернуть.
+		</text>
+	</string>
+
 	<string id="st_mag_m249_5.56x45">
 		<text>Короб для M249 калибр 5.56x45</text>
 	</string>
