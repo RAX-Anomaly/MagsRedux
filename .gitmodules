@@ -8,5 +8,5 @@
 	branch = master
 [submodule "AmmoCheck"]
 	path = AmmoCheck
-	url = https://github.com/ahuyn/AmmoCheck.git
+	url = https://github.com/RAX-Anomaly/AmmoCheck.git
 	branch = main
