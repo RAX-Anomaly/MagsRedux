@@ -287,6 +287,15 @@ Pistols and MP's
 		</text>
 	</string>
 
+	<string id="st_mag_sig220_11.43x23_fmj_ext">
+		<text>Увеличенный магазин для SIG Sauer P220 калибр .45</text>
+	</string>
+	<string id="st_mag_sig220_11.43x23_fmj_ext_descr">
+		<text>
+		Увеличенный магазин для SIG Sauer P220 вмещающий 12 патронов.
+		</text>
+	</string>
+
 	<string id="st_mag_tt33_7.62x25_p">
 		<text>Стандартный магазин для ТТ-33 калибр 7.62x25</text>
 	</string>
@@ -306,10 +315,10 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_usp_9x19_fmj">
+	<string id="st_mag_usp_9x19_default">
 		<text>Стандартный магазин для USP калибр 9x19</text>
 	</string>
-	<string id="st_mag_usp_9x19_fmj_descr">
+	<string id="st_mag_usp_9x19_default_descr">
 		<text>
 		Стандартный 15-ти зарядный магазин для варианта "Match" пистолета USP под калибр 9мм.
 		</text>
@@ -322,6 +331,15 @@ Pistols and MP's
 	<string id="st_mag_walther_9x19_fmj_descr">
 		<text>
 		16-ти зарядный магазин для Walther P99 под калибр 9x19 Парабеллум.
+		</text>
+	</string>
+
+	<string id="st_mag_walther_9x19_fmj_ext">
+		<text>Увеличенный магазин для Walther P99 калибр 9x19</text>
+	</string>
+	<string id="st_mag_walther_9x19_fmj_ext_descr">
+		<text>
+		Увеличенный магазин для Walther P99 вмещающий 24 патрона.
 		</text>
 	</string>
 
@@ -354,19 +372,19 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_kiparis_9x18_fmj">
+	<string id="st_mag_kiparis_9x18_default">
 		<text>Стандартный магазин для ОЦ-02 "Кипарис" калибр 9x18</text>
 	</string>
-	<string id="st_mag_kiparis_9x18_fmj_descr">
+	<string id="st_mag_kiparis_9x18_default_descr">
 		<text>
 		Стандартный 30-ти зарядный магазин для ОЦ-02 "Кипарис", дешевый и эргономичный ПП который имеет своих поклонников среди Бандитских группировок, и Ренегатов.
 		</text>
 	</string>
 
-	<string id="st_mag_kiparis_9x19_fmj">
+	<string id="st_mag_kiparis_9x19_default">
 		<text>Модифицированный магазин для ОЦ-02 "Кипарис" калибр 9x19</text>
 	</string>
-	<string id="st_mag_kiparis_9x19_fmj_descr">
+	<string id="st_mag_kiparis_9x19_default_descr">
 		<text>
 		Модифицированный 30-ти зарядный магазин для ОЦ-02 "Кипарис", переделанный под 9x19 Парабеллум, дешевый и эргономичный ПП который имеет своих поклонников среди Бандитских группировок, и Ренегатов.
 		</text>
@@ -390,19 +408,19 @@ Pistols and MP's
 		</text>
 	</string>
 
-	<string id="st_mag_vz61_9x19_fmj">
+	<string id="st_mag_vz61_9x19_default">
 		<text>Стандартный магазин для Scorpion Vz.61 калибр 9x19</text>
 	</string>
-	<string id="st_mag_vz61_9x19_fmj_descr">
+	<string id="st_mag_vz61_9x19_default_descr">
 		<text>
 		20-ти зарядный магазин для Scorpion Vz.61. Надежное оружие, пользующееся огромной популярностью в преступном мире.
 		</text>
 	</string>
 
-	<string id="st_mag_vz61_9x18_fmj">
+	<string id="st_mag_vz61_9x18_alt">
 		<text>Модифицированный магазин для Scorpion Vz.61 калибр 9x18</text>
 	</string>
-	<string id="st_mag_vz61_9x18_fmj_descr">
+	<string id="st_mag_vz61_9x18_alt_descr">
 		<text>
 		20-ти зарядный немного измененный магазин для Scorpion Vz.61 под калибр 9x18.
 		</text>
