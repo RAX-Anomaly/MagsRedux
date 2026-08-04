@@ -33,16 +33,20 @@ local tm = {}
 TraderAuto = trader_autoinject.update
 function trader_autoinject.update(npc)
     TraderAuto(npc)
-    CreateTimeEvent("restock_mags" .. npc:id(), "restock_mags" .. npc:id(), 0.01, function() 
-        stock_mags(npc) 
-        return true 
+    local trader_id = npc:id()
+    CreateTimeEvent("restock_mags" .. trader_id, "restock_mags" .. trader_id, 0.01, function()
+        local trader = level.object_by_id(trader_id)
+        if trader and trader:alive() then
+            stock_mags(trader)
+        end
+        return true
     end)
 end
 
 -- function to resupply mags based on what weapons are in stock
 -- formula is: 3 mags for 1st weapon, and 1 extra for each subsequent
 function stock_mags(npc)
-    local id = npc:id()
+    if not npc or not npc:alive() then return end
     if trader_autoinject.get_trader_type(npc) ~= trader_autoinject.SUPPLIER then return end
     print_dbg("Restocking mags for %s", npc:name())
     local to_spawn = {}
