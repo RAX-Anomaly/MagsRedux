@@ -464,8 +464,24 @@ function get_magazine_base_type(val)
 	return SYS_GetParam(0, section, "base_type")  or nil
 end
 
+-- Commenting this out because it's not handing the "val" arg safely
+-- function get_magazine_caliber(val)
+--	return str_explode(look_up_table:r_value(get_magazine_base_type(val) or print_dbg("Missing basetype for: %s",val), "caliber") or print_dbg("Invalid basetyper for: %s",val), ",")
+-- end
+
+-- handling the val arg safely, trying to find the base type and caliber, if it can not be found it will print and return an empty object instead of throwing. 
 function get_magazine_caliber(val)
-	return str_explode(look_up_table:r_value(get_magazine_base_type(val) or print_dbg("Missing basetype for: %s",val), "caliber") or print_dbg("Invalid basetyper for: %s",val), ",")
+  local base = get_magazine_base_type(val)
+  if not base then
+      print_dbg("Missing basetype for: %s", val)
+      return {}
+  end
+  local cal = look_up_table:r_value(base, "caliber")
+  if not cal then
+      print_dbg("Missing caliber for basetype: %s", base)
+      return {}
+  end
+  return str_explode(cal, ",")
 end
 
 -- check if this weapon takes a magazine, and return the base type. false if it does not
